@@ -10,6 +10,10 @@
         background-color: #f4f4f4;
         margin: 0;
         padding: 0;
+        direction: rtl; /* כיוון ימין לשמאל */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* מבטיח שה-body ימלא את כל גובה הדף */
       }
 
       header {
@@ -23,10 +27,11 @@
         width: 80%;
         margin: 0 auto;
         padding: 20px;
+        flex: 1; /* מאפשר ל-container למלא את שאר גובה הדף */
       }
 
       .hero {
-        background-color: #5cb85c;
+        background-color: #335db3;
         color: white;
         padding: 40px;
         text-align: center;
@@ -53,7 +58,7 @@
       }
 
       .links a:hover {
-        background-color: #5cb85c;
+        background-color: #335db3;
       }
 
       footer {
@@ -61,9 +66,37 @@
         color: white;
         text-align: center;
         padding: 10px 0;
-        position: fixed;
-        width: 100%;
-        bottom: 0;
+        margin-top: 20px;
+      }
+
+      /* עיצוב לכפתור ולטוליפ */
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 10%; /* מיקום הטוליפ למעלה */
+        left: 50%;
+        margin-left: -60px; /* ממקם את הטוליפ במרכז */
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
       }
     </style>
   </head>
@@ -71,25 +104,31 @@
 
     <header>
       <h1>DormitoriesPlus</h1>
-      <p>ברוכים הבאים לאתר ניהול המעונות</p>
+      <p>ברוכים הבאים לאתר מעונות ריפקין!</p>
     </header>
 
     <div class="container">
       <div class="hero">
-        <h2>שלום, סטודנט! זהו המקום בו תוכל לנהל את המעונות שלך.</h2>
-        <p>השתמש בקישורים למטה כדי לגשת לשירותים השונים של המעונות.</p>
+        <h2>שלום, באתר זה תוכל לבצע פעולות הקשורות למעונות.</h2>
+        <p>השתמש בקישורים למטה כדי לגשת לשירות הרלוונטי עבורך.</p>
       </div>
 
-      <div class="links">
-        <a href="#">הגשה לבקשה למעונות</a>
-        <a href="#">צפייה בחדרים פנויים</a>
-        <a href="#">שירותים נוספים</a>
-      </div>
-
-      <footer>
-        <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-      </footer>
+    <div class="links">
+      <a href="{% url 'application' %}">השאלות</a>
+      <a href="{% url 'faults' %}">דיווח תקלות</a>
+      <a href="{% url 'connect_us' %}">צור קשר</a>
     </div>
+
+      <!-- כפתור עם טוליפ -->
+      <div class="tooltip">
+        <button>מידע נוסף</button>
+        <span class="tooltiptext">כאן תוכל למצוא את כל המידע על המעונות והשירותים שלנו.</span>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+    </footer>
 
   </body>
 </html>
