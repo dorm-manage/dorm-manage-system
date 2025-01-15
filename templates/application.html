@@ -74,18 +74,83 @@
 
     <header>
       <h1>DormitoriesPlus</h1>
-      <p>ברוכים הבאים לעמוד X</p>
     </header>
 
     <div class="container">
       <div class="hero">
-        <h2>הכותרת של העמוד</h2>
-        <p>תוכן העמוד</p>
+        <h2>ברוכים הבאים לעמוד השאלת ציוד</h2>
+
       </div>
 
+        <div class="container">
+    <h2>הגשה לבקשה להשאלת פריט</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+           <label for="name">שם:</label>
+           <input type="text" id="name" name="name" required pattern="[א-תa-zA-Z]+$" title="נא להזין רק אותיות" />
+        </div>
+
+        <div class="form-group">
+          <label for="id_number">תעודת זהות:</label>
+            <input type="text" id="id_number" name="id_number" required pattern="^\d{9}$" title="נא להזין 9 ספרות בלבד" maxlength="9" />
+        </div>
+
+        <div class="form-group">
+            <label for="building_number">מספר בניין:</label>
+            <select id="building_number" name="building_number" required>
+                <option value="">בחר מספר בניין</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="apartment_number">מספר דירה:</label>
+            <select id="apartment_number" name="apartment_number" required>
+                <option value="">בחר מספר דירה</option>
+                <option value="101">101</option>
+                <option value="102">102</option>
+                <option value="103">103</option>
+                <option value="104">104</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="product">מוצר להשאלה:</label>
+            <select id="product" name="product" required>
+                <option value="">בחר מוצר</option>
+                <option value="מאורר">מאורר</option>
+                <option value="מזרן נוסף">מזרן נוסף</option>
+                <option value="ממיר">ממיר</option>
+                <option value="כיסא משרד">כיסא משרד</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="time_needed">זמן השאלה נדרש:</label>
+            <select id="time_needed" name="time_needed" required>
+                <option value="">בחר זמן</option>
+                <option value="שבוע">שבוע</option>
+                <option value="שבועיים">שבועיים</option>
+                <option value="חודש">חודש</option>
+                <option value="יותר מחודש">יותר מחודש</option>
+            </select>
+        </div>
+
+
+
+        <div class="form-group">
+            <button type="submit" class="submit-btn">שלח בקשה</button>
+        </div>
+    </form>
+</div>
+
       <div class="links">
-        <a href="index.html">חזרה לדף הבית</a>
-        <a href="another_page.html">עמוד נוסף</a>
+        <a href="/">חזרה לדף הבית</a>
       </div>
     </div>
 

@@ -68,24 +68,80 @@
         padding: 10px 0;
         margin-top: 20px;
       }
+
     </style>
   </head>
-  <body>
+ <body>
 
     <header>
       <h1>DormitoriesPlus</h1>
-      <p>ברוכים הבאים לעמוד X</p>
+        <h2> דיווח תקלות </h2>
     </header>
 
     <div class="container">
       <div class="hero">
-        <h2>הכותרת של העמוד</h2>
-        <p>תוכן העמוד</p>
+        <h2>משהו תקול? תדווחו כאן!</h2>
+
       </div>
 
+          <div class="container">
+      <div class="form-container">
+        <h2>דווח על תקלה במעונות</h2>
+        <form action="/submit_fault_report/" method="POST">
+          {% csrf_token %}
+            <div class="form-group">
+           <label for="name">שם:</label>
+           <input type="text" id="name" name="name" required pattern="[א-תa-zA-Z]+$" title="נא להזין רק אותיות" />
+        </div>
+
+        <div class="form-group">
+          <label for="id_number">תעודת זהות:</label>
+            <input type="text" id="id_number" name="id_number" required pattern="^\d{9}$" title="נא להזין 9 ספרות בלבד" maxlength="9" />
+        </div>
+
+          <div class="form-group">
+            <label for="building_number">מספר בניין:</label>
+            <select id="building_number" name="building_number" required>
+              <option value="1">בניין 1</option>
+              <option value="2">בניין 2</option>
+              <option value="3">בניין 3</option>
+              <option value="4">בניין 4</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="apartment_number">מספר דירה:</label>
+            <select id="apartment_number" name="apartment_number" required>
+              <option value="101">דירה 101</option>
+              <option value="102">דירה 102</option>
+              <option value="103">דירה 103</option>
+              <option value="104">דירה 104</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="issue_type">תחום טיפול:</label>
+            <select id="issue_type" name="issue_type" required>
+              <option value="חשמל">חשמל</option>
+              <option value="אינסטלציה">אינסטלציה</option>
+              <option value="אחר">אחר</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="description">תיאור התקלה:</label>
+            <textarea id="description" name="description" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="submit-btn">שלח דיווח</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
       <div class="links">
-        <a href="index.html">חזרה לדף הבית</a>
-        <a href="another_page.html">עמוד נוסף</a>
+        <a href="/">חזרה לדף הבית</a>
       </div>
     </div>
 
