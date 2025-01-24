@@ -100,6 +100,7 @@
 <body>
 
 <header>
+    <a class="back-btn" href="{% url 'Homepage.html' %}">חזרה לעמוד ראשי</a>
   <h1>DormitoriesPlus</h1>
 </header>
 
@@ -149,7 +150,8 @@
           </tr>
         </tbody>
       </table>
-      <button onclick="window.location.href='rooms_management.html';">עבור לניהול חדרים</button>
+        <button onclick="window.location.href='{% url 'manage_room' %}';">עבור לניהול חדרים</button>
+
     </div>
 
     <!-- חלון בקשות פתוחות -->
@@ -182,7 +184,7 @@
           </tr>
         </tbody>
       </table>
-      <button onclick="window.location.href='requests_management.html';">עבור לניהול בקשות</button>
+      <button onclick="window.location.href='{% url 'Manager_request' %}';">עבור לניהול בקשות</button>
     </div>
 
     <!-- חלון תקלות מדווחות -->
@@ -215,13 +217,20 @@
           </tr>
         </tbody>
       </table>
-      <button onclick="window.location.href='faults_management.html';">עבור לניהול תקלות</button>
+      <button onclick="window.location.href=' {% url "manager_faults" %}';">עבור לניהול תקלות</button>
+
     </div>
       <div class="section">
           <h3>ניהול מלאי</h3>
           <p>צפה ועדכן את המלאי של המערכת.</p>
-          <button onclick="window.location.href='inventory_management.html';">עבור לניהול מלאי</button>
+          <button onclick="window.location.href=  {% url "manager_inventory" %};">עבור לניהול מלאי</button>
       </div>
+      <div class="section">
+         <h3>דרכי קשר עם אחראי הבניין</h3>
+         <p>צפה בפרטי הקשר של אחראי הבניינים לצורך תקשורת מהירה.</p>
+         <button onclick="window.location.href='{% url "manager_BM" %}';">עבור לדרכי הקשר</button>
+      </div>
+
   </div>
 </div>
 

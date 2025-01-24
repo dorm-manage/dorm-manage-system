@@ -104,7 +104,7 @@
 <body>
 
 <header>
-  <a class="back-btn" href="/building-manager-dashboard">חזרה לעמוד ראשי</a>
+  <a class="back-btn" href="{% url 'BM_Homepage' %}">חזרה לעמוד ראשי</a>
   <h1>DormitoriesPlus</h1>
 </header>
 
@@ -123,6 +123,7 @@
         <th>שם הסטודנט</th>
         <th>מספר פלאפון</th>
         <th>סטטוס</th>
+        <th>תאריך</th>
         <th>פעולות</th>
       </tr>
     </thead>
@@ -134,6 +135,7 @@
         <td>יוסי כהן</td>
         <td>050-1234567</td>
         <td>פתוח</td>
+        <td>19/01/2025</td>
         <td>
           <button class="btn" onclick="markAsResolved('נזילה במקלחת')">סמן כטופל</button>
           <button class="btn" onclick="pushToTop('נזילה במקלחת')">דחיפה לראש התור</button>
@@ -146,6 +148,7 @@
         <td>דנה לוי</td>
         <td>052-9876543</td>
         <td>פתוח</td>
+        <td>19/01/2025</td>
         <td>
           <button class="btn" onclick="markAsResolved('מנעול דלת שבור')">סמן כטופל</button>
           <button class="btn" onclick="pushToTop('מנעול דלת שבור')">דחיפה לראש התור</button>
@@ -154,6 +157,7 @@
     </tbody>
   </table>
 </div>
+
 
 <footer>
   <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
