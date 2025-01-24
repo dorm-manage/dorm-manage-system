@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormitoriesPlus - דף בית</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      direction: rtl; /* כיוון ימין לשמאל */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* מבטיח שה-body ימלא את כל גובה הדף */
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      position: relative; /* מאפשר מיקום יחסי של הכפתור */
+    }
+
+    header .personal-area-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px; /* מיקום בפינה השמאלית העליונה */
+      background-color: #555;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+
+    header .personal-area-btn:hover {
+      background-color: #335db3;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1; /* מאפשר ל-container למלא את שאר גובה הדף */
+    }
+
+    .hero {
+      background-color: #335db3;
+      color: white;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      margin: 0;
+    }
+
+    .links {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .links a {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .links a:hover {
+      background-color: #335db3;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="personal-area-btn" href="/Personal_erea">אזור אישי</a>
+    <a class="back-btn" href="{% url 'Homepage.html' %}">חזרה לעמוד ראשי</a>
+  <h1>DormitoriesPlus</h1>
+  <p>ברוכים הבאים לאתר מעונות ריפקין!</p>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h2>שלום, באתר זה תוכל לבצע פעולות הקשורות למעונות.</h2>
+    <p>השתמש בקישורים למטה כדי לגשת לשירות הרלוונטי עבורך.</p>
+  </div>
+
+  <div class="links">
+    <a href="{% url 'application' %}">השאלות</a>
+    <a href="{% url 'faults' %}">דיווח תקלות</a>
+    <a href="{% url 'connect_us' %}">צור קשר</a>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+</body>
+</html>

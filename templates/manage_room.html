@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormitoriesPlus - ניהול חדרים</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    header .back-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #555;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .hero {
+      background-color: #335db3;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #f9f9f9;
+      font-weight: bold;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      background-color: #335db3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #274a93;
+    }
+
+    .form-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      z-index: 1000;
+    }
+
+    .form-popup h3 {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-popup .btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="{% url 'manager_Homepage' %}">חזרה לעמוד ראשי</a>
+  <h1>DormitoriesPlus - ניהול חדרים</h1>
+</header>
+
+<div class="container">
+  <!-- טבלה לניהול חדרים -->
+  <div class="hero">
+    <h2>ניהול חדרים</h2>
+    <p>כאן תוכל לצפות בחדרים פנויים ולשבץ סטודנטים.</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>בניין</th>
+        <th>חדר</th>
+        <th>סטטוס</th>
+        <th>פעולות</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>101A</td>
+        <td>פנוי</td>
+        <td><button class="btn" onclick="openForm('101A')">שבץ</button></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>102B</td>
+        <td>פנוי</td>
+        <td><button class="btn" onclick="openForm('102B')">שבץ</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- בחירת בניין ודירה -->
+  <div class="section">
+    <h3>צפייה בדיירים לפי בניין ודירה</h3>
+    <form id="viewResidentsForm" onsubmit="viewResidents(event)">
+      <div class="form-group">
+        <label for="building">בחר בניין:</label>
+        <select id="building" name="building" required>
+          <option value="" disabled selected>בחר בניין</option>
+          <option value="1">בניין 1</option>
+          <option value="2">בניין 2</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="apartment">בחר דירה:</label>
+        <select id="apartment" name="apartment" required>
+          <option value="" disabled selected>בחר דירה</option>
+          <option value="101">דירה 101</option>
+          <option value="102">דירה 102</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">הצג דיירים</button>
+    </form>
+  </div>
+
+  <!-- תוצאות הדיירים -->
+  <div class="section" id="residentsResults" style="display: none;">
+    <h3>דיירים בדירה</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>חדר</th>
+          <th>שם סטודנט</th>
+          <th>מספר פלאפון</th>
+          <th>פקולטה</th>
+        </tr>
+      </thead>
+      <tbody id="residentsTable">
+        <!-- השורות יתווספו כאן דינמית -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- חלונית להוספת סטודנט -->
+<div class="overlay" id="overlay"></div>
+<div class="form-popup" id="formPopup">
+  <h3>שיבוץ סטודנט לחדר <span id="roomNumber"></span></h3>
+  <form id="assignForm">
+    <div class="form-group">
+      <label for="firstName">שם פרטי:</label>
+      <input type="text" id="firstName" name="firstName" required>
+    </div>
+    <div class="form-group">
+      <label for="lastName">שם משפחה:</label>
+      <input type="text" id="lastName" name="lastName" required>
+    </div>
+    <div class="form-group">
+      <label for="email">אימייל:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">מספר פלאפון:</label>
+      <input type="tel" id="phone" name="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="faculty">פקולטה:</label>
+      <input type="text" id="faculty" name="faculty" required>
+    </div>
+    <button type="button" class="btn" onclick="submitForm()">שבץ</button>
+    <button type="button" class="btn" onclick="closeForm()">ביטול</button>
+  </form>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+<script>
+  function openForm(room) {
+    document.getElementById('roomNumber').textContent = room;
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('formPopup').style.display = 'block';
+  }
+
+  function closeForm() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('formPopup').style.display = 'none';
+  }
+
+  function submitForm() {
+    const room = document.getElementById('roomNumber').textContent;
+    const formData = new FormData(document.getElementById('assignForm'));
+    alert(`הסטודנט שובץ בהצלחה לחדר ${room}!`);
+    closeForm();
+    // הוסף כאן לוגיקה לשליחת הנתונים לשרת
+  }
+
+  function viewResidents(event) {
+    event.preventDefault();
+
+    const building = document.getElementById('building').value;
+    const apartment = document.getElementById('apartment').value;
+
+    const data = {
+      '1': {
+        '101': [
+          { room: 'A', name: 'יוסי כהן', phone: '050-1234567', faculty: 'מדעי המחשב' },
+          { room: 'B', name: 'דנה לוי', phone: '052-9876543', faculty: 'הנדסה' },
+        ],
+        '102': [
+          { room: 'A', name: 'רונית ישראלי', phone: '054-7654321', faculty: 'אדריכלות' },
+        ],
+      },
+      '2': {
+        '101': [
+          { room: 'A', name: 'מיכאל כהן', phone: '053-1112222', faculty: 'מנהל עסקים' },
+        ],
+      },
+    };
+
+    const residents = data[building]?.[apartment] || [];
+    const residentsTable = document.getElementById('residentsTable');
+    residentsTable.innerHTML = '';
+
+    residents.forEach((resident) => {
+      const row = `<tr>
+        <td>${resident.room}</td>
+        <td>${resident.name}</td>
+        <td>${resident.phone}</td>
+        <td>${resident.faculty}</td>
+      </tr>`;
+      residentsTable.innerHTML += row;
+    });
+
+    document.getElementById('residentsResults').style.display = residents.length ? 'block' : 'none';
+
+    if (!residents.length) {
+      alert('לא נמצאו דיירים לדירה שבחרת.');
+    }
+  }
+</script>
+
+</body>
+</html>

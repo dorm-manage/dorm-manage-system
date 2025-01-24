@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormitoriesPlus - ניהול בקשות</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    header .back-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #555;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .hero {
+      background-color: #335db3;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #f9f9f9;
+      font-weight: bold;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      background-color: #335db3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #274a93;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="{% url 'manager_Homepage' %}">חזרה לעמוד ראשי</a>
+  <h1>DormitoriesPlus - ניהול בקשות</h1>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h2>ניהול בקשות</h2>
+    <p>כאן תוכל לצפות ולנהל את הבקשות שהתקבלו.</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>בניין</th>
+        <th>דירה</th>
+        <th>חדר</th>
+        <th>שם סטודנט</th>
+        <th>תאריך הגשה</th>
+        <th>סטטוס</th>
+        <th>פעולות</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>101</td>
+        <td>101A</td>
+        <td>יוסי כהן</td>
+        <td>12/01/2025</td>
+        <td>ממתין</td>
+        <td>
+          <button class="btn">אשר</button>
+          <button class="btn">דחה</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>202</td>
+        <td>202B</td>
+        <td>אורית לוי</td>
+        <td>10/01/2025</td>
+        <td>ממתין</td>
+        <td>
+          <button class="btn">אשר</button>
+          <button class="btn">דחה</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+</body>
+</html>
