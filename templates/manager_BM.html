@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormitoriesPlus - ניהול אחראי בניין</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      direction: rtl; /* כיוון ימין לשמאל */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* מבטיח שה-body ימלא את כל גובה הדף */
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    header .back-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px; /* מיקום בפינה השמאלית העליונה */
+      background-color: #555;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+
+    header .back-btn:hover {
+      background-color: #335db3;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1; /* מאפשר ל-container למלא את שאר גובה הדף */
+    }
+
+    .hero {
+      background-color: #335db3;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      margin: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #f9f9f9;
+      font-weight: bold;
+    }
+
+    .form-section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: right;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group button {
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: calc(100% - 20px);
+      box-sizing: border-box;
+    }
+
+    .form-group button {
+      background-color: #335db3;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #274a93;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="/admin-dashboard">חזרה לעמוד ניהול</a>
+  <h1>DormitoriesPlus</h1>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h2>ניהול אחראי בניין</h2>
+    <p>כאן תוכל לצפות ולעדכן את פרטי אחראי הבניין</p>
+  </div>
+
+  <!-- טבלת אחראי בניין -->
+  <div class="form-section">
+    <h3>רשימת אחראי בניין</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>מספר בניין</th>
+          <th>שם אחראי</th>
+          <th>מספר טלפון</th>
+          <th>תאריך תחילת עבודה</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>אבי לוי</td>
+          <td>050-1234567</td>
+          <td>01/01/2022</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>דנה כהן</td>
+          <td>052-9876543</td>
+          <td>01/05/2023</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- טופס עדכון אחראי בניין -->
+  <div class="form-section">
+    <h3>עדכון אחראי בניין</h3>
+    <form action="/update_building_manager" method="post">
+      <div class="form-group">
+        <label for="building-number">מספר בניין:</label>
+        <input type="number" id="building-number" name="building_number" required>
+      </div>
+      <div class="form-group">
+        <label for="manager-name">שם אחראי:</label>
+        <input type="text" id="manager-name" name="manager_name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone-number">מספר טלפון:</label>
+        <input type="text" id="phone-number" name="phone_number" required>
+      </div>
+      <div class="form-group">
+        <label for="start-date">תאריך תחילת עבודה:</label>
+        <input type="date" id="start-date" name="start_date" required>
+      </div>
+      <div class="form-group">
+        <button type="submit">עדכן</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+</body>
+</html>

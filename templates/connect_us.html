@@ -1,108 +1,121 @@
 <!DOCTYPE html>
 <html lang="he">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - קשר</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-        direction: rtl; /* כיוון ימין לשמאל */
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormitoriesPlus - צור קשר</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+    .hero {
+      background-color: #335db3;
+      color: white;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .hero h2 {
+      margin: 0;
+    }
+    .contact-info, .links {
+      margin-top: 20px;
+    }
+    .links a {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .links a:hover {
+      background-color: #335db3;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
 
-      header {
-        background-color: #333;
-        color: white;
-        padding: 10px 0;
-        text-align: center;
-      }
+  <header>
+    <h1>DormitoriesPlus</h1>
+  </header>
 
-      .container {
-        width: 80%;
-        margin: 0 auto;
-        padding: 20px;
-        flex: 1;
-      }
+  <div class="container">
+    <div class="hero">
+      <h2>לא מצאתם את מה שחיפשתם? צרו קשר!</h2>
+    </div>
 
-      .hero {
-        background-color: #335db3;
-        color: white;
-        padding: 40px;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      .hero h2 {
-        margin: 0;
-      }
-
-      .links {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
-      }
-
-      .links a {
-        background-color: #333;
-        color: white;
-        padding: 10px;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-      }
-
-      .links a:hover {
-        background-color: #335db3;
-      }
-
-      footer {
-        background-color: #333;
-        color: white;
-        text-align: center;
-        padding: 10px 0;
-        margin-top: 20px;
-      }
-
-      .contact-info {
-        font-size: 18px;
-        line-height: 1.6;
-      }
-    </style>
-  </head>
-  <body>
-
-    <header>
-      <h1>DormitoriesPlus</h1>
-    </header>
-
-    <div class="container">
-      <div class="hero">
-        <h2>לא מצאתם את מה שחיפשתם? צרו קשר!</h2>
-      </div>
-
-      <div class="contact-info">
-        <p>דרכים ליצירת קשר:</p>
-        <ul>
-          <li>מספרי טלפון של אחראי בניין</li>
-          <li>אימייל של מישהו מהנהלת המעונות</li>
-          <li>תיבת טקסט להוסיף הערות, טענות, ומענות</li>
-        </ul>
-      </div>
-
-      <div class="links">
-        <a href="/">חזרה לדף הבית</a>
+    <div class="contact-info">
+      <p>בחרו בניין כדי לקבל פרטי איש קשר:</p>
+      <select id="buildingSelector">
+        <option value="">בחר בניין</option>
+        <option value="1">בניין 1</option>
+        <option value="2">בניין 2</option>
+        <option value="3">בניין 3</option>
+        <option value="4">בניין 4</option>
+      </select>
+      <div id="contactDetails" style="margin-top: 20px;">
+        <!-- כאן יוצגו פרטי הקשר -->
       </div>
     </div>
 
-    <footer>
-      <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-    </footer>
+    <div class="links">
+      <a href="/">חזרה לדף הבית</a>
+    </div>
+  </div>
 
-  </body>
+  <footer>
+    <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+  </footer>
+
+  <script>
+    const contactData = {
+      "1": { name: "יוסי כהן", phone: "050-1234567" },
+      "2": { name: "דנה לוי", phone: "052-7654321" },
+      "3": { name: "אבי ישראלי", phone: "054-9876543" },
+      "4": { name: "מיכל ברק", phone: "053-6543210" }
+    };
+
+    const buildingSelector = document.getElementById("buildingSelector");
+    const contactDetails = document.getElementById("contactDetails");
+
+    buildingSelector.addEventListener("change", function () {
+      const selectedBuilding = buildingSelector.value;
+      if (selectedBuilding && contactData[selectedBuilding]) {
+        const { name, phone } = contactData[selectedBuilding];
+        contactDetails.innerHTML = `<p><strong>שם:</strong> ${name}</p>
+                                    <p><strong>טלפון:</strong> ${phone}</p>`;
+      } else {
+        contactDetails.innerHTML = "<p>נא לבחור בניין מהרשימה.</p>";
+      }
+    });
+  </script>
+
+</body>
 </html>

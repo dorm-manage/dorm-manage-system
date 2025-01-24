@@ -15,3 +15,7 @@ def faults(request):
 
 def connect_us(request):
     return render(request, 'connect_us.html')
+
+
+def Personal_erea(request):
+    return render(request, 'Personal_erea.html')

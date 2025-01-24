@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormitoriesPlus - ניהול תקלות</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    header .back-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #555;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+
+    header .back-btn:hover {
+      background-color: #335db3;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .hero {
+      background-color: #335db3;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      margin: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #f9f9f9;
+      font-weight: bold;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      background-color: #335db3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #274a93;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="/building-manager-dashboard">חזרה לעמוד ראשי</a>
+  <h1>DormitoriesPlus</h1>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h2>ניהול תקלות</h2>
+    <p>כאן תוכל לצפות בתקלות פתוחות ולבצע פעולות</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>בניין</th>
+        <th>חדר</th>
+        <th>תקלה</th>
+        <th>שם הסטודנט</th>
+        <th>מספר פלאפון</th>
+        <th>סטטוס</th>
+        <th>פעולות</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>101A</td>
+        <td>נזילה במקלחת</td>
+        <td>יוסי כהן</td>
+        <td>050-1234567</td>
+        <td>פתוח</td>
+        <td>
+          <button class="btn" onclick="markAsResolved('נזילה במקלחת')">סמן כטופל</button>
+          <button class="btn" onclick="pushToTop('נזילה במקלחת')">דחיפה לראש התור</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>102B</td>
+        <td>מנעול דלת שבור</td>
+        <td>דנה לוי</td>
+        <td>052-9876543</td>
+        <td>פתוח</td>
+        <td>
+          <button class="btn" onclick="markAsResolved('מנעול דלת שבור')">סמן כטופל</button>
+          <button class="btn" onclick="pushToTop('מנעול דלת שבור')">דחיפה לראש התור</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+<script>
+  function markAsResolved(issue) {
+    alert(`התקלה "${issue}" סומנה כטופלה.`);
+    // הוסף כאן לוגיקה לעדכון השרת
+  }
+
+  function pushToTop(issue) {
+    alert(`ה

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DormitoriesPlus - אזור אישי</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    header .home-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #555;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    header .home-btn:hover {
+      background-color: #335db3;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .hero {
+      background-color: #335db3;
+      color: white;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      margin: 0;
+    }
+
+    .report-list {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .report-list h2 {
+      color: #335db3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    button {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #335db3;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="home-btn" href="/static">חזרה לדף הבית</a>
+  <h1>DormitoriesPlus</h1>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h2>אזור אישי</h2>
+    <p>כאן תוכל לצפות בדיווחים האישיים שלך ולעדכן פרטים לפי הצורך.</p>
+  </div>
+
+  <div class="report-list" id="reportList">
+    <h2>דיווחים אישיים</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>מספר תקלה</th>
+          <th>תיאור</th>
+          <th>תאריך דיווח</th>
+          <th>סטטוס</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>נזילה במקלחת</td>
+          <td>15/01/2025</td>
+          <td>בטיפול</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>בעיה בדלת הכניסה</td>
+          <td>10/01/2025</td>
+          <td>טופל</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>חסר חימום בחדר</td>
+          <td>12/01/2025</td>
+          <td>בטיפול</td>
+        </tr>
+      </tbody>
+    </table>
+    <button onclick="logout()">התנתק</button>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+<script>
+  function logout() {
+    alert("התנתקת בהצלחה!");
+    window.location.href = "/";
+  }
+</script>
+
+</body>
+</html>
