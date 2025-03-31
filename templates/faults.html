@@ -137,7 +137,7 @@
       <div class="container">
         <div class="form-container">
           <h2>דווח על תקלה במעונות</h2>
-          <form action="/submit_fault_report/" method="POST">
+          <form method="POST" action="{% url 'faults' %}">
             {% csrf_token %}
             <div class="form-group">
               <label for="name">שם:</label>
@@ -186,7 +186,7 @@
             <div class="form-group">
               <button type="submit" class="submit-btn">שלח דיווח</button>
             </div>
-          </form>
+        </form>
         </div>
       </div>
 

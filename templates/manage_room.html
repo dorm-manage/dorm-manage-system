@@ -185,25 +185,56 @@
   <!-- בחירת בניין ודירה -->
   <div class="section">
     <h3>צפייה בדיירים לפי בניין ודירה</h3>
-    <form id="viewResidentsForm" onsubmit="viewResidents(event)">
-      <div class="form-group">
-        <label for="building">בחר בניין:</label>
-        <select id="building" name="building" required>
-          <option value="" disabled selected>בחר בניין</option>
-          <option value="1">בניין 1</option>
-          <option value="2">בניין 2</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="apartment">בחר דירה:</label>
-        <select id="apartment" name="apartment" required>
-          <option value="" disabled selected>בחר דירה</option>
-          <option value="101">דירה 101</option>
-          <option value="102">דירה 102</option>
-        </select>
-      </div>
-      <button type="submit" class="btn">הצג דיירים</button>
-    </form>
+<!-- החלונית לשיבוץ סטודנט -->
+<div class="form-popup" id="formPopup">
+  <h3>שיבוץ סטודנט לחדר <span id="roomNumber"></span></h3>
+  <form id="assignForm" method="POST" action="{% url 'manage_room' %}">
+    {% csrf_token %}
+    <!-- שדה מוסתר לאיסוף מספר החדר -->
+    <input type="hidden" id="room" name="room" value="">
+
+    <div class="form-group">
+      <label for="firstName">שם פרטי:</label>
+      <input type="text" id="firstName" name="firstName" required>
+    </div>
+    <div class="form-group">
+      <label for="lastName">שם משפחה:</label>
+      <input type="text" id="lastName" name="lastName" required>
+    </div>
+    <div class="form-group">
+      <label for="email">אימייל:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">מספר פלאפון:</label>
+      <input type="tel" id="phone" name="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="faculty">פקולטה:</label>
+      <input type="text" id="faculty" name="faculty" required>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn">שבץ</button>
+      <button type="button" class="btn" onclick="closeForm()">ביטול</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // עדכון ערך השדה המוסתר "room" כאשר הפונקציה נקראת
+  function openForm(room) {
+    document.getElementById('roomNumber').textContent = room;
+    document.getElementById('room').value = room;
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('formPopup').style.display = 'block';
+  }
+
+  function closeForm() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('formPopup').style.display = 'none';
+  }
+</script>
+
   </div>
 
   <!-- תוצאות הדיירים -->
@@ -302,7 +333,7 @@
       },
     };
 
-    const residents = data[building]?.[apartment] || [];
+    {#const residents = data[building]?.[apartment] || [];#}
     const residentsTable = document.getElementById('residentsTable');
     residentsTable.innerHTML = '';
 

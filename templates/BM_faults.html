@@ -128,32 +128,30 @@
       </tr>
     </thead>
     <tbody>
+      {% for fault in faults %}
       <tr>
-        <td>1</td>
-        <td>101A</td>
-        <td>נזילה במקלחת</td>
-        <td>יוסי כהן</td>
-        <td>050-1234567</td>
-        <td>פתוח</td>
-        <td>19/01/2025</td>
+        <td>{{ fault.room_num.split('-')[0] }}</td>
+        <td>{{ fault.room_num.split('-')[1] }}</td>
+        <td><!-- לדוגמה: חדר --></td>
+        <td>{{ fault.fault_description }}</td>
+        <td>{{ fault.created_at|date:"d/m/Y" }}</td>
+        <td>{{ fault.status }}</td>
         <td>
-          <button class="btn" onclick="markAsResolved('נזילה במקלחת')">סמן כטופל</button>
-          <button class="btn" onclick="pushToTop('נזילה במקלחת')">דחיפה לראש התור</button>
+          <form method="POST" action="{% url 'BM_faults' %}" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="fault_id" value="{{ fault.id }}">
+            <input type="hidden" name="action" value="resolve">
+            <button type="submit" class="btn">סמן כטופל</button>
+          </form>
+          <form method="POST" action="{% url 'BM_faults' %}" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="fault_id" value="{{ fault.id }}">
+            <input type="hidden" name="action" value="push">
+            <button type="submit" class="btn">דחיפה לראש התור</button>
+          </form>
         </td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td>102B</td>
-        <td>מנעול דלת שבור</td>
-        <td>דנה לוי</td>
-        <td>052-9876543</td>
-        <td>פתוח</td>
-        <td>19/01/2025</td>
-        <td>
-          <button class="btn" onclick="markAsResolved('מנעול דלת שבור')">סמן כטופל</button>
-          <button class="btn" onclick="pushToTop('מנעול דלת שבור')">דחיפה לראש התור</button>
-        </td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>

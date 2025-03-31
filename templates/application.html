@@ -120,9 +120,8 @@
 
       <div class="container">
         <h2>הגשה לבקשה להשאלת פריט</h2>
-        <form method="POST">
+      <form method="POST" action="{% url 'application' %}">
             {% csrf_token %}
-
             <div class="form-group">
               <label for="name">שם:</label>
               <input type="text" id="name" name="name" required pattern="[א-תa-zA-Z]+$" title="נא להזין רק אותיות" />

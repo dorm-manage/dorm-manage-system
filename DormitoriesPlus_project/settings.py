@@ -137,3 +137,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = '/login/'           # הכתובת לעמוד התחברות
+LOGIN_REDIRECT_URL = '/'        # הכתובת שאליה המשתמש ינותב לאחר התחברות מוצלחת
+LOGOUT_REDIRECT_URL = '/'       # הכתובת שאליה המשתמש ינותב לאחר התנתקות
+
+AUTH_USER_MODEL = 'DormitoriesPlus.User'
