@@ -37,7 +37,7 @@ class User(AbstractUser):
 
     email = models.EmailField(unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name',
+    REQUIRED_FIELDS = ['first_name',
                        'last_name']  # חשוב לשמור על username, כיוון ש-AbstractUser מוסיף אותו כבר
 
     def __str__(self):
