@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.core.paginator import Paginator
 from .models import (
     User,
     InventoryTracking,
@@ -125,6 +126,138 @@ def BM_sendMassage(request):
         return redirect('BM_sendMassage')
     return render(request, 'BM_sendMassage.html')
 
+
+# עמוד לניהול מלאי (BM_inventory.html)
+@login_required
+def BM_inventory(request):
+    # Handle form submissions for inventory management
+    if request.method == 'POST':
+        # Add new inventory item
+        if 'add_item' in request.POST:
+            item_name = request.POST.get('item_name')
+            quantity = int(request.POST.get('quantity'))
+            photo = request.FILES.get('photo', None)
+
+            # Create inventory tracking record
+            inventory_item = InventoryTracking.objects.create(
+                item_name=item_name,
+                quantity=quantity,
+                created_at=timezone.now(),
+                updated_at=timezone.now(),
+                photo_url=photo if photo else None
+            )
+
+            # Create individual item records
+            for _ in range(quantity):
+                Item.objects.create(
+                    inventory=inventory_item,
+                    status='available',
+                    created_at=timezone.now(),
+                    updated_at=timezone.now()
+                )
+
+            messages.success(request, f"פריט חדש '{item_name}' נוסף בהצלחה!")
+
+        # Remove inventory items
+        elif 'remove_item' in request.POST:
+            inventory_id = request.POST.get('inventory_id')
+            try:
+                inventory_item = InventoryTracking.objects.get(id=inventory_id)
+                # Delete associated items
+                Item.objects.filter(inventory=inventory_item).delete()
+                # Delete inventory record
+                inventory_item.delete()
+                messages.success(request, "פריט הוסר בהצלחה!")
+            except InventoryTracking.DoesNotExist:
+                messages.error(request, "הפריט לא נמצא!")
+
+        # Update inventory item
+        elif 'update_item' in request.POST:
+            inventory_id = request.POST.get('inventory_id')
+            new_name = request.POST.get('new_name')
+            new_quantity = int(request.POST.get('new_quantity'))
+            photo = request.FILES.get('photo', None)
+
+            try:
+                inventory_item = InventoryTracking.objects.get(id=inventory_id)
+                old_quantity = inventory_item.quantity
+
+                # Update inventory record
+                inventory_item.item_name = new_name
+                inventory_item.quantity = new_quantity
+                if photo:
+                    inventory_item.photo_url = photo
+                inventory_item.updated_at = timezone.now()
+                inventory_item.save()
+
+                # Handle quantity changes
+                if new_quantity > old_quantity:
+                    # Add new items
+                    for _ in range(new_quantity - old_quantity):
+                        Item.objects.create(
+                            inventory=inventory_item,
+                            status='available',
+                            created_at=timezone.now(),
+                            updated_at=timezone.now()
+                        )
+                elif new_quantity < old_quantity:
+                    # Remove excess items (prioritize removing 'available' items first)
+                    excess_count = old_quantity - new_quantity
+                    # First delete available items
+                    available_items = Item.objects.filter(inventory=inventory_item, status='available')
+                    if available_items.count() <= excess_count:
+                        available_items.delete()
+                        excess_count -= available_items.count()
+                        # Then delete other items if needed
+                        if excess_count > 0:
+                            other_items = Item.objects.filter(inventory=inventory_item).order_by('id')[:excess_count]
+                            other_items.delete()
+                    else:
+                        # Only delete some available items
+                        available_items.order_by('id')[:excess_count].delete()
+
+                messages.success(request, "פריט עודכן בהצלחה!")
+            except InventoryTracking.DoesNotExist:
+                messages.error(request, "הפריט לא נמצא!")
+
+        # Update specific item status
+        elif 'update_item_status' in request.POST:
+            item_id = request.POST.get('item_id')
+            new_status = request.POST.get('new_status')
+
+            try:
+                item = Item.objects.get(id=item_id)
+                item.status = new_status
+                item.updated_at = timezone.now()
+                item.save()
+                messages.success(request, f"סטטוס פריט עודכן ל-{new_status} בהצלחה!")
+            except Item.DoesNotExist:
+                messages.error(request, "פריט לא נמצא!")
+
+        return redirect('BM_inventory')
+
+    # Get all inventory items
+    inventory_list = InventoryTracking.objects.all().order_by('-updated_at')
+    items_list = Item.objects.all().select_related('inventory')
+
+    # Group items by inventory item
+    items_by_inventory = {}
+    for item in items_list:
+        if item.inventory_id not in items_by_inventory:
+            items_by_inventory[item.inventory_id] = {'available': 0, 'borrowed': 0, 'damaged': 0}
+        if item.status in items_by_inventory[item.inventory_id]:
+            items_by_inventory[item.inventory_id][item.status] += 1
+
+    # Pagination
+    paginator = Paginator(inventory_list, 5)  # Show 25 items per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'BM_inventory.html', {
+        'inventory': page_obj,
+        'items_by_inventory': items_by_inventory,
+        'page_obj': page_obj,
+    })
 
 # עמוד ניהול חדרים – דוגמה לשיבוץ סטודנט לחדר (manage_room.html)
 def manage_room(request):

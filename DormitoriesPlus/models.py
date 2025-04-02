@@ -52,6 +52,7 @@ class InventoryTracking(models.Model):
     quantity = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    photo_url = models.ImageField(upload_to='inventory_photos/', null=True, blank=True)
 
     def __str__(self):
         return self.item_name

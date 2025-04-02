@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
 
@@ -20,7 +22,7 @@ urlpatterns = [
     path('manager_BM/', views.manager_BM, name='manager_BM'),
     path('Manager_request/', views.Manager_request, name='Manager_request'),
     path('manager_faults/', views.manager_faults, name='manager_faults'),
-
+    path('BM_inventory/', views.BM_inventory, name='BM_inventory'),
 
 
 
@@ -29,3 +31,6 @@ urlpatterns = [
 
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
