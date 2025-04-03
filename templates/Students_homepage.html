@@ -10,10 +10,10 @@
       background-color: #f4f4f4;
       margin: 0;
       padding: 0;
-      direction: rtl; /* כיוון ימין לשמאל */
+      direction: rtl;
       display: flex;
       flex-direction: column;
-      min-height: 100vh; /* מבטיח שה-body ימלא את כל גובה הדף */
+      min-height: 100vh;
     }
 
     header {
@@ -21,13 +21,13 @@
       color: white;
       padding: 10px 0;
       text-align: center;
-      position: relative; /* מאפשר מיקום יחסי של הכפתור */
+      position: relative;
     }
 
     header .personal-area-btn {
       position: absolute;
       top: 10px;
-      left: 10px; /* מיקום בפינה השמאלית העליונה */
+      left: 10px;
       background-color: #555;
       color: white;
       padding: 8px 12px;
@@ -42,18 +42,19 @@
     }
 
     .container {
-      width: 80%;
+      width: 90%;
       margin: 0 auto;
       padding: 20px;
-      flex: 1; /* מאפשר ל-container למלא את שאר גובה הדף */
+      flex: 1;
     }
 
     .hero {
       background-color: #335db3;
       color: white;
-      padding: 40px;
+      padding: 30px;
       text-align: center;
       margin-bottom: 20px;
+      border-radius: 10px;
     }
 
     .hero h2 {
@@ -63,13 +64,13 @@
     .links {
       display: flex;
       justify-content: space-around;
-      margin-top: 20px;
+      margin: 20px 0;
     }
 
     .links a {
       background-color: #333;
       color: white;
-      padding: 10px;
+      padding: 10px 20px;
       text-decoration: none;
       border-radius: 5px;
       transition: background-color 0.3s;
@@ -86,6 +87,166 @@
       padding: 10px 0;
       margin-top: 20px;
     }
+
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .tab-container {
+      margin-top: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #f1f1f1;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      margin-left: 5px;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .tab.active {
+      background-color: #335db3;
+      color: white;
+      border-color: #335db3;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: right;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+      background-color: #eaf5ff;
+    }
+
+    .status-pending, .status-open {
+      color: #ffc107;
+      font-weight: bold;
+    }
+
+    .status-approved {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .status-rejected, .status-resolved {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .pagination a, .pagination span {
+      display: inline-block;
+      padding: 8px 16px;
+      text-decoration: none;
+      color: #335db3;
+      border: 1px solid #ddd;
+      margin: 0 4px;
+      border-radius: 5px;
+    }
+
+    .pagination a:hover {
+      background-color: #335db3;
+      color: white;
+    }
+
+    .pagination .current {
+      background-color: #335db3;
+      color: white;
+      border-color: #335db3;
+    }
+
+    .pagination .disabled {
+      color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    .archive-btn {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .archive-btn:hover {
+      background-color: #5a6268;
+    }
+
+    .message {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+
+    .message-success {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .message-error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    .empty-table {
+      text-align: center;
+      padding: 20px;
+      color: #6c757d;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -98,20 +259,273 @@
 
 <div class="container">
   <div class="hero">
-    <h2>שלום, באתר זה תוכל לבצע פעולות הקשורות למעונות.</h2>
-    <p>השתמש בקישורים למטה כדי לגשת לשירות הרלוונטי עבורך.</p>
+    <h2>שלום, {{ user.first_name }}!</h2>
+    <p>באתר זה תוכל לבצע פעולות הקשורות למעונות ולעקוב אחר הבקשות שלך.</p>
   </div>
 
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
   <div class="links">
-    <a href="{% url 'application' %}">השאלות</a>
+    <a href="{% url 'application' %}">השאלת ציוד</a>
     <a href="{% url 'faults' %}">דיווח תקלות</a>
     <a href="{% url 'connect_us' %}">צור קשר</a>
+  </div>
+
+  <div class="tab-container">
+    <div class="tabs">
+      <div class="tab active" onclick="openTab(event, 'loan-requests')">בקשות השאלת ציוד</div>
+      <div class="tab" onclick="openTab(event, 'fault-reports')">דיווחי תקלות</div>
+      <div class="tab" onclick="openTab(event, 'archives')">ארכיון</div>
+    </div>
+
+    <!-- בקשות השאלת ציוד -->
+    <div id="loan-requests" class="tab-content active card">
+      <h3>בקשות השאלת ציוד פעילות</h3>
+      {% if loan_requests %}
+        <table>
+          <thead>
+            <tr>
+              <th>פריט</th>
+              <th>תאריך בקשה</th>
+              <th>חדר</th>
+              <th>הערות</th>
+              <th>סטטוס</th>
+              <th>פעולות</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in loan_requests %}
+              <tr>
+                <td>{{ request.item.inventory.item_name }}</td>
+                <td>{{ request.created_at|date:"d/m/Y H:i" }}</td>
+                <td>{{ request.room.room_number }}</td>
+                <td>{{ request.note|default:"-" }}</td>
+                <td class="status-{{ request.status }}">
+                  {% if request.status == 'pending' %}ממתין לאישור{% endif %}
+                  {% if request.status == 'approved' %}מאושר{% endif %}
+                  {% if request.status == 'rejected' %}נדחה{% endif %}
+                  {% if request.status == 'resolved' %}סגור{% endif %}
+                </td>
+                <td>
+                  {% if request.status == 'approved' or request.status == 'rejected' %}
+                    <form method="post" style="display: inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="request_id" value="{{ request.id }}">
+                      <button type="submit" name="archive_request" class="action-btn archive-btn">העבר לארכיון</button>
+                    </form>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Pagination for loan requests -->
+        {% if loan_requests.has_other_pages %}
+          <div class="pagination">
+            {% if loan_requests.has_previous %}
+              <a href="?loan_page=1">&laquo; ראשון</a>
+              <a href="?loan_page={{ loan_requests.previous_page_number }}">הקודם</a>
+            {% else %}
+              <span class="disabled">&laquo; ראשון</span>
+              <span class="disabled">הקודם</span>
+            {% endif %}
+
+            <span class="current">
+              עמוד {{ loan_requests.number }} מתוך {{ loan_requests.paginator.num_pages }}
+            </span>
+
+            {% if loan_requests.has_next %}
+              <a href="?loan_page={{ loan_requests.next_page_number }}">הבא</a>
+              <a href="?loan_page={{ loan_requests.paginator.num_pages }}">אחרון &raquo;</a>
+            {% else %}
+              <span class="disabled">הבא</span>
+              <span class="disabled">אחרון &raquo;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="empty-table">אין בקשות השאלה פעילות</div>
+      {% endif %}
+    </div>
+
+    <!-- דיווחי תקלות -->
+    <div id="fault-reports" class="tab-content card">
+      <h3>דיווחי תקלות פעילים</h3>
+      {% if fault_reports %}
+        <table>
+          <thead>
+            <tr>
+              <th>תיאור התקלה</th>
+              <th>תאריך דיווח</th>
+              <th>חדר</th>
+              <th>סטטוס</th>
+              <th>פעולות</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for report in fault_reports %}
+              <tr>
+                <td>{{ report.fault_description }}</td>
+                <td>{{ report.created_at|date:"d/m/Y H:i" }}</td>
+                <td>{{ report.room.room_number }}</td>
+                <td class="status-{{ report.status }}">
+                  {% if report.status == 'open' %}פתוח{% endif %}
+                  {% if report.status == 'pending' %}בטיפול{% endif %}
+                  {% if report.status == 'resolved' %}טופל{% endif %}
+                </td>
+                <td>
+                  {% if report.status == 'resolved' %}
+                    <form method="post" style="display: inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="request_id" value="{{ report.id }}">
+                      <button type="submit" name="archive_request" class="action-btn archive-btn">העבר לארכיון</button>
+                    </form>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Pagination for fault reports -->
+        {% if fault_reports.has_other_pages %}
+          <div class="pagination">
+            {% if fault_reports.has_previous %}
+              <a href="?fault_page=1">&laquo; ראשון</a>
+              <a href="?fault_page={{ fault_reports.previous_page_number }}">הקודם</a>
+            {% else %}
+              <span class="disabled">&laquo; ראשון</span>
+              <span class="disabled">הקודם</span>
+            {% endif %}
+
+            <span class="current">
+              עמוד {{ fault_reports.number }} מתוך {{ fault_reports.paginator.num_pages }}
+            </span>
+
+            {% if fault_reports.has_next %}
+              <a href="?fault_page={{ fault_reports.next_page_number }}">הבא</a>
+              <a href="?fault_page={{ fault_reports.paginator.num_pages }}">אחרון &raquo;</a>
+            {% else %}
+              <span class="disabled">הבא</span>
+              <span class="disabled">אחרון &raquo;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="empty-table">אין דיווחי תקלות פעילים</div>
+      {% endif %}
+    </div>
+
+    <!-- ארכיון -->
+    <div id="archives" class="tab-content card">
+      <h3>ארכיון בקשות</h3>
+      {% if archived_requests %}
+        <table>
+          <thead>
+            <tr>
+              <th>סוג בקשה</th>
+              <th>פרטים</th>
+              <th>הערות</th>
+              <th>תאריך</th>
+              <th>סטטוס סופי</th>
+              <th>עודכן בתאריך</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in archived_requests %}
+              <tr>
+                <td>
+                  {% if request.request_type == 'equipment_rental' %}השאלת ציוד{% endif %}
+                  {% if request.request_type == 'fault_report' %}דיווח תקלה{% endif %}
+                </td>
+                <td>
+                  {% if request.request_type == 'equipment_rental' %}
+                    {{ request.item.inventory.item_name }}
+                  {% else %}
+                    {{ request.fault_description }}
+                  {% endif %}
+                </td>
+                <td>{{ request.note|default:"-" }}</td>
+                <td>{{ request.created_at|date:"d/m/Y" }}</td>
+                <td class="status-{{ request.status }}">
+                  {% if request.status == 'rejected' %}נדחה{% endif %}
+                  {% if request.status == 'resolved' %}טופל/סגור{% endif %}
+                </td>
+                <td>{{ request.updated_at|date:"d/m/Y H:i" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Pagination for archived requests -->
+        {% if archived_requests.has_other_pages %}
+          <div class="pagination">
+            {% if archived_requests.has_previous %}
+              <a href="?archive_page=1">&laquo; ראשון</a>
+              <a href="?archive_page={{ archived_requests.previous_page_number }}">הקודם</a>
+            {% else %}
+              <span class="disabled">&laquo; ראשון</span>
+              <span class="disabled">הקודם</span>
+            {% endif %}
+
+            <span class="current">
+              עמוד {{ archived_requests.number }} מתוך {{ archived_requests.paginator.num_pages }}
+            </span>
+
+            {% if archived_requests.has_next %}
+              <a href="?archive_page={{ archived_requests.next_page_number }}">הבא</a>
+              <a href="?archive_page={{ archived_requests.paginator.num_pages }}">אחרון &raquo;</a>
+            {% else %}
+              <span class="disabled">הבא</span>
+              <span class="disabled">אחרון &raquo;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="empty-table">אין בקשות בארכיון</div>
+      {% endif %}
+    </div>
   </div>
 </div>
 
 <footer>
   <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
 </footer>
+
+<script>
+function openTab(evt, tabName) {
+  // Hide all tab content
+  var tabcontent = document.getElementsByClassName("tab-content");
+  for (var i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].classList.remove("active");
+  }
+
+  // Remove "active" class from all tabs
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.remove("active");
+  }
+
+  // Show the current tab and add "active" class
+  document.getElementById(tabName).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
+
+// Auto-hide messages after 5 seconds
+setTimeout(function() {
+  var messages = document.getElementsByClassName('message');
+  for (var i = 0; i < messages.length; i++) {
+    messages[i].style.display = 'none';
+  }
+}, 5000);
+</script>
 
 </body>
 </html>

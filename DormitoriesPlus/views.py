@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Count
+from django.core.paginator import Paginator
 
 # Then import your models
 from .models import (
@@ -39,8 +40,69 @@ def BM_Homepage(request):
     return render(request, 'BM_Homepage.html')
 
 
+@login_required
 def Students_homepage(request):
-    return render(request, 'Students_homepage.html')
+    user = request.user
+
+    # Get active lending requests
+    active_loan_requests = Request.objects.filter(
+        user=user,
+        request_type='equipment_rental',
+        status__in=['pending', 'approved']
+    ).order_by('-created_at')
+
+    # Get active fault reports
+    active_fault_reports = Request.objects.filter(
+        user=user,
+        request_type='fault_report',
+        status__in=['open', 'pending']
+    ).order_by('-created_at')
+
+    # Get archived requests
+    archived_requests = Request.objects.filter(
+        user=user,
+        status__in=['rejected', 'resolved']
+    ).order_by('-updated_at')
+
+    # Pagination for lending requests
+    loan_paginator = Paginator(active_loan_requests, 5)  # 5 items per page
+    loan_page_number = request.GET.get('loan_page')
+    loan_page_obj = loan_paginator.get_page(loan_page_number)
+
+    # Pagination for fault reports
+    fault_paginator = Paginator(active_fault_reports, 5)  # 5 items per page
+    fault_page_number = request.GET.get('fault_page')
+    fault_page_obj = fault_paginator.get_page(fault_page_number)
+
+    # Pagination for archived requests
+    archive_paginator = Paginator(archived_requests, 5)  # 5 items per page
+    archive_page_number = request.GET.get('archive_page')
+    archive_page_obj = archive_paginator.get_page(archive_page_number)
+
+    # Handle archiving actions
+    if request.method == 'POST' and 'archive_request' in request.POST:
+        request_id = request.POST.get('request_id')
+        try:
+            req = Request.objects.get(id=request_id, user=user)
+            # Mark as archived (you might want to add an 'archived' field to your Request model)
+            # For now, we'll use status to determine if it's archived
+            if req.request_type == 'equipment_rental':
+                req.status = 'resolved'
+            elif req.request_type == 'fault_report':
+                req.status = 'resolved'
+            req.updated_at = timezone.now()
+            req.save()
+            messages.success(request, "הבקשה הועברה לארכיון בהצלחה.")
+        except Request.DoesNotExist:
+            messages.error(request, "הבקשה לא נמצאה.")
+
+    context = {
+        'loan_requests': loan_page_obj,
+        'fault_reports': fault_page_obj,
+        'archived_requests': archive_page_obj,
+    }
+
+    return render(request, 'Students_homepage.html', context)
 
 
 @login_required
@@ -91,6 +153,10 @@ def application(request):
         item_id = request.POST.get('product')
         loan_days = request.POST.get('loan_period')
         note = request.POST.get('note', '')  # Get the note from the form
+        # Validate note length
+        if len(note) > 200:
+            messages.error(request, "ההערות ארוכות מדי. אנא קצר אותן ל-200 תווים או פחות.")
+            return redirect('application')
 
         # Initialize available_item to None
         available_item = None
