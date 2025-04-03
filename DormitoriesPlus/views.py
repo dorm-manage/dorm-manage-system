@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from django.core.paginator import Paginator
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.db.models import Count
+
+# Then import your models
 from .models import (
     User,
     InventoryTracking,
@@ -9,12 +14,9 @@ from .models import (
     Request,
     Building,
     Message,
-    RoomAssignment
+    RoomAssignment,
+    Room  # Make sure this is included if you've created it
 )
-from django.utils import timezone
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-
 
 # דוגמאות עבור עמודים שאינם דורשים עיבוד טפסים
 def Homepage(request):
@@ -43,46 +45,102 @@ def Students_homepage(request):
 
 @login_required
 def application(request):
+    # Get the currently logged-in user
+    user = request.user
+
+    # Get user's room assignment (assuming they have one)
+    try:
+        room_assignment = RoomAssignment.objects.filter(user=user).select_related('room').first()
+        if room_assignment:
+            room = room_assignment.room
+            building = room.building
+            # Get the end date of the student's room assignment
+            end_date = room_assignment.end_date
+        else:
+            room = None
+            building = None
+            end_date = None
+    except:
+        room = None
+        building = None
+        end_date = None
+
+    # Get all available items that can be borrowed
+    available_items = (InventoryTracking.objects
+                       .filter(item__status='available')
+                       .annotate(available_count=Count('item'))
+                       .filter(available_count__gt=0)
+                       .distinct())
+
+    # Define loan period options
+    loan_periods = [
+        {"value": "1", "display": "יום אחד"},
+        {"value": "2", "display": "יומיים"},
+        {"value": "3", "display": "3 ימים"},
+        {"value": "7", "display": "שבוע"},
+        {"value": "14", "display": "שבועיים"},
+        {"value": "21", "display": "3 שבועות"},
+        {"value": "30", "display": "חודש"},
+        {"value": "60", "display": "חודשיים"},
+        {"value": "90", "display": "3 חודשים"},
+        {"value": "180", "display": "6 חודשים"},
+        {"value": "365", "display": "שנה"}
+    ]
+
     if request.method == 'POST':
-        # איסוף נתונים מהטופס
-        full_name = request.POST.get('name')  # נניח שמדובר בשם מלא
-        id_number = request.POST.get('id_number')
-        building_number = request.POST.get('building_number')
-        apartment_number = request.POST.get('apartment_number')
-        product = request.POST.get('product')
-        time_needed = request.POST.get('time_needed')
-        room_num = f"{building_number}-{apartment_number}"
+        item_id = request.POST.get('product')
+        loan_days = request.POST.get('loan_period')
 
-        # שימוש במשתמש המחובר – במידה והמשתמש לא מחובר, יש לטפל במצב בהתאם
-        user = request.user if request.user.is_authenticated else None
+        # Initialize available_item to None
+        available_item = None
 
-        # ניסיון למצוא מוצר במלאי לפי שם הפריט (בהנחה שהשם תואם ל-inventory)
+        # Find an available item of selected type
         try:
-            inventory_item = InventoryTracking.objects.get(item_name=product)
-            # חיפוש פריט זמין במלאי
-            available_item = Item.objects.filter(inventory_id=inventory_item.item_id, status='available').first()
+            inventory_item = InventoryTracking.objects.get(id=item_id)
+            # Get the first available item of this type
+            available_item = Item.objects.filter(inventory=inventory_item, status='available').first()
+
+            if available_item and room:
+                # Calculate return date
+                loan_days = int(loan_days)
+                return_date = timezone.now() + timezone.timedelta(days=loan_days)
+
+                # Check if the loan period extends beyond the student's room assignment
+                if end_date and return_date.date() > end_date:
+                    messages.error(request,
+                                   "תקופת ההשאלה המבוקשת ארוכה יותר מתקופת המגורים שלך במעונות. אנא בחר תקופה קצרה יותר.")
+                else:
+                    # Create rental request
+                    new_request = Request.objects.create(
+                        user=user,
+                        request_type='equipment_rental',
+                        item=available_item,
+                        room=room,
+                        status='pending',
+                        created_at=timezone.now(),
+                        updated_at=timezone.now()
+                    )
+
+                    messages.success(request, "בקשת השאלת הציוד נרשמה בהצלחה! ממתין לאישור.")
+                    return redirect('application')
+            else:
+                if not available_item:
+                    messages.error(request, "הפריט אינו זמין כרגע, אנא נסה שוב מאוחר יותר.")
+                if not room:
+                    messages.error(request, "לא נמצא שיבוץ חדר עבורך במערכת. פנה למנהל המעונות.")
         except InventoryTracking.DoesNotExist:
-            available_item = None
+            messages.error(request, "הפריט המבוקש לא נמצא.")
 
-        # יצירת רשומת בקשה מסוג השאלת ציוד
-        new_request = Request.objects.create(
-            user=user,
-            request_type='equipment_rental',
-            item_id=available_item.item_id if available_item else None,
-            room_num=room_num,
-            created_at=timezone.now(),
-            updated_at=timezone.now()
-        )
-        # במידה ויש פריט זמין – עדכון סטטוס
-        if available_item:
-            available_item.status = 'borrowed'
-            available_item.updated_at = timezone.now()
-            available_item.save()
+    # Pass relevant data to the template
+    context = {
+        'available_items': available_items,
+        'loan_periods': loan_periods,
+        'user_room': room.room_number if room else None,
+        'user_building': building.building_name if building else None,
+        'end_date': end_date.strftime('%d/%m/%Y') if end_date else "לא ידוע",
+    }
 
-        messages.success(request, "בקשת השאלת הציוד נרשמה בהצלחה!")
-        return redirect('application')
-    return render(request, 'application.html')
-
+    return render(request, 'application.html', context)
 
 # עמוד עבור דיווח תקלות (faults.html)
 def faults(request):

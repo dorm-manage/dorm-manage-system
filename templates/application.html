@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - שם העמוד</title>
+    <title>DormitoriesPlus - השאלת ציוד</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
         margin: 0;
         padding: 0;
-        direction: rtl; /* כיוון ימין לשמאל */
+        direction: rtl;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -33,13 +33,30 @@
       .hero {
         background-color: #335db3;
         color: white;
-        padding: 40px;
+        padding: 30px;
         text-align: center;
         margin-bottom: 20px;
+        border-radius: 10px;
       }
 
       .hero h2 {
         margin: 0;
+      }
+
+      .info-box {
+        background-color: #e9f5ff;
+        border: 1px solid #c5e1ff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .info-box p {
+        margin: 5px 0;
+      }
+
+      .info-box strong {
+        color: #335db3;
       }
 
       .links {
@@ -51,7 +68,7 @@
       .links a {
         background-color: #333;
         color: white;
-        padding: 10px;
+        padding: 10px 20px;
         text-decoration: none;
         border-radius: 5px;
         transition: background-color 0.3s;
@@ -69,24 +86,33 @@
         margin-top: 20px;
       }
 
+      .form-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+
       .form-group {
-        margin-bottom: 15px; /* הוספת רווח בין השורות */
+        margin-bottom: 20px;
       }
 
       .form-group label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
       }
 
       .form-group input,
       .form-group select,
       .form-group textarea {
         width: 100%;
-        padding: 10px;
-        margin-top: 5px;
+        padding: 12px;
         border-radius: 5px;
-        border: 1px solid #ccc;
+        border: 1px solid #ddd;
         box-sizing: border-box;
+        font-size: 16px;
       }
 
       .submit-btn {
@@ -98,98 +124,110 @@
         width: 100%;
         cursor: pointer;
         font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s;
       }
 
       .submit-btn:hover {
-        background-color: #333;
+        background-color: #264a8f;
       }
 
+      .message {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+      }
+
+      .message-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+      }
+
+      .message-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+      }
+
+      .disabled-btn {
+       background-color: #cccccc !important;
+       color: #666666 !important;
+       cursor: not-allowed !important;
+      }
     </style>
   </head>
   <body>
-
     <header>
       <h1>DormitoriesPlus</h1>
     </header>
 
     <div class="container">
       <div class="hero">
-        <h2>ברוכים הבאים לעמוד השאלת ציוד</h2>
-
+        <h2>השאלת ציוד</h2>
       </div>
 
-      <div class="container">
-        <h2>הגשה לבקשה להשאלת פריט</h2>
-      <form method="POST" action="{% url 'application' %}">
-            {% csrf_token %}
-            <div class="form-group">
-              <label for="name">שם:</label>
-              <input type="text" id="name" name="name" required pattern="[א-תa-zA-Z]+$" title="נא להזין רק אותיות" />
-            </div>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
 
-            <div class="form-group">
-              <label for="id_number">תעודת זהות:</label>
-              <input type="text" id="id_number" name="id_number" required pattern="^\d{9}$" title="נא להזין 9 ספרות בלבד" maxlength="9" />
-            </div>
+      <div class="info-box">
+          <p><strong>הפרטים שלך:</strong></p>
+          <p>שם: {{ user.first_name }} {{ user.last_name }}</p>
+          {% if user_room and user_building %}
+            <p>בניין: {{ user_building }}</p>
+            <p>חדר: {{ user_room }}</p>
+            <p>תאריך סיום מגורים: {{ end_date }}</p>
+          {% else %}
+            <p>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</p>
+          {% endif %}
+      </div>
 
-            <div class="form-group">
-              <label for="building_number">מספר בניין:</label>
-              <select id="building_number" name="building_number" required>
-                  <option value="">בחר מספר בניין</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-              </select>
-            </div>
+      <div class="form-container">
+        <h2>בקשה להשאלת פריט</h2>
+        <form method="POST" action="{% url 'application' %}">
+          {% csrf_token %}
 
-            <div class="form-group">
-              <label for="apartment_number">מספר דירה:</label>
-              <select id="apartment_number" name="apartment_number" required>
-                  <option value="">בחר מספר דירה</option>
-                  <option value="101">101</option>
-                  <option value="102">102</option>
-                  <option value="103">103</option>
-                  <option value="104">104</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label for="product">בחר פריט להשאלה:</label>
+            <select id="product" name="product" required>
+              <option value="">בחר פריט</option>
+              {% for item in available_items %}
+                <option value="{{ item.id }}">{{ item.item_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label for="product">מוצר להשאלה:</label>
-              <select id="product" name="product" required>
-                  <option value="">בחר מוצר</option>
-                  <option value="מאורר">מאורר</option>
-                  <option value="מזרן נוסף">מזרן נוסף</option>
-                  <option value="ממיר">ממיר</option>
-                  <option value="כיסא משרד">כיסא משרד</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label for="loan_period">תקופת השאלה:</label>
+            <select id="loan_period" name="loan_period" required>
+              <option value="">בחר תקופה</option>
+              {% for period in loan_periods %}
+                <option value="{{ period.value }}">{{ period.display }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label for="time_needed">זמן השאלה נדרש:</label>
-              <select id="time_needed" name="time_needed" required>
-                  <option value="">בחר זמן</option>
-                  <option value="שבוע">שבוע</option>
-                  <option value="שבועיים">שבועיים</option>
-                  <option value="חודש">חודש</option>
-                  <option value="יותר מחודש">יותר מחודש</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <button type="submit" class="submit-btn">שלח בקשה</button>
+          <div class="form-group">
+              <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח בקשה</button>
+              {% if not user_room %}
+                <p style="color: #dc3545; margin-top: 10px;">לא ניתן להגיש בקשה ללא שיבוץ חדר. אנא פנה למנהל המעונות.</p>
+              {% endif %}
             </div>
         </form>
       </div>
 
       <div class="links">
-        <a href="/">חזרה לדף הבית</a>
+        <a href="{% url 'Students_homepage' %}">חזרה לדף הבית</a>
       </div>
     </div>
 
     <footer>
       <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
     </footer>
-
   </body>
 </html>
