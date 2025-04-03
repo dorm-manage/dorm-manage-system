@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-
     path('', views.login_page, name='login_page'),
     path('logout/', views.custom_logout, name='logout'),
     path('Homepage/', views.Homepage, name='Homepage'),
@@ -23,13 +22,7 @@ urlpatterns = [
     path('Manager_request/', views.Manager_request, name='Manager_request'),
     path('manager_faults/', views.manager_faults, name='manager_faults'),
     path('BM_inventory/', views.BM_inventory, name='BM_inventory'),
-
-
-
-
-
-
-
+    path('bm/loan-requests/', views.BM_loan_requests, name='BM_loan_requests'),
 ]
 
 if settings.DEBUG:

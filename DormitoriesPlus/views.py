@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
+from django.urls import reverse
 
 # Then import your models
 from .models import (
@@ -34,10 +35,6 @@ def Personal_erea(request):
 
 def manager_Homepage(request):
     return render(request, 'manager_Homepage.html')
-
-
-def BM_Homepage(request):
-    return render(request, 'BM_Homepage.html')
 
 
 @login_required
@@ -384,6 +381,145 @@ def BM_inventory(request):
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
     })
+
+
+@login_required
+def BM_Homepage(request):
+    # Get the building manager (current user)
+    bm = request.user
+
+    # Get buildings managed by this building manager
+    managed_buildings = Building.objects.filter(building_staff_member=bm)
+
+    # Count pending equipment rental requests from these buildings
+    pending_requests_count = Request.objects.filter(
+        request_type='equipment_rental',
+        status='pending',
+        room__building__in=managed_buildings
+    ).count()
+
+    # Count borrowed items (approved but not returned)
+    borrowed_items_count = Request.objects.filter(
+        request_type='equipment_rental',
+        status='approved',
+        room__building__in=managed_buildings
+    ).count()
+
+    context = {
+        'pending_requests_count': pending_requests_count,
+        'borrowed_items_count': borrowed_items_count,
+    }
+
+    return render(request, 'BM_Homepage.html', context)
+
+
+# עמוד לניהול בקשות השאלה (BM_loan_requests.html)
+@login_required
+def BM_loan_requests(request):
+    # Get the building manager (current user)
+    bm = request.user
+
+    # Get the buildings managed by this building manager
+    managed_buildings = Building.objects.filter(building_staff_member=bm)
+
+    # Get all pending equipment rental requests from these buildings
+    pending_requests_list = Request.objects.filter(
+        request_type='equipment_rental',
+        status='pending',
+        room__building__in=managed_buildings
+    ).select_related('user', 'item', 'room').order_by('-created_at')
+
+    # Get borrowed (approved but not returned) equipment requests
+    borrowed_items_list = Request.objects.filter(
+        request_type='equipment_rental',
+        status='approved',
+        room__building__in=managed_buildings
+    ).select_related('user', 'item', 'room').order_by('-updated_at')
+
+    # Pagination for pending requests - 10 items per page
+    pending_paginator = Paginator(pending_requests_list, 10)
+    pending_page_number = request.GET.get('pending_page')
+    pending_page_obj = pending_paginator.get_page(pending_page_number)
+
+    # Pagination for borrowed items - 10 items per page
+    borrowed_paginator = Paginator(borrowed_items_list, 10)
+    borrowed_page_number = request.GET.get('borrowed_page')
+    borrowed_page_obj = borrowed_paginator.get_page(borrowed_page_number)
+
+    # Get count of available items for each inventory type
+    available_counts = {}
+    for req in pending_page_obj:
+        if req.item and req.item.inventory:
+            inventory_id = req.item.inventory.id
+            if inventory_id not in available_counts:
+                # Count available items of this type
+                available_counts[inventory_id] = Item.objects.filter(
+                    inventory=req.item.inventory,
+                    status='available'
+                ).count()
+
+    if request.method == 'POST':
+        request_id = request.POST.get('request_id')
+        action = request.POST.get('action')  # 'approve', 'reject', 'return', or 'damaged'
+        comment = request.POST.get('comment', '')  # Get comment from form
+
+        try:
+            req_obj = Request.objects.get(pk=request_id)
+
+            # Only process if this is a request from the BM's building
+            if req_obj.room and req_obj.room.building in managed_buildings:
+                if action == 'approve':
+                    # Update request status
+                    req_obj.status = 'approved'
+                    # Update the item status to borrowed
+                    if req_obj.item:
+                        req_obj.item.status = 'borrowed'
+                        req_obj.item.save()
+                elif action == 'reject':
+                    req_obj.status = 'rejected'
+                elif action == 'return':
+                    # Mark the request as resolved
+                    req_obj.status = 'resolved'
+                    # Update the item status to available
+                    if req_obj.item:
+                        req_obj.item.status = 'available'
+                        req_obj.item.save()
+                elif action == 'damaged':
+                    # Mark the request as resolved
+                    req_obj.status = 'resolved'
+                    # Update the item status to damaged
+                    if req_obj.item:
+                        req_obj.item.status = 'damaged'
+                        req_obj.item.save()
+
+                # Save the comment provided by the BM
+                if comment:
+                    req_obj.note = comment
+                req_obj.updated_at = timezone.now()
+                req_obj.save()
+
+                messages.success(request, "הבקשה עודכנה בהצלחה!")
+
+                # Preserve the active tab after form submission
+                if action in ['return', 'damaged']:
+                    return redirect(f"{reverse('BM_loan_requests')}#borrowed-items")
+                else:
+                    return redirect('BM_loan_requests')
+            else:
+                messages.error(request, "אין לך הרשאה לעדכן בקשות מבניינים אחרים!")
+                return redirect('BM_loan_requests')
+        except Request.DoesNotExist:
+            messages.error(request, "בקשה לא נמצאה!")
+            return redirect('BM_loan_requests')
+
+    context = {
+        'pending_requests': pending_page_obj,
+        'borrowed_items': borrowed_page_obj,
+        'available_counts': available_counts,
+    }
+
+    return render(request, 'BM_loan_requests.html', context)
+
 
 # עמוד ניהול חדרים – דוגמה לשיבוץ סטודנט לחדר (manage_room.html)
 def manage_room(request):
