@@ -90,6 +90,7 @@ def application(request):
     if request.method == 'POST':
         item_id = request.POST.get('product')
         loan_days = request.POST.get('loan_period')
+        note = request.POST.get('note', '')  # Get the note from the form
 
         # Initialize available_item to None
         available_item = None
@@ -110,13 +111,14 @@ def application(request):
                     messages.error(request,
                                    "תקופת ההשאלה המבוקשת ארוכה יותר מתקופת המגורים שלך במעונות. אנא בחר תקופה קצרה יותר.")
                 else:
-                    # Create rental request
+                    # Create rental request with note
                     new_request = Request.objects.create(
                         user=user,
                         request_type='equipment_rental',
                         item=available_item,
                         room=room,
                         status='pending',
+                        note=note,  # Save the note here
                         created_at=timezone.now(),
                         updated_at=timezone.now()
                     )

@@ -162,6 +162,7 @@ class Request(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    note = models.TextField(blank=True, null=True, verbose_name="הערות נוספות")
 
     def mark_as_resolved(self):
         self.status = Request.RESOLVED

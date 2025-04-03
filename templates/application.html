@@ -212,6 +212,11 @@
             </select>
           </div>
 
+            <div class="form-group">
+              <label for="note">הערות נוספות (אופציונלי):</label>
+              <textarea id="note" name="note" class="form-control" rows="3" placeholder="אם יש לך בקשות מיוחדות או הערות נוספות, כתוב אותן כאן"></textarea>
+            </div>
+
           <div class="form-group">
               <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח בקשה</button>
               {% if not user_room %}
