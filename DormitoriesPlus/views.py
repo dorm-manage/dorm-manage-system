@@ -55,12 +55,26 @@ def Students_homepage(request):
         status='approved'
     ).order_by('-created_at')
 
-    # Get active fault reports
-    active_fault_reports = Request.objects.filter(
+    # Get open fault reports
+    open_fault_reports = Request.objects.filter(
         user=user,
         request_type='fault_report',
-        status__in=['open', 'pending']
+        status='open'
     ).order_by('-created_at')
+
+    # Get pending fault reports
+    pending_fault_reports = Request.objects.filter(
+        user=user,
+        request_type='fault_report',
+        status='pending'
+    ).order_by('-created_at')
+
+    # Get resolved fault reports
+    resolved_fault_reports = Request.objects.filter(
+        user=user,
+        request_type='fault_report',
+        status='resolved'
+    ).order_by('-updated_at')
 
     # Handle delete request action
     if request.method == 'POST' and 'delete_request' in request.POST:
@@ -73,14 +87,21 @@ def Students_homepage(request):
             messages.error(request, "הבקשה לא נמצאה או שאין לך הרשאה למחוק אותה.")
 
     # Ensure is_due_soon and is_overdue properties will work
-    # (These properties are checked in the template)
-    for loan_request in approved_requests:  # Changed variable name from request to loan_request
-        # These properties are already defined in the Request model
-        # but we access them here to ensure they are computed for each request
-        # This helps Django's template system be aware of them
+    for loan_request in approved_requests:
         if loan_request.return_date:
-            loan_request.is_due_soon  # Access the property
-            loan_request.is_overdue   # Access the property
+            # Calculate days remaining manually
+            days_remaining = (loan_request.return_date - timezone.now().date()).days
+
+            if days_remaining < 0:
+                loan_request.days_remaining_text = "באיחור"
+            elif days_remaining == 0:
+                loan_request.days_remaining_text = "נותרו פחות מיום"
+            elif days_remaining == 1:
+                loan_request.days_remaining_text = "נותר יום אחד"
+            else:
+                loan_request.days_remaining_text = f"נותרו {days_remaining} ימים"
+        else:
+            loan_request.days_remaining_text = ""
 
     # Pagination for pending loan requests
     pending_paginator = Paginator(pending_loan_requests, 5)  # 5 items per page
@@ -92,15 +113,27 @@ def Students_homepage(request):
     approved_page_number = request.GET.get('approved_page')
     approved_page_obj = approved_paginator.get_page(approved_page_number)
 
-    # Pagination for fault reports
-    fault_paginator = Paginator(active_fault_reports, 5)  # 5 items per page
-    fault_page_number = request.GET.get('fault_page')
-    fault_page_obj = fault_paginator.get_page(fault_page_number)
+    # Pagination for open fault reports
+    open_fault_paginator = Paginator(open_fault_reports, 5)  # 5 items per page
+    open_fault_page_number = request.GET.get('open_fault_page')
+    open_fault_page_obj = open_fault_paginator.get_page(open_fault_page_number)
+
+    # Pagination for pending fault reports
+    pending_fault_paginator = Paginator(pending_fault_reports, 5)  # 5 items per page
+    pending_fault_page_number = request.GET.get('pending_fault_page')
+    pending_fault_page_obj = pending_fault_paginator.get_page(pending_fault_page_number)
+
+    # Pagination for resolved fault reports
+    resolved_fault_paginator = Paginator(resolved_fault_reports, 5)  # 5 items per page
+    resolved_fault_page_number = request.GET.get('resolved_fault_page')
+    resolved_fault_page_obj = resolved_fault_paginator.get_page(resolved_fault_page_number)
 
     context = {
         'pending_loan_requests': pending_page_obj,
         'approved_requests': approved_page_obj,
-        'fault_reports': fault_page_obj,
+        'open_fault_reports': open_fault_page_obj,
+        'pending_fault_reports': pending_fault_page_obj,
+        'resolved_fault_reports': resolved_fault_page_obj,
     }
 
     return render(request, 'Students_homepage.html', context)
@@ -213,30 +246,55 @@ def application(request):
     return render(request, 'application.html', context)
 
 # עמוד עבור דיווח תקלות (faults.html)
+@login_required
 def faults(request):
-    if request.method == 'POST':
-        full_name = request.POST.get('name')
-        id_number = request.POST.get('id_number')
-        building_number = request.POST.get('building_number')
-        apartment_number = request.POST.get('apartment_number')
-        issue_type = request.POST.get('issue_type')
-        description = request.POST.get('description')
-        room_num = f"{building_number}-{apartment_number}"
-        user = request.user if request.user.is_authenticated else None
+    # Get the currently logged-in user
+    user = request.user
 
-        # יצירת בקשה מסוג דיווח תקלות עם שדות נוספים (לדוגמה fault_description ו-status)
-        new_fault = Request.objects.create(
-            user=user,
-            request_type='fault_report',
-            room_num=room_num,
-            fault_description=description,  # ודא שקיים שדה כזה במודל Request
-            status='פתוח',
-            created_at=timezone.now(),
-            updated_at=timezone.now()
-        )
-        messages.success(request, "דיווח התקלה נרשם בהצלחה!")
-        return redirect('faults')
-    return render(request, 'faults.html')
+    # Get user's room assignment (assuming they have one)
+    try:
+        room_assignment = RoomAssignment.objects.filter(user=user).select_related('room').first()
+        if room_assignment:
+            room = room_assignment.room
+            building = room.building
+        else:
+            room = None
+            building = None
+    except:
+        room = None
+        building = None
+
+    if request.method == 'POST':
+        fault_type = request.POST.get('fault_type')
+        fault_description = request.POST.get('fault_description')
+        urgency = request.POST.get('urgency')
+
+        if room:
+            # Create fault report request
+            new_fault = Request.objects.create(
+                user=user,
+                request_type='fault_report',
+                room=room,
+                fault_type=fault_type,
+                fault_description=fault_description,
+                urgency=urgency,
+                status='open',  # Set initial status as 'open'
+                created_at=timezone.now(),
+                updated_at=timezone.now()
+            )
+
+            messages.success(request, "דיווח התקלה נשלח בהצלחה! הצוות יטפל בו בהקדם.")
+            return redirect('Students_homepage')
+        else:
+            messages.error(request, "לא נמצא שיבוץ חדר עבורך במערכת. פנה למנהל המעונות.")
+
+    # Pass relevant data to the template
+    context = {
+        'user_room': room.room_number if room else None,
+        'user_building': building.building_name if building else None,
+    }
+
+    return render(request, 'faults.html', context)
 
 
 # עמוד לשליחת הודעות לדיירים (BM_sendMassage.html)
@@ -377,7 +435,7 @@ def BM_inventory(request):
             items_by_inventory[item.inventory_id][item.status] += 1
 
     # Pagination
-    paginator = Paginator(inventory_list, 5)  # Show 25 items per page
+    paginator = Paginator(inventory_list, 25)  # Show 25 items per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -410,9 +468,35 @@ def BM_Homepage(request):
         room__building__in=managed_buildings
     ).count()
 
+    # Count open fault reports
+    open_faults_count = Request.objects.filter(
+        request_type='fault_report',
+        status='open',
+        room__building__in=managed_buildings
+    ).count()
+
+    # Count pending fault reports
+    pending_faults_count = Request.objects.filter(
+        request_type='fault_report',
+        status='pending',
+        room__building__in=managed_buildings
+    ).count()
+
+    # Get recent urgent faults (high urgency)
+    urgent_faults = Request.objects.filter(
+        request_type='fault_report',
+        urgency='גבוהה',
+        status__in=['open', 'pending'],
+        room__building__in=managed_buildings
+    ).select_related('user', 'room').order_by('-created_at')[:5]
+
     context = {
         'pending_requests_count': pending_requests_count,
         'borrowed_items_count': borrowed_items_count,
+        'open_faults_count': open_faults_count,
+        'pending_faults_count': pending_faults_count,
+        'urgent_faults': urgent_faults,
+        'managed_buildings': managed_buildings,
     }
 
     return render(request, 'BM_Homepage.html', context)
@@ -526,6 +610,93 @@ def BM_loan_requests(request):
     }
 
     return render(request, 'BM_loan_requests.html', context)
+
+
+@login_required
+def BM_faults(request):
+    # Get the building manager (current user)
+    bm = request.user
+
+    # Get buildings managed by this building manager
+    managed_buildings = Building.objects.filter(building_staff_member=bm)
+
+    # Get open fault reports
+    open_fault_reports = Request.objects.filter(
+        request_type='fault_report',
+        status='open',
+        room__building__in=managed_buildings
+    ).select_related('user', 'room', 'room__building').order_by('-created_at')
+
+    # Get pending fault reports
+    pending_fault_reports = Request.objects.filter(
+        request_type='fault_report',
+        status='pending',
+        room__building__in=managed_buildings
+    ).select_related('user', 'room', 'room__building').order_by('-updated_at')
+
+    # Calculate days elapsed for each pending fault report
+    current_date = timezone.now().date()
+    for fault in pending_fault_reports:
+        days_elapsed = (current_date - fault.created_at.date()).days
+        if days_elapsed == 0:
+            fault.days_elapsed_text = "מהיום"
+        elif days_elapsed == 1:
+            fault.days_elapsed_text = "יום אחד"
+        else:
+            fault.days_elapsed_text = f"{days_elapsed} ימים"
+
+    # Handle POST requests for updating faults
+    if request.method == 'POST':
+        fault_id = request.POST.get('fault_id')
+        action = request.POST.get('action')  # 'pending', 'resolved', or 'comment'
+        admin_comment = request.POST.get('admin_comment', '')
+
+        try:
+            fault = Request.objects.get(pk=fault_id)
+
+            # Only process if this is a fault from the BM's building
+            if fault.room and fault.room.building in managed_buildings:
+                # Update status based on action
+                if action in ['pending', 'resolved']:
+                    fault.status = action
+
+                # Add admin comment if provided (for both action='comment' and other actions)
+                if admin_comment:
+                    # If there's already an admin note, append the new comment
+                    if fault.admin_note:
+                        fault.admin_note = f"{fault.admin_note}\n{timezone.now().strftime('%d/%m/%Y %H:%M')} - {admin_comment}"
+                    else:
+                        fault.admin_note = f"{timezone.now().strftime('%d/%m/%Y %H:%M')} - {admin_comment}"
+
+                fault.updated_at = timezone.now()
+                fault.save()
+
+                messages.success(request, "התקלה עודכנה בהצלחה!")
+            else:
+                messages.error(request, "אין לך הרשאה לעדכן תקלות מבניינים אחרים!")
+
+        except Request.DoesNotExist:
+            messages.error(request, "תקלה לא נמצאה!")
+
+        # Redirect back to the page, maintaining the correct tab
+        return redirect('BM_faults')
+
+    # Pagination for open faults - 10 items per page
+    open_page_number = request.GET.get('open_page')
+    open_paginator = Paginator(open_fault_reports, 10)
+    open_page_obj = open_paginator.get_page(open_page_number)
+
+    # Pagination for pending faults - 10 items per page
+    pending_page_number = request.GET.get('pending_page')
+    pending_paginator = Paginator(pending_fault_reports, 10)
+    pending_page_obj = pending_paginator.get_page(pending_page_number)
+
+    context = {
+        'open_fault_reports': open_page_obj,
+        'pending_fault_reports': pending_page_obj,
+    }
+
+    return render(request, 'BM_faults.html', context)
 
 
 # עמוד ניהול חדרים – דוגמה לשיבוץ סטודנט לחדר (manage_room.html)
@@ -656,28 +827,6 @@ def Manager_request(request):
 
     requests_list = Request.objects.filter(request_type='equipment_rental')
     return render(request, 'Manager_request.html', {'requests': requests_list})
-
-
-def BM_faults(request):
-    if request.method == 'POST':
-        fault_id = request.POST.get('fault_id')
-        action = request.POST.get('action')  # 'resolve' או 'push'
-        try:
-            fault = Request.objects.get(pk=fault_id)
-            if action == 'resolve':
-                fault.status = 'resolved'  # או 'טופל' בהתאם להגדרותיך
-            elif action == 'push':
-                # עדכון תאריך היצירה כדי לדחוף את התקלה לראש התור
-                fault.created_at = timezone.now()
-            fault.updated_at = timezone.now()
-            fault.save()
-            messages.success(request, "התקלה עודכנה בהצלחה!")
-        except Request.DoesNotExist:
-            messages.error(request, "תקלה לא נמצאה!")
-        return redirect('BM_faults')
-
-    faults_list = Request.objects.filter(request_type='fault_report')
-    return render(request, 'BM_faults.html', {'faults': faults_list})
 
 
 def login_page(request):

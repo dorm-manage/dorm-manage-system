@@ -347,15 +347,6 @@
     <h2>ניהול בקשות השאלה</h2>
   </div>
 
-  <!-- הודעות מערכת -->
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-
   <!-- ניווט בין טאבים -->
   <div class="tab-navigation">
     <div class="tab active" data-tab="pending-requests">בקשות ממתינות</div>
@@ -522,8 +513,7 @@
                   <form method="post" action="{% url 'BM_loan_requests' %}">
                     {% csrf_token %}
                     <input type="hidden" name="request_id" value="{{ request.id }}">
-
-                    <div style="margin-top: 10px; display: flex; gap: 5px; justify-content: center;">
+                    <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
                       <button type="submit" name="action" value="return" class="button return">סמן כהוחזר</button>
                       <button type="submit" name="action" value="damaged" class="button deny">הסר מהרשימות</button>
                     </div>

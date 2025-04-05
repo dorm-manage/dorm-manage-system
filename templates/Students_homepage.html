@@ -274,7 +274,6 @@
 <div class="container">
   <div class="hero">
     <h2>שלום, {{ user.first_name }}!</h2>
-    <p>באתר זה תוכל לבצע פעולות הקשורות למעונות ולעקוב אחר הבקשות שלך.</p>
   </div>
 
   {% if messages %}
@@ -295,7 +294,6 @@
     <div class="tabs">
       <div class="tab active" onclick="openTab(event, 'loan-requests')">בקשות השאלת ציוד</div>
       <div class="tab" onclick="openTab(event, 'approved-requests')">בקשות מאושרות</div>
-      <div class="tab" onclick="openTab(event, 'fault-reports')">דיווחי תקלות</div>
     </div>
 
     <!-- בקשות השאלת ציוד ממתינות -->
@@ -407,7 +405,7 @@
                     {% elif request.is_overdue %}
                       <br><span style="color: #721c24; font-weight: bold;">(באיחור)</span>
                     {% else %}
-                      <br><span>(נותרו {{ request.return_date|timeuntil }})</span>
+                      <br><span>({{ request.days_remaining_text }})</span>
                     {% endif %}
                   {% else %}
                     לא צוין
@@ -450,53 +448,62 @@
       {% endif %}
     </div>
 
-    <!-- דיווחי תקלות -->
-    <div id="fault-reports" class="tab-content card">
-      <h3>דיווחי תקלות פעילים</h3>
-      {% if fault_reports %}
+  </div>
+
+
+  <div class="tab-container">
+    <div class="tabs">
+      <div class="tab" onclick="openTab(event, 'open-faults')">תקלות פתוחות</div>
+      <div class="tab" onclick="openTab(event, 'pending-faults')">תקלות בטיפול</div>
+    </div>
+
+    <!-- תקלות פתוחות -->
+    <div id="open-faults" class="tab-content card">
+      <h3>תקלות פתוחות</h3>
+      {% if open_fault_reports %}
         <table>
           <thead>
             <tr>
+              <th>סוג התקלה</th>
               <th>תיאור התקלה</th>
               <th>תאריך דיווח</th>
               <th>חדר</th>
-              <th>סטטוס</th>
+              <th>דחיפות</th>
+              <th>הערות מנהל</th>
             </tr>
           </thead>
           <tbody>
-            {% for report in fault_reports %}
+            {% for report in open_fault_reports %}
               <tr>
+                <td>{{ report.fault_type }}</td>
                 <td>{{ report.fault_description }}</td>
                 <td>{{ report.created_at|date:"d/m/Y H:i" }}</td>
                 <td>{{ report.room.room_number }}</td>
-                <td class="status-{{ report.status }}">
-                  {% if report.status == 'open' %}פתוח{% endif %}
-                  {% if report.status == 'pending' %}בטיפול{% endif %}
-                  {% if report.status == 'resolved' %}טופל{% endif %}
-                </td>
+                <td>{{ report.urgency }}</td>
+                <td>{{ report.admin_note|default:"-" }}</td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
 
-        <!-- Pagination for fault reports -->
-        {% if fault_reports.has_other_pages %}
+        <!-- Pagination for open fault reports -->
+        {% if open_fault_reports.has_other_pages %}
           <div class="pagination">
-            {% if fault_reports.has_previous %}
-              <a href="?fault_page=1">&laquo; ראשון</a>
-              <a href="?fault_page={{ fault_reports.previous_page_number }}">הקודם</a>
+            {% if open_fault_reports.has_previous %}
+              <a href="?open_fault_page=1">&laquo; ראשון</a>
+              <a href="?open_fault_page={{ open_fault_reports.previous_page_number }}">הקודם</a>
             {% else %}
               <span class="disabled">&laquo; ראשון</span>
               <span class="disabled">הקודם</span>
             {% endif %}
 
             <span class="current">
-              עמוד {{ fault_reports.number }} מתוך {{ fault_reports.paginator.num_pages }}
+              עמוד {{ open_fault_reports.number }} מתוך {{ open_fault_reports.paginator.num_pages }}
             </span>
 
-            {% if fault_reports.has_next %}
-              <a href="?fault_page={{ fault_reports.next_page_number }}">הבא</a>
-              <a href="?fault_page={{ fault_reports.paginator.num_pages }}">אחרון &raquo;</a>
+            {% if open_fault_reports.has_next %}
+              <a href="?open_fault_page={{ open_fault_reports.next_page_number }}">הבא</a>
+              <a href="?open_fault_page={{ open_fault_reports.paginator.num_pages }}">אחרון &raquo;</a>
             {% else %}
               <span class="disabled">הבא</span>
               <span class="disabled">אחרון &raquo;</span>
@@ -504,11 +511,75 @@
           </div>
         {% endif %}
       {% else %}
-        <div class="empty-table">אין דיווחי תקלות פעילים</div>
+        <div class="empty-table">אין תקלות פתוחות</div>
       {% endif %}
     </div>
+
+    <!-- תקלות בטיפול -->
+    <div id="pending-faults" class="tab-content card">
+      <h3>תקלות בטיפול</h3>
+      {% if pending_fault_reports %}
+        <table>
+          <thead>
+            <tr>
+              <th>סוג התקלה</th>
+              <th>תיאור התקלה</th>
+              <th>תאריך דיווח</th>
+              <th>עדכון אחרון</th>
+              <th>חדר</th>
+              <th>דחיפות</th>
+              <th>הערות מנהל</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for report in pending_fault_reports %}
+              <tr>
+                <td>{{ report.fault_type }}</td>
+                <td>{{ report.fault_description }}</td>
+                <td>{{ report.created_at|date:"d/m/Y H:i" }}</td>
+                <td>{{ report.updated_at|date:"d/m/Y H:i" }}</td>
+                <td>{{ report.room.room_number }}</td>
+                <td>{{ report.urgency }}</td>
+                <td>{{ report.admin_note|default:"-" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Pagination for pending fault reports -->
+        {% if pending_fault_reports.has_other_pages %}
+          <div class="pagination">
+            {% if pending_fault_reports.has_previous %}
+              <a href="?pending_fault_page=1">&laquo; ראשון</a>
+              <a href="?pending_fault_page={{ pending_fault_reports.previous_page_number }}">הקודם</a>
+            {% else %}
+              <span class="disabled">&laquo; ראשון</span>
+              <span class="disabled">הקודם</span>
+            {% endif %}
+
+            <span class="current">
+              עמוד {{ pending_fault_reports.number }} מתוך {{ pending_fault_reports.paginator.num_pages }}
+            </span>
+
+            {% if pending_fault_reports.has_next %}
+              <a href="?pending_fault_page={{ pending_fault_reports.next_page_number }}">הבא</a>
+              <a href="?pending_fault_page={{ pending_fault_reports.paginator.num_pages }}">אחרון &raquo;</a>
+            {% else %}
+              <span class="disabled">הבא</span>
+              <span class="disabled">אחרון &raquo;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="empty-table">אין תקלות בטיפול</div>
+      {% endif %}
+    </div>
+
+
   </div>
-</div>
+
+
+  </div>
 
 <footer>
   <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
@@ -516,22 +587,49 @@
 
 <script>
 function openTab(evt, tabName) {
-  // Hide all tab content
-  var tabcontent = document.getElementsByClassName("tab-content");
-  for (var i = 0; i < tabcontent.length; i++) {
+  // Find the parent tab container
+  const tabButton = evt.currentTarget;
+  const tabContainer = tabButton.closest('.tab-container');
+
+  // Only hide tab content within this container
+  const tabcontent = tabContainer.getElementsByClassName("tab-content");
+  for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].classList.remove("active");
   }
 
-  // Remove "active" class from all tabs
-  var tabs = document.getElementsByClassName("tab");
-  for (var i = 0; i < tabs.length; i++) {
+  // Only deactivate tabs within this container
+  const tabs = tabContainer.getElementsByClassName("tab");
+  for (let i = 0; i < tabs.length; i++) {
     tabs[i].classList.remove("active");
   }
 
-  // Show the current tab and add "active" class
+  // Show the selected tab and add "active" class
   document.getElementById(tabName).classList.add("active");
-  evt.currentTarget.classList.add("active");
+  tabButton.classList.add("active");
 }
+
+// Initialize each tab container to show its first tab on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const tabContainers = document.getElementsByClassName('tab-container');
+
+  for (let container of tabContainers) {
+    // Get the first tab in this container
+    const firstTab = container.querySelector('.tab');
+    if (firstTab) {
+      // Get the tab name from the onclick attribute
+      const onclickAttr = firstTab.getAttribute('onclick');
+      const tabNameMatch = onclickAttr.match(/openTab\(event,\s*['"]([^'"]+)['"]\)/);
+
+      if (tabNameMatch && tabNameMatch[1]) {
+        const tabName = tabNameMatch[1];
+
+        // Set this tab as active
+        firstTab.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+      }
+    }
+  }
+});
 
 // Auto-hide messages after 5 seconds
 setTimeout(function() {

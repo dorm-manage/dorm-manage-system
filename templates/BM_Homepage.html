@@ -90,21 +90,29 @@
 <body>
 
 <div class="container">
-  <!-- הודעות מנהלים -->
+
+    <!-- הודעות מנהלים -->
   <div class="hero">
-    <h2>עמוד ראשי לאחראי בניין</h2>
+
+    <div style="margin-top: 5px; font-size: 18px;">
+      <p>עמוד ראשי לאחראי בניין</p>
+    </div>
+    <h2>שלום {{ user.first_name }} {{ user.last_name }}</h2>
+    {% if managed_buildings %}
+      <div style="margin-top: 10px; font-size: 16px;">
+        <p>אחראי על בניין-
+          {% for building in managed_buildings %}
+            {{ building.building_name }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+    {% endif %}
   </div>
 
-  <div class="section">
-    <h3>הוראות מנהלים</h3>
-    <p>1. יש לוודא שכל התקלות המדווחות מטופלות בזמן.</p>
-    <p>2. עליך לבדוק את החדרים הפנויים ולוודא את מצבם.</p>
-    <p>3. שלח עדכונים שוטפים על מצב הבניין.</p>
-  </div>
 
-<!-- התראות על בקשות חדשות -->
+<!-- ניהול השאלות ציוד -->
   <div class="section">
-    <h3>התראות</h3>
+    <h3>ניהול השאלות ציוד</h3>
     <div style="display: flex; flex-direction: column; gap: 10px;">
       {% if pending_requests_count > 0 %}
         <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
@@ -146,79 +154,68 @@
     </div>
   </div>
 
-  <!-- הודעות אחרונות -->
-  <div class="section">
-    <h3>הודעות אחרונות</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>תוכן ההודעה</th>
-          <th>תאריך</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>יש לוודא ניקיון בקומה השלישית.</td>
-          <td>20/01/2025</td>
-        </tr>
-        <tr>
-          <td>נא לבדוק את תקינות המנעולים בכל הקומות.</td>
-          <td>18/01/2025</td>
-        </tr>
-        <tr>
-          <td>עדכון: דיירים בקומה הראשונה דיווחו על נזילה.</td>
-          <td>15/01/2025</td>
-        </tr>
-      </tbody>
-    </table>
+<!-- ניהול דיווחי תקלות -->
+<div class="section">
+  <h3>ניהול דיווחי תקלות</h3>
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    {% if open_faults_count > 0 %}
+      <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
+        <strong>יש לך {{ open_faults_count }} דיווחי תקלות חדשים לטיפולך!</strong>
+        <div style="margin-top: 10px;">
+          <a href="{% url 'BM_faults' %}" style="
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+          ">צפה בדיווחים</a>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if pending_faults_count > 0 %}
+      <div style="background-color: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px;">
+        <strong>יש {{ pending_faults_count }} תקלות שעוד לא הסתיים הטיפול בהן.</strong>
+        <div style="margin-top: 10px;">
+          <a href="{% url 'BM_faults' %}#pending-faults" style="
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #17a2b8;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+          ">צפה בתקלות בטיפול</a>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if open_faults_count == 0 and pending_faults_count == 0 %}
+      <p>אין דיווחי תקלות חדשים או תקלות בטיפול שממתינות לך.</p>
+    {% endif %}
   </div>
-    <div style="margin-top: 20px; text-align: center;">
-      <a href="{% url 'BM_faults' %}" style="
-        background-color: #333;
-        color: white;
-        padding: 10px;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        display: inline-block;
-      "
-      onmouseover="this.style.backgroundColor='#335db3';"
-      onmouseout="this.style.backgroundColor='#333';"
-      >
-        צפה בתקלות שדווחו
-      </a>
+</div>
 
+<div style="margin-top: 20px; text-align: center;">
 
-        <a href="{% url 'BM_sendMassage' %}" style="
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #333;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: background-color 0.3s;
-        margin-top: 10px;
-      " onmouseover="this.style.backgroundColor='#335db3';"
-         onmouseout="this.style.backgroundColor='#333';">
-        שליחת הודעות לדיירים
-      </a>
-        <a href="{% url 'BM_inventory' %}" style="
-          display: inline-block;
-          padding: 10px 20px;
-          background-color: #333;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-          font-size: 16px;
-          transition: background-color 0.3s;
-          margin-top: 10px;
-          margin-right: 10px;
-        " onmouseover="this.style.backgroundColor='#335db3';"
-           onmouseout="this.style.backgroundColor='#333';">
-          ניהול מלאי
-        </a>
-    </div>
+    <a href="{% url 'BM_inventory' %}" style="
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+      margin-right: 10px;
+    " onmouseover="this.style.backgroundColor='#335db3';"
+       onmouseout="this.style.backgroundColor='#333';">
+      ניהול מלאי
+    </a>
+</div>
 
 
 </div>

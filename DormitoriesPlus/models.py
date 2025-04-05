@@ -165,6 +165,8 @@ class Request(models.Model):
     note = models.TextField(max_length=200, blank=True, null=True, verbose_name="הערות נוספות")
     admin_note = models.TextField(max_length=200, blank=True, null=True, verbose_name="הערות מנהל")
     return_date = models.DateField(blank=True, null=True, verbose_name="תאריך החזרה מתוכנן")
+    fault_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="סוג התקלה")
+    urgency = models.CharField(max_length=20, blank=True, null=True, verbose_name="דחיפות")
 
     def mark_as_resolved(self):
         self.status = Request.RESOLVED

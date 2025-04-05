@@ -24,7 +24,7 @@
       position: relative;
     }
 
-    header .back-btn {
+    header .home-btn {
       position: absolute;
       top: 10px;
       left: 10px;
@@ -37,12 +37,12 @@
       font-size: 14px;
     }
 
-    header .back-btn:hover {
+    header .home-btn:hover {
       background-color: #335db3;
     }
 
     .container {
-      width: 80%;
+      width: 90%;
       margin: 0 auto;
       padding: 20px;
       flex: 1;
@@ -53,43 +53,242 @@
       color: white;
       padding: 20px;
       text-align: center;
-      border-radius: 10px;
       margin-bottom: 20px;
+      border-radius: 10px;
     }
 
     .hero h2 {
       margin: 0;
     }
 
+    .section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .section h3 {
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    /* Tab Navigation Styles - Matching BM_loan_requests */
+    .tab-navigation {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      background-color: #335db3;
+      color: white;
+      border-color: #335db3;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
     }
 
     table th, table td {
       border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
+      padding: 12px;
+      text-align: right;
     }
 
     table th {
-      background-color: #f9f9f9;
+      background-color: #f2f2f2;
       font-weight: bold;
     }
 
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .status-open {
+      background-color: #fff3cd;
+      color: #856404;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .status-pending {
+      background-color: #cce5ff;
+      color: #004085;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .status-resolved {
+      background-color: #d4edda;
+      color: #155724;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .urgency-גבוהה {
+      background-color: #f8d7da;
+      color: #721c24;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .urgency-בינונית {
+      background-color: #fff3cd;
+      color: #856404;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .urgency-נמוכה {
+      background-color: #d4edda;
+      color: #155724;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 5px;
+    }
+
     .btn {
-      padding: 8px 15px;
-      background-color: #335db3;
-      color: white;
+      padding: 8px 12px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-weight: bold;
       transition: background-color 0.3s;
+      text-decoration: none;
+      font-size: 14px;
     }
 
-    .btn:hover {
-      background-color: #274a93;
+    .btn-primary {
+      background-color: #335db3;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #264a8f;
+    }
+
+    .btn-warning {
+      background-color: #ffc107;
+      color: #212529;
+    }
+
+    .btn-warning:hover {
+      background-color: #e0a800;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: #218838;
+    }
+
+    .comment-form {
+      margin-top: 5px;
+    }
+
+    .comment-input {
+      width: 70%;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
+    .comment-btn {
+      padding: 5px 10px;
+      background-color: #335db3;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 5px;
+    }
+
+    .pagination a, .pagination .current-page {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      text-decoration: none;
+      color: #333;
+      border-radius: 4px;
+    }
+
+    .pagination a:hover {
+      background-color: #e9e9e9;
+    }
+
+    .pagination .current-page {
+      background-color: #335db3;
+      color: white;
+      border-color: #335db3;
+    }
+
+    .pagination .disabled {
+      color: #999;
+      cursor: not-allowed;
+    }
+
+    .message {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+
+    .message-success {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .message-error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    .empty-table {
+      text-align: center;
+      padding: 20px;
+      color: #6c757d;
+      font-style: italic;
     }
 
     footer {
@@ -99,73 +298,285 @@
       padding: 10px 0;
       margin-top: 20px;
     }
+
+    .back-button {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 20px;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #335db3;
+    }
+
+    .no-requests {
+      text-align: center;
+      padding: 30px;
+      font-size: 18px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <a class="back-btn" href="{% url 'BM_Homepage' %}">חזרה לעמוד ראשי</a>
   <h1>DormitoriesPlus</h1>
 </header>
 
 <div class="container">
-  <div class="hero">
-    <h2>ניהול תקלות</h2>
-    <p>כאן תוכל לצפות בתקלות פתוחות ולבצע פעולות</p>
-  </div>
+    <div class="hero">
+        <h2>ניהול תקלות במעונות</h2>
+    </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>בניין</th>
-        <th>חדר</th>
-        <th>תקלה</th>
-        <th>שם הסטודנט</th>
-        <th>מספר פלאפון</th>
-        <th>סטטוס</th>
-        <th>תאריך</th>
-        <th>פעולות</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for fault in faults %}
-      <tr>
-        <td>{{ fault.room_num.split('-')[0] }}</td>
-        <td>{{ fault.room_num.split('-')[1] }}</td>
-        <td><!-- לדוגמה: חדר --></td>
-        <td>{{ fault.fault_description }}</td>
-        <td>{{ fault.created_at|date:"d/m/Y" }}</td>
-        <td>{{ fault.status }}</td>
-        <td>
-          <form method="POST" action="{% url 'BM_faults' %}" style="display:inline;">
-            {% csrf_token %}
-            <input type="hidden" name="fault_id" value="{{ fault.id }}">
-            <input type="hidden" name="action" value="resolve">
-            <button type="submit" class="btn">סמן כטופל</button>
-          </form>
-          <form method="POST" action="{% url 'BM_faults' %}" style="display:inline;">
-            {% csrf_token %}
-            <input type="hidden" name="fault_id" value="{{ fault.id }}">
-            <input type="hidden" name="action" value="push">
-            <button type="submit" class="btn">דחיפה לראש התור</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <!-- ניווט בין טאבים - בסגנון BM_loan_requests -->
+    <div class="tab-navigation">
+        <div class="tab active" data-tab="open-faults">תקלות פתוחות</div>
+        <div class="tab" data-tab="pending-faults">תקלות בטיפול</div>
+    </div>
+
+    <!-- תקלות פתוחות -->
+    <div id="open-faults" class="tab-content active">
+        <div class="section">
+            <h3>תקלות פתוחות</h3>
+            {% if open_fault_reports %}
+              <table>
+                <thead>
+                  <tr>
+                    <th>סטודנט</th>
+                    <th>בניין</th>
+                    <th>חדר</th>
+                    <th>סוג התקלה</th>
+                    <th>תיאור התקלה</th>
+                    <th>דחיפות</th>
+                    <th>תאריך דיווח</th>
+                    <th>הערות מנהל</th>
+                    <th>פעולות</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for fault in open_fault_reports %}
+                    <tr>
+                      <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
+                      <td>{{ fault.room.building.building_name }}</td>
+                      <td>{{ fault.room.room_number }}</td>
+                      <td>{{ fault.fault_type }}</td>
+                      <td>{{ fault.fault_description }}</td>
+                      <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
+                      <td>{{ fault.created_at|date:"d/m/Y H:i" }}</td>
+                      <td>
+                        {{ fault.admin_note|default:"" }}
+                        <form method="POST" action="{% url 'BM_faults' %}" class="comment-form">
+                          {% csrf_token %}
+                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                          <input type="hidden" name="action" value="comment">
+                          <div class="comment-container">
+                              <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                          </div>
+
+                          <button type="submit" class="comment-btn">שמור</button>
+                        </form>
+                      </td>
+                      <td>
+                        <form method="POST" action="{% url 'BM_faults' %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                          <button type="submit" name="action" value="pending" class="btn btn-primary" style="display: block; margin-bottom: 5px;">סמן בטיפול</button>
+                          <button type="submit" name="action" value="resolved" class="btn btn-success" style="display: block;">סגור דיווח</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+              <!-- Pagination for open faults - updated to match BM_loan_requests style -->
+              {% if open_fault_reports.has_other_pages %}
+                <div class="pagination">
+                  {% if open_fault_reports.has_previous %}
+                    <a href="?open_page={{ open_fault_reports.previous_page_number }}">&laquo; הקודם</a>
+                  {% else %}
+                    <span class="disabled">&laquo; הקודם</span>
+                  {% endif %}
+
+                  {% for i in open_fault_reports.paginator.page_range %}
+                    {% if open_fault_reports.number == i %}
+                      <span class="current-page">{{ i }}</span>
+                    {% else %}
+                      <a href="?open_page={{ i }}">{{ i }}</a>
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if open_fault_reports.has_next %}
+                    <a href="?open_page={{ open_fault_reports.next_page_number }}">הבא &raquo;</a>
+                  {% else %}
+                    <span class="disabled">הבא &raquo;</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% else %}
+              <div class="no-requests">
+                <p>אין תקלות פתוחות</p>
+              </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- תקלות בטיפול -->
+    <div id="pending-faults" class="tab-content">
+        <div class="section">
+            <h3>תקלות בטיפול</h3>
+            {% if pending_fault_reports %}
+              <table>
+                <thead>
+                  <tr>
+                    <th>סטודנט</th>
+                    <th>בניין</th>
+                    <th>חדר</th>
+                    <th>סוג התקלה</th>
+                    <th>תיאור התקלה</th>
+                    <th>דחיפות</th>
+                    <th>תאריך דיווח</th>
+                    <th>עדכון אחרון</th>
+                    <th>הערות מנהל</th>
+                    <th>פעולות</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for fault in pending_fault_reports %}
+                    <tr>
+                      <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
+                      <td>{{ fault.room.building.building_name }}</td>
+                      <td>{{ fault.room.room_number }}</td>
+                      <td>{{ fault.fault_type }}</td>
+                      <td>{{ fault.fault_description }}</td>
+                      <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
+                      <td>
+                          {{ fault.created_at|date:"d/m/Y H:i" }}
+                          <br>
+                          <span style="font-size: 0.85em; color: #6c757d;">(בטיפול {{ fault.days_elapsed_text }})</span>
+                        </td>
+                      <td>{{ fault.updated_at|date:"d/m/Y H:i" }}</td>
+                      <td>
+                        {{ fault.admin_note|default:"" }}
+                        <form method="POST" action="{% url 'BM_faults' %}" class="comment-form">
+                          {% csrf_token %}
+                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                          <input type="hidden" name="action" value="comment">
+                          <div class="comment-container">
+                              <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                          </div>
+                          <button type="submit" class="comment-btn">שמור</button>
+                        </form>
+                      </td>
+                      <td>
+                        <form method="POST" action="{% url 'BM_faults' %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                          <button type="submit" name="action" value="resolved" class="btn btn-success">סגור דיווח</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+              <!-- Pagination for pending faults - updated to match BM_loan_requests style -->
+              {% if pending_fault_reports.has_other_pages %}
+                <div class="pagination">
+                  {% if pending_fault_reports.has_previous %}
+                    <a href="?pending_page={{ pending_fault_reports.previous_page_number }}#pending-faults">&laquo; הקודם</a>
+                  {% else %}
+                    <span class="disabled">&laquo; הקודם</span>
+                  {% endif %}
+
+                  {% for i in pending_fault_reports.paginator.page_range %}
+                    {% if pending_fault_reports.number == i %}
+                      <span class="current-page">{{ i }}</span>
+                    {% else %}
+                      <a href="?pending_page={{ i }}#pending-faults">{{ i }}</a>
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if pending_fault_reports.has_next %}
+                    <a href="?pending_page={{ pending_fault_reports.next_page_number }}#pending-faults">הבא &raquo;</a>
+                  {% else %}
+                    <span class="disabled">הבא &raquo;</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% else %}
+              <div class="no-requests">
+                <p>אין תקלות בטיפול</p>
+              </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
 </div>
-
 
 <footer>
   <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
 </footer>
 
 <script>
-  function markAsResolved(issue) {
-    alert(`התקלה "${issue}" סומנה כטופלה.`);
-    // הוסף כאן לוגיקה לעדכון השרת
-  }
+  document.addEventListener('DOMContentLoaded', function() {
+    // Function to switch tabs
+    function switchTab(tabId) {
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(function(content) {
+        content.classList.remove('active');
+      });
 
-  function pushToTop(issue) {
-    alert(`ה
+      // Remove active class from all tabs
+      document.querySelectorAll('.tab').forEach(function(tab) {
+        tab.classList.remove('active');
+      });
+
+      // Show the selected tab content
+      document.getElementById(tabId).classList.add('active');
+
+      // Add active class to the clicked tab
+      document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
+    }
+
+    // Add click event listeners to tabs
+    document.querySelectorAll('.tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var tabId = this.getAttribute('data-tab');
+        switchTab(tabId);
+        // Update URL hash without causing page reload
+        window.history.replaceState(null, null, '#' + tabId);
+      });
+    });
+
+    // Fix links to maintain tab state when using pagination
+    document.querySelectorAll('.pagination a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        // Allow the link to work normally - no preventDefault()
+        // The hash in the pagination links will ensure the correct tab is shown
+      });
+    });
+
+    // Check if URL has a hash and switch to that tab
+    if(window.location.hash) {
+      var hashTabId = window.location.hash.substring(1); // Remove the # symbol
+      if(document.getElementById(hashTabId)) {
+        switchTab(hashTabId);
+      }
+    } else {
+      // Set default active tab if no hash
+      document.querySelector('.tab').classList.add('active');
+      document.querySelector('.tab-content').classList.add('active');
+    }
+  });
+</script>
+
+</body>
+</html>
