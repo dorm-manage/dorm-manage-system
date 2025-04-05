@@ -41,11 +41,18 @@ def manager_Homepage(request):
 def Students_homepage(request):
     user = request.user
 
-    # Get active lending requests
-    active_loan_requests = Request.objects.filter(
+    # Get pending and rejected loan requests
+    pending_loan_requests = Request.objects.filter(
         user=user,
         request_type='equipment_rental',
-        status__in=['pending', 'approved']
+        status__in=['pending', 'rejected']
+    ).order_by('-created_at')
+
+    # Get approved loan requests
+    approved_requests = Request.objects.filter(
+        user=user,
+        request_type='equipment_rental',
+        status='approved'
     ).order_by('-created_at')
 
     # Get active fault reports
@@ -55,48 +62,45 @@ def Students_homepage(request):
         status__in=['open', 'pending']
     ).order_by('-created_at')
 
-    # Get archived requests
-    archived_requests = Request.objects.filter(
-        user=user,
-        status__in=['rejected', 'resolved']
-    ).order_by('-updated_at')
+    # Handle delete request action
+    if request.method == 'POST' and 'delete_request' in request.POST:
+        request_id = request.POST.get('request_id')
+        try:
+            req = Request.objects.get(id=request_id, user=user, request_type='equipment_rental', status='rejected')
+            req.delete()
+            messages.success(request, "הבקשה נמחקה בהצלחה.")
+        except Request.DoesNotExist:
+            messages.error(request, "הבקשה לא נמצאה או שאין לך הרשאה למחוק אותה.")
 
-    # Pagination for lending requests
-    loan_paginator = Paginator(active_loan_requests, 5)  # 5 items per page
-    loan_page_number = request.GET.get('loan_page')
-    loan_page_obj = loan_paginator.get_page(loan_page_number)
+    # Ensure is_due_soon and is_overdue properties will work
+    # (These properties are checked in the template)
+    for loan_request in approved_requests:  # Changed variable name from request to loan_request
+        # These properties are already defined in the Request model
+        # but we access them here to ensure they are computed for each request
+        # This helps Django's template system be aware of them
+        if loan_request.return_date:
+            loan_request.is_due_soon  # Access the property
+            loan_request.is_overdue   # Access the property
+
+    # Pagination for pending loan requests
+    pending_paginator = Paginator(pending_loan_requests, 5)  # 5 items per page
+    pending_page_number = request.GET.get('pending_page')
+    pending_page_obj = pending_paginator.get_page(pending_page_number)
+
+    # Pagination for approved requests
+    approved_paginator = Paginator(approved_requests, 5)  # 5 items per page
+    approved_page_number = request.GET.get('approved_page')
+    approved_page_obj = approved_paginator.get_page(approved_page_number)
 
     # Pagination for fault reports
     fault_paginator = Paginator(active_fault_reports, 5)  # 5 items per page
     fault_page_number = request.GET.get('fault_page')
     fault_page_obj = fault_paginator.get_page(fault_page_number)
 
-    # Pagination for archived requests
-    archive_paginator = Paginator(archived_requests, 5)  # 5 items per page
-    archive_page_number = request.GET.get('archive_page')
-    archive_page_obj = archive_paginator.get_page(archive_page_number)
-
-    # Handle archiving actions
-    if request.method == 'POST' and 'archive_request' in request.POST:
-        request_id = request.POST.get('request_id')
-        try:
-            req = Request.objects.get(id=request_id, user=user)
-            # Mark as archived (you might want to add an 'archived' field to your Request model)
-            # For now, we'll use status to determine if it's archived
-            if req.request_type == 'equipment_rental':
-                req.status = 'resolved'
-            elif req.request_type == 'fault_report':
-                req.status = 'resolved'
-            req.updated_at = timezone.now()
-            req.save()
-            messages.success(request, "הבקשה הועברה לארכיון בהצלחה.")
-        except Request.DoesNotExist:
-            messages.error(request, "הבקשה לא נמצאה.")
-
     context = {
-        'loan_requests': loan_page_obj,
+        'pending_loan_requests': pending_page_obj,
+        'approved_requests': approved_page_obj,
         'fault_reports': fault_page_obj,
-        'archived_requests': archive_page_obj,
     }
 
     return render(request, 'Students_homepage.html', context)
@@ -167,14 +171,14 @@ def application(request):
             if available_item and room:
                 # Calculate return date
                 loan_days = int(loan_days)
-                return_date = timezone.now() + timezone.timedelta(days=loan_days)
+                return_date = timezone.now().date() + timezone.timedelta(days=loan_days)
 
                 # Check if the loan period extends beyond the student's room assignment
-                if end_date and return_date.date() > end_date:
+                if end_date and return_date > end_date:
                     messages.error(request,
                                    "תקופת ההשאלה המבוקשת ארוכה יותר מתקופת המגורים שלך במעונות. אנא בחר תקופה קצרה יותר.")
                 else:
-                    # Create rental request with note
+                    # Create rental request with note and return date
                     new_request = Request.objects.create(
                         user=user,
                         request_type='equipment_rental',
@@ -182,6 +186,7 @@ def application(request):
                         room=room,
                         status='pending',
                         note=note,  # Save the note here
+                        return_date=return_date,  # Save the expected return date
                         created_at=timezone.now(),
                         updated_at=timezone.now()
                     )
@@ -461,7 +466,7 @@ def BM_loan_requests(request):
     if request.method == 'POST':
         request_id = request.POST.get('request_id')
         action = request.POST.get('action')  # 'approve', 'reject', 'return', or 'damaged'
-        comment = request.POST.get('comment', '')  # Get comment from form
+        admin_comment = request.POST.get('comment', '')  # Get comment from the existing form
 
         try:
             req_obj = Request.objects.get(pk=request_id)
@@ -475,6 +480,7 @@ def BM_loan_requests(request):
                     if req_obj.item:
                         req_obj.item.status = 'borrowed'
                         req_obj.item.save()
+                    # Note: Return date is already set by the student when they made the request
                 elif action == 'reject':
                     req_obj.status = 'rejected'
                 elif action == 'return':
@@ -492,9 +498,10 @@ def BM_loan_requests(request):
                         req_obj.item.status = 'damaged'
                         req_obj.item.save()
 
-                # Save the comment provided by the BM
-                if comment:
-                    req_obj.note = comment
+                # Save the comment as admin note
+                if admin_comment:
+                    req_obj.admin_note = admin_comment
+
                 req_obj.updated_at = timezone.now()
                 req_obj.save()
 

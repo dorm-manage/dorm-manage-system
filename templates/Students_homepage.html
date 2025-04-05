@@ -151,9 +151,6 @@
       background-color: #f9f9f9;
     }
 
-    table tr:hover {
-      background-color: #eaf5ff;
-    }
 
     .status-pending, .status-open {
       color: #ffc107;
@@ -214,13 +211,13 @@
       font-size: 14px;
     }
 
-    .archive-btn {
-      background-color: #6c757d;
+    .delete-btn {
+      background-color: #dc3545;
       color: white;
     }
 
-    .archive-btn:hover {
-      background-color: #5a6268;
+    .delete-btn:hover {
+      background-color: #c82333;
     }
 
     .message {
@@ -245,6 +242,23 @@
       text-align: center;
       padding: 20px;
       color: #6c757d;
+      font-style: italic;
+    }
+
+    .due-soon {
+      background-color: #fff3cd !important;
+    }
+
+    .overdue {
+      background-color: #f8d7da !important;
+    }
+
+    .comment-box {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 4px;
+      padding: 8px;
+      margin-top: 5px;
       font-style: italic;
     }
   </style>
@@ -280,70 +294,78 @@
   <div class="tab-container">
     <div class="tabs">
       <div class="tab active" onclick="openTab(event, 'loan-requests')">בקשות השאלת ציוד</div>
+      <div class="tab" onclick="openTab(event, 'approved-requests')">בקשות מאושרות</div>
       <div class="tab" onclick="openTab(event, 'fault-reports')">דיווחי תקלות</div>
-      <div class="tab" onclick="openTab(event, 'archives')">ארכיון</div>
     </div>
 
-    <!-- בקשות השאלת ציוד -->
+    <!-- בקשות השאלת ציוד ממתינות -->
     <div id="loan-requests" class="tab-content active card">
-      <h3>בקשות השאלת ציוד פעילות</h3>
-      {% if loan_requests %}
+      <h3>בקשות השאלת ציוד ממתינות</h3>
+      {% if pending_loan_requests %}
         <table>
           <thead>
-            <tr>
-              <th>פריט</th>
-              <th>תאריך בקשה</th>
-              <th>חדר</th>
-              <th>הערות</th>
-              <th>סטטוס</th>
-              <th>פעולות</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for request in loan_requests %}
               <tr>
-                <td>{{ request.item.inventory.item_name }}</td>
-                <td>{{ request.created_at|date:"d/m/Y H:i" }}</td>
-                <td>{{ request.room.room_number }}</td>
-                <td>{{ request.note|default:"-" }}</td>
-                <td class="status-{{ request.status }}">
-                  {% if request.status == 'pending' %}ממתין לאישור{% endif %}
-                  {% if request.status == 'approved' %}מאושר{% endif %}
-                  {% if request.status == 'rejected' %}נדחה{% endif %}
-                  {% if request.status == 'resolved' %}סגור{% endif %}
-                </td>
-                <td>
-                  {% if request.status == 'approved' or request.status == 'rejected' %}
-                    <form method="post" style="display: inline;">
-                      {% csrf_token %}
-                      <input type="hidden" name="request_id" value="{{ request.id }}">
-                      <button type="submit" name="archive_request" class="action-btn archive-btn">העבר לארכיון</button>
-                    </form>
-                  {% endif %}
-                </td>
+                <th>פריט</th>
+                <th>תאריך בקשה</th>
+                <th>חדר</th>
+                <th>הערות</th>
+                <th>סטטוס</th>
+                <th>פעולות</th>
               </tr>
-            {% endfor %}
-          </tbody>
+            </thead>
+          <tbody>
+          {% for request in pending_loan_requests %}
+            <tr>
+              <td>{{ request.item.inventory.item_name }}</td>
+              <td>{{ request.created_at|date:"d/m/Y H:i" }}</td>
+              <td>{{ request.room.room_number }}</td>
+              <td>
+                {{ request.note|default:""}}
+                {% if request.admin_note %}
+                  <div class="comment-box">
+                    <strong>הערת מנהל:</strong> {{ request.admin_note }}
+                  </div>
+                {% endif %}
+              </td>
+              <td class="status-{{ request.status }}">
+                {% if request.status == 'pending' %}ממתין לאישור{% endif %}
+                {% if request.status == 'rejected' %}נדחה{% endif %}
+              </td>
+              <td>
+                {% if request.status == 'rejected' %}
+                  <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                    <button type="submit" name="delete_request" class="action-btn delete-btn">מחק</button>
+                  </form>
+                {% else %}
+                  <!-- Leave empty for non-rejected requests -->
+                  &nbsp;
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
         </table>
 
-        <!-- Pagination for loan requests -->
-        {% if loan_requests.has_other_pages %}
+        <!-- Pagination for pending loan requests -->
+        {% if pending_loan_requests.has_other_pages %}
           <div class="pagination">
-            {% if loan_requests.has_previous %}
-              <a href="?loan_page=1">&laquo; ראשון</a>
-              <a href="?loan_page={{ loan_requests.previous_page_number }}">הקודם</a>
+            {% if pending_loan_requests.has_previous %}
+              <a href="?pending_page=1">&laquo; ראשון</a>
+              <a href="?pending_page={{ pending_loan_requests.previous_page_number }}">הקודם</a>
             {% else %}
               <span class="disabled">&laquo; ראשון</span>
               <span class="disabled">הקודם</span>
             {% endif %}
 
             <span class="current">
-              עמוד {{ loan_requests.number }} מתוך {{ loan_requests.paginator.num_pages }}
+              עמוד {{ pending_loan_requests.number }} מתוך {{ pending_loan_requests.paginator.num_pages }}
             </span>
 
-            {% if loan_requests.has_next %}
-              <a href="?loan_page={{ loan_requests.next_page_number }}">הבא</a>
-              <a href="?loan_page={{ loan_requests.paginator.num_pages }}">אחרון &raquo;</a>
+            {% if pending_loan_requests.has_next %}
+              <a href="?pending_page={{ pending_loan_requests.next_page_number }}">הבא</a>
+              <a href="?pending_page={{ pending_loan_requests.paginator.num_pages }}">אחרון &raquo;</a>
             {% else %}
               <span class="disabled">הבא</span>
               <span class="disabled">אחרון &raquo;</span>
@@ -351,7 +373,80 @@
           </div>
         {% endif %}
       {% else %}
-        <div class="empty-table">אין בקשות השאלה פעילות</div>
+        <div class="empty-table">אין בקשות השאלה ממתינות</div>
+      {% endif %}
+    </div>
+
+    <!-- בקשות השאלה מאושרות -->
+    <div id="approved-requests" class="tab-content card">
+      <h3>בקשות השאלת ציוד מאושרות</h3>
+      {% if approved_requests %}
+        <table>
+          <thead>
+            <tr>
+              <th>פריט</th>
+              <th>תאריך בקשה</th>
+              <th>תאריך אישור</th>
+              <th>תאריך החזרה</th>
+              <th>חדר</th>
+              <th>הערות</th>
+              <th>הערות מנהל</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in approved_requests %}
+              <tr{% if request.is_due_soon %} class="due-soon"{% elif request.is_overdue %} class="overdue"{% endif %}>
+                <td>{{ request.item.inventory.item_name }}</td>
+                <td>{{ request.created_at|date:"d/m/Y" }}</td>
+                <td>{{ request.updated_at|date:"d/m/Y" }}</td>
+                <td>
+                  {% if request.return_date %}
+                    {{ request.return_date|date:"d/m/Y" }}
+                    {% if request.is_due_soon %}
+                      <br><span style="color: #856404; font-weight: bold;">(נותרו פחות מ-7 ימים)</span>
+                    {% elif request.is_overdue %}
+                      <br><span style="color: #721c24; font-weight: bold;">(באיחור)</span>
+                    {% else %}
+                      <br><span>(נותרו {{ request.return_date|timeuntil }})</span>
+                    {% endif %}
+                  {% else %}
+                    לא צוין
+                  {% endif %}
+                </td>
+                <td>{{ request.room.room_number }}</td>
+                <td>{{ request.note|default:"-" }}</td>
+                <td>{{ request.admin_note|default:"-" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Pagination for approved requests -->
+        {% if approved_requests.has_other_pages %}
+          <div class="pagination">
+            {% if approved_requests.has_previous %}
+              <a href="?approved_page=1">&laquo; ראשון</a>
+              <a href="?approved_page={{ approved_requests.previous_page_number }}">הקודם</a>
+            {% else %}
+              <span class="disabled">&laquo; ראשון</span>
+              <span class="disabled">הקודם</span>
+            {% endif %}
+
+            <span class="current">
+              עמוד {{ approved_requests.number }} מתוך {{ approved_requests.paginator.num_pages }}
+            </span>
+
+            {% if approved_requests.has_next %}
+              <a href="?approved_page={{ approved_requests.next_page_number }}">הבא</a>
+              <a href="?approved_page={{ approved_requests.paginator.num_pages }}">אחרון &raquo;</a>
+            {% else %}
+              <span class="disabled">הבא</span>
+              <span class="disabled">אחרון &raquo;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="empty-table">אין בקשות השאלה מאושרות</div>
       {% endif %}
     </div>
 
@@ -366,7 +461,6 @@
               <th>תאריך דיווח</th>
               <th>חדר</th>
               <th>סטטוס</th>
-              <th>פעולות</th>
             </tr>
           </thead>
           <tbody>
@@ -379,15 +473,6 @@
                   {% if report.status == 'open' %}פתוח{% endif %}
                   {% if report.status == 'pending' %}בטיפול{% endif %}
                   {% if report.status == 'resolved' %}טופל{% endif %}
-                </td>
-                <td>
-                  {% if report.status == 'resolved' %}
-                    <form method="post" style="display: inline;">
-                      {% csrf_token %}
-                      <input type="hidden" name="request_id" value="{{ report.id }}">
-                      <button type="submit" name="archive_request" class="action-btn archive-btn">העבר לארכיון</button>
-                    </form>
-                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
@@ -420,76 +505,6 @@
         {% endif %}
       {% else %}
         <div class="empty-table">אין דיווחי תקלות פעילים</div>
-      {% endif %}
-    </div>
-
-    <!-- ארכיון -->
-    <div id="archives" class="tab-content card">
-      <h3>ארכיון בקשות</h3>
-      {% if archived_requests %}
-        <table>
-          <thead>
-            <tr>
-              <th>סוג בקשה</th>
-              <th>פרטים</th>
-              <th>הערות</th>
-              <th>תאריך</th>
-              <th>סטטוס סופי</th>
-              <th>עודכן בתאריך</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for request in archived_requests %}
-              <tr>
-                <td>
-                  {% if request.request_type == 'equipment_rental' %}השאלת ציוד{% endif %}
-                  {% if request.request_type == 'fault_report' %}דיווח תקלה{% endif %}
-                </td>
-                <td>
-                  {% if request.request_type == 'equipment_rental' %}
-                    {{ request.item.inventory.item_name }}
-                  {% else %}
-                    {{ request.fault_description }}
-                  {% endif %}
-                </td>
-                <td>{{ request.note|default:"-" }}</td>
-                <td>{{ request.created_at|date:"d/m/Y" }}</td>
-                <td class="status-{{ request.status }}">
-                  {% if request.status == 'rejected' %}נדחה{% endif %}
-                  {% if request.status == 'resolved' %}טופל/סגור{% endif %}
-                </td>
-                <td>{{ request.updated_at|date:"d/m/Y H:i" }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <!-- Pagination for archived requests -->
-        {% if archived_requests.has_other_pages %}
-          <div class="pagination">
-            {% if archived_requests.has_previous %}
-              <a href="?archive_page=1">&laquo; ראשון</a>
-              <a href="?archive_page={{ archived_requests.previous_page_number }}">הקודם</a>
-            {% else %}
-              <span class="disabled">&laquo; ראשון</span>
-              <span class="disabled">הקודם</span>
-            {% endif %}
-
-            <span class="current">
-              עמוד {{ archived_requests.number }} מתוך {{ archived_requests.paginator.num_pages }}
-            </span>
-
-            {% if archived_requests.has_next %}
-              <a href="?archive_page={{ archived_requests.next_page_number }}">הבא</a>
-              <a href="?archive_page={{ archived_requests.paginator.num_pages }}">אחרון &raquo;</a>
-            {% else %}
-              <span class="disabled">הבא</span>
-              <span class="disabled">אחרון &raquo;</span>
-            {% endif %}
-          </div>
-        {% endif %}
-      {% else %}
-        <div class="empty-table">אין בקשות בארכיון</div>
       {% endif %}
     </div>
   </div>

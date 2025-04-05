@@ -376,6 +376,7 @@
               <th>חדר</th>
               <th>פריט מבוקש</th>
               <th>תאריך הבקשה</th>
+              <th>תקופת השאלה</th>
               <th>הערות הסטודנט</th>
               <th>מלאי זמין</th>
               <th>פעולות</th>
@@ -389,6 +390,14 @@
                 <td>{{ request.room.room_number }}</td>
                 <td>{{ request.item.inventory.item_name }}</td>
                 <td>{{ request.created_at|date:"d/m/Y H:i" }}</td>
+                <td>
+                  {% if request.return_date %}
+                    {{ request.return_date|timeuntil:request.created_at.date }}
+                    (עד {{ request.return_date|date:"d/m/Y" }})
+                  {% else %}
+                    לא צוין
+                  {% endif %}
+                </td>
                 <td>
                   {% if request.note %}
                     {{ request.note }}
@@ -477,6 +486,7 @@
               <th>חדר</th>
               <th>פריט מושאל</th>
               <th>תאריך אישור</th>
+              <th>תאריך החזרה</th>
               <th>הערות</th>
               <th>פעולות</th>
             </tr>
@@ -489,6 +499,18 @@
                 <td>{{ request.room.room_number }}</td>
                 <td>{{ request.item.inventory.item_name }}</td>
                 <td>{{ request.updated_at|date:"d/m/Y H:i" }}</td>
+                <td {% if request.is_due_soon %}style="background-color: #fff3cd; font-weight: bold;"{% elif request.is_overdue %}style="background-color: #f8d7da; font-weight: bold;"{% endif %}>
+                  {% if request.return_date %}
+                    {{ request.return_date|date:"d/m/Y" }}
+                    {% if request.is_due_soon %}
+                      <br><span style="color: #856404;">(פחות מ-7 ימים)</span>
+                    {% elif request.is_overdue %}
+                      <br><span style="color: #721c24;">(באיחור)</span>
+                    {% endif %}
+                  {% else %}
+                    לא צוין
+                  {% endif %}
+                </td>
                 <td>
                   {% if request.note %}
                     {{ request.note }}

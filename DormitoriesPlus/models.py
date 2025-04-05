@@ -163,6 +163,8 @@ class Request(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     note = models.TextField(max_length=200, blank=True, null=True, verbose_name="הערות נוספות")
+    admin_note = models.TextField(max_length=200, blank=True, null=True, verbose_name="הערות מנהל")
+    return_date = models.DateField(blank=True, null=True, verbose_name="תאריך החזרה מתוכנן")
 
     def mark_as_resolved(self):
         self.status = Request.RESOLVED
@@ -173,6 +175,25 @@ class Request(models.Model):
         from django.utils import timezone
         self.created_at = timezone.now()
         self.save()
+
+    @property
+    def is_due_soon(self):
+        """Returns True if the return date is within 7 days from now but not passed yet"""
+        if not self.return_date:
+            return False
+
+        today = timezone.now().date()
+        days_remaining = (self.return_date - today).days
+        return 0 <= days_remaining < 7
+
+    @property
+    def is_overdue(self):
+        """Returns True if the return date has passed"""
+        if not self.return_date:
+            return False
+
+        today = timezone.now().date()
+        return self.return_date < today
 
     def __str__(self):
         return f"{self.user.email} - {self.request_type}"
