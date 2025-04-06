@@ -103,6 +103,9 @@ class Room(models.Model):
     class Meta:
         # Ensure a room number is unique within a building
         unique_together = ['building', 'room_number']
+        indexes = [
+            models.Index(fields=['building']),
+        ]
 
     def __str__(self):
         return f"{self.building.building_name} - Room {self.room_number}"
@@ -114,11 +117,20 @@ class Room(models.Model):
 
 # מודל שיבוץ חדרים (RoomAssignment)
 class RoomAssignment(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='room_assignments')
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='assignments')
     start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(null=True, blank=True)  # Null means indefinite assignment
     assigned_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['room']),
+            models.Index(fields=['user']),
+            models.Index(fields=['end_date']),
+            models.Index(fields=['start_date']),
+        ]
 
     def __str__(self):
         return f"{self.user.email} -> {self.room}"
@@ -127,6 +139,7 @@ class RoomAssignment(models.Model):
         # Check if there's already an active assignment for this room
         if self.is_active and self.room.assignments.filter(is_active=True).exclude(id=self.id).exists():
             raise ValidationError("This room is already assigned to another student.")
+
 
 # מודל בקשות (Request)
 class Request(models.Model):
@@ -168,6 +181,12 @@ class Request(models.Model):
     fault_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="סוג התקלה")
     urgency = models.CharField(max_length=20, blank=True, null=True, verbose_name="דחיפות")
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'request_type', 'status']),
+            models.Index(fields=['room']),
+        ]
+
     def mark_as_resolved(self):
         self.status = Request.RESOLVED
         self.save()
@@ -199,6 +218,7 @@ class Request(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.request_type}"
+
 
 # מודל הודעות (Message)
 class Message(models.Model):
