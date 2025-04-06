@@ -347,6 +347,15 @@
     <h2>ניהול בקשות השאלה</h2>
   </div>
 
+    <!-- הודעות מערכת -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
   <!-- ניווט בין טאבים -->
   <div class="tab-navigation">
     <div class="tab active" data-tab="pending-requests">בקשות ממתינות</div>

@@ -85,14 +85,32 @@
       padding: 10px 0;
       margin-top: 20px;
     }
+
+    .links {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .links a {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .links a:hover {
+      background-color: #335db3;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- הודעות מנהלים -->
-  <div class="hero">
+    <div class="hero">
 
     <div style="margin-top: 5px; font-size: 18px;">
       <p>עמוד ראשי לאחראי בניין</p>
@@ -107,11 +125,19 @@
         </p>
       </div>
     {% endif %}
-  </div>
+    </div>
 
 
-<!-- ניהול השאלות ציוד -->
-  <div class="section">
+    <div class="links">
+      <a href="{% url 'BM_inventory' %}">ניהול מלאי</a>
+      <a href="{% url 'BM_loan_requests' %}">ניהול השאלות</a>
+      <a href="{% url 'BM_faults' %}">ניהול תקלות</a>
+      <a href="{% url 'BM_manage_students' %}">ניהול סטודנטים</a>
+    </div>
+
+
+    <!-- ניהול השאלות ציוד -->
+    <div class="section">
     <h3>ניהול השאלות ציוד</h3>
     <div style="display: flex; flex-direction: column; gap: 10px;">
       {% if pending_requests_count > 0 %}
@@ -152,12 +178,12 @@
         <p>אין בקשות חדשות או פריטים מושאלים שממתינים לטיפול.</p>
       {% endif %}
     </div>
-  </div>
+    </div>
 
-<!-- ניהול דיווחי תקלות -->
-<div class="section">
-  <h3>ניהול דיווחי תקלות</h3>
-  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <!-- ניהול דיווחי תקלות -->
+    <div class="section">
+    <h3>ניהול דיווחי תקלות</h3>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
     {% if open_faults_count > 0 %}
       <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
         <strong>יש לך {{ open_faults_count }} דיווחי תקלות חדשים לטיפולך!</strong>
@@ -195,27 +221,8 @@
     {% if open_faults_count == 0 and pending_faults_count == 0 %}
       <p>אין דיווחי תקלות חדשים או תקלות בטיפול שממתינות לך.</p>
     {% endif %}
-  </div>
-</div>
-
-<div style="margin-top: 20px; text-align: center;">
-
-    <a href="{% url 'BM_inventory' %}" style="
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #333;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: background-color 0.3s;
-      margin-top: 10px;
-      margin-right: 10px;
-    " onmouseover="this.style.backgroundColor='#335db3';"
-       onmouseout="this.style.backgroundColor='#333';">
-      ניהול מלאי
-    </a>
-</div>
+    </div>
+    </div>
 
 
 </div>

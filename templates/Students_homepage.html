@@ -266,7 +266,6 @@
 <body>
 
 <header>
-  <a class="personal-area-btn" href="/Personal_erea">אזור אישי</a>
   <h1>DormitoriesPlus</h1>
   <p>ברוכים הבאים לאתר מעונות ריפקין!</p>
 </header>
@@ -276,9 +275,10 @@
     <h2>שלום, {{ user.first_name }}!</h2>
   </div>
 
+    <!-- הודעות מערכת -->
   {% if messages %}
     {% for message in messages %}
-      <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+      <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}">
         {{ message }}
       </div>
     {% endfor %}

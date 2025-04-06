@@ -23,6 +23,7 @@ urlpatterns = [
     path('manager_faults/', views.manager_faults, name='manager_faults'),
     path('BM_inventory/', views.BM_inventory, name='BM_inventory'),
     path('bm/loan-requests/', views.BM_loan_requests, name='BM_loan_requests'),
+    path('bm/manage-students/', views.BM_manage_students, name='BM_manage_students'),
 ]
 
 if settings.DEBUG:

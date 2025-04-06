@@ -7,6 +7,10 @@ from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.urls import reverse
+from datetime import datetime
+from django.utils.safestring import mark_safe
+from django.db.models.functions import Cast
+from django.db.models import IntegerField
 
 # Then import your models
 from .models import (
@@ -697,6 +701,321 @@ def BM_faults(request):
     }
 
     return render(request, 'BM_faults.html', context)
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils import timezone
+from django.db.models import Count, Q, Prefetch
+from django.core.paginator import Paginator
+from django.utils.safestring import mark_safe
+from datetime import datetime
+from django.db import transaction
+
+
+@login_required
+def BM_manage_students(request):
+    # Get the building manager (current user)
+    bm = request.user
+
+    # Get buildings managed by this building manager (one query)
+    managed_buildings = Building.objects.filter(building_staff_member=bm)
+
+    if not managed_buildings.exists():
+        # Early return if no buildings are managed
+        return render(request, 'BM_manage_students.html', {
+            'buildings_data': [],
+            'managed_buildings': [],
+        })
+
+    # Get active building from query params or use the first one
+    active_building_id = request.GET.get('building_id')
+    if active_building_id:
+        try:
+            active_building_id = int(active_building_id)
+        except (ValueError, TypeError):
+            active_building_id = None
+
+    if not active_building_id and managed_buildings.exists():
+        active_building_id = managed_buildings.first().id
+
+    # Handle POST requests (adding/removing students)
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if action == 'add_student':
+            # Handle adding student
+            handle_add_student(request, managed_buildings)
+
+            # Redirect to keep the active building tab
+            return redirect(f"{request.path}?building_id={active_building_id}")
+
+        elif action == 'remove_student':
+            # Handle removing student
+            handle_remove_student(request, managed_buildings)
+
+            # Redirect to keep the active building tab
+            return redirect(f"{request.path}?building_id={active_building_id}")
+
+    # Prepare data for buildings (optimized for the active building)
+    buildings_data = []
+
+    # Current date for filtering assignments
+    current_date = timezone.now().date()
+
+    for building in managed_buildings:
+        is_active = building.id == active_building_id
+
+        # Basic building data (minimal for inactive buildings)
+        building_data = {
+            'building': building,
+            'is_active': is_active,
+            'available_rooms': [],
+            'students_page': None,
+            'has_data': False,
+        }
+
+        # Only load detailed data for the active building
+        if is_active:
+            # Get rooms with their capacity and occupied count in one efficient query
+            rooms = Room.objects.filter(building=building).annotate(
+                occupied_count=Count(
+                    'assignments',
+                    filter=Q(assignments__end_date__isnull=True) | Q(assignments__end_date__gte=current_date)
+                ),
+                room_number_int=Cast('room_number', IntegerField())
+            ).order_by('room_number_int')
+
+            # Filter and format available rooms
+            available_rooms = []
+            for room in rooms:
+                available_spots = max(0, room.capacity - room.occupied_count)
+                if available_spots > 0:
+                    available_rooms.append({
+                        'room': room,
+                        'available_spots': available_spots
+                    })
+
+            # Get students in this building with pagination
+            students_qs = RoomAssignment.objects.filter(
+                room__building=building
+            ).filter(
+                Q(end_date__isnull=True) | Q(end_date__gte=current_date)
+            ).select_related('user', 'room').order_by('room__room_number')
+
+            # Setup pagination
+            page_size = 20  # 20 students per page
+            paginator = Paginator(students_qs, page_size)
+            page_number = request.GET.get(f'students_page_{building.id}', 1)
+            students_page = paginator.get_page(page_number)
+
+            # Update building data
+            building_data.update({
+                'available_rooms': available_rooms,
+                'students_page': students_page,
+                'students_count': students_qs.count(),  # Just the count for UI
+                'has_data': True,
+            })
+
+        buildings_data.append(building_data)
+
+    context = {
+        'buildings_data': buildings_data,
+        'managed_buildings': managed_buildings,
+        'active_building_id': active_building_id,
+    }
+
+    return render(request, 'BM_manage_students.html', context)
+
+
+def handle_add_student(request, managed_buildings):
+    """
+    Handle adding a new student - separated to keep main view cleaner
+    """
+    # Get form data
+    room_id = request.POST.get('room_id')
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+    email = request.POST.get('email')
+    id_number = request.POST.get('id_number', '')  # Optional ID number
+    password = request.POST.get('password', '123456789')  # Default password if none provided
+    end_date_str = request.POST.get('end_date')
+
+    # If password is empty, use the default
+    if not password or not password.strip():
+        password = '123456789'
+
+    # Validate input
+    if not all([room_id, first_name, last_name, email, end_date_str]):
+        messages.error(request, "אנא מלא את כל השדות הנדרשים.")
+        return False
+
+    try:
+        # Parse end date
+        end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+
+        # Check if room belongs to one of the manager's buildings
+        room = Room.objects.get(
+            id=room_id,
+            building__in=managed_buildings
+        )
+
+        # Check if room has capacity
+        current_assignments_count = RoomAssignment.objects.filter(
+            room=room
+        ).filter(
+            Q(end_date__isnull=True) | Q(end_date__gte=timezone.now().date())
+        ).count()
+
+        if current_assignments_count >= room.capacity:
+            messages.error(request, "אין מקום פנוי בחדר זה.")
+            return False
+
+        # Use a transaction to ensure all related DB operations succeed or fail together
+        with transaction.atomic():
+            # Check if user already exists
+            try:
+                user = User.objects.get(email=email)
+
+                # Update existing user's details
+                user.first_name = first_name
+                user.last_name = last_name
+                user.set_password(password)  # Set new password
+                user.save()
+
+            except User.DoesNotExist:
+                # Create new user
+                user = User.objects.create_user(
+                    email=email,
+                    username=email,  # Using email as username
+                    password=password,
+                    first_name=first_name,
+                    last_name=last_name,
+                    role='student'
+                )
+
+            # Create room assignment
+            assignment = RoomAssignment.objects.create(
+                user=user,
+                room=room,
+                start_date=timezone.now().date(),
+                end_date=end_date,
+                assigned_at=timezone.now()
+            )
+
+        messages.success(request,
+                         f"הסטודנט {first_name} {last_name} שובץ בהצלחה לחדר {room.room_number} בבניין {room.building.building_name} עד לתאריך {end_date_str}.")
+        return True
+
+    except Room.DoesNotExist:
+        messages.error(request, "החדר שנבחר אינו קיים או שאין לך הרשאה לנהל אותו.")
+    except ValueError:
+        messages.error(request, "פורמט תאריך לא תקין. אנא השתמש בפורמט YYYY-MM-DD.")
+
+    return False
+
+
+def handle_remove_student(request, managed_buildings):
+    """
+    Handle removing a student - separated to keep main view cleaner
+    """
+    assignment_id = request.POST.get('assignment_id')
+    delete_user = request.POST.get('delete_user') == 'yes'
+
+    try:
+        # Verify the assignment belongs to a room in one of the manager's buildings
+        assignment = RoomAssignment.objects.select_related('user', 'room__building').get(
+            id=assignment_id,
+            room__building__in=managed_buildings
+        )
+
+        user = assignment.user
+
+        # Check if the student has any borrowed items
+        borrowed_items = Request.objects.filter(
+            user=user,
+            request_type='equipment_rental',
+            status='approved'
+        ).select_related('item__inventory')
+
+        # If there are borrowed items and it's not a force removal
+        if borrowed_items.exists() and not request.POST.get('force_remove'):
+            borrowed_items_count = borrowed_items.count()
+            # Create a detailed message about borrowed items
+            items_details = [f"{req.item.inventory.item_name} (מושאל מתאריך {req.updated_at.strftime('%d/%m/%Y')})"
+                             for req in borrowed_items]
+            items_list = ", ".join(items_details)
+
+            error_message = f"""
+            <div class="borrowed-warning">
+                <p><strong>לסטודנט יש {borrowed_items_count} פריטים מושאלים שטרם הוחזרו:</strong></p>
+                <p>{items_list}</p>
+                <p>האם ברצונך להסיר את הסטודנט ולסמן את כל הפריטים כמוחזרים?</p>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                    <a href="{request.path}?building_id={assignment.room.building.id}" class="button" style="background-color: #6c757d; text-decoration: none; padding: 8px 12px; border-radius: 5px; color: white;">ביטול</a>
+                    <form method="POST" action="{request.path}" style="display: inline;">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{request.META.get('CSRF_COOKIE', '')}">
+                        <input type="hidden" name="action" value="remove_student">
+                        <input type="hidden" name="assignment_id" value="{assignment.id}">
+                        <input type="hidden" name="force_remove" value="yes">
+                        <input type="hidden" name="delete_user" value="{request.POST.get('delete_user', 'no')}">
+                        <input type="hidden" name="building_id" value="{assignment.room.building.id}">
+                        <button type="submit" class="remove-button">הסר ומחזר פריטים</button>
+                    </form>
+                </div>
+            </div>
+            """
+            # Mark the message as safe HTML
+            messages.error(request, mark_safe(error_message))
+            return False
+
+        # Use a transaction to ensure all related DB operations succeed or fail together
+        with transaction.atomic():
+            # If force remove with borrowed items, mark all items as returned
+            if borrowed_items.exists() and request.POST.get('force_remove'):
+                # Update all borrowed items in a single query
+                borrowed_item_ids = borrowed_items.values_list('id', flat=True)
+
+                # Update request status
+                Request.objects.filter(id__in=borrowed_item_ids).update(
+                    status='resolved',
+                    updated_at=timezone.now()
+                )
+
+                # Update item status to available
+                item_ids = Request.objects.filter(id__in=borrowed_item_ids).values_list('item_id', flat=True)
+                Item.objects.filter(id__in=item_ids).update(
+                    status='available',
+                    updated_at=timezone.now()
+                )
+
+            # Delete the assignment (or end it)
+            if delete_user:
+                # Get user info for success message before deletion
+                user_full_name = f"{user.first_name} {user.last_name}"
+
+                # Delete all assignments for this user
+                RoomAssignment.objects.filter(user=user).delete()
+
+                # Delete the user
+                user.delete()
+
+                messages.success(request, f"הסטודנט {user_full_name} הוסר מהמערכת ונמחק בהצלחה.")
+            else:
+                # Just end the assignment
+                assignment.end_date = timezone.now().date()
+                assignment.save(update_fields=['end_date'])
+
+                messages.success(request,
+                                 f"הסטודנט {user.first_name} {user.last_name} הוסר מחדר {assignment.room.room_number}.")
+
+        return True
+
+    except RoomAssignment.DoesNotExist:
+        messages.error(request, "שיבוץ החדר לא נמצא או שאין לך הרשאה להסיר אותו.")
+
+    return False
 
 
 # עמוד ניהול חדרים – דוגמה לשיבוץ סטודנט לחדר (manage_room.html)
