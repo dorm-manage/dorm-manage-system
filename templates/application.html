@@ -203,13 +203,8 @@
           </div>
 
           <div class="form-group">
-            <label for="loan_period">תקופת השאלה:</label>
-            <select id="loan_period" name="loan_period" required>
-              <option value="">בחר תקופה</option>
-              {% for period in loan_periods %}
-                <option value="{{ period.value }}">{{ period.display }}</option>
-              {% endfor %}
-            </select>
+            <label for="return_date">תאריך החזרה:</label>
+            <input type="date" id="return_date" name="return_date" min="{{ min_return_date }}" max="{{ max_return_date }}" required>
           </div>
 
             <div class="form-group">

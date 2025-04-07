@@ -175,24 +175,19 @@ def application(request):
                        .filter(available_count__gt=0)
                        .distinct())
 
-    # Define loan period options
-    loan_periods = [
-        {"value": "1", "display": "יום אחד"},
-        {"value": "2", "display": "יומיים"},
-        {"value": "3", "display": "3 ימים"},
-        {"value": "7", "display": "שבוע"},
-        {"value": "14", "display": "שבועיים"},
-        {"value": "21", "display": "3 שבועות"},
-        {"value": "30", "display": "חודש"},
-        {"value": "60", "display": "חודשיים"},
-        {"value": "90", "display": "3 חודשים"},
-        {"value": "180", "display": "6 חודשים"},
-        {"value": "365", "display": "שנה"}
-    ]
+    # Define min and max return dates
+    min_return_date = (timezone.now() + timezone.timedelta(days=1)).date().strftime('%Y-%m-%d')
+    # Set max return date as end_date or 1 year from now if no end_date
+    if end_date:
+        max_return_date = min(end_date, (timezone.now() + timezone.timedelta(days=365)).date())
+    else:
+        max_return_date = (timezone.now() + timezone.timedelta(days=365)).date()
+    max_return_date = max_return_date.strftime('%Y-%m-%d')
 
     if request.method == 'POST':
         item_id = request.POST.get('product')
-        loan_days = request.POST.get('loan_period')
+        return_date = request.POST.get('return_date')
+        loan_days = (datetime.strptime(return_date, '%Y-%m-%d').date() - timezone.now().date()).days
         note = request.POST.get('note', '')  # Get the note from the form
         # Validate note length
         if len(note) > 200:
@@ -211,10 +206,9 @@ def application(request):
             if available_item and room:
                 # Calculate return date
                 loan_days = int(loan_days)
-                return_date = timezone.now().date() + timezone.timedelta(days=loan_days)
 
                 # Check if the loan period extends beyond the student's room assignment
-                if end_date and return_date > end_date:
+                if end_date and datetime.strptime(return_date, '%Y-%m-%d').date() > end_date:
                     messages.error(request,
                                    "תקופת ההשאלה המבוקשת ארוכה יותר מתקופת המגורים שלך במעונות. אנא בחר תקופה קצרה יותר.")
                 else:
@@ -244,7 +238,6 @@ def application(request):
     # Pass relevant data to the template
     context = {
         'available_items': available_items,
-        'loan_periods': loan_periods,
         'user_room': room.room_number if room else None,
         'user_building': building.building_name if building else None,
         'end_date': end_date.strftime('%d/%m/%Y') if end_date else "לא ידוע",
@@ -331,8 +324,13 @@ def BM_inventory(request):
             quantity = int(request.POST.get('quantity'))
             photo = request.FILES.get('photo', None)
 
-            # Create inventory tracking record
+            # Find the highest ID in the table
+            max_id = InventoryTracking.objects.all().order_by(
+                '-id').first().id if InventoryTracking.objects.exists() else 0
+
+            # Create inventory tracking record with a guaranteed unique ID
             inventory_item = InventoryTracking.objects.create(
+                id=max_id + 1,  # Force a unique ID
                 item_name=item_name,
                 quantity=quantity,
                 created_at=timezone.now(),
