@@ -276,14 +276,32 @@
 
     /* Add a smaller comment field for the borrowed items section */
     .borrowed-comment-field {
-      width: 90%;
-      height: 60px;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      max-width: 180px;
-      font-size: 14px;
+        width: 90%;
+        height: 60px;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        max-width: 180px;
+        font-size: 14px;
+    }
+
+    .message {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    }
+
+    .message-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .message-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
     }
   </style>
 <script>
@@ -348,13 +366,13 @@
   </div>
 
     <!-- הודעות מערכת -->
-  {% if messages %}
-    {% for message in messages %}
-      <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
   <!-- ניווט בין טאבים -->
   <div class="tab-navigation">
@@ -520,13 +538,16 @@
                 </td>
                 <td>
                   <form method="post" action="{% url 'BM_loan_requests' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="request_id" value="{{ request.id }}">
-                    <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
-                      <button type="submit" name="action" value="return" class="button return">סמן כהוחזר</button>
-                      <button type="submit" name="action" value="damaged" class="button deny">הסר מהרשימות</button>
-                    </div>
-                  </form>
+                  {% csrf_token %}
+                  <input type="hidden" name="request_id" value="{{ request.id }}">
+                  <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
+                    <button type="submit" name="action" value="return" class="button return">סמן כהוחזר</button>
+                    <button type="submit" name="action" value="damaged" class="btn btn-danger"
+                          onclick="return confirm('האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין.')">
+                      הסר מהמלאי
+                    </button>
+                  </div>
+                </form>
                 </td>
               </tr>
             {% endfor %}

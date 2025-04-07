@@ -63,12 +63,11 @@ class InventoryTracking(models.Model):
 
 
 # מודל פריט (Item)
+# In models.py
 class Item(models.Model):
     STATUS_CHOICES = [
         ('available', 'Available'),
         ('borrowed', 'Borrowed'),
-        ('damaged', 'Damaged'),
-        ('returned', 'Returned'),
     ]
     inventory = models.ForeignKey(InventoryTracking, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)

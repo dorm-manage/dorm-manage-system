@@ -11,6 +11,9 @@ from datetime import datetime
 from django.utils.safestring import mark_safe
 from django.db.models.functions import Cast
 from django.db.models import IntegerField
+from django.shortcuts import render, redirect
+from django.db.models import Count, Q, Prefetch
+from django.db import transaction
 
 # Then import your models
 from .models import (
@@ -428,6 +431,44 @@ def BM_inventory(request):
 
     # Get all inventory items
     inventory_list = InventoryTracking.objects.all().order_by('-updated_at')
+
+    # Initialize items_by_inventory as a dictionary with default sub-dictionaries
+    items_by_inventory = {}
+
+
+    # Get all items and group them by inventory
+    items_list = Item.objects.all().select_related('inventory')
+
+    # Group items by inventory item and status
+    for item in items_list:
+        if item.inventory_id not in items_by_inventory:
+            # Initialize with default values to avoid KeyError
+            items_by_inventory[item.inventory_id] = {
+                'available': 0,
+                'borrowed': 0,
+                'total': 0
+            }
+
+        # Increment the appropriate status counter
+        if item.status in ['available', 'borrowed']:
+            items_by_inventory[item.inventory_id][item.status] += 1
+
+        # Increment total counter
+        items_by_inventory[item.inventory_id]['total'] += 1
+
+    # Pagination
+    paginator = Paginator(inventory_list, 25)  # Show 25 items per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'BM_inventory.html', {
+        'inventory': page_obj,
+        'items_by_inventory': items_by_inventory,
+        'page_obj': page_obj,
+    })
+
+    # Get all inventory items
+    inventory_list = InventoryTracking.objects.all().order_by('-updated_at')
     items_list = Item.objects.all().select_related('inventory')
 
     # Group items by inventory item
@@ -581,10 +622,18 @@ def BM_loan_requests(request):
                 elif action == 'damaged':
                     # Mark the request as resolved
                     req_obj.status = 'resolved'
-                    # Update the item status to damaged
+                    # Remove the item completely
                     if req_obj.item:
-                        req_obj.item.status = 'damaged'
-                        req_obj.item.save()
+                        # Store the item info for the success message
+                        item_name = req_obj.item.inventory.item_name if req_obj.item.inventory else "הפריט"
+                        # Delete the item
+                        req_obj.item.delete()
+                        # Set item to None to avoid reference errors
+                        req_obj.item = None
+                        messages.success(request, f"{item_name} הוסר מהמלאי בהצלחה.")
+
+                        req_obj.updated_at = timezone.now()
+                        req_obj.save()
 
                 # Save the comment as admin note
                 if admin_comment:
@@ -702,16 +751,6 @@ def BM_faults(request):
 
     return render(request, 'BM_faults.html', context)
 
-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.utils import timezone
-from django.db.models import Count, Q, Prefetch
-from django.core.paginator import Paginator
-from django.utils.safestring import mark_safe
-from datetime import datetime
-from django.db import transaction
 
 
 @login_required

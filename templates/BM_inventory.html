@@ -323,7 +323,6 @@
                     <th>כמות כוללת</th>
                     <th>זמינים</th>
                     <th>בהשאלה</th>
-                    <th>פגומים</th>
                     <th>פעולות</th>
                 </tr>
             </thead>
@@ -334,19 +333,24 @@
                         {% if item.photo_url %}
                             <img src="{{ item.photo_url.url }}" alt="{{ item.item_name }}" class="item-photo">
                         {% else %}
-                            <img src="/static/img/no-image.png" alt="אין תמונה" class="item-photo">
+                            <img src="{% static 'img/no-image.png' %}" alt="אין תמונה" class="item-photo">
                         {% endif %}
                     </td>
                     <td>{{ item.item_name }}</td>
                     <td>{{ item.quantity }}</td>
                     <td class="status-available">
-                        {{ items_by_inventory|get_item:item.id|get_item:'available'|default:0 }}
+                        {% if items_by_inventory|get_item:item.id %}
+                            {{ items_by_inventory|get_item:item.id|get_item:'available' }}
+                        {% else %}
+                            0
+                        {% endif %}
                     </td>
                     <td class="status-borrowed">
-                        {{ items_by_inventory|get_item:item.id|get_item:'borrowed'|default:0 }}
-                    </td>
-                    <td class="status-damaged">
-                        {{ items_by_inventory|get_item:item.id|get_item:'damaged'|default:0 }}
+                        {% if items_by_inventory|get_item:item.id %}
+                            {{ items_by_inventory|get_item:item.id|get_item:'borrowed' }}
+                        {% else %}
+                            0
+                        {% endif %}
                     </td>
                     <td>
                         <button class="btn btn-warning" onclick="openEditModal({{ item.id }}, '{{ item.item_name }}', {{ item.quantity }})">ערוך</button>
