@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/inventory.css' %}">
-    <title>DormitoriesPlus - ניהול מלאי</title>
+    <title>DormitoriesPlus - ניהול מלאי למנהל המשרד</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/buttons.css' %}">
@@ -16,10 +16,14 @@
 <body>
 
 <div class="container">
+    <div class="actions-bar">
+        <a href="{% url 'OM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+        <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
+    </div>
 
     <div class="hero">
-        <h2>ניהול מלאי</h2>
-        <p>כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
+        <h2>ניהול מלאי - מנהל משרד</h2>
+        <p>כאן תוכל לנהל את פריטי המלאי של כל הבניינים, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
     </div>
 
     {% if messages %}
@@ -107,13 +111,6 @@
         </div>
         {% endif %}
     </div>
-
-
-    <div class="actions-bar">
-        <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
-        <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
-    </div>
-
 
     <!-- Modal for adding new item -->
     <div id="addModal" class="modal">

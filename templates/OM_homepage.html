@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormitoriesPlus - עמוד ראשי למנהל המערכת</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+    <!-- Font Awesome for icons TODO: check if can use in prod -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<header>
+  <h1>DormitoriesPlus</h1>
+</header>
+
+<div class="container">
+
+  <div class="hero">
+    <h2>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</h2>
+    <p>עמוד ניהול ראשי למערכת DormitoriesPlus</p>
+  </div>
+
+  <!-- הודעות מערכת לדוגמה -->
+  <div class="notification">
+    <h4>הודעות מערכת</h4>
+    <p>ברוך הבא למערכת DormitoriesPlus המחודשת. המערכת עודכנה עם ממשק ניהול מרכזי לכל הבניינים.</p>
+  </div>
+
+  <!-- סטטיסטיקות מהירות -->
+  <div class="section">
+    <h3>סטטיסטיקות מערכת</h3>
+    <div class="stats-container">
+      <div class="stat-card">
+        <div>מספר סטודנטים</div>
+        <div class="stat-value">{{ total_students|default:"320" }}</div>
+        <div>סטודנטים במעונות</div>
+      </div>
+      <div class="stat-card">
+        <div>תפוסת חדרים</div>
+        <div class="stat-value">{{ occupancy_rate|default:"87" }}%</div>
+        <div>מהקיבולת המלאה</div>
+      </div>
+      <div class="stat-card">
+        <div>ציוד בהשאלה</div>
+        <div class="stat-value">{{ borrowed_items|default:"42" }}</div>
+        <div>פריטים</div>
+      </div>
+      <div class="stat-card">
+        <div>תקלות פתוחות</div>
+        <div class="stat-value">{{ open_faults|default:"15" }}</div>
+        <div>לטיפול</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ניהול מרכזי - כל הבניינים -->
+  <div class="section">
+    <h3>ניהול מרכזי - כל הבניינים</h3>
+    <p>גישה מרוכזת למנהל המשרד לכל הבניינים במערכת</p>
+
+    <div class="links">
+        <a href="{% url 'OM_Homepage' %}" class="button">
+            <i class="fas fa-building"></i> עמוד ראשי למנהל משרד
+        </a>
+        <a href="{% url 'OM_inventory' %}" class="button">
+            <i class="fas fa-boxes"></i> ניהול מלאי מרכזי
+        </a>
+        <a href="{% url 'OM_loan_requests' %}" class="button">
+            <i class="fas fa-exchange-alt"></i> ניהול השאלות מרכזי
+        </a>
+        <a href="{% url 'OM_faults' %}" class="button">
+            <i class="fas fa-tools"></i> ניהול תקלות מרכזי
+        </a>
+        <a href="{% url 'OM_manage_students' %}" class="button">
+            <i class="fas fa-users"></i> ניהול סטודנטים מרכזי
+        </a>
+    </div>
+  </div>
+
+  <!-- ניהול משרד -->
+  <div class="section">
+    <h3>ניהול משרד</h3>
+    <p>כלים לניהול המעונות</p>
+
+    <div class="links">
+      <a href="{% url 'manager_BM' %}" class="button">
+        <i class="fas fa-user-tie"></i> ניהול אחראי בניין
+      </a>
+      <a href="{% url 'OM_faults' %}" class="button">
+        <i class="fas fa-exclamation-triangle"></i> ניהול תקלות
+      </a>
+      <a href="{% url 'OM_loan_requests' %}" class="button">
+        <i class="fas fa-clipboard-list"></i> ניהול בקשות
+      </a>
+      <a href="{% url 'OM_inventory' %}" class="button">
+        <i class="fas fa-warehouse"></i> ניהול מלאי
+      </a>
+    </div>
+  </div>
+
+  <!-- פעולות מהירות -->
+  <div class="section">
+    <h3>פעולות מהירות</h3>
+    <div class="quick-access">
+      <div class="quick-card">
+        <h4>ניהול סטודנטים</h4>
+        <ul>
+          <li>שיבוץ מהיר לחדרים</li>
+          <li>הארכת תקופת מגורים</li>
+          <li>החלפת חדרים</li>
+        </ul>
+        <a href="{% url 'OM_manage_students' %}" class="action-button">כניסה מהירה</a>
+      </div>
+
+      <div class="quick-card">
+        <h4>ניהול ציוד</h4>
+        <ul>
+          <li>עדכון מלאי</li>
+          <li>אישור השאלות</li>
+          <li>ציוד שלא הוחזר</li>
+        </ul>
+        <a href="{% url 'OM_inventory' %}" class="action-button">כניסה מהירה</a>
+      </div>
+
+      <div class="quick-card">
+        <h4>דוחות</h4>
+        <ul>
+          <li>תפוסת מעונות</li>
+          <li>ציוד מושאל</li>
+          <li>תקלות חוזרות</li>
+        </ul>
+        <a href="#" class="action-button">הפקת דוחות</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+</body>
+</html>

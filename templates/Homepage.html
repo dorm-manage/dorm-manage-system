@@ -1,53 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="he">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DormitoriesPlus - בחירת משתמש</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      direction: rtl;
-    }
-
-    header {
-      background-color: #333;
-      color: white;
-      padding: 15px 0;
-    }
-
-    header h1 {
-      margin: 0;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 80vh;
-    }
-
-    .user-type {
-      background-color: #335db3;
-      color: white;
-      padding: 15px 25px;
-      margin: 10px;
-      text-decoration: none;
-      border-radius: 10px;
-      font-size: 18px;
-      transition: background-color 0.3s;
-      display: inline-block;
-    }
-
-    .user-type:hover {
-      background-color: #444;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 <body>
 <header>

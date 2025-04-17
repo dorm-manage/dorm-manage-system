@@ -1,202 +1,251 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="he">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DormitoriesPlus - ניהול אחראי בניין</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      direction: rtl; /* כיוון ימין לשמאל */
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh; /* מבטיח שה-body ימלא את כל גובה הדף */
-    }
-
-    header {
-      background-color: #333;
-      color: white;
-      padding: 10px 0;
-      text-align: center;
-      position: relative;
-    }
-
-    header .back-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px; /* מיקום בפינה השמאלית העליונה */
-      background-color: #555;
-      color: white;
-      padding: 8px 12px;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-      font-size: 14px;
-    }
-
-    header .back-btn:hover {
-      background-color: #335db3;
-    }
-
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      padding: 20px;
-      flex: 1; /* מאפשר ל-container למלא את שאר גובה הדף */
-    }
-
-    .hero {
-      background-color: #335db3;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    .hero h2 {
-      margin: 0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    table th, table td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-
-    table th {
-      background-color: #f9f9f9;
-      font-weight: bold;
-    }
-
-    .form-section {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-      text-align: right;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .form-group input, .form-group button {
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      width: calc(100% - 20px);
-      box-sizing: border-box;
-    }
-
-    .form-group button {
-      background-color: #335db3;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .form-group button:hover {
-      background-color: #274a93;
-    }
-
-    footer {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 10px 0;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormitoriesPlus - ניהול אחראי בניין</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/modals.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+    <!-- Font Awesome for icons TODO: check if can use in prod-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 
 <header>
-  <a class="back-btn" href="{% url 'manager_Homepage' %}">חזרה לעמוד ראשי</a>
   <h1>DormitoriesPlus</h1>
 </header>
 
 <div class="container">
+  <!-- כותרת העמוד -->
   <div class="hero">
     <h2>ניהול אחראי בניין</h2>
-    <p>כאן תוכל לצפות ולעדכן את פרטי אחראי הבניין</p>
+    <p>הוספה, עדכון והסרה של אחראי בניין</p>
   </div>
 
-  <!-- טבלת אחראי בניין -->
-  <div class="form-section">
-    <h3>רשימת אחראי בניין</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>מספר בניין</th>
-          <th>שם אחראי</th>
-          <th>מספר טלפון</th>
-          <th>תאריך תחילת עבודה</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>אבי לוי</td>
-          <td>050-1234567</td>
-          <td>01/01/2022</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>דנה כהן</td>
-          <td>052-9876543</td>
-          <td>01/05/2023</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- הודעות מערכת -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message {% if message.tags == 'success' %}message-success{% elif message.tags == 'error' %}message-error{% elif message.tags == 'warning' %}message-warning{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- טאבים -->
+  <div class="tabs">
+    <button class="tab-button active" onclick="openTab('managers-tab')">ניהול אחראי בניין</button>
+    <button class="tab-button" onclick="openTab('add-manager-tab')">הוספת אחראי בניין חדש</button>
   </div>
 
-  <!-- טופס עדכון אחראי בניין -->
-  <div class="form-section">
-    <h3>עדכון אחראי בניין</h3>
-    <form action="/update_building_manager" method="post">
-      <div class="form-group">
-        <label for="building-number">מספר בניין:</label>
-        <input type="number" id="building-number" name="building_number" required>
-      </div>
-      <div class="form-group">
-        <label for="manager-name">שם אחראי:</label>
-        <input type="text" id="manager-name" name="manager_name" required>
-      </div>
-      <div class="form-group">
-        <label for="phone-number">מספר טלפון:</label>
-        <input type="text" id="phone-number" name="phone_number" required>
-      </div>
-      <div class="form-group">
-        <label for="start-date">תאריך תחילת עבודה:</label>
-        <input type="date" id="start-date" name="start_date" required>
-      </div>
-      <div class="form-group">
-        <button type="submit">עדכן</button>
-      </div>
-    </form>
+  <!-- טאב ניהול אחראי בניין -->
+  <div id="managers-tab" class="tab-content active">
+    <div class="section">
+      <h3>רשימת בניינים ואחראים</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 10%;">מס' בניין</th>
+            <th style="width: 20%;">שם בניין</th>
+            <th style="width: 25%;">אחראי בניין</th>
+            <th style="width: 25%;">אימייל</th>
+            <th style="width: 20%;">פעולות</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for building in buildings %}
+            <tr>
+              <td>{{ building.id }}</td>
+              <td>{{ building.building_name }}</td>
+              <td>
+                {% if building.building_staff_member %}
+                  <span class="manager-label manager-assigned">
+                    {{ building.building_staff_member.first_name }} {{ building.building_staff_member.last_name }}
+                  </span>
+                {% else %}
+                  <span class="manager-label manager-empty">לא מוגדר</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if building.building_staff_member %}
+                  {{ building.building_staff_member.email }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if building.building_staff_member %}
+                  <form method="post" style="display: inline-block;">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="remove_manager">
+                    <input type="hidden" name="building_id" value="{{ building.id }}">
+                    <button type="submit" class="button button-danger" onclick="return confirm('האם אתה בטוח שברצונך להסיר את אחראי הבניין?')">
+                      <i class="fas fa-user-minus"></i> הסר
+                    </button>
+                  </form>
+                {% else %}
+                  <button class="button button-success" onclick="openAssignModal('{{ building.id }}', '{{ building.building_name }}')">
+                    <i class="fas fa-user-plus"></i> שיוך אחראי
+                  </button>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" style="text-align: center;">אין בניינים מוגדרים במערכת</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <!-- טאב הוספת אחראי בניין חדש -->
+  <div id="add-manager-tab" class="tab-content">
+    <div class="section">
+      <h3>הוספת אחראי בניין חדש</h3>
+
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_manager">
+
+        <div class="form-group">
+          <label for="first_name">שם פרטי:</label>
+          <input type="text" id="first_name" name="first_name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="last_name">שם משפחה:</label>
+          <input type="text" id="last_name" name="last_name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">אימייל:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">סיסמה ראשונית:</label>
+          <input type="password" id="password" name="password" value="123456789">
+          <small style="color: #666;">סיסמה ברירת מחדל: 123456789</small>
+        </div>
+
+        <div class="form-group">
+          <label for="assign_building_id">שייך לבניין (אופציונלי):</label>
+          <select id="assign_building_id" name="assign_building_id">
+            <option value="">-- בחר בניין --</option>
+            {% for building in buildings %}
+              {% if not building.building_staff_member %}
+                <option value="{{ building.id }}">{{ building.building_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+
+        <div style="text-align: left; margin-top: 20px;">
+          <button type="submit" class="button button-success">
+            <i class="fas fa-user-plus"></i> הוסף אחראי בניין
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- מודל לשיוך אחראי בניין -->
+  <div id="assignModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAssignModal()">&times;</span>
+      <h3>שיוך אחראי בניין</h3>
+      <p id="assignModalText"></p>
+
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="assign_manager">
+        <input type="hidden" id="modal_building_id" name="building_id">
+
+        <div class="form-group">
+          <label for="staff_user_id">בחר אחראי בניין:</label>
+          <select id="staff_user_id" name="staff_user_id" required>
+            <option value="" disabled selected>-- בחר אחראי בניין --</option>
+            {% for staff in building_staff_users %}
+              <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }} ({{ staff.email }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div style="text-align: left; margin-top: 20px;">
+          <button type="submit" class="button button-success">
+            <i class="fas fa-user-plus"></i> שייך אחראי
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- כפתור חזרה -->
+  <a href="{% url 'manager_Homepage' %}" class="back-button">
+    <i class="fas fa-arrow-right"></i> חזרה לעמוד הראשי
+  </a>
 </div>
 
 <footer>
   <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
 </footer>
+
+<script>
+  // פונקציות לטיפול בטאבים
+  function openTab(tabId) {
+    // Hide all tab contents
+    var tabContents = document.getElementsByClassName("tab-content");
+    for (var i = 0; i < tabContents.length; i++) {
+      tabContents[i].classList.remove("active");
+    }
+
+    // Remove active class from all tab buttons
+    var tabButtons = document.getElementsByClassName("tab-button");
+    for (var i = 0; i < tabButtons.length; i++) {
+      tabButtons[i].classList.remove("active");
+    }
+
+    // Show the current tab content
+    document.getElementById(tabId).classList.add("active");
+
+    // Add active class to the button that opened the tab
+    event.currentTarget.classList.add("active");
+  }
+
+  // פונקציות לטיפול במודל שיוך אחראי בניין
+  function openAssignModal(buildingId, buildingName) {
+    document.getElementById("modal_building_id").value = buildingId;
+    document.getElementById("assignModalText").innerText = "שיוך אחראי בניין לבניין " + buildingName;
+    document.getElementById("assignModal").style.display = "block";
+  }
+
+  function closeAssignModal() {
+    document.getElementById("assignModal").style.display = "none";
+  }
+
+  // סגירת המודל בלחיצה מחוץ לתוכן
+  window.onclick = function(event) {
+    var modal = document.getElementById("assignModal");
+    if (event.target == modal) {
+      closeAssignModal();
+    }
+  }
+
+  // Auto-hide messages after 5 seconds
+  setTimeout(function() {
+    var messages = document.getElementsByClassName('message');
+    for (var i = 0; i < messages.length; i++) {
+      messages[i].style.display = 'none';
+    }
+  }, 5000);
+</script>
 
 </body>
 </html>

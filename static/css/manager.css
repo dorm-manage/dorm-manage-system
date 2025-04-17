@@ -1,0 +1,144 @@
+/* manager.css - Manager and Office Manager specific styles */
+
+/* Manager Section Hero - Different color for manager pages */
+.hero.manager {
+  background-color: #563D7C;
+}
+
+/* Office Manager Hero - Different color for office manager pages */
+.hero.office-manager {
+  background-color: #4A725A;
+}
+
+/* Manager section headings */
+.section h3.manager-heading {
+  color: #563D7C;
+}
+
+.section h3.office-manager-heading {
+  color: #4A725A;
+}
+
+/* Manager specific buttons */
+.button.manager-primary {
+  background-color: #563D7C;
+  color: white;
+}
+
+.button.manager-primary:hover {
+  background-color: #472D6C;
+}
+
+.button.office-manager-primary {
+  background-color: #4A725A;
+  color: white;
+}
+
+.button.office-manager-primary:hover {
+  background-color: #3d5d49;
+}
+
+.comment-btn.office-manager {
+  background-color: #4A725A;
+}
+
+/* Manager labels */
+.manager-label {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.manager-assigned {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.manager-empty {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Tab styles for manager pages */
+.tab.manager.active {
+  background-color: #563D7C;
+  border-color: #563D7C;
+}
+
+.tab.office-manager.active {
+  background-color: #4A725A;
+  border-color: #4A725A;
+}
+
+/* Pagination styles for manager pages */
+.pagination .current-page.manager {
+  background-color: #563D7C;
+  border-color: #563D7C;
+}
+
+.pagination .current-page.office-manager {
+  background-color: #4A725A;
+  border-color: #4A725A;
+}
+
+/* Button styles for manager pages */
+.btn-primary.manager {
+  background-color: #563D7C;
+}
+
+.btn-primary.manager:hover {
+  background-color: #472D6C;
+}
+
+.btn-primary.office-manager {
+  background-color: #4A725A;
+}
+
+.btn-primary.office-manager:hover {
+  background-color: #3d5d49;
+}
+
+/* Loading indicator */
+.loading-indicator {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #6c757d;
+}
+
+/* Stats for manager sections */
+.stat-card .stat-value.manager {
+  color: #563D7C;
+}
+
+.stat-card .stat-value.office-manager {
+  color: #4A725A;
+}
+
+.stat-card h4.manager {
+  color: #563D7C;
+}
+
+.stat-card h4.office-manager {
+  color: #4A725A;
+}
+
+/* Filter section headers for manager pages */
+.filter-section h4.manager {
+  color: #563D7C;
+}
+
+.filter-section h4.office-manager {
+  color: #4A725A;
+}
+
+/* Filter buttons for manager pages */
+.filter-apply.manager {
+  background-color: #563D7C;
+}
+
+.filter-apply.office-manager {
+  background-color: #4A725A;
+}

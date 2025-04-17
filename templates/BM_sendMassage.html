@@ -1,113 +1,13 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="he">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DormitoriesPlus - הודעות לדיירים</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      direction: rtl;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      background-color: #333;
-      color: white;
-      padding: 10px 0;
-      text-align: center;
-      position: relative;
-    }
-
-    header .back-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: #555;
-      color: white;
-      padding: 8px 12px;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-      font-size: 14px;
-    }
-
-    header .back-btn:hover {
-      background-color: #335db3;
-    }
-
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      padding: 20px;
-      flex: 1;
-    }
-
-    .hero {
-      background-color: #335db3;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    .hero h2 {
-      margin: 0;
-    }
-
-    .form-section {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-      text-align: right;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .form-group textarea,
-    .form-group select,
-    .form-group button {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .form-group button {
-      background-color: #335db3;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .form-group button:hover {
-      background-color: #274a93;
-    }
-
-    footer {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 10px 0;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormitoriesPlus - הודעות לדיירים</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
 </head>
 <body>
 

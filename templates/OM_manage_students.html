@@ -5,11 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - ניהול סטודנטים</title>
+    <title>DormitoriesPlus - ניהול סטודנטים - מנהל משרד</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
 </head>
 <body>
@@ -17,14 +18,8 @@
 <div class="container">
 
   <div class="hero">
-    <h2>ניהול סטודנטים</h2>
-    <div style="margin-top: 10px; font-size: 16px;">
-      <p>אחראי על בניין-
-        {% for building in managed_buildings %}
-          {{ building.building_name }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-      </p>
-    </div>
+    <h2>ניהול סטודנטים - מנהל משרד</h2>
+    <p>גישה לניהול סטודנטים עבור כל הבניינים במערכת</p>
   </div>
 
 
@@ -36,6 +31,36 @@
       </div>
     {% endfor %}
   {% endif %}
+
+  <!-- Stats Dashboard for Office Manager -->
+  <div class="section">
+    <h3>סיכום נתונים</h3>
+    <div class="stats-dashboard">
+      <div class="stat-card">
+        <h4>סה"כ סטודנטים במעונות</h4>
+        <div class="stat-value">{{ total_students_count|default:"0" }}</div>
+        <div class="stat-unit">סטודנטים</div>
+      </div>
+      <div class="stat-card">
+        <h4>תפוסה ממוצעת</h4>
+        <div class="stat-value">{{ avg_occupancy|default:"0" }}%</div>
+        <div class="stat-unit">מהקיבולת הכוללת</div>
+      </div>
+      <div class="stat-card">
+        <h4>חדרים פנויים</h4>
+        <div class="stat-value">{{ available_rooms_count|default:"0" }}</div>
+        <div class="stat-unit">חדרים</div>
+      </div>
+      <div class="stat-card">
+        <h4>סיומי מגורים החודש</h4>
+        <div class="stat-value">{{ ending_this_month|default:"0" }}</div>
+        <div class="stat-unit">סטודנטים</div>
+      </div>
+    </div>
+    <div style="text-align: right; margin-top: 10px;">
+      <button class="export-btn">ייצא דוח Excel</button>
+    </div>
+  </div>
 
   <!-- לשוניות בניינים -->
   <div class="section">
@@ -70,7 +95,7 @@
               <h3>הוספת סטודנט חדש לבניין {{ building_data.building.building_name }}</h3>
 
               {% if building_data.available_rooms %}
-                <form method="POST" action="{% url 'BM_manage_students' %}">
+                <form method="POST" action="{% url 'OM_manage_students' %}">
                   {% csrf_token %}
                   <input type="hidden" name="action" value="add_student">
                   <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
@@ -96,7 +121,7 @@
                       <input type="password" id="password" name="password" value="123456789" required>
                       <button type="button" onclick="togglePasswordVisibility()"
                               style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%);
-                                     background: none; border: none; color: #335db3; cursor: pointer;">
+                                     background: none; border: none; color: #4A725A; cursor: pointer;">
                         <span id="password-toggle-icon">👁️</span>
                       </button>
                     </div>
@@ -167,8 +192,7 @@
                       <td>{{ assignment.start_date|date:"d/m/Y" }}</td>
                       <td>{{ assignment.end_date|date:"d/m/Y"|default:"לא מוגדר" }}</td>
                       <td>
-
-                          <form method="POST" action="{% url 'BM_manage_students' %}" style="display:inline-block; margin-right: 5px;">
+                          <form method="POST" action="{% url 'OM_manage_students' %}" style="display:inline-block; margin-right: 5px;">
                             {% csrf_token %}
                             <input type="hidden" name="action" value="remove_student">
                             <input type="hidden" name="assignment_id" value="{{ assignment.id }}">
@@ -179,7 +203,7 @@
                               הסר מהמערכת
                             </button>
                           </form>
-                    </td>
+                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -229,13 +253,13 @@
 
     {% if not buildings_data %}
       <div class="no-data">
-        <p>אין בניינים תחת ניהולך.</p>
+        <p>אין בניינים מוגדרים במערכת.</p>
       </div>
     {% endif %}
   </div>
 
   <div class="links">
-    <a href="{% url 'BM_Homepage' %}">חזרה לעמוד הראשי</a>
+    <a href="{% url 'OM_Homepage' %}">חזרה לעמוד הראשי</a>
   </div>
 
 </div>
@@ -299,16 +323,6 @@
       }
 
       tr[i].style.display = found ? "" : "none";
-    }
-  }
-
-  // פונקציה להצגת אפשרויות הסרה
-  function showRemoveOptions(assignmentId) {
-    var optionsDiv = document.getElementById("remove-options-" + assignmentId);
-    if (optionsDiv.style.display === "none") {
-      optionsDiv.style.display = "block";
-    } else {
-      optionsDiv.style.display = "none";
     }
   }
 
