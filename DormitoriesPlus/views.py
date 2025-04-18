@@ -14,7 +14,7 @@ from django.db.models import IntegerField
 from django.shortcuts import render, redirect
 from django.db.models import Count, Q, Prefetch
 from django.db import transaction
-
+from django.contrib.auth.models import User
 # Then import your models
 from .models import (
     User,
@@ -26,6 +26,7 @@ from .models import (
     RoomAssignment,
     Room  # Make sure this is included if you've created it
 )
+
 
 # דוגמאות עבור עמודים שאינם דורשים עיבוד טפסים
 def Homepage(request):
@@ -1062,31 +1063,33 @@ def OM_Homepage(request):
     # Get the office manager (current user)
     om = request.user
 
-    # Get all buildings (not just managed ones)
+    # Get all buildings
     all_buildings = Building.objects.all()
 
-    # Count pending equipment rental requests from all buildings
-    pending_requests_count = Request.objects.filter(
+    # Count total students
+    total_students = User.objects.filter(role='student', is_active=True).count()
+
+    # Calculate occupancy rate - based on room assignments
+    total_rooms = Room.objects.count()
+    # Count rooms that have at least one assignment
+    occupied_rooms = Room.objects.annotate(
+        assignment_count=Count('assignments')
+    ).filter(assignment_count__gt=0).count()
+    occupancy_rate = int((occupied_rooms / total_rooms * 100)) if total_rooms > 0 else 0
+
+    # Count late items (equipment rentals past due date)
+    current_date = timezone.now()
+    # Assuming items are late after 7 days if no due_date field exists
+    late_items = Request.objects.filter(
         request_type='equipment_rental',
-        status='pending'
+        status='approved',
+        created_at__lt=current_date - timezone.timedelta(days=7)
     ).count()
 
-    # Count borrowed items (approved but not returned) from all buildings
-    borrowed_items_count = Request.objects.filter(
-        request_type='equipment_rental',
-        status='approved'
-    ).count()
-
-    # Count open fault reports from all buildings
-    open_faults_count = Request.objects.filter(
+    # Count only open faults (not including those in progress)
+    open_faults = Request.objects.filter(
         request_type='fault_report',
-        status='open'
-    ).count()
-
-    # Count pending fault reports from all buildings
-    pending_faults_count = Request.objects.filter(
-        request_type='fault_report',
-        status='pending'
+        status='open'  # Only count 'open' status, not 'pending' or 'in_progress'
     ).count()
 
     # Get recent urgent faults (high urgency) from all buildings
@@ -1096,16 +1099,38 @@ def OM_Homepage(request):
         status__in=['open', 'pending']
     ).select_related('user', 'room').order_by('-created_at')[:5]
 
+    # Additional data for other parts of the template
+    pending_requests_count = Request.objects.filter(
+        request_type='equipment_rental',
+        status='pending'
+    ).count()
+
+    borrowed_items_count = Request.objects.filter(
+        request_type='equipment_rental',
+        status='approved'
+    ).count()
+
+    pending_faults_count = Request.objects.filter(
+        request_type='fault_report',
+        status='pending'
+    ).count()
+
     context = {
+        # New real statistics for the cards
+        'total_students': total_students,
+        'occupancy_rate': occupancy_rate,
+        'late_items': late_items,
+        'open_faults': open_faults,
+
+        # Additional data for other parts of the template
         'pending_requests_count': pending_requests_count,
         'borrowed_items_count': borrowed_items_count,
-        'open_faults_count': open_faults_count,
         'pending_faults_count': pending_faults_count,
         'urgent_faults': urgent_faults,
         'all_buildings': all_buildings,
     }
 
-    return render(request, 'OM_Homepage.html', context)
+    return render(request, 'OM_homepage.html', context)
 
 
 @login_required
@@ -1555,8 +1580,6 @@ def OM_manage_students(request):
     return render(request, 'OM_manage_students.html', context)
 
 
-
-
 # Helper functions for OM_manage_students - similar to BM functions but for all buildings
 def handle_add_student_OM(request, all_buildings):
     """
@@ -1740,6 +1763,10 @@ def handle_remove_student_OM(request, all_buildings):
 
     return False
 
+
+def is_operations_manager(user):
+    """Check if user is an operations manager"""
+    return user.is_authenticated and hasattr(user, 'profile') and user.profile.role == 'OM'
 
 @login_required
 def OM_manage_BM(request):
