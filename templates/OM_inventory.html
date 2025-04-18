@@ -16,11 +16,6 @@
 <body>
 
 <div class="container">
-    <div class="actions-bar">
-        <a href="{% url 'OM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
-        <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
-    </div>
-
     <div class="hero">
         <h2>ניהול מלאי - מנהל משרד</h2>
         <p>כאן תוכל לנהל את פריטי המלאי של כל הבניינים, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
@@ -177,6 +172,13 @@
             </form>
         </div>
     </div>
+
+
+    <div class="actions-bar">
+        <a href="{% url 'OM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+        <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
+    </div>
+
 </div>
 
 <footer>
