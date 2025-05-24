@@ -1,0 +1,33 @@
+שלום {{ bm.first_name }} {{ bm.last_name }},
+
+להלן דוח מצב מלאי עבור בניין {{ building.building_name }}.
+
+{% if grouped_overdue %}
+** פריטים שמועד החזרתם עבר ({{ total_overdue }}): **
+
+{% for student_id, student_data in grouped_overdue.items %}
+סטודנט: {{ student_data.student.first_name }} {{ student_data.student.last_name }} ({{ student_data.student.email }})
+{% for item in student_data.items %}
+- {{ item.item_name }} (חדר {{ item.room_number }})
+  תאריך החזרה: {{ item.return_date|date:"d/m/Y" }} (באיחור של {{ item.days_overdue }} ימים)
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+{% if grouped_due_soon %}
+** פריטים שמועד החזרתם מתקרב ({{ total_due_soon }}): **
+
+הפריטים הבאים צריכים להיות מוחזרים תוך {{ advance_days }} ימים:
+{% for student_id, student_data in grouped_due_soon.items %}
+סטודנט: {{ student_data.student.first_name }} {{ student_data.student.last_name }} ({{ student_data.student.email }})
+{% for item in student_data.items %}
+- {{ item.item_name }} (חדר {{ item.room_number }})
+  תאריך החזרה: {{ item.return_date|date:"d/m/Y" }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+באפשרותך לעדכן את סטטוס הפריטים במערכת באמצעות כניסה למערכת DormitoriesPlus.
+
+בברכה,
+מערכת DormitoriesPlus

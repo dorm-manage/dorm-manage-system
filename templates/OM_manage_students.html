@@ -38,22 +38,22 @@
     <div class="stats-dashboard">
       <div class="stat-card">
         <h4>סה"כ סטודנטים במעונות</h4>
-        <div class="stat-value">{{ total_students_count|default:"0" }}</div>
+        <div class="stat-value">{{ total_students_count }}</div>
         <div class="stat-unit">סטודנטים</div>
       </div>
       <div class="stat-card">
         <h4>תפוסה ממוצעת</h4>
-        <div class="stat-value">{{ avg_occupancy|default:"0" }}%</div>
+        <div class="stat-value">{{ avg_occupancy }}%</div>
         <div class="stat-unit">מהקיבולת הכוללת</div>
       </div>
       <div class="stat-card">
-        <h4>חדרים פנויים</h4>
-        <div class="stat-value">{{ available_rooms_count|default:"0" }}</div>
-        <div class="stat-unit">חדרים</div>
+        <h4>מקומות פנויים</h4>
+        <div class="stat-value">{{ total_empty_slots }}</div>
+        <div class="stat-unit">בכל החדרים</div>
       </div>
       <div class="stat-card">
         <h4>סיומי מגורים החודש</h4>
-        <div class="stat-value">{{ ending_this_month|default:"0" }}</div>
+        <div class="stat-value">{{ ending_this_month }}</div>
         <div class="stat-unit">סטודנטים</div>
       </div>
     </div>

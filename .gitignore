@@ -2,3 +2,5 @@
 .env
 DormitoriesPlus/__pycache__
 DormitoriesPlus_project/__pycache__
+DormitoriesPlus/management/__pycache__
+DormitoriesPlus/management/commands/__pycache__

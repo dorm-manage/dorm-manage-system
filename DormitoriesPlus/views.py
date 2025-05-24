@@ -1512,8 +1512,22 @@ def OM_manage_students(request):
     # Prepare data for buildings (optimized for the active building)
     buildings_data = []
 
+    # Initialize stats counters
+    total_students_count = 0
+    total_capacity = 0
+    total_occupied = 0
+    total_empty_slots = 0
+    ending_this_month = 0
+
     # Current date for filtering assignments
     current_date = timezone.now().date()
+    # End of current month for filtering assignments ending this month
+    month_end = current_date.replace(day=28)
+    if month_end.month == 12:
+        next_month = datetime.date(month_end.year + 1, 1, 1)
+    else:
+        next_month = datetime.date(month_end.year, month_end.month + 1, 1)
+    month_end = next_month - datetime.timedelta(days=1)
 
     for building in all_buildings:
         is_active = building.id == active_building_id
@@ -1527,20 +1541,30 @@ def OM_manage_students(request):
             'has_data': False,
         }
 
+        # Get rooms with their capacity and occupied count for stats
+        rooms = Room.objects.filter(building=building).annotate(
+            occupied_count=Count(
+                'assignments',
+                filter=Q(assignments__end_date__isnull=True) | Q(assignments__end_date__gte=current_date)
+            ),
+            room_number_int=Cast('room_number', IntegerField())
+        )
+
+        # Calculate stats for this building
+        building_capacity = sum(room.capacity for room in rooms)
+        building_occupied = sum(room.occupied_count for room in rooms)
+        building_empty_slots = sum(max(0, room.capacity - room.occupied_count) for room in rooms)
+
+        # Add to the totals
+        total_capacity += building_capacity
+        total_occupied += building_occupied
+        total_empty_slots += building_empty_slots
+
         # Only load detailed data for the active building
         if is_active:
-            # Get rooms with their capacity and occupied count in one efficient query
-            rooms = Room.objects.filter(building=building).annotate(
-                occupied_count=Count(
-                    'assignments',
-                    filter=Q(assignments__end_date__isnull=True) | Q(assignments__end_date__gte=current_date)
-                ),
-                room_number_int=Cast('room_number', IntegerField())
-            ).order_by('room_number_int')
-
             # Filter and format available rooms
             available_rooms = []
-            for room in rooms:
+            for room in rooms.order_by('room_number_int'):
                 available_spots = max(0, room.capacity - room.occupied_count)
                 if available_spots > 0:
                     available_rooms.append({
@@ -1554,6 +1578,15 @@ def OM_manage_students(request):
             ).filter(
                 Q(end_date__isnull=True) | Q(end_date__gte=current_date)
             ).select_related('user', 'room').order_by('room__room_number')
+
+            # Count students ending this month
+            ending_this_month_count = RoomAssignment.objects.filter(
+                room__building=building,
+                end_date__gte=current_date,
+                end_date__lte=month_end
+            ).count()
+
+            ending_this_month += ending_this_month_count
 
             # Setup pagination
             page_size = 20  # 20 students per page
@@ -1571,10 +1604,19 @@ def OM_manage_students(request):
 
         buildings_data.append(building_data)
 
+    # Calculate total students count and average occupancy
+    total_students_count = total_occupied
+    avg_occupancy = int((total_occupied / total_capacity * 100)) if total_capacity > 0 else 0
+
     context = {
         'buildings_data': buildings_data,
         'all_buildings': all_buildings,
         'active_building_id': active_building_id,
+        # Stats for dashboard
+        'total_students_count': total_students_count,
+        'avg_occupancy': avg_occupancy,
+        'total_empty_slots': total_empty_slots,  # New stat - total empty slots instead of available rooms
+        'ending_this_month': ending_this_month,
     }
 
     return render(request, 'OM_manage_students.html', context)

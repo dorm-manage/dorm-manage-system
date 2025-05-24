@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>דוח מצב מלאי - DormitoriesPlus</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .overdue {
+            background-color: #ffe6e6;
+            border-left: 3px solid #ff6666;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .due-soon {
+            background-color: #fff6e6;
+            border-left: 3px solid #ffcc66;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .student-group {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 3px;
+        }
+        .student-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .item {
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+        .item-name {
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .days-overdue {
+            color: #cc0000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">DormitoriesPlus</div>
+        </div>
+        
+        <p>שלום {{ bm.first_name }} {{ bm.last_name }},</p>
+        
+        <p>להלן דוח מצב מלאי עבור בניין <strong>{{ building.building_name }}</strong>.</p>
+        
+        {% if grouped_overdue %}
+        <div class="overdue">
+            <h2>פריטים שמועד החזרתם עבר ({{ total_overdue }})</h2>
+            
+            {% for student_id, student_data in grouped_overdue.items %}
+            <div class="student-group">
+                <div class="student-name">
+                    {{ student_data.student.first_name }} {{ student_data.student.last_name }} 
+                    <a href="mailto:{{ student_data.student.email }}">({{ student_data.student.email }})</a>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>פריט</th>
+                            <th>חדר</th>
+                            <th>תאריך החזרה</th>
+                            <th>ימי איחור</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in student_data.items %}
+                        <tr>
+                            <td class="item-name">{{ item.item_name }}</td>
+                            <td>{{ item.room_number }}</td>
+                            <td>{{ item.return_date|date:"d/m/Y" }}</td>
+                            <td class="days-overdue">{{ item.days_overdue }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if grouped_due_soon %}
+        <div class="due-soon">
+            <h2>פריטים שמועד החזרתם מתקרב ({{ total_due_soon }})</h2>
+            <p>הפריטים הבאים צריכים להיות מוחזרים תוך {{ advance_days }} ימים:</p>
+            
+            {% for student_id, student_data in grouped_due_soon.items %}
+            <div class="student-group">
+                <div class="student-name">
+                    {{ student_data.student.first_name }} {{ student_data.student.last_name }} 
+                    <a href="mailto:{{ student_data.student.email }}">({{ student_data.student.email }})</a>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>פריט</th>
+                            <th>חדר</th>
+                            <th>תאריך החזרה</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in student_data.items %}
+                        <tr>
+                            <td class="item-name">{{ item.item_name }}</td>
+                            <td>{{ item.room_number }}</td>
+                            <td>{{ item.return_date|date:"d/m/Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <p>באפשרותך לעדכן את סטטוס הפריטים במערכת באמצעות <a href="http://localhost:8000/login/">כניסה למערכת DormitoriesPlus</a>.</p>
+        
+        <div class="footer">
+            <p>בברכה,<br>מערכת DormitoriesPlus</p>
+        </div>
+    </div>
+</body>
+</html>

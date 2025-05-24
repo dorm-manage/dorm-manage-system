@@ -1,0 +1,28 @@
+שלום {{ user.first_name }} {{ user.last_name }},
+
+הודעה זו היא תזכורת בנוגע לפריטים שהשאלת ממערכת DormitoriesPlus.
+
+{% if overdue_items %}
+** פריטים שמועד החזרתם עבר ({{ total_overdue }}): **
+
+אנא החזר את הפריטים הבאים בהקדם האפשרי:
+{% for item in overdue_items %}
+- {{ item.item_name }} (חדר {{ item.room_number }}, בניין {{ item.building_name }})
+  תאריך החזרה: {{ item.return_date|date:"d/m/Y" }} (באיחור של {{ item.days_overdue }} ימים)
+{% endfor %}
+{% endif %}
+
+{% if due_soon_items %}
+** פריטים שמועד החזרתם מתקרב ({{ total_due_soon }}): **
+
+הפריטים הבאים צריכים להיות מוחזרים תוך {{ advance_days }} ימים:
+{% for item in due_soon_items %}
+- {{ item.item_name }} (חדר {{ item.room_number }}, בניין {{ item.building_name }})
+  תאריך החזרה: {{ item.return_date|date:"d/m/Y" }}
+{% endfor %}
+{% endif %}
+
+כדי להחזיר פריט, אנא פנה לאחראי הבניין שלך.
+
+בברכה,
+צוות DormitoriesPlus
