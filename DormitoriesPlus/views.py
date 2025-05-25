@@ -498,8 +498,18 @@ def BM_Homepage(request):
     # Get the building manager (current user)
     bm = request.user
 
+    # Check if user is a building manager
+    if bm.role != 'building_staff':
+        messages.error(request, "אין לך הרשאה לגשת לדף זה!")
+        return redirect('login_page')
+
     # Get buildings managed by this building manager
     managed_buildings = Building.objects.filter(building_staff_member=bm)
+
+    # Check if user is assigned to any buildings
+    if not managed_buildings.exists():
+        messages.error(request, "אין לך בניינים משויכים! אנא פנה למנהל המערכת.")
+        return redirect('login_page')
 
     # Count pending equipment rental requests from these buildings
     pending_requests_count = Request.objects.filter(
@@ -1065,6 +1075,11 @@ def handle_remove_student(request, managed_buildings):
 def OM_Homepage(request):
     # Get the office manager (current user)
     om = request.user
+
+    # Check if user is an office manager
+    if om.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לגשת לדף זה!")
+        return redirect('login_page')
 
     # Get all buildings
     all_buildings = Building.objects.all()
@@ -2039,12 +2054,12 @@ def Profile_Updated(request):
 
 @login_required
 def Back_to_Profile(request):
-    if request.user.is_staff:
+    if request.user.role == 'office_staff':
         return redirect('OM_Profile')
     return redirect('Student_Profile')
 
 @login_required
 def Back_to_Homepage(request):
-    if request.user.is_staff:
+    if request.user.role == 'office_staff':
         return redirect('OM_Homepage')
     return redirect('Students_homepage')
