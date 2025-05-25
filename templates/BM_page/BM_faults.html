@@ -1,128 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}ניהול תקלות - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="hero">
-        <h2>ניהול תקלות</h2>
-        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
-    </div>
-
-    <div class="filters" role="region" aria-label="סינון תקלות">
-        <h3>סינון תקלות</h3>
-        <form class="filter-form" role="search" aria-label="סינון תקלות">
-            <div class="form-group">
-                <label for="statusFilter" id="status-label">סטטוס:</label>
-                <select id="statusFilter" 
-                        name="status" 
-                        aria-labelledby="status-label">
-                    <option value="">הכל</option>
-                    <option value="open">פתוח</option>
-                    <option value="in_progress">בטיפול</option>
-                    <option value="closed">סגור</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="dateFilter" id="date-label">תאריך:</label>
-                <input type="date" 
-                       id="dateFilter" 
-                       name="date" 
-                       aria-labelledby="date-label">
-            </div>
-            <button type="submit" class="btn-primary" aria-label="סנן תקלות">
-                סנן
-            </button>
-        </form>
-    </div>
-
-    <div class="faults-list" role="region" aria-label="רשימת תקלות">
-        <h3>רשימת תקלות</h3>
-        {% if faults %}
-        <div class="table-responsive">
-            <table class="faults-table" role="grid" aria-label="רשימת תקלות">
-                <thead>
-                    <tr>
-                        <th scope="col" role="columnheader">מספר תקלה</th>
-                        <th scope="col" role="columnheader">תיאור</th>
-                        <th scope="col" role="columnheader">סטודנט</th>
-                        <th scope="col" role="columnheader">תאריך דיווח</th>
-                        <th scope="col" role="columnheader">סטטוס</th>
-                        <th scope="col" role="columnheader">פעולות</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for fault in faults %}
-                    <tr role="row">
-                        <td role="cell">{{ fault.id }}</td>
-                        <td role="cell">{{ fault.description }}</td>
-                        <td role="cell">{{ fault.student_name }}</td>
-                        <td role="cell">{{ fault.report_date }}</td>
-                        <td role="cell">
-                            <span class="status" aria-label="סטטוס: {{ fault.status }}">
-                                {{ fault.status }}
-                            </span>
-                        </td>
-                        <td role="cell">
-                            <div class="actions" role="group" aria-label="פעולות לתקלה {{ fault.id }}">
-                                <button type="button" 
-                                        class="btn-action" 
-                                        onclick="updateFaultStatus('{{ fault.id }}', 'in_progress')"
-                                        aria-label="עדכן סטטוס לטיפול">
-                                    בטיפול
-                                </button>
-                                <button type="button" 
-                                        class="btn-action" 
-                                        onclick="updateFaultStatus('{{ fault.id }}', 'closed')"
-                                        aria-label="סגור תקלה">
-                                    סגור
-                                </button>
-                                <button type="button" 
-                                        class="btn-action" 
-                                        onclick="showFaultDetails('{{ fault.id }}')"
-                                        aria-label="הצג פרטים">
-                                    פרטים
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% else %}
-        <p class="no-faults">אין תקלות להצגה</p>
-        {% endif %}
-    </div>
-
-    <div id="faultDetailsModal" 
-         class="modal" 
-         role="dialog" 
-         aria-labelledby="modalTitle" 
-         aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">פרטי תקלה</h3>
-                <button type="button" 
-                        class="close-modal" 
-                        onclick="closeModal()"
-                        aria-label="סגור חלון">
-                    ×
-                </button>
-            </div>
-            <div class="modal-body" id="modalContent">
-                <!-- Modal content will be dynamically populated -->
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block extra_css %}
 <style>
     .filters, .faults-list {
         margin: 2rem 0;
@@ -268,17 +150,15 @@
         padding: 0.5rem;
     }
 
+    .close-modal:hover,
+    .close-modal:focus {
+        color: #dc3545;
+    }
+
     .no-faults {
         text-align: center;
         padding: 2rem;
         color: #6c757d;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .btn-primary,
-        .btn-action {
-            transition: none;
-        }
     }
 
     @media (max-width: 768px) {
@@ -300,6 +180,122 @@
         }
     }
 </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>ניהול תקלות</h2>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
+    </div>
+
+    <div class="filters" role="region" aria-label="סינון תקלות">
+        <h3>סינון תקלות</h3>
+        <form class="filter-form" role="search" aria-label="סינון תקלות">
+            <div class="form-group">
+                <label for="statusFilter" id="status-label">סטטוס:</label>
+                <select id="statusFilter" 
+                        name="status" 
+                        aria-labelledby="status-label">
+                    <option value="">הכל</option>
+                    <option value="open">פתוח</option>
+                    <option value="in_progress">בטיפול</option>
+                    <option value="closed">סגור</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateFilter" id="date-label">תאריך:</label>
+                <input type="date" 
+                       id="dateFilter" 
+                       name="date" 
+                       aria-labelledby="date-label">
+            </div>
+            <button type="submit" class="btn-primary" aria-label="סנן תקלות">
+                סנן
+            </button>
+        </form>
+    </div>
+
+    <div class="faults-list" role="region" aria-label="רשימת תקלות">
+        <h3>רשימת תקלות</h3>
+        {% if faults %}
+        <div class="table-responsive">
+            <table class="faults-table" role="grid" aria-label="רשימת תקלות">
+                <thead>
+                    <tr>
+                        <th scope="col" role="columnheader">מספר תקלה</th>
+                        <th scope="col" role="columnheader">תיאור</th>
+                        <th scope="col" role="columnheader">סטודנט</th>
+                        <th scope="col" role="columnheader">תאריך דיווח</th>
+                        <th scope="col" role="columnheader">סטטוס</th>
+                        <th scope="col" role="columnheader">פעולות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fault in faults %}
+                    <tr role="row">
+                        <td role="cell">{{ fault.id }}</td>
+                        <td role="cell">{{ fault.description }}</td>
+                        <td role="cell">{{ fault.student_name }}</td>
+                        <td role="cell">{{ fault.report_date }}</td>
+                        <td role="cell">
+                            <span class="status" aria-label="סטטוס: {{ fault.status }}">
+                                {{ fault.status }}
+                            </span>
+                        </td>
+                        <td role="cell">
+                            <div class="actions" role="group" aria-label="פעולות לתקלה {{ fault.id }}">
+                                <button type="button" 
+                                        class="btn-action" 
+                                        onclick="updateFaultStatus('{{ fault.id }}', 'in_progress')"
+                                        aria-label="עדכן סטטוס לטיפול">
+                                    בטיפול
+                                </button>
+                                <button type="button" 
+                                        class="btn-action" 
+                                        onclick="updateFaultStatus('{{ fault.id }}', 'closed')"
+                                        aria-label="סגור תקלה">
+                                    סגור
+                                </button>
+                                <button type="button" 
+                                        class="btn-action" 
+                                        onclick="showFaultDetails('{{ fault.id }}')"
+                                        aria-label="הצג פרטים">
+                                    פרטים
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="no-faults">אין תקלות להצגה</p>
+        {% endif %}
+    </div>
+
+    <div id="faultDetailsModal" 
+         class="modal" 
+         role="dialog" 
+         aria-labelledby="modalTitle" 
+         aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">פרטי תקלה</h3>
+                <button type="button" 
+                        class="close-modal" 
+                        onclick="closeModal()"
+                        aria-label="סגור חלון">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Modal content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}

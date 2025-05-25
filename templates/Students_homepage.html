@@ -1,52 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}דף בית - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-{% endblock %}
-
-{% block header_content %}
-<p>ברוכים הבאים לאתר מעונות ריפקין!</p>
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="hero">
-        <h2>שלום, {{ user.first_name }}!</h2>
-    </div>
-
-    <nav class="main-nav" role="navigation" aria-label="ניווט ראשי">
-        <div class="links">
-            <a href="{% url 'application' %}" class="nav-link" role="button" aria-label="השאלת ציוד">
-                <span class="icon" aria-hidden="true">📦</span>
-                <span>השאלת ציוד</span>
-            </a>
-            <a href="{% url 'faults' %}" class="nav-link" role="button" aria-label="דיווח תקלות">
-                <span class="icon" aria-hidden="true">🔧</span>
-                <span>דיווח תקלות</span>
-            </a>
-            <a href="{% url 'connect_us' %}" class="nav-link" role="button" aria-label="צור קשר">
-                <span class="icon" aria-hidden="true">📞</span>
-                <span>צור קשר</span>
-            </a>
-        </div>
-    </nav>
-
-    {% if messages %}
-        <div role="alert" aria-live="polite">
-            {% for message in messages %}
-                <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
-{% endblock %}
-
-{% block extra_css %}
 <style>
     .main-nav {
         margin: 2rem 0;
@@ -104,4 +63,43 @@
         border: 1px solid #f5c6cb;
     }
 </style>
+{% endblock %}
+
+{% block header_content %}
+<p>ברוכים הבאים לאתר מעונות ריפקין!</p>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>שלום, {{ user.first_name }}!</h2>
+    </div>
+
+    <nav class="main-nav" role="navigation" aria-label="ניווט ראשי">
+        <div class="links">
+            <a href="{% url 'application' %}" class="nav-link" role="button" aria-label="השאלת ציוד">
+                <span class="icon" aria-hidden="true">📦</span>
+                <span>השאלת ציוד</span>
+            </a>
+            <a href="{% url 'faults' %}" class="nav-link" role="button" aria-label="דיווח תקלות">
+                <span class="icon" aria-hidden="true">🔧</span>
+                <span>דיווח תקלות</span>
+            </a>
+            <a href="{% url 'connect_us' %}" class="nav-link" role="button" aria-label="צור קשר">
+                <span class="icon" aria-hidden="true">📞</span>
+                <span>צור קשר</span>
+            </a>
+        </div>
+    </nav>
+
+    {% if messages %}
+        <div role="alert" aria-live="polite">
+            {% for message in messages %}
+                <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

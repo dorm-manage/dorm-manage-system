@@ -1,114 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}אזור מנהל בניין - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="hero">
-        <h2>אזור מנהל בניין</h2>
-        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
-    </div>
-
-    <div class="dashboard" role="region" aria-label="לוח בקרה">
-        <h3>סטטיסטיקות</h3>
-        <div class="stats-grid">
-            <div class="stat-card" role="article" aria-label="תקלות פתוחות">
-                <span class="stat-icon" aria-hidden="true">🔧</span>
-                <div class="stat-content">
-                    <h4>תקלות פתוחות</h4>
-                    <p class="stat-number">{{ open_faults_count }}</p>
-                </div>
-            </div>
-            <div class="stat-card" role="article" aria-label="בקשות השאלה ממתינות">
-                <span class="stat-icon" aria-hidden="true">📦</span>
-                <div class="stat-content">
-                    <h4>בקשות השאלה ממתינות</h4>
-                    <p class="stat-number">{{ pending_loans_count }}</p>
-                </div>
-            </div>
-            <div class="stat-card" role="article" aria-label="סטודנטים פעילים">
-                <span class="stat-icon" aria-hidden="true">👥</span>
-                <div class="stat-content">
-                    <h4>סטודנטים פעילים</h4>
-                    <p class="stat-number">{{ active_students_count }}</p>
-                </div>
-            </div>
-            <div class="stat-card" role="article" aria-label="פריטים במלאי">
-                <span class="stat-icon" aria-hidden="true">📋</span>
-                <div class="stat-content">
-                    <h4>פריטים במלאי</h4>
-                    <p class="stat-number">{{ inventory_items_count }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="actions" role="region" aria-label="פעולות זמינות">
-        <h3>פעולות זמינות</h3>
-        <nav class="action-nav" role="navigation" aria-label="פעולות זמינות">
-            <a href="/BM_faults" class="action-link" role="button" aria-label="ניהול תקלות">
-                <span class="icon" aria-hidden="true">🔧</span>
-                <span>ניהול תקלות</span>
-            </a>
-            <a href="/BM_loan_requests" class="action-link" role="button" aria-label="בקשות השאלה">
-                <span class="icon" aria-hidden="true">📦</span>
-                <span>בקשות השאלה</span>
-            </a>
-            <a href="/BM_manage_students" class="action-link" role="button" aria-label="ניהול סטודנטים">
-                <span class="icon" aria-hidden="true">👥</span>
-                <span>ניהול סטודנטים</span>
-            </a>
-            <a href="/BM_inventory" class="action-link" role="button" aria-label="מלאי">
-                <span class="icon" aria-hidden="true">📋</span>
-                <span>מלאי</span>
-            </a>
-            <a href="/BM_sendMassage" class="action-link" role="button" aria-label="שליחת הודעה">
-                <span class="icon" aria-hidden="true">✉️</span>
-                <span>שליחת הודעה</span>
-            </a>
-        </nav>
-    </div>
-
-    <div class="recent-activity" role="region" aria-label="פעילות אחרונה">
-        <h3>פעילות אחרונה</h3>
-        <div class="activity-list">
-            {% if recent_faults %}
-            <section class="activity-section" role="list" aria-label="תקלות אחרונות">
-                <h4>תקלות אחרונות</h4>
-                <ul>
-                    {% for fault in recent_faults %}
-                    <li role="listitem">
-                        <strong>{{ fault.date }}</strong>: {{ fault.description }}
-                        <span class="status" aria-label="סטטוס: {{ fault.status }}">{{ fault.status }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </section>
-            {% endif %}
-
-            {% if recent_loans %}
-            <section class="activity-section" role="list" aria-label="השאלות אחרונות">
-                <h4>השאלות אחרונות</h4>
-                <ul>
-                    {% for loan in recent_loans %}
-                    <li role="listitem">
-                        <strong>{{ loan.date }}</strong>: {{ loan.student_name }} - {{ loan.item }}
-                        <span class="status" aria-label="סטטוס: {{ loan.status }}">{{ loan.status }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </section>
-            {% endif %}
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block extra_css %}
 <style>
     .dashboard, .actions, .recent-activity {
         margin: 2rem 0;
@@ -227,4 +123,106 @@
         }
     }
 </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>אזור מנהל בניין</h2>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
+    </div>
+
+    <div class="dashboard" role="region" aria-label="לוח בקרה">
+        <h3>סטטיסטיקות</h3>
+        <div class="stats-grid">
+            <div class="stat-card" role="article" aria-label="תקלות פתוחות">
+                <span class="stat-icon" aria-hidden="true">🔧</span>
+                <div class="stat-content">
+                    <h4>תקלות פתוחות</h4>
+                    <p class="stat-number">{{ open_faults_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card" role="article" aria-label="בקשות השאלה ממתינות">
+                <span class="stat-icon" aria-hidden="true">📦</span>
+                <div class="stat-content">
+                    <h4>בקשות השאלה ממתינות</h4>
+                    <p class="stat-number">{{ pending_loans_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card" role="article" aria-label="סטודנטים פעילים">
+                <span class="stat-icon" aria-hidden="true">👥</span>
+                <div class="stat-content">
+                    <h4>סטודנטים פעילים</h4>
+                    <p class="stat-number">{{ active_students_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card" role="article" aria-label="פריטים במלאי">
+                <span class="stat-icon" aria-hidden="true">📋</span>
+                <div class="stat-content">
+                    <h4>פריטים במלאי</h4>
+                    <p class="stat-number">{{ inventory_items_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions" role="region" aria-label="פעולות זמינות">
+        <h3>פעולות זמינות</h3>
+        <nav class="action-nav" role="navigation" aria-label="פעולות זמינות">
+            <a href="/BM_faults" class="action-link" role="button" aria-label="ניהול תקלות">
+                <span class="icon" aria-hidden="true">🔧</span>
+                <span>ניהול תקלות</span>
+            </a>
+            <a href="/BM_loan_requests" class="action-link" role="button" aria-label="בקשות השאלה">
+                <span class="icon" aria-hidden="true">📦</span>
+                <span>בקשות השאלה</span>
+            </a>
+            <a href="/BM_manage_students" class="action-link" role="button" aria-label="ניהול סטודנטים">
+                <span class="icon" aria-hidden="true">👥</span>
+                <span>ניהול סטודנטים</span>
+            </a>
+            <a href="/BM_inventory" class="action-link" role="button" aria-label="מלאי">
+                <span class="icon" aria-hidden="true">📋</span>
+                <span>מלאי</span>
+            </a>
+            <a href="/BM_sendMassage" class="action-link" role="button" aria-label="שליחת הודעה">
+                <span class="icon" aria-hidden="true">✉️</span>
+                <span>שליחת הודעה</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="recent-activity" role="region" aria-label="פעילות אחרונה">
+        <h3>פעילות אחרונה</h3>
+        <div class="activity-list">
+            {% if recent_faults %}
+            <section class="activity-section" role="list" aria-label="תקלות אחרונות">
+                <h4>תקלות אחרונות</h4>
+                <ul>
+                    {% for fault in recent_faults %}
+                    <li role="listitem">
+                        <strong>{{ fault.date }}</strong>: {{ fault.description }}
+                        <span class="status" aria-label="סטטוס: {{ fault.status }}">{{ fault.status }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
+            {% if recent_loans %}
+            <section class="activity-section" role="list" aria-label="השאלות אחרונות">
+                <h4>השאלות אחרונות</h4>
+                <ul>
+                    {% for loan in recent_loans %}
+                    <li role="listitem">
+                        <strong>{{ loan.date }}</strong>: {{ loan.student_name }} - {{ loan.item }}
+                        <span class="status" aria-label="סטטוס: {{ loan.status }}">{{ loan.status }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

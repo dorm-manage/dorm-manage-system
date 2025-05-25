@@ -311,7 +311,7 @@ def BM_sendMassage(request):
         )
         messages.success(request, "ההודעה נשלחה בהצלחה!")
         return redirect('BM_sendMassage')
-    return render(request, 'BM_sendMassage.html')
+    return render(request, 'BM_page/BM_sendMassage.html')
 
 
 # עמוד לניהול מלאי (BM_inventory.html)
@@ -460,7 +460,7 @@ def BM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'BM_inventory.html', {
+    return render(request, 'BM_page/BM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
@@ -483,7 +483,7 @@ def BM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'BM_inventory.html', {
+    return render(request, 'BM_page/BM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,

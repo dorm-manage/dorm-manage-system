@@ -1,9 +1,245 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}ניהול מלאי - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<style>
+    .inventory-actions {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-primary, .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary:hover, .btn-secondary:focus {
+        background-color: #5a6268;
+    }
+
+    .inventory-filters {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: end;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .inventory-list {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .status-summary {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    .status-badge.available {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .status-badge.in_use {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .status-badge.maintenance {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .status-badge.retired {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        margin-top: 1rem;
+    }
+
+    .inventory-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .inventory-table th,
+    .inventory-table td {
+        padding: 0.75rem;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .inventory-table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .btn-icon {
+        padding: 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #6c757d;
+        transition: color 0.3s ease;
+    }
+
+    .btn-icon:hover,
+    .btn-icon:focus {
+        color: #007bff;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 1.5rem;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: #dc3545;
+    }
+
+    .modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .status-summary {
+            flex-wrap: wrap;
+        }
+
+        .modal-content {
+            width: 95%;
+            margin: 5% auto;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -326,227 +562,6 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-    .inventory-actions,
-    .inventory-filters,
-    .inventory-list {
-        margin: 2rem 0;
-        padding: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .filter-form {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .list-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    .status-summary {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .table-responsive {
-        overflow-x: auto;
-    }
-
-    .inventory-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .inventory-table th,
-    .inventory-table td {
-        padding: 0.75rem;
-        text-align: right;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .inventory-table th {
-        background-color: #f8f9fa;
-        font-weight: bold;
-    }
-
-    .status-badge {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: bold;
-    }
-
-    .status-badge.available {
-        background-color: #28a745;
-        color: white;
-    }
-
-    .status-badge.in_use {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .status-badge.maintenance {
-        background-color: #ffc107;
-        color: black;
-    }
-
-    .status-badge.retired {
-        background-color: #6c757d;
-        color: white;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    .btn-icon {
-        padding: 0.25rem;
-        border: none;
-        background: none;
-        cursor: pointer;
-        color: #6c757d;
-    }
-
-    .btn-icon:hover,
-    .btn-icon:focus {
-        color: #007bff;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-    }
-
-    .modal-content {
-        position: relative;
-        background-color: #fff;
-        margin: 2rem auto;
-        padding: 1rem;
-        width: 90%;
-        max-width: 600px;
-        border-radius: 8px;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    .close-btn {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #6c757d;
-    }
-
-    .close-btn:hover,
-    .close-btn:focus {
-        color: #dc3545;
-    }
-
-    .modal-form {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .item-details dl {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0.5rem 1rem;
-    }
-
-    .item-details dt {
-        font-weight: bold;
-        color: #6c757d;
-    }
-
-    .history-list {
-        max-height: 400px;
-        overflow-y: auto;
-    }
-
-    .history-item {
-        padding: 1rem;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .history-item:last-child {
-        border-bottom: none;
-    }
-
-    .history-date {
-        color: #6c757d;
-        font-size: 0.875rem;
-    }
-
-    .history-action {
-        font-weight: bold;
-        margin: 0.5rem 0;
-    }
-
-    .history-details {
-        color: #495057;
-    }
-
-    .no-items {
-        text-align: center;
-        padding: 2rem;
-        color: #6c757d;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .btn-icon,
-        .close-btn {
-            transition: none;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .filter-form {
-            grid-template-columns: 1fr;
-        }
-
-        .list-header {
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .status-summary {
-            flex-wrap: wrap;
-        }
-
-        .action-buttons {
-            flex-wrap: wrap;
-        }
-    }
-</style>
 {% endblock %}
 
 {% block extra_js %}

@@ -1,9 +1,66 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}צור קשר - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<style>
+    .contact-info {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .contact-card {
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+
+    .contact-card h4 {
+        margin: 0 0 0.5rem 0;
+        color: #007bff;
+    }
+
+    .contact-card p {
+        margin: 0.5rem 0;
+    }
+
+    .contact-card a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .contact-card a:hover, .contact-card a:focus {
+        text-decoration: underline;
+    }
+
+    .nav-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link:focus {
+        background-color: #007bff;
+        color: white;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .nav-link {
+            transition: none;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -101,63 +158,4 @@
         }
     });
 </script>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-    .contact-info {
-        margin: 2rem 0;
-        padding: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
-
-    .contact-card {
-        margin-top: 1rem;
-        padding: 1rem;
-        background-color: #f8f9fa;
-        border-radius: 4px;
-    }
-
-    .contact-card h4 {
-        margin: 0 0 0.5rem 0;
-        color: #007bff;
-    }
-
-    .contact-card p {
-        margin: 0.5rem 0;
-    }
-
-    .contact-card a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .contact-card a:hover, .contact-card a:focus {
-        text-decoration: underline;
-    }
-
-    .nav-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        text-decoration: none;
-        color: #007bff;
-        border: 1px solid #007bff;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-    }
-
-    .nav-link:hover, .nav-link:focus {
-        background-color: #007bff;
-        color: white;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .nav-link {
-            transition: none;
-        }
-    }
-</style>
 {% endblock %}
