@@ -28,10 +28,30 @@ urlpatterns = [
     path('bm/manage-students/', views.BM_manage_students, name='BM_manage_students'),
 
     # Office Manager URLs
-    path('manager/bm/', views.OM_manage_BM, name='OM_manage_BM'),
-    path('om/homepage/', views.OM_Homepage, name='OM_Homepage'),
-    path('om/inventory/', views.OM_inventory, name='OM_inventory'),
-    path('om/loan_requests/', views.OM_loan_requests, name='OM_loan_requests'),
-    path('om/faults/', views.OM_faults, name='OM_faults'),
-    path('om/manage_students/', views.OM_manage_students, name='OM_manage_students'),
+    path('OM_Homepage/', views.OM_Homepage, name='OM_Homepage'),
+    path('OM_inventory/', views.OM_inventory, name='OM_inventory'),
+    path('OM_loan_requests/', views.OM_loan_requests, name='OM_loan_requests'),
+    path('OM_faults/', views.OM_faults, name='OM_faults'),
+    path('OM_manage_students/', views.OM_manage_students, name='OM_manage_students'),
+    path('OM_manage_BM/', views.OM_manage_BM, name='OM_manage_BM'),
+    path('OM_add_building/', views.OM_add_building, name='OM_add_building'),
+    
+    # Student Management URLs
+    path('om/add_student/', views.add_student, name='add_student'),
+    path('om/edit_student/', views.edit_student, name='edit_student'),
+    path('om/delete_student/<int:student_id>/', views.delete_student, name='delete_student'),
+    path('get_rooms/<int:building_id>/', views.get_rooms, name='get_rooms'),
+    
+    # Building Manager Management URLs
+    path('om/add_building_manager/', views.add_building_manager, name='add_building_manager'),
+    path('om/edit_building_manager/', views.edit_building_manager, name='edit_building_manager'),
+    path('om/delete_building_manager/<int:manager_id>/', views.delete_building_manager, name='delete_building_manager'),
+    
+    # Room Management URLs
+    path('manage_rooms/<int:building_id>/', views.manage_rooms, name='manage_rooms'),
+    path('add_room/<int:building_id>/', views.add_room, name='add_room'),
+    path('edit_room/<int:building_id>/', views.edit_room, name='edit_room'),
+    path('delete_room/<int:room_id>/', views.delete_room, name='delete_room'),
+    path('assign_student/', views.assign_student, name='assign_student'),
+    path('remove_student/<int:assignment_id>/', views.remove_student, name='remove_student'),
 ]

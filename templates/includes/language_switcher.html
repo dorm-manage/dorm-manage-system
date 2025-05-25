@@ -9,10 +9,7 @@
                 {% get_available_languages as LANGUAGES %}
                 {% for lang_code, lang_name in LANGUAGES %}
                     <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
-                        {% if lang_code == 'he' %}עברית
-                        {% elif lang_code == 'ar' %}العربية
-                        {% elif lang_code == 'zh-hans' %}中文
-                        {% else %}English{% endif %}
+                        {{ lang_name }}
                     </option>
                 {% endfor %}
             </select>
@@ -83,40 +80,63 @@
 
 <script>
 function submitLanguageForm(selectElement) {
-    const form = document.getElementById('language-form');
-    const currentPath = window.location.pathname;
-    const currentSearch = window.location.search;
-    
-    // Get the current path without any language prefix
-    let pathWithoutLang = currentPath;
-    const langPrefixes = ['/he/', '/ar/', '/en/', '/zh-hans/'];
-    
-    // Remove any existing language prefix
-    for (const prefix of langPrefixes) {
-        if (pathWithoutLang.startsWith(prefix)) {
-            pathWithoutLang = pathWithoutLang.substring(prefix.length);
-            break;
+    try {
+        const form = document.getElementById('language-form');
+        if (!form) {
+            console.error('Language form not found');
+            return;
         }
+
+        const currentPath = window.location.pathname;
+        const currentSearch = window.location.search;
+        
+        // Get the current path without any language prefix
+        let pathWithoutLang = currentPath;
+        const langPrefixes = ['/he/', '/ar/', '/en/', '/zh-hans/'];
+        
+        // Remove any existing language prefix
+        for (const prefix of langPrefixes) {
+            if (pathWithoutLang.startsWith(prefix)) {
+                pathWithoutLang = pathWithoutLang.substring(prefix.length);
+                break;
+            }
+        }
+        
+        // Ensure the path starts with a slash
+        if (!pathWithoutLang.startsWith('/')) {
+            pathWithoutLang = '/' + pathWithoutLang;
+        }
+        
+        // If we're at the root, use a slash
+        if (pathWithoutLang === '') {
+            pathWithoutLang = '/';
+        }
+        
+        // Update the next parameter with the current path and search parameters
+        const nextInput = form.querySelector('input[name="next"]');
+        if (!nextInput) {
+            console.error('Next input not found in form');
+            return;
+        }
+        nextInput.value = pathWithoutLang + currentSearch;
+        
+        // Add a loading indicator
+        selectElement.disabled = true;
+        selectElement.style.opacity = '0.7';
+        
+        // Log the form data for debugging
+        console.log('Submitting language form with data:', {
+            language: selectElement.value,
+            next: nextInput.value
+        });
+        
+        // Submit the form
+        form.submit();
+    } catch (error) {
+        console.error('Error in submitLanguageForm:', error);
+        // Re-enable the select element in case of error
+        selectElement.disabled = false;
+        selectElement.style.opacity = '1';
     }
-    
-    // Ensure the path starts with a slash
-    if (!pathWithoutLang.startsWith('/')) {
-        pathWithoutLang = '/' + pathWithoutLang;
-    }
-    
-    // If we're at the root, use a slash
-    if (pathWithoutLang === '') {
-        pathWithoutLang = '/';
-    }
-    
-    // Update the next parameter with the current path and search parameters
-    form.querySelector('input[name="next"]').value = pathWithoutLang + currentSearch;
-    
-    // Add a loading indicator
-    selectElement.disabled = true;
-    selectElement.style.opacity = '0.7';
-    
-    // Submit the form
-    form.submit();
 }
 </script> 

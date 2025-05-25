@@ -1,74 +1,228 @@
-# Chinese translations for DormitoriesPlus
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: DormitoriesPlus\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 12:33+0300\n"
-"PO-Revision-Date: 2024-03-19 12:00+0000\n"
-"Last-Translator: \n"
-"Language-Team: Chinese\n"
-"Language: zh_Hans\n"
+"POT-Creation-Date: 2025-05-25 13:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: templates/base.html:8 templates/base.html:260
-msgid "DormitoriesPlus"
-msgstr "宿舍管理系统"
+#: DormitoriesPlus/views.py:1627
+msgid "Profile updated successfully"
+msgstr ""
 
-#: templates/base.html:254
+#: DormitoriesPlus/views.py:1640
+msgid "Current password is incorrect"
+msgstr ""
+
+#: DormitoriesPlus/views.py:1644
+msgid "New passwords don't match"
+msgstr ""
+
+#: DormitoriesPlus/views.py:1650
+msgid "Password changed successfully"
+msgstr ""
+
+#: templates/Change_Password.html:6 templates/Change_Password.html:23
+#: templates/OM_Profile.html:13 templates/Student_Profile.html:13
+msgid "Change Password"
+msgstr ""
+
+#: templates/Change_Password.html:12
+msgid "Current Password"
+msgstr ""
+
+#: templates/Change_Password.html:16
+msgid "New Password"
+msgstr ""
+
+#: templates/Change_Password.html:20
+msgid "Confirm New Password"
+msgstr ""
+
+#: templates/Change_Password.html:24 templates/Edit_Profile.html:24
+msgid "Cancel"
+msgstr ""
+
+#: templates/Edit_Profile.html:6 templates/OM_Profile.html:12
+#: templates/Student_Profile.html:12
+msgid "Edit Profile"
+msgstr ""
+
+#: templates/Edit_Profile.html:12
+msgid "First Name"
+msgstr ""
+
+#: templates/Edit_Profile.html:16
+msgid "Last Name"
+msgstr ""
+
+#: templates/Edit_Profile.html:20 templates/OM_Profile.html:10
+#: templates/Student_Profile.html:10 templates/connect_us.html:44
+#: templates/connect_us.html:70
+msgid "Email"
+msgstr ""
+
+#: templates/Edit_Profile.html:23
+msgid "Save Changes"
+msgstr ""
+
+#: templates/OM_Profile.html:6
+msgid "Office Manager Profile"
+msgstr ""
+
+#: templates/OM_Profile.html:11 templates/Student_Profile.html:11
+msgid "Username"
+msgstr ""
+
+#: templates/OM_add_building.html:6
+msgid "הוספת בניין חדש"
+msgstr ""
+
+#: templates/OM_add_building.html:26
+msgid "שם הבניין"
+msgstr ""
+
+#: templates/OM_add_building.html:31
+msgid "אחראי בניין"
+msgstr ""
+
+#: templates/OM_add_building.html:33
+msgid "בחר אחראי בניין (אופציונלי)"
+msgstr ""
+
+#: templates/OM_add_building.html:41
+msgid "חזור לניהול בניינים"
+msgstr ""
+
+#: templates/OM_add_building.html:42
+msgid "הוסף בניין"
+msgstr ""
+
+#: templates/Password_Changed.html:7
+msgid "Password Changed Successfully!"
+msgstr ""
+
+#: templates/Password_Changed.html:8
+msgid "Your password has been changed successfully."
+msgstr ""
+
+#: templates/Password_Changed.html:11 templates/Profile_Updated.html:11
+msgid "Back to Profile"
+msgstr ""
+
+#: templates/Profile_Updated.html:7
+msgid "Profile Updated Successfully!"
+msgstr ""
+
+#: templates/Profile_Updated.html:8
+msgid "Your profile has been updated successfully."
+msgstr ""
+
+#: templates/Student_Profile.html:6
+msgid "Student Profile"
+msgstr ""
+
+#: templates/base.html:310
 msgid "Skip to main content"
-msgstr "跳转到主要内容"
+msgstr ""
 
-#: templates/base.html:325 templates/connect_us.html:4
+#: templates/base.html:314
+msgid "Main Navigation"
+msgstr ""
+
+#: templates/base.html:317
+msgid "Toggle Navigation"
+msgstr ""
+
+#: templates/base.html:325
+msgid "Student Homepage"
+msgstr ""
+
+#: templates/base.html:326 templates/base.html:342 templates/base.html:348
+#: templates/home.html:4
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:330 templates/base.html:331
+msgid "Equipment Loan"
+msgstr ""
+
+#: templates/base.html:335 templates/base.html:336
+msgid "Report Issues"
+msgstr ""
+
+#: templates/base.html:341
+msgid "Building Manager Homepage"
+msgstr ""
+
+#: templates/base.html:347
+msgid "Office Manager Homepage"
+msgstr ""
+
+#: templates/base.html:353 templates/base.html:354
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:384 templates/connect_us.html:4
 #: templates/connect_us.html:12 templates/home.html:29
 msgid "Contact Us"
-msgstr "联系我们"
+msgstr ""
 
-#: templates/base.html:332
+#: templates/base.html:391
 msgid "Quick Links"
-msgstr "快速链接"
+msgstr ""
 
-#: templates/base.html:334 templates/home.html:20
+#: templates/base.html:393 templates/home.html:20
 msgid "Legal Assistance"
-msgstr "法律援助"
+msgstr ""
 
-#: templates/base.html:335
+#: templates/base.html:394
 msgid "Connect Us"
-msgstr "联系我们"
+msgstr ""
 
-#: templates/base.html:336
+#: templates/base.html:395
 msgid "Accessibility"
-msgstr "无障碍"
+msgstr ""
 
-#: templates/base.html:340
+#: templates/base.html:399
 msgid "Follow Us"
-msgstr "关注我们"
+msgstr ""
 
-#: templates/base.html:349
+#: templates/base.html:408
 msgid "DormitoriesPlus. All rights reserved."
-msgstr "宿舍管理系统。保留所有权利。"
+msgstr ""
 
-#: templates/base.html:356
+#: templates/base.html:415
 msgid "Increase Font Size"
-msgstr "增大字体"
+msgstr ""
 
-#: templates/base.html:359
+#: templates/base.html:418
 msgid "Decrease Font Size"
-msgstr "减小字体"
+msgstr ""
 
-#: templates/base.html:362
+#: templates/base.html:421
 msgid "Toggle High Contrast"
-msgstr "切换高对比度"
+msgstr ""
 
-#: templates/base.html:365
+#: templates/base.html:424
 msgid "Toggle Grayscale"
-msgstr "切换灰度模式"
+msgstr ""
 
-#: templates/base.html:368
+#: templates/base.html:427
 msgid "Reset Accessibility"
-msgstr "重置无障碍设置"
+msgstr ""
 
 #: templates/connect_us.html:15
 msgid "Get in Touch"
@@ -94,11 +248,7 @@ msgstr ""
 
 #: templates/connect_us.html:35
 msgid "Phone"
-msgstr "电话"
-
-#: templates/connect_us.html:44 templates/connect_us.html:70
-msgid "Email"
-msgstr "电子邮件"
+msgstr ""
 
 #: templates/connect_us.html:53
 msgid "Office Hours"
@@ -109,16 +259,12 @@ msgid "Sunday-Thursday: 9:00-17:00"
 msgstr ""
 
 #: templates/connect_us.html:62 templates/home.html:31
-#, fuzzy
-#| msgid "Contact Us"
 msgid "Contact Form"
-msgstr "联系我们"
+msgstr ""
 
 #: templates/connect_us.html:66
-#, fuzzy
-#| msgid "Name"
 msgid "Full Name"
-msgstr "姓名"
+msgstr ""
 
 #: templates/connect_us.html:74
 msgid "Phone Number"
@@ -137,20 +283,14 @@ msgid "Send Message"
 msgstr ""
 
 #: templates/connect_us.html:92
-#, fuzzy
-#| msgid "Legal Assistance"
 msgid "Need Immediate Assistance?"
-msgstr "法律援助"
+msgstr ""
 
 #: templates/connect_us.html:93
 msgid ""
 "For urgent matters, please call our office directly at 03-1234567. Our staff "
 "is available during office hours to assist you."
 msgstr ""
-
-#: templates/home.html:4
-msgid "Home"
-msgstr "首页"
 
 #: templates/home.html:15
 msgid "Available Services"
@@ -163,10 +303,8 @@ msgid ""
 msgstr ""
 
 #: templates/home.html:22
-#, fuzzy
-#| msgid "Legal Assistance"
 msgid "Request Legal Assistance"
-msgstr "法律援助"
+msgstr ""
 
 #: templates/home.html:30
 msgid "Have a question? Contact us and we'll be happy to help."
@@ -178,6 +316,71 @@ msgstr ""
 
 #: templates/home.html:40
 msgid "For urgent matters, please call our office at: 03-1234567"
+msgstr ""
+
+#: templates/manage_rooms.html:7
+msgid "ניהול חדרים"
+msgstr ""
+
+#: templates/manage_rooms.html:8
+msgid "ניהול חדרים, הוספת חדרים חדשים וניהול סטודנטים בחדרים"
+msgstr ""
+
+#: templates/manage_rooms.html:23
+msgid "חדרים בבניין"
+msgstr ""
+
+#: templates/manage_rooms.html:25 templates/manage_rooms.html:64
+msgid "הוסף חדר חדש"
+msgstr ""
+
+#: templates/manage_rooms.html:33
+msgid "חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:36 templates/manage_rooms.html:96
+msgid "הוסף סטודנט"
+msgstr ""
+
+#: templates/manage_rooms.html:47 templates/manage_rooms.html:72
+#: templates/manage_rooms.html:114
+msgid "קיבולת"
+msgstr ""
+
+#: templates/manage_rooms.html:48
+msgid "סטודנטים"
+msgstr ""
+
+#: templates/manage_rooms.html:53
+msgid "אין חדרים בבניין זה"
+msgstr ""
+
+#: templates/manage_rooms.html:68 templates/manage_rooms.html:110
+msgid "מספר חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:75
+msgid "הוסף חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:84
+msgid "הוסף סטודנט לחדר"
+msgstr ""
+
+#: templates/manage_rooms.html:89
+msgid "בחר סטודנט"
+msgstr ""
+
+#: templates/manage_rooms.html:105
+msgid "ערוך חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:117
+msgid "שמור שינויים"
+msgstr ""
+
+#: templates/manage_rooms.html:290
+msgid "האם אתה בטוח שברצונך למחוק חדר זה?"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:7
@@ -359,6 +562,7 @@ msgid_plural ""
 "Ensure this value has at least %(limit_value)d characters (it has "
 "%(show_value)d)."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:383
 #: venv/lib/python3.8/site-packages/django/core/validators.py:383
@@ -372,6 +576,7 @@ msgid_plural ""
 "Ensure this value has at most %(limit_value)d characters (it has "
 "%(show_value)d)."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:402
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:292
@@ -396,6 +601,7 @@ msgstr ""
 msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:409
 #: venv/lib/python3.8/site-packages/django/core/validators.py:409
@@ -405,6 +611,7 @@ msgstr[0] ""
 msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:414
 #: venv/lib/python3.8/site-packages/django/core/validators.py:414
@@ -416,6 +623,7 @@ msgid ""
 msgid_plural ""
 "Ensure that there are no more than %(max)s digits before the decimal point."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:476
 #: venv/lib/python3.8/site-packages/django/core/validators.py:476
@@ -673,10 +881,8 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1720
 #: venv1/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1720
 #: venv2/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1992
-#, fuzzy
-#| msgid "Internet"
 msgid "Integer"
-msgstr "网络"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1803
 #: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1803
@@ -987,6 +1193,7 @@ msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
 msgid_plural ""
 "Ensure this filename has at most %(max)d characters (it has %(length)d)."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:552
 #: venv/lib/python3.8/site-packages/django/forms/fields.py:552
@@ -1086,6 +1293,7 @@ msgstr ""
 msgid "Please submit %d or fewer forms."
 msgid_plural "Please submit %d or fewer forms."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:352
 #: venv/lib/python3.8/site-packages/django/forms/formsets.py:352
@@ -1094,6 +1302,7 @@ msgstr[0] ""
 msgid "Please submit %d or more forms."
 msgid_plural "Please submit %d or more forms."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:379
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:386
@@ -1240,6 +1449,7 @@ msgstr ""
 msgid "%(size)d byte"
 msgid_plural "%(size)d bytes"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:838
 #: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:838
@@ -1823,6 +2033,7 @@ msgstr ""
 msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:10
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:10
@@ -1831,6 +2042,7 @@ msgstr[0] ""
 msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:11
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:11
@@ -1839,6 +2051,7 @@ msgstr[0] ""
 msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:12
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:12
@@ -1847,6 +2060,7 @@ msgstr[0] ""
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:13
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:13
@@ -1855,6 +2069,7 @@ msgstr[0] ""
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:14
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:14
@@ -1863,6 +2078,7 @@ msgstr[0] ""
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:110
 #: venv/lib/python3.8/site-packages/django/views/csrf.py:110
@@ -2180,48 +2396,56 @@ msgstr ""
 msgid "Please submit at most %(num)d form."
 msgid_plural "Please submit at most %(num)d forms."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/forms/formsets.py:72
 #, python-format
 msgid "Please submit at least %(num)d form."
 msgid_plural "Please submit at least %(num)d forms."
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/utils/timesince.py:8
 #, python-format
 msgid "%(num)d year"
 msgid_plural "%(num)d years"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/utils/timesince.py:9
 #, python-format
 msgid "%(num)d month"
 msgid_plural "%(num)d months"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/utils/timesince.py:10
 #, python-format
 msgid "%(num)d week"
 msgid_plural "%(num)d weeks"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/utils/timesince.py:11
 #, python-format
 msgid "%(num)d day"
 msgid_plural "%(num)d days"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/utils/timesince.py:12
 #, python-format
 msgid "%(num)d hour"
 msgid_plural "%(num)d hours"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/utils/timesince.py:13
 #, python-format
 msgid "%(num)d minute"
 msgid_plural "%(num)d minutes"
 msgstr[0] ""
+msgstr[1] ""
 
 #: venv2/lib/python3.9/site-packages/django/views/csrf.py:116
 msgid ""
@@ -2230,114 +2454,3 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-
-#~ msgid "Equipment Rental"
-#~ msgstr "设备租赁"
-
-#~ msgid "Report Issue"
-#~ msgstr "报告问题"
-
-#~ msgid "Accessibility Statement"
-#~ msgstr "无障碍声明"
-
-#~ msgid "Privacy Policy"
-#~ msgstr "隐私政策"
-
-#~ msgid "Terms of Service"
-#~ msgstr "服务条款"
-
-# Common translations
-#~ msgid "Skip to navigation menu"
-#~ msgstr "跳转到导航菜单"
-
-#~ msgid "Report Issues"
-#~ msgstr "报告问题"
-
-#~ msgid "Your Details"
-#~ msgstr "您的详细信息"
-
-#~ msgid "Building"
-#~ msgstr "建筑"
-
-#~ msgid "Room"
-#~ msgstr "房间"
-
-#~ msgid "End Date"
-#~ msgstr "结束日期"
-
-#~ msgid ""
-#~ "No room assignment in the system. Please contact the dormitory manager."
-#~ msgstr "系统中没有房间分配。请联系宿舍管理员。"
-
-#~ msgid "Select Item"
-#~ msgstr "选择物品"
-
-#~ msgid "Return Date"
-#~ msgstr "归还日期"
-
-#~ msgid "Additional Notes (Optional)"
-#~ msgstr "附加说明（可选）"
-
-#~ msgid "If you have special requests or additional notes, write them here"
-#~ msgstr "如果您有特殊要求或附加说明，请在此处填写"
-
-#~ msgid "Submit Request"
-#~ msgstr "提交请求"
-
-#~ msgid ""
-#~ "Cannot submit request without room assignment. Please contact the "
-#~ "dormitory manager."
-#~ msgstr "没有房间分配无法提交请求。请联系宿舍管理员。"
-
-#~ msgid "Back to Home"
-#~ msgstr "返回首页"
-
-#~ msgid "Issue Type"
-#~ msgstr "问题类型"
-
-#~ msgid "Select Issue Type"
-#~ msgstr "选择问题类型"
-
-#~ msgid "Plumbing"
-#~ msgstr "管道"
-
-#~ msgid "Electricity"
-#~ msgstr "电力"
-
-#~ msgid "Air Conditioning"
-#~ msgstr "空调"
-
-#~ msgid "Furniture"
-#~ msgstr "家具"
-
-#~ msgid "Doors/Windows"
-#~ msgstr "门窗"
-
-#~ msgid "Other"
-#~ msgstr "其他"
-
-#~ msgid "Issue Description"
-#~ msgstr "问题描述"
-
-#~ msgid "Describe the issue in as much detail as possible"
-#~ msgstr "尽可能详细地描述问题"
-
-#~ msgid "Urgency"
-#~ msgstr "紧急程度"
-
-#~ msgid "Low"
-#~ msgstr "低"
-
-#~ msgid "Medium"
-#~ msgstr "中"
-
-#~ msgid "High"
-#~ msgstr "高"
-
-#~ msgid "Submit Report"
-#~ msgstr "提交报告"
-
-#~ msgid ""
-#~ "Cannot submit report without room assignment. Please contact the "
-#~ "dormitory manager."
-#~ msgstr "没有房间分配无法提交报告。请联系宿舍管理员。"

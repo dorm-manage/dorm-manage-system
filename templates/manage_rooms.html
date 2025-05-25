@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>{% trans "ניהול חדרים" %} - {{ building.building_name }}</h2>
+        <p>{% trans "ניהול חדרים, הוספת חדרים חדשים וניהול סטודנטים בחדרים" %}</p>
+    </div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="section">
+        <div class="section-header">
+            <h3>{% trans "חדרים בבניין" %}</h3>
+            <button class="button button-success" onclick="openAddRoomModal()">
+                <i class="fas fa-plus"></i> {% trans "הוסף חדר חדש" %}
+            </button>
+        </div>
+
+        <div class="rooms-grid">
+            {% for room in rooms %}
+            <div class="card">
+                <div class="room-header">
+                    <h4>{% trans "חדר" %} {{ room.room_number }}</h4>
+                    <div class="room-actions">
+                        <button class="button button-primary" onclick="openAssignStudentModal('{{ room.id }}')">
+                            <i class="fas fa-user-plus"></i> {% trans "הוסף סטודנט" %}
+                        </button>
+                        <button class="button button-info" onclick="openEditRoomModal('{{ room.id }}', '{{ room.room_number }}', '{{ room.capacity }}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="button button-danger" onclick="deleteRoom('{{ room.id }}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="room-info">
+                    <p><strong>{% trans "קיבולת" %}:</strong> {{ room.capacity }}</p>
+                    <p><strong>{% trans "סטודנטים" %}:</strong> {{ room.current_occupancy }}/{{ room.capacity }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-rooms">
+                <p>{% trans "אין חדרים בבניין זה" %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Add Room Modal -->
+<div id="addRoomModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAddRoomModal()">&times;</span>
+        <h3>{% trans "הוסף חדר חדש" %}</h3>
+        <form method="post" action="{% url 'add_room' building.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="room_number">{% trans "מספר חדר" %}:</label>
+                <input type="text" id="room_number" name="room_number" required>
+            </div>
+            <div class="form-group">
+                <label for="capacity">{% trans "קיבולת" %}:</label>
+                <input type="number" id="capacity" name="capacity" min="1" required>
+            </div>
+            <button type="submit" class="button button-success">{% trans "הוסף חדר" %}</button>
+        </form>
+    </div>
+</div>
+
+<!-- Assign Student Modal -->
+<div id="assignStudentModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAssignStudentModal()">&times;</span>
+        <h3>{% trans "הוסף סטודנט לחדר" %}</h3>
+        <form method="post" action="{% url 'assign_student' %}">
+            {% csrf_token %}
+            <input type="hidden" id="room_id" name="room_id">
+            <div class="form-group">
+                <label for="student_id">{% trans "בחר סטודנט" %}:</label>
+                <select id="student_id" name="student_id" required>
+                    {% for student in available_students %}
+                    <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="button button-success">{% trans "הוסף סטודנט" %}</button>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Room Modal -->
+<div id="editRoomModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditRoomModal()">&times;</span>
+        <h3>{% trans "ערוך חדר" %}</h3>
+        <form method="post" action="{% url 'edit_room' %}">
+            {% csrf_token %}
+            <input type="hidden" id="edit_room_id" name="room_id">
+            <div class="form-group">
+                <label for="edit_room_number">{% trans "מספר חדר" %}:</label>
+                <input type="text" id="edit_room_number" name="room_number" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_capacity">{% trans "קיבולת" %}:</label>
+                <input type="number" id="edit_capacity" name="capacity" min="1" required>
+            </div>
+            <button type="submit" class="button button-success">{% trans "שמור שינויים" %}</button>
+        </form>
+    </div>
+</div>
+
+<style>
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.room-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.room-info {
+    color: var(--neutral-600);
+}
+
+.no-rooms {
+    text-align: center;
+    padding: 20px;
+    color: var(--neutral-500);
+    font-style: italic;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.button-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.button-success:hover {
+    background-color: #218838;
+}
+
+.button-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.button-primary:hover {
+    background-color: #0056b3;
+}
+
+.button-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.button-danger:hover {
+    background-color: #c82333;
+}
+
+.button-info {
+    background-color: var(--info-color);
+    color: white;
+}
+
+.button-info:hover {
+    background-color: #138496;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--neutral-500);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--neutral-700);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--neutral-300);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    outline: none;
+}
+</style>
+
+<script>
+function openAddRoomModal() {
+    document.getElementById('addRoomModal').style.display = 'block';
+}
+
+function closeAddRoomModal() {
+    document.getElementById('addRoomModal').style.display = 'none';
+}
+
+function openAssignStudentModal(roomId) {
+    document.getElementById('room_id').value = roomId;
+    document.getElementById('assignStudentModal').style.display = 'block';
+}
+
+function closeAssignStudentModal() {
+    document.getElementById('assignStudentModal').style.display = 'none';
+}
+
+function openEditRoomModal(roomId, roomNumber, capacity) {
+    document.getElementById('edit_room_id').value = roomId;
+    document.getElementById('edit_room_number').value = roomNumber;
+    document.getElementById('edit_capacity').value = capacity;
+    document.getElementById('editRoomModal').style.display = 'block';
+}
+
+function closeEditRoomModal() {
+    document.getElementById('editRoomModal').style.display = 'none';
+}
+
+function deleteRoom(roomId) {
+    if (confirm('{% trans "האם אתה בטוח שברצונך למחוק חדר זה?" %}')) {
+        fetch(`/delete_room/${roomId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload();
+            }
+        });
+    }
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target.className === 'modal') {
+        event.target.style.display = 'none';
+    }
+}
+</script>
+{% endblock %} 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.urls import reverse
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.utils.safestring import mark_safe
 from django.db.models.functions import Cast
 from django.db.models import IntegerField
@@ -25,7 +25,7 @@ from .models import (
     Building,
     Message,
     RoomAssignment,
-    Room  # Make sure this is included if you've created it
+    Room
 )
 import logging
 
@@ -1486,342 +1486,44 @@ def OM_faults(request):
 
 @login_required
 def OM_manage_students(request):
-    # Similar to BM_manage_students but with all-buildings access
-
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לגשת לדף זה!")
+        return redirect('login_page')
+    
     # Get all buildings
-    all_buildings = Building.objects.all()
-
-    if not all_buildings.exists():
-        # Early return if no buildings exist
-        return render(request, 'OM_manage_students.html', {
-            'buildings_data': [],
-            'all_buildings': [],
-        })
-
-    # Get active building from query params or use the first one
-    active_building_id = request.GET.get('building_id')
-    if active_building_id:
-        try:
-            active_building_id = int(active_building_id)
-        except (ValueError, TypeError):
-            active_building_id = None
-
-    if not active_building_id and all_buildings.exists():
-        active_building_id = all_buildings.first().id
-
-    # Handle POST requests (adding/removing students)
-    if request.method == 'POST':
-        action = request.POST.get('action')
-
-        if action == 'add_student':
-            # Handle adding student - office manager can add to any building
-            handle_add_student_OM(request, all_buildings)
-
-            # Redirect to keep the active building tab
-            return redirect(f"{request.path}?building_id={active_building_id}")
-
-        elif action == 'remove_student':
-            # Handle removing student - office manager can remove from any building
-            handle_remove_student_OM(request, all_buildings)
-
-            # Redirect to keep the active building tab
-            return redirect(f"{request.path}?building_id={active_building_id}")
-
-    # Prepare data for buildings (optimized for the active building)
-    buildings_data = []
-
-    # Initialize stats counters
-    total_students_count = 0
-    total_capacity = 0
-    total_occupied = 0
-    total_empty_slots = 0
-    ending_this_month = 0
-
-    # Current date for filtering assignments
-    current_date = timezone.now().date()
-    # End of current month for filtering assignments ending this month
-    month_end = current_date.replace(day=28)
-    if month_end.month == 12:
-        next_month = datetime.date(month_end.year + 1, 1, 1)
+    buildings = Building.objects.all()
+    
+    # Get current month's start and end dates
+    today = date.today()
+    month_start = date(today.year, today.month, 1)
+    
+    # Calculate month end properly
+    if today.month == 12:
+        month_end = date(today.year, 12, 31)
+        next_month = date(today.year + 1, 1, 1)
     else:
-        next_month = datetime.date(month_end.year, month_end.month + 1, 1)
-    month_end = next_month - datetime.timedelta(days=1)
-
-    for building in all_buildings:
-        is_active = building.id == active_building_id
-
-        # Basic building data (minimal for inactive buildings)
-        building_data = {
-            'building': building,
-            'is_active': is_active,
-            'available_rooms': [],
-            'students_page': None,
-            'has_data': False,
-        }
-
-        # Get rooms with their capacity and occupied count for stats
-        rooms = Room.objects.filter(building=building).annotate(
-            occupied_count=Count(
-                'assignments',
-                filter=Q(assignments__end_date__isnull=True) | Q(assignments__end_date__gte=current_date)
-            ),
-            room_number_int=Cast('room_number', IntegerField())
-        )
-
-        # Calculate stats for this building
-        building_capacity = sum(room.capacity for room in rooms)
-        building_occupied = sum(room.occupied_count for room in rooms)
-        building_empty_slots = sum(max(0, room.capacity - room.occupied_count) for room in rooms)
-
-        # Add to the totals
-        total_capacity += building_capacity
-        total_occupied += building_occupied
-        total_empty_slots += building_empty_slots
-
-        # Only load detailed data for the active building
-        if is_active:
-            # Filter and format available rooms
-            available_rooms = []
-            for room in rooms.order_by('room_number_int'):
-                available_spots = max(0, room.capacity - room.occupied_count)
-                if available_spots > 0:
-                    available_rooms.append({
-                        'room': room,
-                        'available_spots': available_spots
-                    })
-
-            # Get students in this building with pagination
-            students_qs = RoomAssignment.objects.filter(
-                room__building=building
-            ).filter(
-                Q(end_date__isnull=True) | Q(end_date__gte=current_date)
-            ).select_related('user', 'room').order_by('room__room_number')
-
-            # Count students ending this month
-            ending_this_month_count = RoomAssignment.objects.filter(
-                room__building=building,
-                end_date__gte=current_date,
-                end_date__lte=month_end
-            ).count()
-
-            ending_this_month += ending_this_month_count
-
-            # Setup pagination
-            page_size = 20  # 20 students per page
-            paginator = Paginator(students_qs, page_size)
-            page_number = request.GET.get(f'students_page_{building.id}', 1)
-            students_page = paginator.get_page(page_number)
-
-            # Update building data
-            building_data.update({
-                'available_rooms': available_rooms,
-                'students_page': students_page,
-                'students_count': students_qs.count(),  # Just the count for UI
-                'has_data': True,
-            })
-
-        buildings_data.append(building_data)
-
-    # Calculate total students count and average occupancy
-    total_students_count = total_occupied
-    avg_occupancy = int((total_occupied / total_capacity * 100)) if total_capacity > 0 else 0
-
+        # Get the last day of the current month
+        next_month = date(today.year, today.month + 1, 1)
+        month_end = next_month - timedelta(days=1)
+    
+    # Get all students with their assignments
+    students = User.objects.filter(role='student')
+    for student in students:
+        student.current_assignment = RoomAssignment.objects.filter(
+            user=student,
+            start_date__lte=today,
+            end_date__gte=today
+        ).first()
+    
     context = {
-        'buildings_data': buildings_data,
-        'all_buildings': all_buildings,
-        'active_building_id': active_building_id,
-        # Stats for dashboard
-        'total_students_count': total_students_count,
-        'avg_occupancy': avg_occupancy,
-        'total_empty_slots': total_empty_slots,  # New stat - total empty slots instead of available rooms
-        'ending_this_month': ending_this_month,
+        'buildings': buildings,
+        'students': students,
+        'month_start': month_start,
+        'month_end': month_end,
+        'next_month': next_month,
     }
-
+    
     return render(request, 'OM_manage_students.html', context)
-
-
-# Helper functions for OM_manage_students - similar to BM functions but for all buildings
-def handle_add_student_OM(request, all_buildings):
-    """
-    Handle adding a new student for Office Manager - can add to any building
-    """
-    # Get form data
-    room_id = request.POST.get('room_id')
-    first_name = request.POST.get('first_name')
-    last_name = request.POST.get('last_name')
-    email = request.POST.get('email')
-    id_number = request.POST.get('id_number', '')  # Optional ID number
-    password = request.POST.get('password', '123456789')  # Default password if none provided
-    end_date_str = request.POST.get('end_date')
-
-    # If password is empty, use the default
-    if not password or not password.strip():
-        password = '123456789'
-
-    # Validate input
-    if not all([room_id, first_name, last_name, email, end_date_str]):
-        messages.error(request, "אנא מלא את כל השדות הנדרשים.")
-        return False
-
-    try:
-        # Parse end date
-        end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
-
-        # Check if room exists - Office Manager can access any room
-        room = Room.objects.get(id=room_id)
-
-        # Check if room has capacity
-        current_assignments_count = RoomAssignment.objects.filter(
-            room=room
-        ).filter(
-            Q(end_date__isnull=True) | Q(end_date__gte=timezone.now().date())
-        ).count()
-
-        if current_assignments_count >= room.capacity:
-            messages.error(request, "אין מקום פנוי בחדר זה.")
-            return False
-
-        # Use a transaction to ensure all related DB operations succeed or fail together
-        with transaction.atomic():
-            # Check if user already exists
-            try:
-                user = User.objects.get(email=email)
-
-                # Update existing user's details
-                user.first_name = first_name
-                user.last_name = last_name
-                user.set_password(password)  # Set new password
-                user.save()
-
-            except User.DoesNotExist:
-                # Create new user
-                user = User.objects.create_user(
-                    email=email,
-                    username=email,  # Using email as username
-                    password=password,
-                    first_name=first_name,
-                    last_name=last_name,
-                    role='student'
-                )
-
-            # Create room assignment
-            assignment = RoomAssignment.objects.create(
-                user=user,
-                room=room,
-                start_date=timezone.now().date(),
-                end_date=end_date,
-                assigned_at=timezone.now()
-            )
-
-        messages.success(request,
-                         f"הסטודנט {first_name} {last_name} שובץ בהצלחה לחדר {room.room_number} בבניין {room.building.building_name} עד לתאריך {end_date_str}.")
-        return True
-
-    except Room.DoesNotExist:
-        messages.error(request, "החדר שנבחר אינו קיים.")
-    except ValueError:
-        messages.error(request, "פורמט תאריך לא תקין. אנא השתמש בפורמט YYYY-MM-DD.")
-
-    return False
-
-
-def handle_remove_student_OM(request, all_buildings):
-    """
-    Handle removing a student for Office Manager - can remove from any building
-    """
-    assignment_id = request.POST.get('assignment_id')
-    delete_user = request.POST.get('delete_user') == 'yes'
-
-    try:
-        # Get the assignment - Office Manager can remove from any building
-        assignment = RoomAssignment.objects.select_related('user', 'room__building').get(id=assignment_id)
-
-        user = assignment.user
-
-        # Check if the student has any borrowed items
-        borrowed_items = Request.objects.filter(
-            user=user,
-            request_type='equipment_rental',
-            status='approved'
-        ).select_related('item__inventory')
-
-        # If there are borrowed items and it's not a force removal
-        if borrowed_items.exists() and not request.POST.get('force_remove'):
-            borrowed_items_count = borrowed_items.count()
-            # Create a detailed message about borrowed items
-            items_details = [f"{req.item.inventory.item_name} (מושאל מתאריך {req.updated_at.strftime('%d/%m/%Y')})"
-                             for req in borrowed_items]
-            items_list = ", ".join(items_details)
-
-            error_message = f"""
-            <div class="borrowed-warning">
-                <p><strong>לסטודנט יש {borrowed_items_count} פריטים מושאלים שטרם הוחזרו:</strong></p>
-                <p>{items_list}</p>
-                <p>האם ברצונך להסיר את הסטודנט ולסמן את כל הפריטים כמוחזרים?</p>
-                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                    <a href="{request.path}?building_id={assignment.room.building.id}" class="button" style="background-color: #6c757d; text-decoration: none; padding: 8px 12px; border-radius: 5px; color: white;">ביטול</a>
-                    <form method="POST" action="{request.path}" style="display: inline;">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="{request.META.get('CSRF_COOKIE', '')}">
-                        <input type="hidden" name="action" value="remove_student">
-                        <input type="hidden" name="assignment_id" value="{assignment.id}">
-                        <input type="hidden" name="force_remove" value="yes">
-                        <input type="hidden" name="delete_user" value="{request.POST.get('delete_user', 'no')}">
-                        <input type="hidden" name="building_id" value="{assignment.room.building.id}">
-                        <button type="submit" class="remove-button">הסר ומחזר פריטים</button>
-                    </form>
-                </div>
-            </div>
-            """
-            # Mark the message as safe HTML
-            messages.error(request, mark_safe(error_message))
-            return False
-
-        # Use a transaction to ensure all related DB operations succeed or fail together
-        with transaction.atomic():
-            # If force remove with borrowed items, mark all items as returned
-            if borrowed_items.exists() and request.POST.get('force_remove'):
-                # Update all borrowed items in a single query
-                borrowed_item_ids = borrowed_items.values_list('id', flat=True)
-
-                # Update request status
-                Request.objects.filter(id__in=borrowed_item_ids).update(
-                    status='resolved',
-                    updated_at=timezone.now()
-                )
-
-                # Update item status to available
-                item_ids = Request.objects.filter(id__in=borrowed_item_ids).values_list('item_id', flat=True)
-                Item.objects.filter(id__in=item_ids).update(
-                    status='available',
-                    updated_at=timezone.now()
-                )
-
-            # Delete the assignment (or end it)
-            if delete_user:
-                # Get user info for success message before deletion
-                user_full_name = f"{user.first_name} {user.last_name}"
-
-                # Delete all assignments for this user
-                RoomAssignment.objects.filter(user=user).delete()
-
-                # Delete the user
-                user.delete()
-
-                messages.success(request, f"הסטודנט {user_full_name} הוסר מהמערכת ונמחק בהצלחה.")
-            else:
-                # Just end the assignment
-                assignment.end_date = timezone.now().date()
-                assignment.save(update_fields=['end_date'])
-
-                messages.success(request,
-                                 f"הסטודנט {user.first_name} {user.last_name} הוסר מחדר {assignment.room.room_number}.")
-
-        return True
-
-    except RoomAssignment.DoesNotExist:
-        messages.error(request, "שיבוץ החדר לא נמצא.")
-
-    return False
 
 
 def is_operations_manager(user):
@@ -1842,108 +1544,14 @@ def OM_manage_BM(request):
     # Get all buildings
     buildings = Building.objects.all().select_related('building_staff_member')
 
-    # Get all users with building_staff role for dropdown
-    building_staff_users = User.objects.filter(role='building_staff')
-
-    if request.method == 'POST':
-        action = request.POST.get('action')
-
-        if action == 'assign_manager':
-            building_id = request.POST.get('building_id')
-            staff_user_id = request.POST.get('staff_user_id')
-
-            try:
-                # Get the building
-                building = Building.objects.get(id=building_id)
-
-                # Get the staff user
-                staff_user = User.objects.get(id=staff_user_id, role='building_staff')
-
-                # Update the building's staff member
-                building.building_staff_member = staff_user
-                building.updated_at = timezone.now()
-                building.save()
-
-                messages.success(request,
-                                 f"אחראי {staff_user.first_name} {staff_user.last_name} שויך לבניין {building.building_name} בהצלחה")
-
-            except Building.DoesNotExist:
-                messages.error(request, "הבניין שנבחר אינו קיים")
-            except User.DoesNotExist:
-                messages.error(request, "המשתמש שנבחר אינו קיים או אינו אחראי בניין")
-
-        elif action == 'remove_manager':
-            building_id = request.POST.get('building_id')
-
-            try:
-                # Get the building
-                building = Building.objects.get(id=building_id)
-
-                # Check if there's a manager to remove
-                if building.building_staff_member:
-                    manager_name = f"{building.building_staff_member.first_name} {building.building_staff_member.last_name}"
-
-                    # Remove the manager
-                    building.building_staff_member = None
-                    building.updated_at = timezone.now()
-                    building.save()
-
-                    messages.success(request, f"אחראי {manager_name} הוסר מבניין {building.building_name} בהצלחה")
-                else:
-                    messages.warning(request, f"לא היה אחראי משויך לבניין {building.building_name}")
-
-            except Building.DoesNotExist:
-                messages.error(request, "הבניין שנבחר אינו קיים")
-
-        elif action == 'add_manager':
-            # Handle adding a new building manager user
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
-            email = request.POST.get('email')
-            password = request.POST.get('password', '123456789')  # Default password
-
-            # Validate inputs
-            if not all([first_name, last_name, email]):
-                messages.error(request, "אנא מלא את כל השדות הנדרשים")
-                return redirect('OM_manage_BM')
-
-            # Check if user with email already exists
-            if User.objects.filter(email=email).exists():
-                messages.error(request, f"משתמש עם אימייל {email} כבר קיים במערכת")
-                return redirect('OM_manage_BM')
-
-            # Create the new user
-            try:
-                with transaction.atomic():
-                    # Create user with building_staff role
-                    new_user = User.objects.create_user(
-                        username=email,
-                        email=email,
-                        password=password,
-                        first_name=first_name,
-                        last_name=last_name,
-                        role='building_staff'
-                    )
-
-                    messages.success(request, f"אחראי בניין חדש {first_name} {last_name} נוצר בהצלחה")
-
-                    # If a building was selected, assign the manager to it
-                    building_id = request.POST.get('assign_building_id')
-                    if building_id:
-                        building = Building.objects.get(id=building_id)
-                        building.building_staff_member = new_user
-                        building.updated_at = timezone.now()
-                        building.save()
-
-                        messages.success(request,
-                                         f"אחראי בניין {first_name} {last_name} שויך לבניין {building.building_name}")
-
-            except Exception as e:
-                messages.error(request, f"אירעה שגיאה ביצירת המשתמש: {str(e)}")
+    # Get all users with building_staff role
+    building_managers = User.objects.filter(role='building_staff').prefetch_related(
+        'managed_buildings'
+    )
 
     context = {
         'buildings': buildings,
-        'building_staff_users': building_staff_users,
+        'building_managers': building_managers,
     }
 
     return render(request, 'OM_manage_BM.html', context)
@@ -2063,3 +1671,463 @@ def Back_to_Homepage(request):
     if request.user.role == 'office_staff':
         return redirect('OM_Homepage')
     return redirect('Students_homepage')
+
+@login_required
+def OM_add_building(request):
+    """
+    View for office managers to add new buildings to the system.
+    """
+    # Check if user is office staff
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאות לגשת לעמוד זה")
+        return redirect('login_page')
+
+    # Get all available building managers (users with building_staff role)
+    building_managers = User.objects.filter(role='building_staff')
+
+    if request.method == 'POST':
+        building_name = request.POST.get('building_name')
+        building_manager_id = request.POST.get('building_manager_id')
+
+        # Validate input
+        if not building_name:
+            messages.error(request, "שם הבניין הוא שדה חובה")
+            return redirect('OM_add_building')
+
+        try:
+            # Create new building
+            building = Building.objects.create(
+                building_name=building_name,
+                building_staff_member_id=building_manager_id if building_manager_id else None
+            )
+
+            messages.success(request, f"בניין {building_name} נוסף בהצלחה!")
+            return redirect('OM_manage_BM')  # Redirect to building management page
+
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה ביצירת הבניין: {str(e)}")
+
+    context = {
+        'building_managers': building_managers,
+    }
+
+    return render(request, 'OM_add_building.html', context)
+
+@login_required
+def manage_rooms(request, building_id):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לגשת לדף זה!")
+        return redirect('login_page')
+    
+    try:
+        building = Building.objects.get(id=building_id)
+        rooms = Room.objects.filter(building=building)
+        
+        # Get all assignments for each room
+        for room in rooms:
+            room.assignments = RoomAssignment.objects.filter(room=room)
+            room.current_occupancy = room.assignments.count()
+        
+        context = {
+            'building': building,
+            'rooms': rooms,
+        }
+        return render(request, 'manage_rooms.html', context)
+    except Building.DoesNotExist:
+        messages.error(request, "הבניין לא נמצא!")
+        return redirect('OM_manage_BM')
+    except Exception as e:
+        messages.error(request, f"אירעה שגיאה: {str(e)}")
+        return redirect('OM_manage_BM')
+
+@login_required
+def add_room(request, building_id):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    if request.method == 'POST':
+        try:
+            building = Building.objects.get(id=building_id)
+            room_number = request.POST.get('room_number')
+            capacity = int(request.POST.get('capacity'))
+            
+            # Validate room number format
+            if not room_number.isalnum():
+                messages.error(request, "מספר החדר חייב להכיל רק אותיות ומספרים!")
+                return redirect('manage_rooms', building_id=building_id)
+            
+            # Check if room number already exists in the building
+            if Room.objects.filter(building=building, room_number=room_number).exists():
+                messages.error(request, "מספר החדר כבר קיים בבניין זה!")
+                return redirect('manage_rooms', building_id=building_id)
+            
+            # Validate capacity
+            if capacity < 1 or capacity > 4:
+                messages.error(request, "הקיבולת חייבת להיות בין 1 ל-4!")
+                return redirect('manage_rooms', building_id=building_id)
+            
+            Room.objects.create(
+                building=building,
+                room_number=room_number,
+                capacity=capacity
+            )
+            messages.success(request, "החדר נוסף בהצלחה!")
+        except Building.DoesNotExist:
+            messages.error(request, "הבניין לא נמצא!")
+        except ValueError:
+            messages.error(request, "הקיבולת חייבת להיות מספר!")
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('manage_rooms', building_id=building_id)
+
+@login_required
+def delete_room(request, room_id):
+    if request.user.role != 'office_staff':
+        return JsonResponse({'error': 'אין הרשאה'}, status=403)
+    
+    try:
+        room = Room.objects.get(id=room_id)
+        building_id = room.building.id
+        
+        # Check if room has students
+        if room.assignments.exists():
+            return JsonResponse({'error': 'לא ניתן למחוק חדר שיש בו סטודנטים'}, status=400)
+        
+        room.delete()
+        return JsonResponse({'success': True})
+    except Room.DoesNotExist:
+        return JsonResponse({'error': 'החדר לא נמצא'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@login_required
+def assign_student(request):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    if request.method == 'POST':
+        try:
+            room_id = request.POST.get('room_id')
+            student_email = request.POST.get('student_email')
+            end_date_str = request.POST.get('end_date')
+            
+            # Validate required fields
+            if not all([room_id, student_email, end_date_str]):
+                messages.error(request, "כל השדות נדרשים!")
+                return redirect('manage_rooms', building_id=room.building.id)
+            
+            # Parse end date
+            try:
+                end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+            except ValueError:
+                messages.error(request, "פורמט תאריך לא תקין. אנא השתמש בפורמט YYYY-MM-DD")
+                return redirect('manage_rooms', building_id=room.building.id)
+            
+            # Get room and validate
+            try:
+                room = Room.objects.get(id=room_id)
+            except Room.DoesNotExist:
+                messages.error(request, "החדר לא נמצא!")
+                return redirect('manage_rooms', building_id=room.building.id)
+            
+            # Get student and validate
+            try:
+                student = User.objects.get(email=student_email, role='student')
+            except User.DoesNotExist:
+                messages.error(request, "הסטודנט לא נמצא במערכת!")
+                return redirect('manage_rooms', building_id=room.building.id)
+            
+            # Check if room is full
+            current_assignments = RoomAssignment.objects.filter(
+                room=room,
+                end_date__gt=timezone.now().date()
+            ).count()
+            
+            if current_assignments >= room.capacity:
+                messages.error(request, "החדר מלא!")
+                return redirect('manage_rooms', building_id=room.building.id)
+            
+            # Check if student is already assigned to a room
+            existing_assignment = RoomAssignment.objects.filter(
+                user=student,
+                end_date__gt=timezone.now().date()
+            ).first()
+            
+            if existing_assignment:
+                messages.error(request, f"הסטודנט כבר משויך לחדר {existing_assignment.room.room_number} בבניין {existing_assignment.room.building.building_name}!")
+                return redirect('manage_rooms', building_id=room.building.id)
+            
+            # Create assignment
+            RoomAssignment.objects.create(
+                room=room,
+                user=student,
+                start_date=timezone.now().date(),
+                end_date=end_date
+            )
+            
+            messages.success(request, f"הסטודנט {student.first_name} {student.last_name} שויך לחדר {room.room_number} בהצלחה!")
+            
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('manage_rooms', building_id=room.building.id)
+
+@login_required
+def remove_student(request, assignment_id):
+    if request.user.role != 'office_staff':
+        return JsonResponse({'error': 'אין הרשאה'}, status=403)
+    
+    try:
+        assignment = RoomAssignment.objects.get(id=assignment_id)
+        building_id = assignment.room.building.id
+        
+        assignment.delete()
+        return JsonResponse({'success': True})
+    except RoomAssignment.DoesNotExist:
+        return JsonResponse({'error': 'השיוך לא נמצא'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@login_required
+def edit_room(request, building_id):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    if request.method == 'POST':
+        try:
+            room_id = request.POST.get('room_id')
+            room_number = request.POST.get('room_number')
+            capacity = int(request.POST.get('capacity'))
+            
+            # Get the room
+            room = Room.objects.get(id=room_id, building_id=building_id)
+            
+            # Validate room number format
+            if not room_number.isalnum():
+                messages.error(request, "מספר החדר חייב להכיל רק אותיות ומספרים!")
+                return redirect('manage_rooms', building_id=building_id)
+            
+            # Check if room number already exists in the building (excluding current room)
+            if Room.objects.filter(building_id=building_id, room_number=room_number).exclude(id=room_id).exists():
+                messages.error(request, "מספר החדר כבר קיים בבניין זה!")
+                return redirect('manage_rooms', building_id=building_id)
+            
+            # Validate capacity
+            if capacity < 1 or capacity > 4:
+                messages.error(request, "הקיבולת חייבת להיות בין 1 ל-4!")
+                return redirect('manage_rooms', building_id=building_id)
+            
+            # Check if new capacity is less than current occupancy
+            current_occupancy = room.assignments.count()
+            if capacity < current_occupancy:
+                messages.error(request, "הקיבולת החדשה קטנה ממספר הסטודנטים הנוכחי בחדר!")
+                return redirect('manage_rooms', building_id=building_id)
+            
+            # Update room
+            room.room_number = room_number
+            room.capacity = capacity
+            room.save()
+            
+            messages.success(request, "החדר עודכן בהצלחה!")
+        except Room.DoesNotExist:
+            messages.error(request, "החדר לא נמצא!")
+        except ValueError:
+            messages.error(request, "הקיבולת חייבת להיות מספר!")
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('manage_rooms', building_id=building_id)
+
+@login_required
+def add_student(request):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    if request.method == 'POST':
+        try:
+            # Create new user
+            user = User.objects.create_user(
+                username=request.POST['email'],
+                email=request.POST['email'],
+                password=User.objects.make_random_password(),  # Generate random password
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                role='student'
+            )
+            
+            # Create room assignment
+            room = Room.objects.get(id=request.POST['room'])
+            RoomAssignment.objects.create(
+                user=user,
+                room=room,
+                start_date=date.today(),
+                end_date=date.today() + timedelta(days=365)  # Default 1 year assignment
+            )
+            
+            messages.success(request, "הסטודנט נוסף בהצלחה!")
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('OM_manage_students')
+
+@login_required
+def edit_student(request):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    if request.method == 'POST':
+        try:
+            student = User.objects.get(id=request.POST['student_id'])
+            student.first_name = request.POST['first_name']
+            student.last_name = request.POST['last_name']
+            student.email = request.POST['email']
+            student.username = request.POST['email']  # Update username to match email
+            student.save()
+            
+            # Update room assignment
+            room = Room.objects.get(id=request.POST['room'])
+            assignment = RoomAssignment.objects.filter(user=student).first()
+            if assignment:
+                assignment.room = room
+                assignment.save()
+            else:
+                RoomAssignment.objects.create(
+                    user=student,
+                    room=room,
+                    start_date=date.today(),
+                    end_date=date.today() + timedelta(days=365)
+                )
+            
+            messages.success(request, "פרטי הסטודנט עודכנו בהצלחה!")
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('OM_manage_students')
+
+@login_required
+def delete_student(request, student_id):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    try:
+        student = User.objects.get(id=student_id)
+        student.delete()
+        messages.success(request, "הסטודנט נמחק בהצלחה!")
+    except Exception as e:
+        messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('OM_manage_students')
+
+@login_required
+def add_building_manager(request):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    if request.method == 'POST':
+        try:
+            # Create new user with building_staff role
+            user = User.objects.create_user(
+                username=request.POST['email'],
+                email=request.POST['email'],
+                password=User.objects.make_random_password(),  # Generate random password
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                role='building_staff'
+            )
+            
+            # Add buildings to manager
+            building_ids = request.POST.getlist('buildings')
+            buildings = Building.objects.filter(id__in=building_ids)
+            for building in buildings:
+                building.building_staff_member = user
+                building.save()
+            
+            messages.success(request, "אחראי בניין נוסף בהצלחה!")
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('OM_manage_BM')
+
+@login_required
+def edit_building_manager(request):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(id=request.POST['manager_id'], role='building_staff')
+            
+            # Update user details
+            user.first_name = request.POST['first_name']
+            user.last_name = request.POST['last_name']
+            user.email = request.POST['email']
+            user.username = request.POST['email']  # Update username to match email
+            user.save()
+            
+            # Update buildings
+            # First, remove user from all buildings
+            Building.objects.filter(building_staff_member=user).update(building_staff_member=None)
+            
+            # Then, add user to selected buildings
+            building_ids = request.POST.getlist('buildings')
+            buildings = Building.objects.filter(id__in=building_ids)
+            for building in buildings:
+                building.building_staff_member = user
+                building.save()
+            
+            messages.success(request, "פרטי אחראי הבניין עודכנו בהצלחה!")
+        except Exception as e:
+            messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('OM_manage_BM')
+
+@login_required
+def delete_building_manager(request, manager_id):
+    if request.user.role != 'office_staff':
+        messages.error(request, "אין לך הרשאה לבצע פעולה זו!")
+        return redirect('login_page')
+    
+    try:
+        user = User.objects.get(id=manager_id, role='building_staff')
+        
+        # Remove user from all buildings
+        Building.objects.filter(building_staff_member=user).update(building_staff_member=None)
+        
+        # Delete the user
+        user.delete()
+        
+        messages.success(request, "אחראי הבניין נמחק בהצלחה!")
+    except Exception as e:
+        messages.error(request, f"אירעה שגיאה: {str(e)}")
+    
+    return redirect('OM_manage_BM')
+
+@login_required
+def get_rooms(request, building_id):
+    if request.user.role != 'office_staff':
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+    
+    try:
+        rooms = Room.objects.filter(building_id=building_id)
+        rooms_data = []
+        for room in rooms:
+            current_occupancy = RoomAssignment.objects.filter(room=room).count()
+            rooms_data.append({
+                'id': room.id,
+                'room_number': room.room_number,
+                'current_occupancy': current_occupancy,
+                'capacity': room.capacity
+            })
+        return JsonResponse(rooms_data, safe=False)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

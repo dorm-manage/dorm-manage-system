@@ -311,10 +311,10 @@
     <a href="#main-nav" class="skip-link">דלג לתפריט הניווט</a>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light" id="main-nav" role="navigation" aria-label="תפריט ראשי">
+    <nav class="navbar navbar-expand-lg navbar-light" id="main-nav" role="navigation" aria-label="{% trans 'Main Navigation' %}">
         <div class="container">
             <a class="navbar-brand" href="{% url 'Homepage' %}">DormitoriesPlus</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="הצג/הסתר תפריט">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{% trans 'Toggle Navigation' %}">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -322,36 +322,36 @@
                     {% if user.is_authenticated %}
                         {% if user.role == 'student' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'Students_homepage' %}" aria-label="דף הבית לסטודנט">
-                                    <i class="bi bi-house-door"></i> דף הבית
+                                <a class="nav-link" href="{% url 'Students_homepage' %}" aria-label="{% trans 'Student Homepage' %}">
+                                    <i class="bi bi-house-door"></i> {% trans "Home" %}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'application' %}" aria-label="השאלת ציוד">
-                                    <i class="bi bi-box"></i> השאלת ציוד
+                                <a class="nav-link" href="{% url 'application' %}" aria-label="{% trans 'Equipment Loan' %}">
+                                    <i class="bi bi-box"></i> {% trans "Equipment Loan" %}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'faults' %}" aria-label="דיווח תקלות">
-                                    <i class="bi bi-exclamation-triangle"></i> דיווח תקלות
+                                <a class="nav-link" href="{% url 'faults' %}" aria-label="{% trans 'Report Issues' %}">
+                                    <i class="bi bi-exclamation-triangle"></i> {% trans "Report Issues" %}
                                 </a>
                             </li>
                         {% elif user.role == 'building_staff' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'BM_Homepage' %}" aria-label="דף הבית לאחראי בניין">
-                                    <i class="bi bi-house-door"></i> דף הבית
+                                <a class="nav-link" href="{% url 'BM_Homepage' %}" aria-label="{% trans 'Building Manager Homepage' %}">
+                                    <i class="bi bi-house-door"></i> {% trans "Home" %}
                                 </a>
                             </li>
                         {% elif user.role == 'office_staff' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'OM_Homepage' %}" aria-label="דף הבית למנהל מעונות">
-                                    <i class="bi bi-house-door"></i> דף הבית
+                                <a class="nav-link" href="{% url 'OM_Homepage' %}" aria-label="{% trans 'Office Manager Homepage' %}">
+                                    <i class="bi bi-house-door"></i> {% trans "Home" %}
                                 </a>
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}" aria-label="התנתק">
-                                <i class="bi bi-box-arrow-right"></i> התנתק
+                            <a class="nav-link" href="{% url 'logout' %}" aria-label="{% trans 'Logout' %}">
+                                <i class="bi bi-box-arrow-right"></i> {% trans "Logout" %}
                             </a>
                         </li>
                     {% endif %}

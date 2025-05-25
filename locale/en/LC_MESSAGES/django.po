@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 12:33+0300\n"
+"POT-Creation-Date: 2025-05-25 13:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,60 +18,209 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/base.html:8 templates/base.html:260
-msgid "DormitoriesPlus"
+#: DormitoriesPlus/views.py:1627
+msgid "Profile updated successfully"
 msgstr ""
 
-#: templates/base.html:254
+#: DormitoriesPlus/views.py:1640
+msgid "Current password is incorrect"
+msgstr ""
+
+#: DormitoriesPlus/views.py:1644
+msgid "New passwords don't match"
+msgstr ""
+
+#: DormitoriesPlus/views.py:1650
+msgid "Password changed successfully"
+msgstr ""
+
+#: templates/Change_Password.html:6 templates/Change_Password.html:23
+#: templates/OM_Profile.html:13 templates/Student_Profile.html:13
+msgid "Change Password"
+msgstr ""
+
+#: templates/Change_Password.html:12
+msgid "Current Password"
+msgstr ""
+
+#: templates/Change_Password.html:16
+msgid "New Password"
+msgstr ""
+
+#: templates/Change_Password.html:20
+msgid "Confirm New Password"
+msgstr ""
+
+#: templates/Change_Password.html:24 templates/Edit_Profile.html:24
+msgid "Cancel"
+msgstr ""
+
+#: templates/Edit_Profile.html:6 templates/OM_Profile.html:12
+#: templates/Student_Profile.html:12
+msgid "Edit Profile"
+msgstr ""
+
+#: templates/Edit_Profile.html:12
+msgid "First Name"
+msgstr ""
+
+#: templates/Edit_Profile.html:16
+msgid "Last Name"
+msgstr ""
+
+#: templates/Edit_Profile.html:20 templates/OM_Profile.html:10
+#: templates/Student_Profile.html:10 templates/connect_us.html:44
+#: templates/connect_us.html:70
+msgid "Email"
+msgstr ""
+
+#: templates/Edit_Profile.html:23
+msgid "Save Changes"
+msgstr ""
+
+#: templates/OM_Profile.html:6
+msgid "Office Manager Profile"
+msgstr ""
+
+#: templates/OM_Profile.html:11 templates/Student_Profile.html:11
+msgid "Username"
+msgstr ""
+
+#: templates/OM_add_building.html:6
+msgid "הוספת בניין חדש"
+msgstr ""
+
+#: templates/OM_add_building.html:26
+msgid "שם הבניין"
+msgstr ""
+
+#: templates/OM_add_building.html:31
+msgid "אחראי בניין"
+msgstr ""
+
+#: templates/OM_add_building.html:33
+msgid "בחר אחראי בניין (אופציונלי)"
+msgstr ""
+
+#: templates/OM_add_building.html:41
+msgid "חזור לניהול בניינים"
+msgstr ""
+
+#: templates/OM_add_building.html:42
+msgid "הוסף בניין"
+msgstr ""
+
+#: templates/Password_Changed.html:7
+msgid "Password Changed Successfully!"
+msgstr ""
+
+#: templates/Password_Changed.html:8
+msgid "Your password has been changed successfully."
+msgstr ""
+
+#: templates/Password_Changed.html:11 templates/Profile_Updated.html:11
+msgid "Back to Profile"
+msgstr ""
+
+#: templates/Profile_Updated.html:7
+msgid "Profile Updated Successfully!"
+msgstr ""
+
+#: templates/Profile_Updated.html:8
+msgid "Your profile has been updated successfully."
+msgstr ""
+
+#: templates/Student_Profile.html:6
+msgid "Student Profile"
+msgstr ""
+
+#: templates/base.html:310
 msgid "Skip to main content"
 msgstr ""
 
-#: templates/base.html:325 templates/connect_us.html:4
+#: templates/base.html:314
+msgid "Main Navigation"
+msgstr ""
+
+#: templates/base.html:317
+msgid "Toggle Navigation"
+msgstr ""
+
+#: templates/base.html:325
+msgid "Student Homepage"
+msgstr ""
+
+#: templates/base.html:326 templates/base.html:342 templates/base.html:348
+#: templates/home.html:4
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:330 templates/base.html:331
+msgid "Equipment Loan"
+msgstr ""
+
+#: templates/base.html:335 templates/base.html:336
+msgid "Report Issues"
+msgstr ""
+
+#: templates/base.html:341
+msgid "Building Manager Homepage"
+msgstr ""
+
+#: templates/base.html:347
+msgid "Office Manager Homepage"
+msgstr ""
+
+#: templates/base.html:353 templates/base.html:354
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:384 templates/connect_us.html:4
 #: templates/connect_us.html:12 templates/home.html:29
 msgid "Contact Us"
 msgstr ""
 
-#: templates/base.html:332
+#: templates/base.html:391
 msgid "Quick Links"
 msgstr ""
 
-#: templates/base.html:334 templates/home.html:20
+#: templates/base.html:393 templates/home.html:20
 msgid "Legal Assistance"
 msgstr ""
 
-#: templates/base.html:335
+#: templates/base.html:394
 msgid "Connect Us"
 msgstr ""
 
-#: templates/base.html:336
+#: templates/base.html:395
 msgid "Accessibility"
 msgstr ""
 
-#: templates/base.html:340
+#: templates/base.html:399
 msgid "Follow Us"
 msgstr ""
 
-#: templates/base.html:349
+#: templates/base.html:408
 msgid "DormitoriesPlus. All rights reserved."
 msgstr ""
 
-#: templates/base.html:356
+#: templates/base.html:415
 msgid "Increase Font Size"
 msgstr ""
 
-#: templates/base.html:359
+#: templates/base.html:418
 msgid "Decrease Font Size"
 msgstr ""
 
-#: templates/base.html:362
+#: templates/base.html:421
 msgid "Toggle High Contrast"
 msgstr ""
 
-#: templates/base.html:365
+#: templates/base.html:424
 msgid "Toggle Grayscale"
 msgstr ""
 
-#: templates/base.html:368
+#: templates/base.html:427
 msgid "Reset Accessibility"
 msgstr ""
 
@@ -99,10 +248,6 @@ msgstr ""
 
 #: templates/connect_us.html:35
 msgid "Phone"
-msgstr ""
-
-#: templates/connect_us.html:44 templates/connect_us.html:70
-msgid "Email"
 msgstr ""
 
 #: templates/connect_us.html:53
@@ -147,10 +292,6 @@ msgid ""
 "is available during office hours to assist you."
 msgstr ""
 
-#: templates/home.html:4
-msgid "Home"
-msgstr ""
-
 #: templates/home.html:15
 msgid "Available Services"
 msgstr ""
@@ -175,6 +316,71 @@ msgstr ""
 
 #: templates/home.html:40
 msgid "For urgent matters, please call our office at: 03-1234567"
+msgstr ""
+
+#: templates/manage_rooms.html:7
+msgid "ניהול חדרים"
+msgstr ""
+
+#: templates/manage_rooms.html:8
+msgid "ניהול חדרים, הוספת חדרים חדשים וניהול סטודנטים בחדרים"
+msgstr ""
+
+#: templates/manage_rooms.html:23
+msgid "חדרים בבניין"
+msgstr ""
+
+#: templates/manage_rooms.html:25 templates/manage_rooms.html:64
+msgid "הוסף חדר חדש"
+msgstr ""
+
+#: templates/manage_rooms.html:33
+msgid "חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:36 templates/manage_rooms.html:96
+msgid "הוסף סטודנט"
+msgstr ""
+
+#: templates/manage_rooms.html:47 templates/manage_rooms.html:72
+#: templates/manage_rooms.html:114
+msgid "קיבולת"
+msgstr ""
+
+#: templates/manage_rooms.html:48
+msgid "סטודנטים"
+msgstr ""
+
+#: templates/manage_rooms.html:53
+msgid "אין חדרים בבניין זה"
+msgstr ""
+
+#: templates/manage_rooms.html:68 templates/manage_rooms.html:110
+msgid "מספר חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:75
+msgid "הוסף חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:84
+msgid "הוסף סטודנט לחדר"
+msgstr ""
+
+#: templates/manage_rooms.html:89
+msgid "בחר סטודנט"
+msgstr ""
+
+#: templates/manage_rooms.html:105
+msgid "ערוך חדר"
+msgstr ""
+
+#: templates/manage_rooms.html:117
+msgid "שמור שינויים"
+msgstr ""
+
+#: templates/manage_rooms.html:290
+msgid "האם אתה בטוח שברצונך למחוק חדר זה?"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:7
