@@ -1,72 +1,205 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - אזור אישי</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
 
-<header>
-  <a class="home-btn" href="{% url 'Students_homepage' %} ">חזרה לדף הבית</a>
-  <h1>DormitoriesPlus</h1>
-</header>
+{% block title %}אזור אישי - DormitoriesPlus{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
-  <div class="hero">
-    <h2>אזור אישי</h2>
-    <p>כאן תוכל לצפות בדיווחים האישיים שלך ולעדכן פרטים לפי הצורך.</p>
-  </div>
+    <div class="hero">
+        <h2>אזור אישי</h2>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
+    </div>
 
-  <div class="report-list" id="reportList">
-    <h2>דיווחים אישיים</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>מספר תקלה</th>
-          <th>תיאור</th>
-          <th>תאריך דיווח</th>
-          <th>סטטוס</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>נזילה במקלחת</td>
-          <td>15/01/2025</td>
-          <td>בטיפול</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>בעיה בדלת הכניסה</td>
-          <td>10/01/2025</td>
-          <td>טופל</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>חסר חימום בחדר</td>
-          <td>12/01/2025</td>
-          <td>בטיפול</td>
-        </tr>
-      </tbody>
-    </table>
-    <button onclick="logout()">התנתק</button>
-  </div>
+    <div class="personal-info" role="region" aria-label="מידע אישי">
+        <h3>פרטים אישיים</h3>
+        <div class="info-card">
+            <dl>
+                <div class="info-row">
+                    <dt>שם מלא:</dt>
+                    <dd>{{ user.first_name }} {{ user.last_name }}</dd>
+                </div>
+                <div class="info-row">
+                    <dt>תעודת זהות:</dt>
+                    <dd>{{ user.id_number }}</dd>
+                </div>
+                <div class="info-row">
+                    <dt>טלפון:</dt>
+                    <dd>{{ user.phone }}</dd>
+                </div>
+                <div class="info-row">
+                    <dt>דוא"ל:</dt>
+                    <dd>{{ user.email }}</dd>
+                </div>
+                <div class="info-row">
+                    <dt>בניין:</dt>
+                    <dd>{{ user.building }}</dd>
+                </div>
+                <div class="info-row">
+                    <dt>חדר:</dt>
+                    <dd>{{ user.room }}</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="actions" role="region" aria-label="פעולות">
+        <h3>פעולות זמינות</h3>
+        <nav class="action-nav" role="navigation" aria-label="פעולות זמינות">
+            <a href="/faults" class="action-link" role="button" aria-label="דיווח על תקלה">
+                <span class="icon" aria-hidden="true">🔧</span>
+                <span>דיווח על תקלה</span>
+            </a>
+            <a href="/application" class="action-link" role="button" aria-label="השאלת ציוד">
+                <span class="icon" aria-hidden="true">📦</span>
+                <span>השאלת ציוד</span>
+            </a>
+            <a href="/connect_us" class="action-link" role="button" aria-label="צור קשר">
+                <span class="icon" aria-hidden="true">📞</span>
+                <span>צור קשר</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="recent-activity" role="region" aria-label="פעילות אחרונה">
+        <h3>פעילות אחרונה</h3>
+        <div class="activity-list">
+            {% if recent_faults %}
+            <section class="activity-section" role="list" aria-label="דיווחי תקלות אחרונים">
+                <h4>דיווחי תקלות אחרונים</h4>
+                <ul>
+                    {% for fault in recent_faults %}
+                    <li role="listitem">
+                        <strong>{{ fault.date }}</strong>: {{ fault.description }}
+                        <span class="status" aria-label="סטטוס: {{ fault.status }}">{{ fault.status }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
+            {% if recent_loans %}
+            <section class="activity-section" role="list" aria-label="השאלות ציוד אחרונות">
+                <h4>השאלות ציוד אחרונות</h4>
+                <ul>
+                    {% for loan in recent_loans %}
+                    <li role="listitem">
+                        <strong>{{ loan.date }}</strong>: {{ loan.item }}
+                        <span class="status" aria-label="סטטוס: {{ loan.status }}">{{ loan.status }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+        </div>
+    </div>
 </div>
+{% endblock %}
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
+{% block extra_css %}
+<style>
+    .personal-info, .actions, .recent-activity {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
 
-<script>
-  function logout() {
-    alert("התנתקת בהצלחה!");
-    window.location.href = "/";
-  }
-</script>
+    .info-card {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 4px;
+    }
 
-</body>
-</html>
+    .info-row {
+        display: flex;
+        margin: 0.5rem 0;
+    }
+
+    .info-row dt {
+        font-weight: bold;
+        margin-left: 1rem;
+        min-width: 100px;
+    }
+
+    .action-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .action-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .action-link:hover, .action-link:focus {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .activity-section {
+        margin-top: 1rem;
+    }
+
+    .activity-section ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .activity-section li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        margin-right: 0.5rem;
+    }
+
+    .status[aria-label*="ממתין"] {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .status[aria-label*="בטיפול"] {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .status[aria-label*="הושלם"] {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .action-link {
+            transition: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .info-row {
+            flex-direction: column;
+        }
+
+        .info-row dt {
+            margin-left: 0;
+            margin-bottom: 0.25rem;
+        }
+    }
+</style>
+{% endblock %}

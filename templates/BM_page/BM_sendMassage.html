@@ -1,54 +1,467 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - הודעות לדיירים</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
 
-<header>
-  <a class="back-btn" href="{% url 'BM_Homepage' %}">חזרה לעמוד ראשי</a>
-  <h1>DormitoriesPlus</h1>
-</header>
+{% block title %}שליחת הודעה - DormitoriesPlus{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
-  <div class="hero">
-    <h2>שליחת הודעות לדיירי הבניין</h2>
-    <p>כאן תוכל לבחור בניין ולשלוח הודעה לכל הדיירים</p>
-  </div>
+    <div class="hero">
+        <h2>שליחת הודעה</h2>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
+    </div>
 
-  <div class="form-section">
-    <form method="POST" action="{% url 'BM_sendMassage' %}">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="building">בחר בניין:</label>
-          <select id="building" name="building" required>
-            <option value="" disabled selected>בחר בניין</option>
-            <option value="1">בניין 1</option>
-            <option value="2">בניין 2</option>
-            <option value="3">בניין 3</option>
-            <option value="4">בניין 4</option>
-          </select>
+    <div class="message-form-container" role="region" aria-label="טופס שליחת הודעה">
+        <h3>שליחת הודעה חדשה</h3>
+        <form id="messageForm" class="message-form" role="form" aria-labelledby="messageFormTitle">
+            <div class="form-group">
+                <label for="recipientType" id="recipient-label">נמענים:</label>
+                <select id="recipientType" 
+                        name="recipient_type" 
+                        required 
+                        aria-labelledby="recipient-label"
+                        onchange="updateRecipientOptions()">
+                    <option value="">בחר נמענים</option>
+                    <option value="all">כל הסטודנטים</option>
+                    <option value="building">סטודנטים בבניין</option>
+                    <option value="floor">סטודנטים בקומה</option>
+                    <option value="room">סטודנטים בחדר</option>
+                    <option value="specific">סטודנטים ספציפיים</option>
+                </select>
+            </div>
+
+            <div id="buildingSelect" class="form-group" style="display: none;">
+                <label for="building" id="building-label">בניין:</label>
+                <select id="building" 
+                        name="building" 
+                        aria-labelledby="building-label"
+                        onchange="updateFloorOptions()">
+                    <option value="">בחר בניין</option>
+                    {% for building in buildings %}
+                    <option value="{{ building.id }}">{{ building.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="floorSelect" class="form-group" style="display: none;">
+                <label for="floor" id="floor-label">קומה:</label>
+                <select id="floor" 
+                        name="floor" 
+                        aria-labelledby="floor-label"
+                        onchange="updateRoomOptions()">
+                    <option value="">בחר קומה</option>
+                </select>
+            </div>
+
+            <div id="roomSelect" class="form-group" style="display: none;">
+                <label for="room" id="room-label">חדר:</label>
+                <select id="room" 
+                        name="room" 
+                        aria-labelledby="room-label">
+                    <option value="">בחר חדר</option>
+                </select>
+            </div>
+
+            <div id="specificStudents" class="form-group" style="display: none;">
+                <label for="students" id="students-label">סטודנטים:</label>
+                <select id="students" 
+                        name="students" 
+                        multiple 
+                        aria-labelledby="students-label">
+                    {% for student in students %}
+                    <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text">החזק Ctrl (או Command במק) כדי לבחור מספר סטודנטים</small>
+            </div>
+
+            <div class="form-group">
+                <label for="subject" id="subject-label">נושא:</label>
+                <input type="text" 
+                       id="subject" 
+                       name="subject" 
+                       required 
+                       aria-labelledby="subject-label"
+                       maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="message" id="message-label">תוכן ההודעה:</label>
+                <textarea id="message" 
+                          name="message" 
+                          required 
+                          aria-labelledby="message-label"
+                          rows="6"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="priority" id="priority-label">עדיפות:</label>
+                <select id="priority" 
+                        name="priority" 
+                        required 
+                        aria-labelledby="priority-label">
+                    <option value="normal">רגילה</option>
+                    <option value="high">גבוהה</option>
+                    <option value="urgent">דחופה</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" 
+                        class="btn-primary" 
+                        aria-label="שלח הודעה">
+                    שלח הודעה
+                </button>
+                <button type="button" 
+                        class="btn-secondary" 
+                        onclick="window.location.href='{% url 'BM_Homepage' %}'"
+                        aria-label="חזור לדף הבית">
+                    ביטול
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="recent-messages" role="region" aria-label="הודעות אחרונות">
+        <h3>הודעות אחרונות</h3>
+        {% if recent_messages %}
+        <div class="messages-list">
+            {% for message in recent_messages %}
+            <div class="message-card" role="article">
+                <div class="message-header">
+                    <h4>{{ message.subject }}</h4>
+                    <span class="message-date">{{ message.created_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="message-details">
+                    <p><strong>נמענים:</strong> {{ message.recipients_count }} סטודנטים</p>
+                    <p><strong>עדיפות:</strong> 
+                        <span class="priority-badge" aria-label="עדיפות: {{ message.priority }}">
+                            {{ message.priority }}
+                        </span>
+                    </p>
+                </div>
+                <div class="message-preview">
+                    {{ message.content|truncatechars:100 }}
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        <div class="form-group">
-          <label for="message">תוכן ההודעה:</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-        </div>
-        <div class="form-group">
-          <button type="submit">שלח הודעה</button>
-        </div>
-    </form>
-  </div>
+        {% else %}
+        <p class="no-messages">אין הודעות אחרונות להצגה</p>
+        {% endif %}
+    </div>
 </div>
+{% endblock %}
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
+{% block extra_css %}
+<style>
+    .message-form-container,
+    .recent-messages {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
 
-</body>
-</html>
+    .message-form {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .form-group select[multiple] {
+        height: 150px;
+    }
+
+    .form-text {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+        opacity: 0.9;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        justify-content: flex-end;
+    }
+
+    .messages-list {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .message-card {
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+
+    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .message-header h4 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .message-date {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .message-details {
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .priority-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+
+    .priority-badge[aria-label*="רגילה"] {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .priority-badge[aria-label*="גבוהה"] {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .priority-badge[aria-label*="דחופה"] {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .message-preview {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .no-messages {
+        text-align: center;
+        padding: 2rem;
+        color: #6c757d;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .btn-primary,
+        .btn-secondary {
+            transition: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .message-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .message-date {
+            margin-top: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function updateRecipientOptions() {
+        const recipientType = document.getElementById('recipientType').value;
+        
+        // Hide all recipient options
+        document.getElementById('buildingSelect').style.display = 'none';
+        document.getElementById('floorSelect').style.display = 'none';
+        document.getElementById('roomSelect').style.display = 'none';
+        document.getElementById('specificStudents').style.display = 'none';
+        
+        // Show relevant options based on selection
+        switch (recipientType) {
+            case 'building':
+                document.getElementById('buildingSelect').style.display = 'block';
+                break;
+            case 'floor':
+                document.getElementById('buildingSelect').style.display = 'block';
+                document.getElementById('floorSelect').style.display = 'block';
+                break;
+            case 'room':
+                document.getElementById('buildingSelect').style.display = 'block';
+                document.getElementById('floorSelect').style.display = 'block';
+                document.getElementById('roomSelect').style.display = 'block';
+                break;
+            case 'specific':
+                document.getElementById('specificStudents').style.display = 'block';
+                break;
+        }
+    }
+
+    function updateFloorOptions() {
+        const buildingId = document.getElementById('building').value;
+        const floorSelect = document.getElementById('floor');
+        
+        // Clear current options
+        floorSelect.innerHTML = '<option value="">בחר קומה</option>';
+        
+        if (buildingId) {
+            // Fetch floors for selected building
+            fetch(`/api/buildings/${buildingId}/floors`)
+                .then(response => response.json())
+                .then(floors => {
+                    floors.forEach(floor => {
+                        const option = document.createElement('option');
+                        option.value = floor.id;
+                        option.textContent = floor.number;
+                        floorSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('אירעה שגיאה בטעינת קומות');
+                });
+        }
+    }
+
+    function updateRoomOptions() {
+        const floorId = document.getElementById('floor').value;
+        const roomSelect = document.getElementById('room');
+        
+        // Clear current options
+        roomSelect.innerHTML = '<option value="">בחר חדר</option>';
+        
+        if (floorId) {
+            // Fetch rooms for selected floor
+            fetch(`/api/floors/${floorId}/rooms`)
+                .then(response => response.json())
+                .then(rooms => {
+                    rooms.forEach(room => {
+                        const option = document.createElement('option');
+                        option.value = room.id;
+                        option.textContent = room.number;
+                        roomSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('אירעה שגיאה בטעינת חדרים');
+                });
+        }
+    }
+
+    // Handle form submission
+    document.getElementById('messageForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Add selected students if any
+        if (data.recipient_type === 'specific') {
+            const studentsSelect = document.getElementById('students');
+            data.students = Array.from(studentsSelect.selectedOptions).map(option => option.value);
+        }
+        
+        fetch('/api/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('ההודעה נשלחה בהצלחה');
+                window.location.reload();
+            } else {
+                alert('אירעה שגיאה בשליחת ההודעה');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('אירעה שגיאה בשליחת ההודעה');
+        });
+    });
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

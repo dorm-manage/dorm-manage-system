@@ -1,245 +1,753 @@
-{% load inventory_tags %}
-{% load static %}
-<!DOCTYPE html>
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/inventory.css' %}">
-    <title>DormitoriesPlus - ניהול מלאי</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/buttons.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/modals.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
 
+{% block title %}ניהול מלאי - DormitoriesPlus{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
-
     <div class="hero">
         <h2>ניהול מלאי</h2>
-        <p>כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
     </div>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <div class="table-container">
-        <h3>רשימת פריטי מלאי</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>תמונה</th>
-                    <th>שם פריט</th>
-                    <th>כמות כוללת</th>
-                    <th>זמינים</th>
-                    <th>בהשאלה</th>
-                    <th>פעולות</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in inventory %}
-                <tr>
-                    <td>
-                        {% if item.photo_url %}
-                            <img src="{{ item.photo_url.url }}" alt="{{ item.item_name }}" class="item-photo">
-                        {% else %}
-                            <img src="{% static 'img/no-image.png' %}" alt="אין תמונה" class="item-photo">
-                        {% endif %}
-                    </td>
-                    <td>{{ item.item_name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td class="status-available">
-                        {% if items_by_inventory|get_item:item.id %}
-                            {{ items_by_inventory|get_item:item.id|get_item:'available' }}
-                        {% else %}
-                            0
-                        {% endif %}
-                    </td>
-                    <td class="status-borrowed">
-                        {% if items_by_inventory|get_item:item.id %}
-                            {{ items_by_inventory|get_item:item.id|get_item:'borrowed' }}
-                        {% else %}
-                            0
-                        {% endif %}
-                    </td>
-                    <td>
-                        <button class="btn btn-warning" onclick="openEditModal({{ item.id }}, '{{ item.item_name }}', {{ item.quantity }})">ערוך</button>
-                        <button class="btn btn-danger" onclick="confirmDelete({{ item.id }}, '{{ item.item_name }}')">מחק</button>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="7" style="text-align: center;">אין פריטים במלאי</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <!-- Pagination -->
-        {% if page_obj.has_previous or page_obj.has_next %}
-        <div class="pagination">
-            <ul>
-                {% if page_obj.has_previous %}
-                    <li><a href="?page=1">&laquo; ראשון</a></li>
-                    <li><a href="?page={{ page_obj.previous_page_number }}">הקודם</a></li>
-                {% else %}
-                    <li class="disabled"><span>&laquo; ראשון</span></li>
-                    <li class="disabled"><span>הקודם</span></li>
-                {% endif %}
-
-                <li class="active"><span>דף {{ page_obj.number }} מתוך {{ page_obj.paginator.num_pages }}</span></li>
-
-                {% if page_obj.has_next %}
-                    <li><a href="?page={{ page_obj.next_page_number }}">הבא</a></li>
-                    <li><a href="?page={{ page_obj.paginator.num_pages }}">אחרון &raquo;</a></li>
-                {% else %}
-                    <li class="disabled"><span>הבא</span></li>
-                    <li class="disabled"><span>אחרון &raquo;</span></li>
-                {% endif %}
-            </ul>
+    <div class="inventory-actions" role="region" aria-label="פעולות מלאי">
+        <div class="action-buttons">
+            <button type="button" 
+                    class="btn-primary" 
+                    onclick="showAddItemModal()"
+                    aria-label="הוסף פריט חדש">
+                <i class="fas fa-plus"></i>
+                הוסף פריט
+            </button>
+            <button type="button" 
+                    class="btn-secondary" 
+                    onclick="showInventoryReport()"
+                    aria-label="הצג דוח מלאי">
+                <i class="fas fa-file-alt"></i>
+                דוח מלאי
+            </button>
         </div>
+    </div>
+
+    <div class="inventory-filters" role="region" aria-label="סינון מלאי">
+        <h3>סינון מלאי</h3>
+        <form id="filterForm" class="filter-form" role="search" aria-labelledby="filterFormTitle">
+            <div class="form-group">
+                <label for="category" id="category-label">קטגוריה:</label>
+                <select id="category" 
+                        name="category" 
+                        aria-labelledby="category-label">
+                    <option value="">כל הקטגוריות</option>
+                    <option value="electronics">אלקטרוניקה</option>
+                    <option value="furniture">ריהוט</option>
+                    <option value="kitchen">כלי מטבח</option>
+                    <option value="other">אחר</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status" id="status-label">סטטוס:</label>
+                <select id="status" 
+                        name="status" 
+                        aria-labelledby="status-label">
+                    <option value="">כל הסטטוסים</option>
+                    <option value="available">זמין</option>
+                    <option value="in_use">בשימוש</option>
+                    <option value="maintenance">בתיקון</option>
+                    <option value="retired">לא בשימוש</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="search" id="search-label">חיפוש:</label>
+                <input type="text" 
+                       id="search" 
+                       name="search" 
+                       placeholder="חיפוש לפי שם פריט או מספר סידורי"
+                       aria-labelledby="search-label">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" 
+                        class="btn-primary" 
+                        aria-label="סנן מלאי">
+                    סנן
+                </button>
+                <button type="reset" 
+                        class="btn-secondary" 
+                        aria-label="נקה סינון">
+                    נקה
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="inventory-list" role="region" aria-label="רשימת מלאי">
+        <div class="list-header">
+            <h3>רשימת מלאי</h3>
+            <div class="status-summary" role="status" aria-label="סיכום סטטוסים">
+                <span class="status-badge available" aria-label="זמין: {{ available_count }}">
+                    זמין: {{ available_count }}
+                </span>
+                <span class="status-badge in_use" aria-label="בשימוש: {{ in_use_count }}">
+                    בשימוש: {{ in_use_count }}
+                </span>
+                <span class="status-badge maintenance" aria-label="בתיקון: {{ maintenance_count }}">
+                    בתיקון: {{ maintenance_count }}
+                </span>
+                <span class="status-badge retired" aria-label="לא בשימוש: {{ retired_count }}">
+                    לא בשימוש: {{ retired_count }}
+                </span>
+            </div>
+        </div>
+
+        {% if inventory_items %}
+        <div class="table-responsive">
+            <table class="inventory-table" role="grid" aria-label="רשימת מלאי">
+                <thead>
+                    <tr>
+                        <th scope="col" role="columnheader">מספר סידורי</th>
+                        <th scope="col" role="columnheader">שם פריט</th>
+                        <th scope="col" role="columnheader">קטגוריה</th>
+                        <th scope="col" role="columnheader">סטטוס</th>
+                        <th scope="col" role="columnheader">מיקום</th>
+                        <th scope="col" role="columnheader">פעולות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory_items %}
+                    <tr role="row">
+                        <td role="cell">{{ item.serial_number }}</td>
+                        <td role="cell">{{ item.name }}</td>
+                        <td role="cell">{{ item.category }}</td>
+                        <td role="cell">
+                            <span class="status-badge {{ item.status }}" 
+                                  aria-label="סטטוס: {{ item.status }}">
+                                {{ item.status }}
+                            </span>
+                        </td>
+                        <td role="cell">{{ item.location }}</td>
+                        <td role="cell">
+                            <div class="action-buttons" role="group" aria-label="פעולות לפריט">
+                                <button type="button" 
+                                        class="btn-icon" 
+                                        onclick="showItemDetails('{{ item.id }}')"
+                                        aria-label="הצג פרטי פריט">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button type="button" 
+                                        class="btn-icon" 
+                                        onclick="showItemHistory('{{ item.id }}')"
+                                        aria-label="הצג היסטוריית פריט">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                                <button type="button" 
+                                        class="btn-icon" 
+                                        onclick="editItem('{{ item.id }}')"
+                                        aria-label="ערוך פריט">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="no-items">לא נמצאו פריטים במלאי</p>
         {% endif %}
     </div>
+</div>
 
-
-    <div class="actions-bar">
-        <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
-        <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
-    </div>
-
-
-    <!-- Modal for adding new item -->
-    <div id="addModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeAddModal()">&times;</span>
-            <h3>הוספת פריט חדש למלאי</h3>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="item_name">שם הפריט</label>
-                    <input type="text" id="item_name" name="item_name" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="quantity">כמות</label>
-                    <input type="number" id="quantity" name="quantity" min="1" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="photo">תמונת פריט (אופציונלי)</label>
-                    <input type="file" id="photo" name="photo" class="form-control" accept="image/*">
-                </div>
-                <button type="submit" name="add_item" class="btn btn-primary">הוסף פריט</button>
-            </form>
+<!-- Add Item Modal -->
+<div id="addItemModal" 
+     class="modal" 
+     role="dialog" 
+     aria-labelledby="addItemTitle" 
+     aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="addItemTitle">הוספת פריט חדש</h3>
+            <button type="button" 
+                    class="close-btn" 
+                    onclick="closeModal('addItemModal')"
+                    aria-label="סגור חלון">
+                &times;
+            </button>
         </div>
-    </div>
+        <form id="addItemForm" class="modal-form" role="form" aria-labelledby="addItemTitle">
+            <div class="form-group">
+                <label for="itemName" id="itemName-label">שם פריט:</label>
+                <input type="text" 
+                       id="itemName" 
+                       name="name" 
+                       required 
+                       aria-labelledby="itemName-label">
+            </div>
 
-    <!-- Modal for editing inventory item -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
-            <h3>ערוך פריט מלאי</h3>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="hidden" id="inventory_id" name="inventory_id">
-                <div class="form-group">
-                    <label for="new_name">שם פריט</label>
-                    <input type="text" id="new_name" name="new_name" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="new_quantity">כמות</label>
-                    <input type="number" id="new_quantity" name="new_quantity" min="0" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_photo">תמונת פריט חדשה (אופציונלי)</label>
-                    <input type="file" id="edit_photo" name="photo" class="form-control" accept="image/*">
-                </div>
-                <button type="submit" name="update_item" class="btn btn-success">עדכן פריט</button>
-            </form>
+            <div class="form-group">
+                <label for="itemCategory" id="itemCategory-label">קטגוריה:</label>
+                <select id="itemCategory" 
+                        name="category" 
+                        required 
+                        aria-labelledby="itemCategory-label">
+                    <option value="">בחר קטגוריה</option>
+                    <option value="electronics">אלקטרוניקה</option>
+                    <option value="furniture">ריהוט</option>
+                    <option value="kitchen">כלי מטבח</option>
+                    <option value="other">אחר</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="itemSerial" id="itemSerial-label">מספר סידורי:</label>
+                <input type="text" 
+                       id="itemSerial" 
+                       name="serial_number" 
+                       required 
+                       aria-labelledby="itemSerial-label">
+            </div>
+
+            <div class="form-group">
+                <label for="itemLocation" id="itemLocation-label">מיקום:</label>
+                <input type="text" 
+                       id="itemLocation" 
+                       name="location" 
+                       required 
+                       aria-labelledby="itemLocation-label">
+            </div>
+
+            <div class="form-group">
+                <label for="itemNotes" id="itemNotes-label">הערות:</label>
+                <textarea id="itemNotes" 
+                          name="notes" 
+                          rows="3" 
+                          aria-labelledby="itemNotes-label"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" 
+                        class="btn-primary" 
+                        aria-label="הוסף פריט">
+                    הוסף
+                </button>
+                <button type="button" 
+                        class="btn-secondary" 
+                        onclick="closeModal('addItemModal')"
+                        aria-label="ביטול">
+                    ביטול
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Item Details Modal -->
+<div id="itemDetailsModal" 
+     class="modal" 
+     role="dialog" 
+     aria-labelledby="itemDetailsTitle" 
+     aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="itemDetailsTitle">פרטי פריט</h3>
+            <button type="button" 
+                    class="close-btn" 
+                    onclick="closeModal('itemDetailsModal')"
+                    aria-label="סגור חלון">
+                &times;
+            </button>
         </div>
-    </div>
-
-    <!-- Modal for confirming delete -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeDeleteModal()">&times;</span>
-            <h3>האם אתה בטוח שברצונך למחוק פריט זה?</h3>
-            <p id="delete-item-name"></p>
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" id="delete_inventory_id" name="inventory_id">
-                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-                    <button type="submit" name="remove_item" class="btn btn-danger">כן, מחק</button>
-                    <button type="button" class="btn btn-primary" onclick="closeDeleteModal()">ביטול</button>
-                </div>
-            </form>
+        <div class="item-details" role="region" aria-label="פרטי פריט">
+            <dl>
+                <dt>מספר סידורי:</dt>
+                <dd id="detailsSerialNumber"></dd>
+                
+                <dt>שם פריט:</dt>
+                <dd id="detailsName"></dd>
+                
+                <dt>קטגוריה:</dt>
+                <dd id="detailsCategory"></dd>
+                
+                <dt>סטטוס:</dt>
+                <dd id="detailsStatus"></dd>
+                
+                <dt>מיקום:</dt>
+                <dd id="detailsLocation"></dd>
+                
+                <dt>תאריך הוספה:</dt>
+                <dd id="detailsAddedDate"></dd>
+                
+                <dt>הערות:</dt>
+                <dd id="detailsNotes"></dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <button type="button" 
+                    class="btn-secondary" 
+                    onclick="closeModal('itemDetailsModal')"
+                    aria-label="סגור">
+                סגור
+            </button>
         </div>
     </div>
 </div>
 
-<footer>
-    <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
+<!-- Item History Modal -->
+<div id="itemHistoryModal" 
+     class="modal" 
+     role="dialog" 
+     aria-labelledby="itemHistoryTitle" 
+     aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="itemHistoryTitle">היסטוריית פריט</h3>
+            <button type="button" 
+                    class="close-btn" 
+                    onclick="closeModal('itemHistoryModal')"
+                    aria-label="סגור חלון">
+                &times;
+            </button>
+        </div>
+        <div class="item-history" role="region" aria-label="היסטוריית פריט">
+            <div id="historyList" class="history-list"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" 
+                    class="btn-secondary" 
+                    onclick="closeModal('itemHistoryModal')"
+                    aria-label="סגור">
+                סגור
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
+{% block extra_css %}
+<style>
+    .inventory-actions,
+    .inventory-filters,
+    .inventory-list {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .status-summary {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .inventory-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .inventory-table th,
+    .inventory-table td {
+        padding: 0.75rem;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .inventory-table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+
+    .status-badge.available {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .status-badge.in_use {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .status-badge.maintenance {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .status-badge.retired {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-icon {
+        padding: 0.25rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: #6c757d;
+    }
+
+    .btn-icon:hover,
+    .btn-icon:focus {
+        color: #007bff;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 2rem auto;
+        padding: 1rem;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #6c757d;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: #dc3545;
+    }
+
+    .modal-form {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .item-details dl {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.5rem 1rem;
+    }
+
+    .item-details dt {
+        font-weight: bold;
+        color: #6c757d;
+    }
+
+    .history-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .history-item {
+        padding: 1rem;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .history-item:last-child {
+        border-bottom: none;
+    }
+
+    .history-date {
+        color: #6c757d;
+        font-size: 0.875rem;
+    }
+
+    .history-action {
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+
+    .history-details {
+        color: #495057;
+    }
+
+    .no-items {
+        text-align: center;
+        padding: 2rem;
+        color: #6c757d;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .btn-icon,
+        .close-btn {
+            transition: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+
+        .list-header {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .status-summary {
+            flex-wrap: wrap;
+        }
+
+        .action-buttons {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
 <script>
-    // Add modal functions
-    function openAddModal() {
-        document.getElementById('addModal').style.display = "block";
-    }
+    // Filter form handling
+    document.getElementById('filterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const params = new URLSearchParams(formData);
+        
+        fetch(`/api/inventory?${params.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                updateInventoryList(data.items);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בטעינת המלאי');
+            });
+    });
 
-    function closeAddModal() {
-        document.getElementById('addModal').style.display = "none";
-    }
-
-    // Edit modal functions
-    function openEditModal(id, name, quantity) {
-        document.getElementById('inventory_id').value = id;
-        document.getElementById('new_name').value = name;
-        document.getElementById('new_quantity').value = quantity;
-        document.getElementById('editModal').style.display = "block";
-    }
-
-    function closeEditModal() {
-        document.getElementById('editModal').style.display = "none";
-    }
-
-    // Delete confirmation modal
-    function confirmDelete(id, name) {
-        document.getElementById('delete_inventory_id').value = id;
-        document.getElementById('delete-item-name').textContent = 'שם פריט: ' + name;
-        document.getElementById('deleteModal').style.display = "block";
-    }
-
-    function closeDeleteModal() {
-        document.getElementById('deleteModal').style.display = "none";
-    }
-
-    // Close modals when clicking outside
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('addModal')) {
-            closeAddModal();
+    // Update inventory list
+    function updateInventoryList(items) {
+        const tbody = document.querySelector('.inventory-table tbody');
+        tbody.innerHTML = '';
+        
+        if (items.length === 0) {
+            document.querySelector('.no-items').style.display = 'block';
+            return;
         }
-        if (event.target == document.getElementById('editModal')) {
-            closeEditModal();
-        }
-        if (event.target == document.getElementById('deleteModal')) {
-            closeDeleteModal();
-        }
+        
+        document.querySelector('.no-items').style.display = 'none';
+        
+        items.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.setAttribute('role', 'row');
+            
+            tr.innerHTML = `
+                <td role="cell">${item.serial_number}</td>
+                <td role="cell">${item.name}</td>
+                <td role="cell">${item.category}</td>
+                <td role="cell">
+                    <span class="status-badge ${item.status}" aria-label="סטטוס: ${item.status}">
+                        ${item.status}
+                    </span>
+                </td>
+                <td role="cell">${item.location}</td>
+                <td role="cell">
+                    <div class="action-buttons" role="group" aria-label="פעולות לפריט">
+                        <button type="button" 
+                                class="btn-icon" 
+                                onclick="showItemDetails('${item.id}')"
+                                aria-label="הצג פרטי פריט">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button type="button" 
+                                class="btn-icon" 
+                                onclick="showItemHistory('${item.id}')"
+                                aria-label="הצג היסטוריית פריט">
+                            <i class="fas fa-history"></i>
+                        </button>
+                        <button type="button" 
+                                class="btn-icon" 
+                                onclick="editItem('${item.id}')"
+                                aria-label="ערוך פריט">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            
+            tbody.appendChild(tr);
+        });
     }
 
-    // Auto-hide messages after 5 seconds
-    setTimeout(function() {
-        var messages = document.getElementsByClassName('message');
-        for (var i = 0; i < messages.length; i++) {
-            messages[i].style.display = 'none';
+    // Modal handling
+    function showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Add item
+    function showAddItemModal() {
+        document.getElementById('addItemForm').reset();
+        showModal('addItemModal');
+    }
+
+    document.getElementById('addItemForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch('/api/inventory', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('הפריט נוסף בהצלחה');
+                closeModal('addItemModal');
+                window.location.reload();
+            } else {
+                alert('אירעה שגיאה בהוספת הפריט');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('אירעה שגיאה בהוספת הפריט');
+        });
+    });
+
+    // Item details
+    function showItemDetails(itemId) {
+        fetch(`/api/inventory/${itemId}`)
+            .then(response => response.json())
+            .then(item => {
+                document.getElementById('detailsSerialNumber').textContent = item.serial_number;
+                document.getElementById('detailsName').textContent = item.name;
+                document.getElementById('detailsCategory').textContent = item.category;
+                document.getElementById('detailsStatus').textContent = item.status;
+                document.getElementById('detailsLocation').textContent = item.location;
+                document.getElementById('detailsAddedDate').textContent = 
+                    new Date(item.added_date).toLocaleDateString();
+                document.getElementById('detailsNotes').textContent = item.notes || 'אין הערות';
+                
+                showModal('itemDetailsModal');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בטעינת פרטי הפריט');
+            });
+    }
+
+    // Item history
+    function showItemHistory(itemId) {
+        fetch(`/api/inventory/${itemId}/history`)
+            .then(response => response.json())
+            .then(history => {
+                const historyList = document.getElementById('historyList');
+                historyList.innerHTML = '';
+                
+                if (history.length === 0) {
+                    historyList.innerHTML = '<p class="no-history">אין היסטוריה לפריט זה</p>';
+                    return;
+                }
+                
+                history.forEach(entry => {
+                    const div = document.createElement('div');
+                    div.className = 'history-item';
+                    div.innerHTML = `
+                        <div class="history-date">${new Date(entry.date).toLocaleString()}</div>
+                        <div class="history-action">${entry.action}</div>
+                        <div class="history-details">${entry.details}</div>
+                    `;
+                    historyList.appendChild(div);
+                });
+                
+                showModal('itemHistoryModal');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בטעינת היסטוריית הפריט');
+            });
+    }
+
+    // Edit item
+    function editItem(itemId) {
+        // Implement edit functionality
+        alert('פונקציונליות עריכת פריט תיושם בקרוב');
+    }
+
+    // Show inventory report
+    function showInventoryReport() {
+        // Implement report functionality
+        alert('פונקציונליות דוח מלאי תיושם בקרוב');
+    }
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
         }
-    }, 5000);
+        return cookieValue;
+    }
 </script>
-
-</body>
-</html>
+{% endblock %}

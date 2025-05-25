@@ -1,270 +1,417 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="he">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DormitoriesPlus - ניהול תקלות</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-    </head>
-<body>
+{% extends 'base.html' %}
 
-<header>
-  <h1>DormitoriesPlus</h1>
-</header>
+{% block title %}ניהול תקלות - DormitoriesPlus{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
     <div class="hero">
-        <h2>ניהול תקלות במעונות</h2>
+        <h2>ניהול תקלות</h2>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
     </div>
 
-    <!-- ניווט בין טאבים - בסגנון BM_loan_requests -->
-    <div class="tab-navigation">
-        <div class="tab active" data-tab="open-faults">תקלות פתוחות</div>
-        <div class="tab" data-tab="pending-faults">תקלות בטיפול</div>
+    <div class="filters" role="region" aria-label="סינון תקלות">
+        <h3>סינון תקלות</h3>
+        <form class="filter-form" role="search" aria-label="סינון תקלות">
+            <div class="form-group">
+                <label for="statusFilter" id="status-label">סטטוס:</label>
+                <select id="statusFilter" 
+                        name="status" 
+                        aria-labelledby="status-label">
+                    <option value="">הכל</option>
+                    <option value="open">פתוח</option>
+                    <option value="in_progress">בטיפול</option>
+                    <option value="closed">סגור</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateFilter" id="date-label">תאריך:</label>
+                <input type="date" 
+                       id="dateFilter" 
+                       name="date" 
+                       aria-labelledby="date-label">
+            </div>
+            <button type="submit" class="btn-primary" aria-label="סנן תקלות">
+                סנן
+            </button>
+        </form>
     </div>
 
-    <!-- תקלות פתוחות -->
-    <div id="open-faults" class="tab-content active">
-        <div class="section">
-            <h3>תקלות פתוחות</h3>
-            {% if open_fault_reports %}
-              <table>
+    <div class="faults-list" role="region" aria-label="רשימת תקלות">
+        <h3>רשימת תקלות</h3>
+        {% if faults %}
+        <div class="table-responsive">
+            <table class="faults-table" role="grid" aria-label="רשימת תקלות">
                 <thead>
-                  <tr>
-                    <th>סטודנט</th>
-                    <th>בניין</th>
-                    <th>חדר</th>
-                    <th>סוג התקלה</th>
-                    <th>תיאור התקלה</th>
-                    <th>דחיפות</th>
-                    <th>תאריך דיווח</th>
-                    <th>הערות מנהל</th>
-                    <th>פעולות</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for fault in open_fault_reports %}
                     <tr>
-                      <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
-                      <td>{{ fault.room.building.building_name }}</td>
-                      <td>{{ fault.room.room_number }}</td>
-                      <td>{{ fault.fault_type }}</td>
-                      <td>{{ fault.fault_description }}</td>
-                      <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
-                      <td>{{ fault.created_at|date:"d/m/Y H:i" }}</td>
-                      <td>
-                        {{ fault.admin_note|default:"" }}
-                        <form method="POST" action="{% url 'BM_faults' %}" class="comment-form">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <input type="hidden" name="action" value="comment">
-                          <div class="comment-container">
-                              <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
-                          </div>
-
-                          <button type="submit" class="comment-btn">שמור</button>
-                        </form>
-                      </td>
-                      <td>
-                        <form method="POST" action="{% url 'BM_faults' %}">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <button type="submit" name="action" value="pending" class="btn btn-primary" style="display: block; margin-bottom: 5px;">סמן בטיפול</button>
-                          <button type="submit" name="action" value="resolved" class="btn btn-success" style="display: block;">סגור דיווח</button>
-                        </form>
-                      </td>
+                        <th scope="col" role="columnheader">מספר תקלה</th>
+                        <th scope="col" role="columnheader">תיאור</th>
+                        <th scope="col" role="columnheader">סטודנט</th>
+                        <th scope="col" role="columnheader">תאריך דיווח</th>
+                        <th scope="col" role="columnheader">סטטוס</th>
+                        <th scope="col" role="columnheader">פעולות</th>
                     </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-
-              <!-- Pagination for open faults - updated to match BM_loan_requests style -->
-              {% if open_fault_reports.has_other_pages %}
-                <div class="pagination">
-                  {% if open_fault_reports.has_previous %}
-                    <a href="?open_page={{ open_fault_reports.previous_page_number }}">&laquo; הקודם</a>
-                  {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
-                  {% endif %}
-
-                  {% for i in open_fault_reports.paginator.page_range %}
-                    {% if open_fault_reports.number == i %}
-                      <span class="current-page">{{ i }}</span>
-                    {% else %}
-                      <a href="?open_page={{ i }}">{{ i }}</a>
-                    {% endif %}
-                  {% endfor %}
-
-                  {% if open_fault_reports.has_next %}
-                    <a href="?open_page={{ open_fault_reports.next_page_number }}">הבא &raquo;</a>
-                  {% else %}
-                    <span class="disabled">הבא &raquo;</span>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% else %}
-              <div class="no-requests">
-                <p>אין תקלות פתוחות</p>
-              </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- תקלות בטיפול -->
-    <div id="pending-faults" class="tab-content">
-        <div class="section">
-            <h3>תקלות בטיפול</h3>
-            {% if pending_fault_reports %}
-              <table>
-                <thead>
-                  <tr>
-                    <th>סטודנט</th>
-                    <th>בניין</th>
-                    <th>חדר</th>
-                    <th>סוג התקלה</th>
-                    <th>תיאור התקלה</th>
-                    <th>דחיפות</th>
-                    <th>תאריך דיווח</th>
-                    <th>עדכון אחרון</th>
-                    <th>הערות מנהל</th>
-                    <th>פעולות</th>
-                  </tr>
                 </thead>
                 <tbody>
-                  {% for fault in pending_fault_reports %}
-                    <tr>
-                      <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
-                      <td>{{ fault.room.building.building_name }}</td>
-                      <td>{{ fault.room.room_number }}</td>
-                      <td>{{ fault.fault_type }}</td>
-                      <td>{{ fault.fault_description }}</td>
-                      <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
-                      <td>
-                          {{ fault.created_at|date:"d/m/Y H:i" }}
-                          <br>
-                          <span style="font-size: 0.85em; color: #6c757d;">(בטיפול {{ fault.days_elapsed_text }})</span>
+                    {% for fault in faults %}
+                    <tr role="row">
+                        <td role="cell">{{ fault.id }}</td>
+                        <td role="cell">{{ fault.description }}</td>
+                        <td role="cell">{{ fault.student_name }}</td>
+                        <td role="cell">{{ fault.report_date }}</td>
+                        <td role="cell">
+                            <span class="status" aria-label="סטטוס: {{ fault.status }}">
+                                {{ fault.status }}
+                            </span>
                         </td>
-                      <td>{{ fault.updated_at|date:"d/m/Y H:i" }}</td>
-                      <td>
-                        {{ fault.admin_note|default:"" }}
-                        <form method="POST" action="{% url 'BM_faults' %}" class="comment-form">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <input type="hidden" name="action" value="comment">
-                          <div class="comment-container">
-                              <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
-                          </div>
-                          <button type="submit" class="comment-btn">שמור</button>
-                        </form>
-                      </td>
-                      <td>
-                        <form method="POST" action="{% url 'BM_faults' %}">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <button type="submit" name="action" value="resolved" class="btn btn-success">סגור דיווח</button>
-                        </form>
-                      </td>
+                        <td role="cell">
+                            <div class="actions" role="group" aria-label="פעולות לתקלה {{ fault.id }}">
+                                <button type="button" 
+                                        class="btn-action" 
+                                        onclick="updateFaultStatus('{{ fault.id }}', 'in_progress')"
+                                        aria-label="עדכן סטטוס לטיפול">
+                                    בטיפול
+                                </button>
+                                <button type="button" 
+                                        class="btn-action" 
+                                        onclick="updateFaultStatus('{{ fault.id }}', 'closed')"
+                                        aria-label="סגור תקלה">
+                                    סגור
+                                </button>
+                                <button type="button" 
+                                        class="btn-action" 
+                                        onclick="showFaultDetails('{{ fault.id }}')"
+                                        aria-label="הצג פרטים">
+                                    פרטים
+                                </button>
+                            </div>
+                        </td>
                     </tr>
-                  {% endfor %}
+                    {% endfor %}
                 </tbody>
-              </table>
-
-              <!-- Pagination for pending faults - updated to match BM_loan_requests style -->
-              {% if pending_fault_reports.has_other_pages %}
-                <div class="pagination">
-                  {% if pending_fault_reports.has_previous %}
-                    <a href="?pending_page={{ pending_fault_reports.previous_page_number }}#pending-faults">&laquo; הקודם</a>
-                  {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
-                  {% endif %}
-
-                  {% for i in pending_fault_reports.paginator.page_range %}
-                    {% if pending_fault_reports.number == i %}
-                      <span class="current-page">{{ i }}</span>
-                    {% else %}
-                      <a href="?pending_page={{ i }}#pending-faults">{{ i }}</a>
-                    {% endif %}
-                  {% endfor %}
-
-                  {% if pending_fault_reports.has_next %}
-                    <a href="?pending_page={{ pending_fault_reports.next_page_number }}#pending-faults">הבא &raquo;</a>
-                  {% else %}
-                    <span class="disabled">הבא &raquo;</span>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% else %}
-              <div class="no-requests">
-                <p>אין תקלות בטיפול</p>
-              </div>
-            {% endif %}
+            </table>
         </div>
+        {% else %}
+        <p class="no-faults">אין תקלות להצגה</p>
+        {% endif %}
     </div>
 
-    <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+    <div id="faultDetailsModal" 
+         class="modal" 
+         role="dialog" 
+         aria-labelledby="modalTitle" 
+         aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">פרטי תקלה</h3>
+                <button type="button" 
+                        class="close-modal" 
+                        onclick="closeModal()"
+                        aria-label="סגור חלון">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Modal content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
+{% block extra_css %}
+<style>
+    .filters, .faults-list {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
 
+    .filter-form {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+
+    .form-group {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    .form-group select,
+    .form-group input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .btn-primary {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: #0056b3;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        margin-top: 1rem;
+    }
+
+    .faults-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .faults-table th,
+    .faults-table td {
+        padding: 0.75rem;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .faults-table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    .status[aria-label*="פתוח"] {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .status[aria-label*="בטיפול"] {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .status[aria-label*="סגור"] {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-action {
+        padding: 0.25rem 0.5rem;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-action:hover,
+    .btn-action:focus {
+        background-color: #e9ecef;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 1rem;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .close-modal {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    .no-faults {
+        text-align: center;
+        padding: 2rem;
+        color: #6c757d;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .btn-primary,
+        .btn-action {
+            transition: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .filter-form {
+            flex-direction: column;
+        }
+
+        .form-group {
+            width: 100%;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+        .modal-content {
+            width: 95%;
+            margin: 5% auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Function to switch tabs
-    function switchTab(tabId) {
-      // Hide all tab contents
-      document.querySelectorAll('.tab-content').forEach(function(content) {
-        content.classList.remove('active');
-      });
+    function updateFaultStatus(faultId, status) {
+        // Add confirmation dialog
+        if (!confirm('האם אתה בטוח שברצונך לעדכן את סטטוס התקלה?')) {
+            return;
+        }
 
-      // Remove active class from all tabs
-      document.querySelectorAll('.tab').forEach(function(tab) {
-        tab.classList.remove('active');
-      });
-
-      // Show the selected tab content
-      document.getElementById(tabId).classList.add('active');
-
-      // Add active class to the clicked tab
-      document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
+        // Send update request
+        fetch(`/api/faults/${faultId}/status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ status: status })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Refresh the page to show updated status
+                window.location.reload();
+            } else {
+                alert('אירעה שגיאה בעדכון הסטטוס');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('אירעה שגיאה בעדכון הסטטוס');
+        });
     }
 
-    // Add click event listeners to tabs
-    document.querySelectorAll('.tab').forEach(function(tab) {
-      tab.addEventListener('click', function() {
-        var tabId = this.getAttribute('data-tab');
-        switchTab(tabId);
-        // Update URL hash without causing page reload
-        window.history.replaceState(null, null, '#' + tabId);
-      });
-    });
-
-    // Fix links to maintain tab state when using pagination
-    document.querySelectorAll('.pagination a').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        // Allow the link to work normally - no preventDefault()
-        // The hash in the pagination links will ensure the correct tab is shown
-      });
-    });
-
-    // Check if URL has a hash and switch to that tab
-    if(window.location.hash) {
-      var hashTabId = window.location.hash.substring(1); // Remove the # symbol
-      if(document.getElementById(hashTabId)) {
-        switchTab(hashTabId);
-      }
-    } else {
-      // Set default active tab if no hash
-      document.querySelector('.tab').classList.add('active');
-      document.querySelector('.tab-content').classList.add('active');
+    function showFaultDetails(faultId) {
+        // Fetch fault details
+        fetch(`/api/faults/${faultId}`)
+            .then(response => response.json())
+            .then(data => {
+                const modal = document.getElementById('faultDetailsModal');
+                const content = document.getElementById('modalContent');
+                
+                // Populate modal content
+                content.innerHTML = `
+                    <dl>
+                        <div class="info-row">
+                            <dt>מספר תקלה:</dt>
+                            <dd>${data.id}</dd>
+                        </div>
+                        <div class="info-row">
+                            <dt>תיאור:</dt>
+                            <dd>${data.description}</dd>
+                        </div>
+                        <div class="info-row">
+                            <dt>סטודנט:</dt>
+                            <dd>${data.student_name}</dd>
+                        </div>
+                        <div class="info-row">
+                            <dt>תאריך דיווח:</dt>
+                            <dd>${data.report_date}</dd>
+                        </div>
+                        <div class="info-row">
+                            <dt>סטטוס:</dt>
+                            <dd>${data.status}</dd>
+                        </div>
+                        ${data.notes ? `
+                        <div class="info-row">
+                            <dt>הערות:</dt>
+                            <dd>${data.notes}</dd>
+                        </div>
+                        ` : ''}
+                    </dl>
+                `;
+                
+                // Show modal
+                modal.style.display = 'block';
+                modal.setAttribute('aria-hidden', 'false');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בטעינת פרטי התקלה');
+            });
     }
-  });
+
+    function closeModal() {
+        const modal = document.getElementById('faultDetailsModal');
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('faultDetailsModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 </script>
-
-</body>
-</html>
+{% endblock %}

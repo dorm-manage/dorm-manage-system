@@ -1,140 +1,230 @@
-<!DOCTYPE html>
-{% load inventory_tags %}
-{% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - עמוד ראשי לאחראי הבניין</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
+{% extends 'base.html' %}
 
-<body>
+{% block title %}אזור מנהל בניין - DormitoriesPlus{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
-
     <div class="hero">
-
-    <div style="margin-top: 5px; font-size: 18px;">
-      <p>עמוד ראשי לאחראי בניין</p>
-    </div>
-    <h2>שלום {{ user.first_name }} {{ user.last_name }}</h2>
-    {% if managed_buildings %}
-      <div style="margin-top: 10px; font-size: 16px;">
-        <p>אחראי על בניין-
-          {% for building in managed_buildings %}
-            {{ building.building_name }}{% if not forloop.last %}, {% endif %}
-          {% endfor %}
-        </p>
-      </div>
-    {% endif %}
+        <h2>אזור מנהל בניין</h2>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
     </div>
 
-
-    <div class="links">
-      <a href="{% url 'BM_inventory' %}">ניהול מלאי</a>
-      <a href="{% url 'BM_loan_requests' %}">ניהול השאלות</a>
-      <a href="{% url 'BM_faults' %}">ניהול תקלות</a>
-      <a href="{% url 'BM_manage_students' %}">ניהול סטודנטים</a>
-    </div>
-
-
-    <!-- ניהול השאלות ציוד -->
-    <div class="section">
-    <h3>ניהול השאלות ציוד</h3>
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      {% if pending_requests_count > 0 %}
-        <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
-          <strong>יש לך {{ pending_requests_count }} בקשות השאלה ממתינות לאישור!</strong>
-          <div style="margin-top: 10px;">
-            <a href="{% url 'BM_loan_requests' %}" style="
-              display: inline-block;
-              padding: 8px 15px;
-              background-color: #dc3545;
-              color: white;
-              text-decoration: none;
-              border-radius: 4px;
-              font-weight: bold;
-            ">צפה בבקשות</a>
-          </div>
+    <div class="dashboard" role="region" aria-label="לוח בקרה">
+        <h3>סטטיסטיקות</h3>
+        <div class="stats-grid">
+            <div class="stat-card" role="article" aria-label="תקלות פתוחות">
+                <span class="stat-icon" aria-hidden="true">🔧</span>
+                <div class="stat-content">
+                    <h4>תקלות פתוחות</h4>
+                    <p class="stat-number">{{ open_faults_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card" role="article" aria-label="בקשות השאלה ממתינות">
+                <span class="stat-icon" aria-hidden="true">📦</span>
+                <div class="stat-content">
+                    <h4>בקשות השאלה ממתינות</h4>
+                    <p class="stat-number">{{ pending_loans_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card" role="article" aria-label="סטודנטים פעילים">
+                <span class="stat-icon" aria-hidden="true">👥</span>
+                <div class="stat-content">
+                    <h4>סטודנטים פעילים</h4>
+                    <p class="stat-number">{{ active_students_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card" role="article" aria-label="פריטים במלאי">
+                <span class="stat-icon" aria-hidden="true">📋</span>
+                <div class="stat-content">
+                    <h4>פריטים במלאי</h4>
+                    <p class="stat-number">{{ inventory_items_count }}</p>
+                </div>
+            </div>
         </div>
-      {% endif %}
+    </div>
 
-      {% if borrowed_items_count > 0 %}
-        <div style="background-color: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px;">
-          <strong>יש {{ borrowed_items_count }} פריטים מושאלים שטרם הוחזרו.</strong>
-          <div style="margin-top: 10px;">
-            <a href="{% url 'BM_loan_requests' %}#borrowed-items" style="
-              display: inline-block;
-              padding: 8px 15px;
-              background-color: #17a2b8;
-              color: white;
-              text-decoration: none;
-              border-radius: 4px;
-              font-weight: bold;
-            ">צפה בפריטים מושאלים</a>
-          </div>
+    <div class="actions" role="region" aria-label="פעולות זמינות">
+        <h3>פעולות זמינות</h3>
+        <nav class="action-nav" role="navigation" aria-label="פעולות זמינות">
+            <a href="/BM_faults" class="action-link" role="button" aria-label="ניהול תקלות">
+                <span class="icon" aria-hidden="true">🔧</span>
+                <span>ניהול תקלות</span>
+            </a>
+            <a href="/BM_loan_requests" class="action-link" role="button" aria-label="בקשות השאלה">
+                <span class="icon" aria-hidden="true">📦</span>
+                <span>בקשות השאלה</span>
+            </a>
+            <a href="/BM_manage_students" class="action-link" role="button" aria-label="ניהול סטודנטים">
+                <span class="icon" aria-hidden="true">👥</span>
+                <span>ניהול סטודנטים</span>
+            </a>
+            <a href="/BM_inventory" class="action-link" role="button" aria-label="מלאי">
+                <span class="icon" aria-hidden="true">📋</span>
+                <span>מלאי</span>
+            </a>
+            <a href="/BM_sendMassage" class="action-link" role="button" aria-label="שליחת הודעה">
+                <span class="icon" aria-hidden="true">✉️</span>
+                <span>שליחת הודעה</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="recent-activity" role="region" aria-label="פעילות אחרונה">
+        <h3>פעילות אחרונה</h3>
+        <div class="activity-list">
+            {% if recent_faults %}
+            <section class="activity-section" role="list" aria-label="תקלות אחרונות">
+                <h4>תקלות אחרונות</h4>
+                <ul>
+                    {% for fault in recent_faults %}
+                    <li role="listitem">
+                        <strong>{{ fault.date }}</strong>: {{ fault.description }}
+                        <span class="status" aria-label="סטטוס: {{ fault.status }}">{{ fault.status }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
+            {% if recent_loans %}
+            <section class="activity-section" role="list" aria-label="השאלות אחרונות">
+                <h4>השאלות אחרונות</h4>
+                <ul>
+                    {% for loan in recent_loans %}
+                    <li role="listitem">
+                        <strong>{{ loan.date }}</strong>: {{ loan.student_name }} - {{ loan.item }}
+                        <span class="status" aria-label="סטטוס: {{ loan.status }}">{{ loan.status }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
         </div>
-      {% endif %}
-
-      {% if pending_requests_count == 0 and borrowed_items_count == 0 %}
-        <p>אין בקשות חדשות או פריטים מושאלים שממתינים לטיפול.</p>
-      {% endif %}
     </div>
-    </div>
-
-    <!-- ניהול דיווחי תקלות -->
-    <div class="section">
-    <h3>ניהול דיווחי תקלות</h3>
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-    {% if open_faults_count > 0 %}
-      <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
-        <strong>יש לך {{ open_faults_count }} דיווחי תקלות חדשים לטיפולך!</strong>
-        <div style="margin-top: 10px;">
-          <a href="{% url 'BM_faults' %}" style="
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: #dc3545;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-          ">צפה בדיווחים</a>
-        </div>
-      </div>
-    {% endif %}
-
-    {% if pending_faults_count > 0 %}
-      <div style="background-color: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px;">
-        <strong>יש {{ pending_faults_count }} תקלות שעוד לא הסתיים הטיפול בהן.</strong>
-        <div style="margin-top: 10px;">
-          <a href="{% url 'BM_faults' %}#pending-faults" style="
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: #17a2b8;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-          ">צפה בתקלות בטיפול</a>
-        </div>
-      </div>
-    {% endif %}
-
-    {% if open_faults_count == 0 and pending_faults_count == 0 %}
-      <p>אין דיווחי תקלות חדשים או תקלות בטיפול שממתינות לך.</p>
-    {% endif %}
-    </div>
-    </div>
-
-
 </div>
+{% endblock %}
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
+{% block extra_css %}
+<style>
+    .dashboard, .actions, .recent-activity {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
 
-</body>
-</html>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .stat-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+    }
+
+    .stat-content h4 {
+        margin: 0;
+        font-size: 1rem;
+        color: #6c757d;
+    }
+
+    .stat-number {
+        margin: 0.5rem 0 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .action-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .action-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .action-link:hover, .action-link:focus {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .activity-section {
+        margin-top: 1rem;
+    }
+
+    .activity-section ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .activity-section li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        margin-right: 0.5rem;
+    }
+
+    .status[aria-label*="ממתין"] {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .status[aria-label*="בטיפול"] {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .status[aria-label*="הושלם"] {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .action-link {
+            transition: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .action-nav {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,341 +1,345 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - ניהול סטודנטים - מנהל משרד</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
-<body>
 
+{% block title %}DormitoriesPlus - ניהול סטודנטים - מנהל משרד{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+{% block content %}
 <div class="container">
+    <section class="hero" aria-labelledby="page-title">
+        <h2 id="page-title">ניהול סטודנטים - מנהל משרד</h2>
+        <p>גישה לניהול סטודנטים עבור כל הבניינים במערכת</p>
+    </section>
 
-  <div class="hero">
-    <h2>ניהול סטודנטים - מנהל משרד</h2>
-    <p>גישה לניהול סטודנטים עבור כל הבניינים במערכת</p>
-  </div>
-
-
-  <!-- הודעות מערכת -->
-  {% if messages %}
-    {% for message in messages %}
-      <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}">
-        {{ message|safe }}
-      </div>
-    {% endfor %}
-  {% endif %}
-
-  <!-- Stats Dashboard for Office Manager -->
-  <div class="section">
-    <h3>סיכום נתונים</h3>
-    <div class="stats-dashboard">
-      <div class="stat-card">
-        <h4>סה"כ סטודנטים במעונות</h4>
-        <div class="stat-value">{{ total_students_count }}</div>
-        <div class="stat-unit">סטודנטים</div>
-      </div>
-      <div class="stat-card">
-        <h4>תפוסה ממוצעת</h4>
-        <div class="stat-value">{{ avg_occupancy }}%</div>
-        <div class="stat-unit">מהקיבולת הכוללת</div>
-      </div>
-      <div class="stat-card">
-        <h4>מקומות פנויים</h4>
-        <div class="stat-value">{{ total_empty_slots }}</div>
-        <div class="stat-unit">בכל החדרים</div>
-      </div>
-      <div class="stat-card">
-        <h4>סיומי מגורים החודש</h4>
-        <div class="stat-value">{{ ending_this_month }}</div>
-        <div class="stat-unit">סטודנטים</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- לשוניות בניינים -->
-  <div class="section">
-    <div class="tab-navigation">
-      {% for building_data in buildings_data %}
-        <div class="tab {% if building_data.building.id == active_building_id %}active{% endif %}"
-             onclick="openBuildingTab('{{ building_data.building.id }}')">
-          בניין {{ building_data.building.building_name }}
+    <!-- הודעות מערכת -->
+    {% if messages %}
+        <div role="alert" aria-live="polite">
+            {% for message in messages %}
+                <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}" role="alert">
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-
-    {% for building_data in buildings_data %}
-      <div id="building-{{ building_data.building.id }}" class="tab-content {% if building_data.building.id == active_building_id %}active-content{% endif %}">
-
-        {% if building_data.has_data %}
-          <!-- לשוניות משנה: הוספת/הסרת סטודנטים -->
-          <div class="sub-tabs">
-            <button class="sub-tab-button active"
-                    onclick="openSubTab('add-{{ building_data.building.id }}', 'remove-{{ building_data.building.id }}')">
-              הוספת סטודנט
-            </button>
-            <button class="sub-tab-button"
-                    onclick="openSubTab('remove-{{ building_data.building.id }}', 'add-{{ building_data.building.id }}')">
-              הסרת סטודנט
-            </button>
-          </div>
-
-          <!-- תוכן לשונית הוספת סטודנט -->
-          <div id="add-{{ building_data.building.id }}" class="tab-content active-content">
-            <div class="form-container">
-              <h3>הוספת סטודנט חדש לבניין {{ building_data.building.building_name }}</h3>
-
-              {% if building_data.available_rooms %}
-                <form method="POST" action="{% url 'OM_manage_students' %}">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="add_student">
-                  <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
-
-                  <div class="form-group">
-                    <label for="first_name">שם פרטי:</label>
-                    <input type="text" id="first_name" name="first_name" required>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="last_name">שם משפחה:</label>
-                    <input type="text" id="last_name" name="last_name" required>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="email">אימייל:</label>
-                    <input type="email" id="email" name="email" required>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="password">סיסמה:</label>
-                    <div style="display: flex; position: relative;">
-                      <input type="password" id="password" name="password" value="123456789" required>
-                      <button type="button" onclick="togglePasswordVisibility()"
-                              style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%);
-                                     background: none; border: none; color: #4A725A; cursor: pointer;">
-                        <span id="password-toggle-icon">👁️</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="id_number">מספר זהות (אופציונלי):</label>
-                    <input type="text" id="id_number" name="id_number">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="room_id">חדר:</label>
-                    <select id="room_id" name="room_id" required>
-                      <option value="" disabled selected>בחר חדר</option>
-                      {% for room_data in building_data.available_rooms %}
-                        <option value="{{ room_data.room.id }}">
-                          חדר {{ room_data.room.room_number }} ({{ room_data.available_spots }} מקומות פנויים)
-                        </option>
-                      {% endfor %}
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="end_date">תאריך סיום מגורים:</label>
-                    <input type="date" id="end_date" name="end_date" required>
-                  </div>
-
-                  <div class="form-actions">
-                    <button type="submit" class="add-button">הוסף סטודנט</button>
-                  </div>
-                </form>
-              {% else %}
-                <div class="no-data">
-                  <p>אין חדרים פנויים בבניין זה.</p>
-                </div>
-              {% endif %}
-            </div>
-          </div>
-
-          <!-- תוכן לשונית הסרת סטודנט -->
-          <div id="remove-{{ building_data.building.id }}" class="tab-content">
-            <h3>סטודנטים בבניין {{ building_data.building.building_name }}</h3>
-
-            <div class="search-container">
-              <input type="text" id="search-{{ building_data.building.id }}"
-                     onkeyup="searchStudents('{{ building_data.building.id }}')"
-                     placeholder="חיפוש לפי שם, חדר או אימייל...">
-            </div>
-
-            {% if building_data.students_page %}
-              <table id="students-table-{{ building_data.building.id }}">
-                <thead>
-                  <tr>
-                    <th>שם מלא</th>
-                    <th>אימייל</th>
-                    <th>חדר</th>
-                    <th>תאריך שיבוץ</th>
-                    <th>תאריך סיום</th>
-                    <th>פעולות</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for assignment in building_data.students_page %}
-                    <tr>
-                      <td>{{ assignment.user.first_name }} {{ assignment.user.last_name }}</td>
-                      <td>{{ assignment.user.email }}</td>
-                      <td>{{ assignment.room.room_number }}</td>
-                      <td>{{ assignment.start_date|date:"d/m/Y" }}</td>
-                      <td>{{ assignment.end_date|date:"d/m/Y"|default:"לא מוגדר" }}</td>
-                      <td>
-                          <form method="POST" action="{% url 'OM_manage_students' %}" style="display:inline-block; margin-right: 5px;">
-                            {% csrf_token %}
-                            <input type="hidden" name="action" value="remove_student">
-                            <input type="hidden" name="assignment_id" value="{{ assignment.id }}">
-                            <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
-                            <input type="hidden" name="delete_user" value="yes">
-                            <button type="submit" class="remove-button" style="background-color: #dc3545;"
-                                    onclick="return confirm('האם אתה בטוח שברצונך להסיר את הסטודנט מהמערכת?')">
-                              הסר מהמערכת
-                            </button>
-                          </form>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-
-              <!-- Pagination for students -->
-              {% if building_data.students_page.has_other_pages %}
-                <div class="pagination">
-                  {% if building_data.students_page.has_previous %}
-                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.previous_page_number }}">&laquo; הקודם</a>
-                  {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
-                  {% endif %}
-
-                  {% for i in building_data.students_page.paginator.page_range %}
-                    {% if building_data.students_page.number == i %}
-                      <span class="current-page">{{ i }}</span>
-                    {% else %}
-                      <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ i }}">{{ i }}</a>
-                    {% endif %}
-                  {% endfor %}
-
-                  {% if building_data.students_page.has_next %}
-                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.next_page_number }}">הבא &raquo;</a>
-                  {% else %}
-                    <span class="disabled">הבא &raquo;</span>
-                  {% endif %}
-                </div>
-              {% endif %}
-              <!-- End pagination -->
-
-            {% else %}
-              <div class="no-data">
-                <p>אין סטודנטים משובצים בבניין זה.</p>
-              </div>
-            {% endif %}
-          </div>
-
-        {% else %}
-          <!-- Show loading message for inactive tabs -->
-          <div class="loading-indicator">
-            <p>לחץ על הכרטיסייה לטעינת הנתונים...</p>
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
-
-    {% if not buildings_data %}
-      <div class="no-data">
-        <p>אין בניינים מוגדרים במערכת.</p>
-      </div>
     {% endif %}
-  </div>
 
-  <div class="links">
-    <a href="{% url 'OM_Homepage' %}">חזרה לעמוד הראשי</a>
-  </div>
+    <!-- Stats Dashboard -->
+    <section class="section" aria-labelledby="stats-heading">
+        <h3 id="stats-heading">סיכום נתונים</h3>
+        <div class="stats-dashboard" role="region" aria-label="נתוני מעונות">
+            <div class="stat-card" role="article">
+                <h4>סה"כ סטודנטים במעונות</h4>
+                <div class="stat-value" aria-label="{{ total_students_count }} סטודנטים">{{ total_students_count }}</div>
+                <div class="stat-unit">סטודנטים</div>
+            </div>
+            <div class="stat-card" role="article">
+                <h4>תפוסה ממוצעת</h4>
+                <div class="stat-value" aria-label="{{ avg_occupancy }} אחוזים">{{ avg_occupancy }}%</div>
+                <div class="stat-unit">מהקיבולת הכוללת</div>
+            </div>
+            <div class="stat-card" role="article">
+                <h4>מקומות פנויים</h4>
+                <div class="stat-value" aria-label="{{ total_empty_slots }} מקומות">{{ total_empty_slots }}</div>
+                <div class="stat-unit">בכל החדרים</div>
+            </div>
+            <div class="stat-card" role="article">
+                <h4>סיומי מגורים החודש</h4>
+                <div class="stat-value" aria-label="{{ ending_this_month }} סטודנטים">{{ ending_this_month }}</div>
+                <div class="stat-unit">סטודנטים</div>
+            </div>
+        </div>
+    </section>
 
+    <!-- לשוניות בניינים -->
+    <section class="section" aria-labelledby="buildings-heading">
+        <h3 id="buildings-heading" class="visually-hidden">ניהול בניינים</h3>
+        <div class="tab-navigation" role="tablist">
+            {% for building_data in buildings_data %}
+                <button class="tab {% if building_data.building.id == active_building_id %}active{% endif %}"
+                        role="tab"
+                        aria-selected="{% if building_data.building.id == active_building_id %}true{% else %}false{% endif %}"
+                        aria-controls="building-{{ building_data.building.id }}"
+                        id="tab-{{ building_data.building.id }}"
+                        onclick="openBuildingTab('{{ building_data.building.id }}')">
+                    בניין {{ building_data.building.building_name }}
+                </button>
+            {% endfor %}
+        </div>
+
+        {% for building_data in buildings_data %}
+            <div id="building-{{ building_data.building.id }}" 
+                 class="tab-content {% if building_data.building.id == active_building_id %}active-content{% endif %}"
+                 role="tabpanel"
+                 aria-labelledby="tab-{{ building_data.building.id }}"
+                 {% if building_data.building.id != active_building_id %}hidden{% endif %}>
+
+                {% if building_data.has_data %}
+                    <!-- לשוניות משנה -->
+                    <div class="sub-tabs" role="tablist">
+                        <button class="sub-tab-button active"
+                                role="tab"
+                                aria-selected="true"
+                                aria-controls="add-{{ building_data.building.id }}"
+                                id="add-tab-{{ building_data.building.id }}"
+                                onclick="openSubTab('add-{{ building_data.building.id }}', 'remove-{{ building_data.building.id }}')">
+                            הוספת סטודנט
+                        </button>
+                        <button class="sub-tab-button"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="remove-{{ building_data.building.id }}"
+                                id="remove-tab-{{ building_data.building.id }}"
+                                onclick="openSubTab('remove-{{ building_data.building.id }}', 'add-{{ building_data.building.id }}')">
+                            הסרת סטודנט
+                        </button>
+                    </div>
+
+                    <!-- תוכן לשונית הוספת סטודנט -->
+                    <div id="add-{{ building_data.building.id }}" 
+                         class="tab-content active-content"
+                         role="tabpanel"
+                         aria-labelledby="add-tab-{{ building_data.building.id }}">
+                        <div class="form-container">
+                            <h3>הוספת סטודנט חדש לבניין {{ building_data.building.building_name }}</h3>
+
+                            {% if building_data.available_rooms %}
+                                <form method="POST" action="{% url 'OM_manage_students' %}" role="form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="add_student">
+                                    <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
+
+                                    <div class="form-group">
+                                        <label for="first_name-{{ building_data.building.id }}">שם פרטי:</label>
+                                        <input type="text" id="first_name-{{ building_data.building.id }}" name="first_name" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="last_name-{{ building_data.building.id }}">שם משפחה:</label>
+                                        <input type="text" id="last_name-{{ building_data.building.id }}" name="last_name" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email-{{ building_data.building.id }}">אימייל:</label>
+                                        <input type="email" id="email-{{ building_data.building.id }}" name="email" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password-{{ building_data.building.id }}">סיסמה:</label>
+                                        <div class="password-container">
+                                            <input type="password" id="password-{{ building_data.building.id }}" name="password" value="123456789" required>
+                                            <button type="button" 
+                                                    class="toggle-password"
+                                                    onclick="togglePasswordVisibility('{{ building_data.building.id }}')"
+                                                    aria-label="הצג/הסתר סיסמה">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="id_number-{{ building_data.building.id }}">מספר זהות (אופציונלי):</label>
+                                        <input type="text" id="id_number-{{ building_data.building.id }}" name="id_number">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="room_id-{{ building_data.building.id }}">חדר:</label>
+                                        <select id="room_id-{{ building_data.building.id }}" name="room_id" required>
+                                            <option value="" disabled selected>בחר חדר</option>
+                                            {% for room_data in building_data.available_rooms %}
+                                                <option value="{{ room_data.room.id }}">
+                                                    חדר {{ room_data.room.room_number }} ({{ room_data.available_spots }} מקומות פנויים)
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="end_date-{{ building_data.building.id }}">תאריך סיום מגורים:</label>
+                                        <input type="date" id="end_date-{{ building_data.building.id }}" name="end_date" required>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="add-button">
+                                            <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                            הוסף סטודנט
+                                        </button>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <div class="no-data" role="alert">
+                                    <p>אין חדרים פנויים בבניין זה.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- תוכן לשונית הסרת סטודנט -->
+                    <div id="remove-{{ building_data.building.id }}" 
+                         class="tab-content"
+                         role="tabpanel"
+                         aria-labelledby="remove-tab-{{ building_data.building.id }}"
+                         hidden>
+                        <h3>סטודנטים בבניין {{ building_data.building.building_name }}</h3>
+                        {% if building_data.students %}
+                            <div class="table-responsive">
+                                <table aria-label="רשימת סטודנטים בבניין {{ building_data.building.building_name }}">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">שם</th>
+                                            <th scope="col">אימייל</th>
+                                            <th scope="col">חדר</th>
+                                            <th scope="col">תאריך סיום</th>
+                                            <th scope="col">פעולות</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for student in building_data.students %}
+                                            <tr>
+                                                <td>{{ student.first_name }} {{ student.last_name }}</td>
+                                                <td>{{ student.email }}</td>
+                                                <td>{{ student.room.room_number }}</td>
+                                                <td>{{ student.end_date|date:"d/m/Y" }}</td>
+                                                <td>
+                                                    <form method="POST" action="{% url 'OM_manage_students' %}" class="action-form">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="action" value="remove_student">
+                                                        <input type="hidden" name="student_id" value="{{ student.id }}">
+                                                        <button type="submit" class="remove-button" aria-label="הסר סטודנט {{ student.first_name }} {{ student.last_name }}">
+                                                            <i class="fas fa-user-minus" aria-hidden="true"></i>
+                                                            הסר
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="no-data" role="alert">
+                                <p>אין סטודנטים בבניין זה.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="no-data" role="alert">
+                        <p>אין נתונים זמינים לבניין זה.</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </section>
 </div>
+{% endblock %}
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
-
+{% block extra_js %}
 <script>
-  // Initialize the datepicker with a default value of 6 months from now
-  document.addEventListener('DOMContentLoaded', function() {
-    var endDateInputs = document.querySelectorAll('input[name="end_date"]');
-    var sixMonthsFromNow = new Date();
-    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+    // Tab navigation functions
+    function openBuildingTab(buildingId) {
+        // Hide all building tabs
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active-content');
+            content.hidden = true;
+        });
 
-    var dateString = sixMonthsFromNow.toISOString().split('T')[0];
+        // Show selected building tab
+        const selectedTab = document.getElementById(`building-${buildingId}`);
+        selectedTab.classList.add('active-content');
+        selectedTab.hidden = false;
 
-    endDateInputs.forEach(function(input) {
-      input.value = dateString;
-    });
-  });
+        // Update tab buttons
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+            tab.setAttribute('aria-selected', 'false');
+        });
 
-  // פונקציות לטיפול בלשוניות
-  function openBuildingTab(buildingId) {
-    // Redirect to the same page with building_id parameter
-    window.location.href = '?building_id=' + buildingId;
-  }
+        const activeTab = document.getElementById(`tab-${buildingId}`);
+        activeTab.classList.add('active');
+        activeTab.setAttribute('aria-selected', 'true');
 
-  function openSubTab(showTabId, hideTabId) {
-    document.getElementById(showTabId).classList.add("active-content");
-    document.getElementById(hideTabId).classList.remove("active-content");
+        // Reset sub-tabs to default state
+        const addTab = document.getElementById(`add-${buildingId}`);
+        const removeTab = document.getElementById(`remove-${buildingId}`);
+        if (addTab && removeTab) {
+            addTab.classList.add('active-content');
+            addTab.hidden = false;
+            removeTab.classList.remove('active-content');
+            removeTab.hidden = true;
 
-    // Update button states
-    event.currentTarget.classList.add("active");
-    var siblingButtons = event.currentTarget.parentElement.getElementsByClassName("sub-tab-button");
-    for (var i = 0; i < siblingButtons.length; i++) {
-      if (siblingButtons[i] !== event.currentTarget) {
-        siblingButtons[i].classList.remove("active");
-      }
-    }
-  }
-
-  // פונקציה לחיפוש סטודנטים
-  function searchStudents(buildingId) {
-    var input = document.getElementById("search-" + buildingId);
-    var filter = input.value.toUpperCase();
-    var table = document.getElementById("students-table-" + buildingId);
-    var tr = table.getElementsByTagName("tr");
-
-    for (var i = 1; i < tr.length; i++) { // Start from 1 to skip the header row
-      var found = false;
-      var td = tr[i].getElementsByTagName("td");
-
-      // Check all columns except the last one (which contains buttons)
-      for (var j = 0; j < td.length - 1; j++) {
-        var txtValue = td[j].textContent || td[j].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          found = true;
-          break;
+            // Update sub-tab buttons
+            const addTabButton = document.getElementById(`add-tab-${buildingId}`);
+            const removeTabButton = document.getElementById(`remove-tab-${buildingId}`);
+            if (addTabButton && removeTabButton) {
+                addTabButton.classList.add('active');
+                addTabButton.setAttribute('aria-selected', 'true');
+                removeTabButton.classList.remove('active');
+                removeTabButton.setAttribute('aria-selected', 'false');
+            }
         }
-      }
-
-      tr[i].style.display = found ? "" : "none";
     }
-  }
 
-  function togglePasswordVisibility() {
-    var passwordField = document.getElementById("password");
-    var toggleIcon = document.getElementById("password-toggle-icon");
+    function openSubTab(showId, hideId) {
+        // Hide all sub-tabs
+        document.querySelectorAll('.sub-tab-button').forEach(button => {
+            button.classList.remove('active');
+            button.setAttribute('aria-selected', 'false');
+        });
 
-    if (passwordField.type === "password") {
-      passwordField.type = "text";
-      toggleIcon.textContent = "🔒";
-    } else {
-      passwordField.type = "password";
-      toggleIcon.textContent = "👁️";
+        // Show selected sub-tab
+        const showTab = document.getElementById(showId);
+        const hideTab = document.getElementById(hideId);
+        if (showTab && hideTab) {
+            showTab.classList.add('active-content');
+            showTab.hidden = false;
+            hideTab.classList.remove('active-content');
+            hideTab.hidden = true;
+
+            // Update sub-tab buttons
+            const showButton = document.getElementById(`${showId}-tab`);
+            const hideButton = document.getElementById(`${hideId}-tab`);
+            if (showButton && hideButton) {
+                showButton.classList.add('active');
+                showButton.setAttribute('aria-selected', 'true');
+                hideButton.classList.remove('active');
+                hideButton.setAttribute('aria-selected', 'false');
+            }
+        }
     }
-  }
+
+    // Password visibility toggle
+    function togglePasswordVisibility(buildingId) {
+        const passwordInput = document.getElementById(`password-${buildingId}`);
+        const toggleButton = passwordInput.nextElementSibling;
+        const icon = toggleButton.querySelector('i');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+            toggleButton.setAttribute('aria-label', 'הסתר סיסמה');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+            toggleButton.setAttribute('aria-label', 'הצג סיסמה');
+        }
+    }
+
+    // Auto-hide messages after 5 seconds
+    setTimeout(function() {
+        const messages = document.getElementsByClassName('message');
+        for (let i = 0; i < messages.length; i++) {
+            messages[i].style.display = 'none';
+        }
+    }, 5000);
 </script>
-
-</body>
-</html>
+{% endblock %}
