@@ -21,14 +21,14 @@ urlpatterns = [
     path('BM_faults/', views.BM_faults, name='BM_faults'),
     path('BM_sendMassage/', views.BM_sendMassage, name='BM_sendMassage'),
     path('BM_inventory/', views.BM_inventory, name='BM_inventory'),
-    path('bm/loan-requests/', views.BM_loan_requests, name='BM_loan_requests'),
-    path('bm/manage-students/', views.BM_manage_students, name='BM_manage_students'),
+    path('BM_loan_requests/', views.BM_loan_requests, name='BM_loan_requests'),
+    path('BM_manage_students/', views.BM_manage_students, name='BM_manage_students'),
 
     # Office Manager URLs
-    path('manager/bm/', views.OM_manage_BM, name='OM_manage_BM'),
-    path('om/homepage/', views.OM_Homepage, name='OM_Homepage'),
-    path('om/inventory/', views.OM_inventory, name='OM_inventory'),
-    path('om/loan_requests/', views.OM_loan_requests, name='OM_loan_requests'),
-    path('om/faults/', views.OM_faults, name='OM_faults'),
-    path('om/manage_students/', views.OM_manage_students, name='OM_manage_students'),
+    path('OM_manage_BM/', views.OM_manage_BM, name='OM_manage_BM'),
+    path('OM_Homepage/', views.OM_Homepage, name='OM_Homepage'),
+    path('OM_inventory/', views.OM_inventory, name='OM_inventory'),
+    path('OM_loan_requests/', views.OM_loan_requests, name='OM_loan_requests'),
+    path('OM_faults/', views.OM_faults, name='OM_faults'),
+    path('OM_manage_students/', views.OM_manage_students, name='OM_manage_students'),
 ]
