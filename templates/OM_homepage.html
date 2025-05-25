@@ -1,22 +1,10 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - עמוד ראשי למנהל המערכת</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
-<body>
 
-<header>
-  <h1>DormitoriesPlus</h1>
-</header>
+{% block title %}עמוד ראשי למנהל המערכת{% endblock %}
 
+{% block content %}
 <div class="container">
-
   <div class="hero">
     <h2>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</h2>
     <p>עמוד ניהול ראשי למערכת DormitoriesPlus</p>
@@ -52,7 +40,6 @@
   <div class="section">
     <h3>ניהול ציוד ותקלות</h3>
     <p>ניהול השאלות ציוד ודיווחי תקלות בכל הבניינים</p>
-
     <div class="links">
         <a href="{% url 'OM_inventory' %}" class="button">ניהול מלאי</a>
         <a href="{% url 'OM_loan_requests' %}" class="button">ניהול השאלות</a>
@@ -68,12 +55,5 @@
         <a href="{% url 'OM_manage_BM' %}" class="button">ניהול אחראי בניין</a>
     </div>
   </div>
-
 </div>
-
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
-
-</body>
-</html>
+{% endblock %}

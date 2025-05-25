@@ -1,91 +1,77 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - דיווח תקלות</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-  </head>
-  <body>
-    <header>
-      <h1>DormitoriesPlus</h1>
-    </header>
 
-    <div class="container">
-      <div class="hero">
-        <h2>דיווח תקלות</h2>
+{% block title %}DormitoriesPlus - דיווח תקלות{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="hero">
+    <h2>דיווח תקלות</h2>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+        {{ message }}
       </div>
+    {% endfor %}
+  {% endif %}
 
-      {% if messages %}
-        {% for message in messages %}
-          <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
-            {{ message }}
-          </div>
-        {% endfor %}
+  <div class="info-box">
+      <p><strong>הפרטים שלך:</strong></p>
+      <p>שם: {{ user.first_name }} {{ user.last_name }}</p>
+      {% if user_room and user_building %}
+        <p>בניין: {{ user_building }}</p>
+        <p>חדר: {{ user_room }}</p>
+      {% else %}
+        <p>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</p>
       {% endif %}
+  </div>
 
-      <div class="info-box">
-          <p><strong>הפרטים שלך:</strong></p>
-          <p>שם: {{ user.first_name }} {{ user.last_name }}</p>
-          {% if user_room and user_building %}
-            <p>בניין: {{ user_building }}</p>
-            <p>חדר: {{ user_room }}</p>
-          {% else %}
-            <p>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</p>
-          {% endif %}
+  <div class="form-container">
+    <h2>פרטי התקלה</h2>
+    <form method="POST" action="{% url 'faults' %}">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="fault_type">סוג התקלה:</label>
+        <select id="fault_type" name="fault_type" required>
+          <option value="">בחר סוג תקלה</option>
+          <option value="אינסטלציה">אינסטלציה</option>
+          <option value="חשמל">חשמל</option>
+          <option value="מיזוג אוויר">מיזוג אוויר</option>
+          <option value="ריהוט">ריהוט</option>
+          <option value="דלתות/חלונות">דלתות/חלונות</option>
+          <option value="אינטרנט">אינטרנט</option>
+          <option value="אחר">אחר</option>
+        </select>
       </div>
 
-      <div class="form-container">
-        <h2>פרטי התקלה</h2>
-        <form method="POST" action="{% url 'faults' %}">
-          {% csrf_token %}
-
-          <div class="form-group">
-            <label for="fault_type">סוג התקלה:</label>
-            <select id="fault_type" name="fault_type" required>
-              <option value="">בחר סוג תקלה</option>
-              <option value="אינסטלציה">אינסטלציה</option>
-              <option value="חשמל">חשמל</option>
-              <option value="מיזוג אוויר">מיזוג אוויר</option>
-              <option value="ריהוט">ריהוט</option>
-              <option value="דלתות/חלונות">דלתות/חלונות</option>
-              <option value="אינטרנט">אינטרנט</option>
-              <option value="אחר">אחר</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="fault_description">תיאור התקלה:</label>
-            <textarea id="fault_description" name="fault_description" rows="5" required placeholder="תאר את התקלה בצורה מפורטת ככל האפשר"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="urgency">דחיפות:</label>
-            <select id="urgency" name="urgency">
-              <option value="נמוכה">נמוכה</option>
-              <option value="בינונית" selected>בינונית</option>
-              <option value="גבוהה">גבוהה</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח דיווח</button>
-            {% if not user_room %}
-              <p style="color: #dc3545; margin-top: 10px;">לא ניתן לדווח על תקלה ללא שיבוץ חדר. אנא פנה למנהל המעונות.</p>
-            {% endif %}
-          </div>
-        </form>
+      <div class="form-group">
+        <label for="fault_description">תיאור התקלה:</label>
+        <textarea id="fault_description" name="fault_description" rows="5" required placeholder="תאר את התקלה בצורה מפורטת ככל האפשר"></textarea>
       </div>
 
-      <div class="links">
-        <a href="{% url 'Students_homepage' %}">חזרה לדף הבית</a>
+      <div class="form-group">
+        <label for="urgency">דחיפות:</label>
+        <select id="urgency" name="urgency">
+          <option value="נמוכה">נמוכה</option>
+          <option value="בינונית" selected>בינונית</option>
+          <option value="גבוהה">גבוהה</option>
+        </select>
       </div>
-    </div>
 
-    <footer>
-      <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-    </footer>
-  </body>
-</html>
+      <div class="form-group">
+        <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח דיווח</button>
+        {% if not user_room %}
+          <p style="color: #dc3545; margin-top: 10px;">לא ניתן לדווח על תקלה ללא שיבוץ חדר. אנא פנה למנהל המעונות.</p>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+  <div class="links">
+    <a href="{% url 'Students_homepage' %}">חזרה לדף הבית</a>
+  </div>
+</div>
+{% endblock %}

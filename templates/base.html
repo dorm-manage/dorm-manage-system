@@ -1,23 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}DormitoriesPlus{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Rubik Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <style>
         :root {
             /* Modern Color Palette */
             --primary-color: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary-color: #64748b;
-            --accent-color: #f59e0b;
-            --success-color: #10b981;
+            --secondary-color: #475569;
+            --accent-color: #3b82f6;
+            --success-color: #22c55e;
             --danger-color: #ef4444;
             --warning-color: #f59e0b;
-            --info-color: #3b82f6;
+            --info-color: #0ea5e9;
             
             /* Neutral Colors */
             --neutral-50: #f8fafc;
@@ -37,314 +42,399 @@
             --spacing-md: 1rem;
             --spacing-lg: 1.5rem;
             --spacing-xl: 2rem;
-            
-            /* Border Radius */
-            --radius-sm: 0.25rem;
-            --radius-md: 0.5rem;
-            --radius-lg: 1rem;
-            --radius-full: 9999px;
-            
-            /* Shadows */
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
         }
 
+        /* Base Styles */
         body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             font-family: 'Rubik', sans-serif;
-            color: var(--neutral-800);
             background-color: var(--neutral-50);
+            color: var(--neutral-800);
             line-height: 1.6;
         }
 
-        .content {
-            flex: 1;
-            padding: var(--spacing-xl) 0;
+        /* Accessibility Skip Links */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
         }
 
-        /* Navbar Styling */
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* High Contrast Mode */
+        @media (forced-colors: active) {
+            :root {
+                --primary-color: CanvasText;
+                --secondary-color: CanvasText;
+                --accent-color: CanvasText;
+                --success-color: CanvasText;
+                --danger-color: CanvasText;
+                --warning-color: CanvasText;
+                --info-color: CanvasText;
+            }
+        }
+
+        /* Navbar Styles */
         .navbar {
             background-color: white;
-            box-shadow: var(--shadow-sm);
-            padding: var(--spacing-md) 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: var(--spacing-md) var(--spacing-lg);
         }
 
         .navbar-brand {
-            color: var(--primary-color) !important;
             font-weight: 600;
+            color: var(--primary-color);
             font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
         }
 
         .nav-link {
-            color: var(--neutral-600) !important;
+            color: var(--neutral-600);
             font-weight: 500;
             padding: var(--spacing-sm) var(--spacing-md);
-            border-radius: var(--radius-md);
-            transition: all 0.2s ease;
+            transition: color 0.3s;
         }
 
         .nav-link:hover {
-            color: var(--primary-color) !important;
-            background-color: var(--neutral-100);
+            color: var(--primary-color);
         }
 
-        .nav-link.active {
-            color: var(--primary-color) !important;
-            background-color: var(--neutral-100);
-        }
-
-        /* Card Styling */
+        /* Card Styles */
         .card {
             border: none;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            background-color: white;
-            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .card:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid var(--neutral-200);
-            padding: var(--spacing-lg);
-        }
-
-        .card-body {
-            padding: var(--spacing-lg);
-        }
-
-        /* Button Styling */
+        /* Button Styles */
         .btn {
-            font-weight: 500;
             padding: var(--spacing-sm) var(--spacing-lg);
-            border-radius: var(--radius-md);
-            transition: all 0.2s ease;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
         }
 
         .btn-primary {
             background-color: var(--primary-color);
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-
-        .btn-outline-primary {
-            color: var(--primary-color);
             border-color: var(--primary-color);
         }
 
-        .btn-outline-primary:hover {
-            background-color: var(--primary-color);
-            color: white;
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
         }
 
-        /* Form Styling */
+        /* Form Styles */
         .form-control {
-            border-radius: var(--radius-md);
+            border-radius: 8px;
             border: 1px solid var(--neutral-300);
             padding: var(--spacing-md);
-            transition: all 0.2s ease;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .form-control:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
 
-        /* Alert Styling */
+        /* Alert Styles */
         .alert {
-            border-radius: var(--radius-md);
+            border-radius: 8px;
             border: none;
-            padding: var(--spacing-md) var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-md);
         }
 
-        /* Table Styling */
+        /* Table Styles */
         .table {
             background-color: white;
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
         }
 
-        .table thead {
+        .table thead th {
             background-color: var(--neutral-100);
-        }
-
-        .table th {
+            border-bottom: 2px solid var(--neutral-200);
             font-weight: 600;
-            color: var(--neutral-700);
-            padding: var(--spacing-md);
         }
 
-        .table td {
-            padding: var(--spacing-md);
-            color: var(--neutral-600);
-        }
-
-        /* Footer Styling */
-        .footer {
-            background-color: white;
-            border-top: 1px solid var(--neutral-200);
+        /* Footer Styles */
+        footer {
+            background-color: var(--neutral-800);
+            color: var(--neutral-100);
             padding: var(--spacing-xl) 0;
-            margin-top: auto;
+            margin-top: var(--spacing-xl);
         }
 
-        .footer a {
-            color: var(--neutral-600);
-            text-decoration: none;
-            transition: color 0.2s ease;
+        /* Accessibility Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
         }
 
-        .footer a:hover {
-            color: var(--primary-color);
+        .accessibility-toolbar button {
+            margin: 5px;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            background: var(--neutral-100);
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
-        .assistance-button {
-            background-color: var(--accent-color);
-            color: white;
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            font-weight: 500;
+        .accessibility-toolbar button:hover {
+            background: var(--neutral-200);
         }
 
-        .assistance-button:hover {
-            background-color: #d97706;
-            color: white;
-            transform: translateY(-1px);
+        /* High Contrast Mode */
+        .high-contrast {
+            --primary-color: #000000;
+            --secondary-color: #000000;
+            --accent-color: #000000;
+            --success-color: #000000;
+            --danger-color: #000000;
+            --warning-color: #000000;
+            --info-color: #000000;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Large Text Mode */
+        .large-text {
+            font-size: 120%;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                padding: var(--spacing-md);
-            }
-            
             .navbar-brand {
-                font-size: 1.25rem;
+                font-size: 1.2rem;
             }
-            
+
             .card {
                 margin-bottom: var(--spacing-md);
             }
+
+            .accessibility-toolbar {
+                bottom: 10px;
+                right: 10px;
+            }
         }
     </style>
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% if user.is_authenticated %}
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- Skip Links -->
+    <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+    <a href="#main-nav" class="skip-link">דלג לתפריט הניווט</a>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="main-nav" role="navigation" aria-label="תפריט ראשי">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'Homepage' %}">
-                <i class="bi bi-building me-2"></i>DormitoriesPlus
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="{% url 'Homepage' %}">DormitoriesPlus</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="הצג/הסתר תפריט">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Students_homepage' %}">
-                            <i class="bi bi-house-door me-1"></i>דף הבית
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'application' %}">
-                            <i class="bi bi-tools me-1"></i>השאלת ציוד
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'faults' %}">
-                            <i class="bi bi-exclamation-triangle me-1"></i>דיווח על תקלות
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'legal_assistance' %}">
-                            <i class="bi bi-shield-check me-1"></i>מידע משפטי
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'connect_us' %}">
-                            <i class="bi bi-envelope me-1"></i>צור קשר
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">
-                            <i class="bi bi-box-arrow-right me-1"></i>התנתק
-                        </a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        {% if user.role == 'student' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'Students_homepage' %}" aria-label="דף הבית לסטודנט">
+                                    <i class="bi bi-house-door"></i> דף הבית
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'application' %}" aria-label="השאלת ציוד">
+                                    <i class="bi bi-box"></i> השאלת ציוד
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'faults' %}" aria-label="דיווח תקלות">
+                                    <i class="bi bi-exclamation-triangle"></i> דיווח תקלות
+                                </a>
+                            </li>
+                        {% elif user.role == 'building_staff' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'BM_Homepage' %}" aria-label="דף הבית לאחראי בניין">
+                                    <i class="bi bi-house-door"></i> דף הבית
+                                </a>
+                            </li>
+                        {% elif user.role == 'office_staff' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'OM_Homepage' %}" aria-label="דף הבית למנהל מעונות">
+                                    <i class="bi bi-house-door"></i> דף הבית
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}" aria-label="התנתק">
+                                <i class="bi bi-box-arrow-right"></i> התנתק
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
-    {% endif %}
 
-    {% if messages %}
-    <div class="container mt-3">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    <div class="content">
+    <!-- Main Content -->
+    <main id="main-content" class="container py-4" role="main">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="סגור"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
-    <footer class="footer">
+    <!-- Footer -->
+    <footer class="mt-auto">
         <div class="container">
             <div class="row">
-                {% if user.is_authenticated %}
-                <div class="col-md-4 text-center text-md-end">
-                    <p class="mb-0">&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+                <div class="col-md-4">
+                    <h5>קישורים מהירים</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'legal_assistance' %}" class="text-light">סיוע משפטי</a></li>
+                        <li><a href="{% url 'connect_us' %}" class="text-light">צור קשר</a></li>
+                        <li><a href="{% url 'accessibility' %}" class="text-light">נגישות</a></li>
+                    </ul>
                 </div>
-                <div class="col-md-4 text-center">
-                    <a href="{% url 'legal_assistance' %}" class="me-3">
-                        <i class="bi bi-shield-check me-1"></i>מידע משפטי
-                    </a>
-                    <a href="{% url 'connect_us' %}">
-                        <i class="bi bi-envelope me-1"></i>צור קשר
-                    </a>
+                <div class="col-md-4">
+                    <h5>צור קשר</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-telephone"></i> 03-1234567</li>
+                        <li><i class="bi bi-envelope"></i> info@dormitoriesplus.ac.il</li>
+                    </ul>
                 </div>
-                <div class="col-md-4 text-center text-md-start">
-                    <a href="{% url 'connect_us' %}" class="assistance-button">
-                        <i class="bi bi-envelope me-2"></i>צריך עזרה? לחץ כאן
-                    </a>
+                <div class="col-md-4">
+                    <h5>עקבו אחרינו</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-light me-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-light"><i class="bi bi-instagram"></i></a>
+                    </div>
                 </div>
-                {% else %}
-                <div class="col-12 text-center">
-                    <a href="{% url 'connect_us' %}" class="assistance-button">
-                        <i class="bi bi-envelope me-2"></i>צריך עזרה? לחץ כאן
-                    </a>
-                </div>
-                {% endif %}
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Accessibility Toolbar -->
+    <div class="accessibility-toolbar" role="toolbar" aria-label="כלי נגישות">
+        <button id="increase-text" aria-label="הגדל טקסט">
+            <i class="bi bi-zoom-in"></i>
+        </button>
+        <button id="decrease-text" aria-label="הקטן טקסט">
+            <i class="bi bi-zoom-out"></i>
+        </button>
+        <button id="high-contrast" aria-label="מצב ניגודיות גבוהה">
+            <i class="bi bi-circle-half"></i>
+        </button>
+        <button id="grayscale" aria-label="מצב שחור לבן">
+            <i class="bi bi-circle"></i>
+        </button>
+        <button id="reset-accessibility" aria-label="איפוס הגדרות נגישות">
+            <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Accessibility JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Text size controls
+            const increaseText = document.getElementById('increase-text');
+            const decreaseText = document.getElementById('decrease-text');
+            const body = document.body;
+            let currentSize = 100;
+
+            increaseText.addEventListener('click', function() {
+                if (currentSize < 150) {
+                    currentSize += 10;
+                    body.style.fontSize = currentSize + '%';
+                    localStorage.setItem('textSize', currentSize);
+                }
+            });
+
+            decreaseText.addEventListener('click', function() {
+                if (currentSize > 70) {
+                    currentSize -= 10;
+                    body.style.fontSize = currentSize + '%';
+                    localStorage.setItem('textSize', currentSize);
+                }
+            });
+
+            // High contrast mode
+            const highContrast = document.getElementById('high-contrast');
+            highContrast.addEventListener('click', function() {
+                body.classList.toggle('high-contrast');
+                localStorage.setItem('highContrast', body.classList.contains('high-contrast'));
+            });
+
+            // Grayscale mode
+            const grayscale = document.getElementById('grayscale');
+            grayscale.addEventListener('click', function() {
+                body.classList.toggle('grayscale');
+                localStorage.setItem('grayscale', body.classList.contains('grayscale'));
+            });
+
+            // Reset accessibility settings
+            const resetAccessibility = document.getElementById('reset-accessibility');
+            resetAccessibility.addEventListener('click', function() {
+                body.style.fontSize = '100%';
+                body.classList.remove('high-contrast', 'grayscale');
+                localStorage.removeItem('textSize');
+                localStorage.removeItem('highContrast');
+                localStorage.removeItem('grayscale');
+                currentSize = 100;
+            });
+
+            // Load saved preferences
+            const savedTextSize = localStorage.getItem('textSize');
+            if (savedTextSize) {
+                currentSize = parseInt(savedTextSize);
+                body.style.fontSize = currentSize + '%';
+            }
+
+            if (localStorage.getItem('highContrast') === 'true') {
+                body.classList.add('high-contrast');
+            }
+
+            if (localStorage.getItem('grayscale') === 'true') {
+                body.classList.add('grayscale');
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html> 

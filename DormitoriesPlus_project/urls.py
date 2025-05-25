@@ -18,10 +18,21 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from DormitoriesPlus import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('DormitoriesPlus.urls'))
+    path('', views.login_page, name='login_page'),
+    path('Homepage/', views.Homepage, name='Homepage'),
+    path('Students_homepage/', views.Students_homepage, name='Students_homepage'),
+    path('application/', views.application, name='application'),
+    path('faults/', views.faults, name='faults'),
+    path('legal_assistance/', views.legal_assistance, name='legal_assistance'),
+    path('connect_us/', views.connect_us, name='connect_us'),
+    path('accessibility/', views.accessibility, name='accessibility'),
+    path('accessibility/contact/', views.accessibility_contact, name='accessibility_contact'),
+    path('logout/', views.custom_logout, name='logout'),
+    path('OM_Homepage/', views.OM_Homepage, name='OM_Homepage'),
 ]
 
 if settings.DEBUG:

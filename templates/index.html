@@ -1,37 +1,18 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - דף בית</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-  </head>
-  <body>
 
-    <header>
-      <h1>DormitoriesPlus</h1>
-      <p>ברוכים הבאים לאתר מעונות ריפקין!</p>
-    </header>
+{% block title %}DormitoriesPlus - דף בית{% endblock %}
 
-    <div class="container">
-      <div class="hero">
-        <h2>שלום, באתר זה תוכל לבצע פעולות הקשורות למעונות.</h2>
-        <p>השתמש בקישורים למטה כדי לגשת לשירות הרלוונטי עבורך.</p>
-      </div>
-
-    <div class="links">
-      <a href="{% url 'application' %}">השאלות</a>
-      <a href="{% url 'faults' %}">דיווח תקלות</a>
-      <a href="{% url 'connect_us' %}">צור קשר</a>
-    </div>
-
-
-    </div>
-
-    <footer>
-      <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-    </footer>
-
-  </body>
-</html>
+{% block content %}
+<div class="container">
+  <div class="hero">
+    <h2>שלום, באתר זה תוכל לבצע פעולות הקשורות למעונות.</h2>
+    <p>השתמש בקישורים למטה כדי לגשת לשירות הרלוונטי עבורך.</p>
+  </div>
+  <div class="links">
+    <a href="{% url 'application' %}">השאלות</a>
+    <a href="{% url 'faults' %}">דיווח תקלות</a>
+    <a href="{% url 'connect_us' %}">צור קשר</a>
+  </div>
+</div>
+{% endblock %}
