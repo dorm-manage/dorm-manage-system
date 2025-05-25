@@ -1,28 +1,50 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>התחברות</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-</head>
-<body>
-    <div class="login-container">
-        <h1>התחברות ל-DormitoriesPlus</h1>
-        <form action="{% url 'login_page' %}" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">שם משתמש:</label>
-                <input type="email" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">סיסמה:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">התחבר</button>
 
-        </form>
+{% block title %}התחברות{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-building display-1 text-primary mb-3"></i>
+                        <h1 class="h3 mb-3 fw-normal">ברוכים הבאים ל-DormitoriesPlus</h1>
+                        <p class="text-muted">אנא התחברו כדי להמשיך</p>
+                    </div>
+                    <form action="{% url 'login_page' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="username" class="form-label">שם משתמש:</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input type="email" class="form-control" id="username" name="username" required 
+                                       placeholder="הכנס את כתובת המייל שלך">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">סיסמה:</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="password" name="password" required
+                                       placeholder="הכנס את הסיסמה שלך">
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>התחבר
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

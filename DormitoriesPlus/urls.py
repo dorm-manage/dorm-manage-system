@@ -9,6 +9,9 @@ urlpatterns = [
     path('login/', views.login_page, name='login_page'),
     path('logout/', views.custom_logout, name='logout'),
 
+    # Legal Assistance URL
+    path('legal-assistance/', views.legal_assistance, name='legal_assistance'),
+
     # Existing URLs
     path('Homepage/', views.Homepage, name='Homepage'),
     path('application/', views.application, name='application'),

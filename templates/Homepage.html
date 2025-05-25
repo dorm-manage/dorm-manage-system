@@ -1,27 +1,53 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DormitoriesPlus - בחירת משתמש</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-</head>
-<body>
-<header>
-  <h1>ברוכים הבאים ל-DormitoriesPlus</h1>
-  <p>בחר את סוג המשתמש שלך להמשך:</p>
-</header>
 
+{% block title %}בחירת משתמש{% endblock %}
+
+{% block content %}
 <div class="container">
-  <a href="{% url 'OM_Homepage' %}" class="user-type">מנהל מערכת</a>
-  <a href="{% url 'BM_Homepage' %}" class="user-type">אחראי בניין</a>
-  <a href="{% url 'Students_homepage' %}" class="user-type">סטודנט</a>
+    <div class="text-center mb-5">
+        <i class="bi bi-building display-1 text-primary mb-3"></i>
+        <h1 class="display-4 mb-3">ברוכים הבאים ל-DormitoriesPlus</h1>
+        <p class="lead text-muted">בחר את סוג המשתמש שלך להמשך</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-person-badge display-4 text-primary mb-3"></i>
+                    <h3 class="card-title h4 mb-3">מנהל מערכת</h3>
+                    <p class="card-text text-muted mb-4">ניהול המערכת, משתמשים, ציוד ותקלות</p>
+                    <a href="{% url 'OM_Homepage' %}" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-arrow-left me-2"></i>כניסה למערכת
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-building display-4 text-primary mb-3"></i>
+                    <h3 class="card-title h4 mb-3">אחראי בניין</h3>
+                    <p class="card-text text-muted mb-4">ניהול הבניין, סטודנטים, ציוד ותקלות</p>
+                    <a href="{% url 'BM_Homepage' %}" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-arrow-left me-2"></i>כניסה למערכת
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-person display-4 text-primary mb-3"></i>
+                    <h3 class="card-title h4 mb-3">סטודנט</h3>
+                    <p class="card-text text-muted mb-4">השאלת ציוד, דיווח על תקלות וניהול אישי</p>
+                    <a href="{% url 'Students_homepage' %}" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-arrow-left me-2"></i>כניסה למערכת
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
-
-</body>
-</html>
+{% endblock %}

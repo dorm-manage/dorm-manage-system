@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">מידע משפטי לדיירי המעונות</h1>
+    
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>זכויות וחובות הדייר</h3>
+                </div>
+                <div class="card-body">
+                    <h4>זכויות הדייר:</h4>
+                    <ul>
+                        <li>זכות לפרטיות ולשקט</li>
+                        <li>זכות לתנאי מגורים הולמים</li>
+                        <li>זכות למידע על תנאי המגורים</li>
+                        <li>זכות להגנה על רכוש אישי</li>
+                    </ul>
+
+                    <h4>חובות הדייר:</h4>
+                    <ul>
+                        <li>תשלום שכר דירה בזמן</li>
+                        <li>שמירה על ניקיון וסדר</li>
+                        <li>דיווח על תקלות</li>
+                        <li>שמירה על כללי הבטיחות</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>חוקים רלוונטיים</h3>
+                </div>
+                <div class="card-body">
+                    <h4>חוק הגנת הדייר:</h4>
+                    <p>החוק מגדיר את זכויות הדייר ומגן עליו מפני פינוי לא חוקי.</p>
+
+                    <h4>חוק השכירות והשאילה:</h4>
+                    <p>מסדיר את היחסים בין המשכיר לשוכר, כולל חובות ותשלומים.</p>
+
+                    <h4>חוק איסור לשון הרע:</h4>
+                    <p>מגן על הדייר מפני לשון הרע והטרדה.</p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>הליכים משפטיים</h3>
+                </div>
+                <div class="card-body">
+                    <h4>במקרה של סכסוך:</h4>
+                    <ol>
+                        <li>ניסיון לפתרון מוסכם</li>
+                        <li>פנייה למנהל המעונות</li>
+                        <li>פנייה לוועדת ערר</li>
+                        <li>פנייה לבית המשפט</li>
+                    </ol>
+
+                    <h4>מוסדות תמיכה:</h4>
+                    <ul>
+                        <li>משרד המשפטים - 02-6466666</li>
+                        <li>האגודה לזכויות האזרח - 03-5608185</li>
+                        <li>משרד החינוך - 02-5602222</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>מידע נוסף</h3>
+                </div>
+                <div class="card-body">
+                    <p>למידע נוסף ומפורט, ניתן לפנות ל:</p>
+                    <ul>
+                        <li>משרד המשפטים - <a href="https://www.justice.gov.il">www.justice.gov.il</a></li>
+                        <li>האגודה לזכויות האזרח - <a href="https://www.acri.org.il">www.acri.org.il</a></li>
+                        <li>משרד החינוך - <a href="https://www.education.gov.il">www.education.gov.il</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Assistance Button Section -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">צריכים עזרה משפטית?</h3>
+                </div>
+                <div class="card-body text-center">
+                    <p class="lead mb-4">אנחנו כאן לעזור! צרו איתנו קשר לקבלת סיוע משפטי</p>
+                    <a href="{% url 'connect_us' %}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-envelope-fill me-2"></i>צור קשר לקבלת סיוע
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

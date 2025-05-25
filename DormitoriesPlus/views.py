@@ -1955,3 +1955,6 @@ def custom_logout(request):
     logout(request)
     messages.success(request, "התנתקת בהצלחה!")
     return redirect('login_page')
+
+def legal_assistance(request):
+    return render(request, 'legal_assistance.html')
