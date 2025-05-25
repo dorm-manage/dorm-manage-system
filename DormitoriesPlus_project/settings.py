@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -116,13 +117,26 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'he'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
+LANGUAGES = [
+    ('he', 'עברית'),
+    ('ar', 'العربية'),
+    ('en', 'English'),
+    ('zh-hans', '中文'),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+USE_L10N = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -139,7 +153,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = '/login/'           # הכתובת לעמוד התחברות
+LOGIN_URL = '/'           # הכתובת לעמוד התחברות
 LOGIN_REDIRECT_URL = '/'        # הכתובת שאליה המשתמש ינותב לאחר התחברות מוצלחת
 LOGOUT_REDIRECT_URL = '/'       # הכתובת שאליה המשתמש ינותב לאחר התנתקות
 

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}DormitoriesPlus - {% trans "Home" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">DormitoriesPlus</h1>
+                    
+                    <div class="mb-4">
+                        <h2 class="h4 mb-3">{% trans "Available Services" %}</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{% trans "Legal Assistance" %}</h5>
+                                        <p class="card-text">{% trans "Legal consultation services for dormitory residents regarding rental and housing matters." %}</p>
+                                        <a href="{% url 'legal_assistance' %}" class="btn btn-primary">{% trans "Request Legal Assistance" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{% trans "Contact Us" %}</h5>
+                                        <p class="card-text">{% trans "Have a question? Contact us and we'll be happy to help." %}</p>
+                                        <a href="{% url 'connect_us' %}" class="btn btn-primary">{% trans "Contact Form" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h3 class="h5 mb-3">{% trans "Important Information" %}</h3>
+                        <p class="mb-0">{% trans "For urgent matters, please call our office at: 03-1234567" %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

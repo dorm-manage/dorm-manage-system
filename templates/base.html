@@ -1,6 +1,7 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' or LANGUAGE_CODE == 'he' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -245,12 +246,68 @@
                 right: 10px;
             }
         }
+
+        /* Language Switcher Styles */
+        .language-switcher {
+            margin-left: 1rem;
+        }
+
+        .language-select-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-select-wrapper select {
+            appearance: none;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            min-width: 120px;
+        }
+
+        .language-select-wrapper select:hover {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        .language-select-wrapper select:focus {
+            outline: none;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+        .language-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            pointer-events: none;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .language-switcher {
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+            
+            .language-select-wrapper select {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Skip Links -->
-    <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+    <a href="#main-content" class="skip-link">{% trans "Skip to main content" %}</a>
     <a href="#main-nav" class="skip-link">דלג לתפריט הניווט</a>
 
     <!-- Navigation -->
@@ -299,6 +356,9 @@
                         </li>
                     {% endif %}
                 </ul>
+                <div class="d-flex align-items-center">
+                    {% include 'includes/language_switcher.html' %}
+                </div>
             </div>
         </div>
     </nav>
@@ -321,22 +381,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5>קישורים מהירים</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'legal_assistance' %}" class="text-light">סיוע משפטי</a></li>
-                        <li><a href="{% url 'connect_us' %}" class="text-light">צור קשר</a></li>
-                        <li><a href="{% url 'accessibility' %}" class="text-light">נגישות</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>צור קשר</h5>
+                    <h5>{% trans "Contact Us" %}</h5>
                     <ul class="list-unstyled">
                         <li><i class="bi bi-telephone"></i> 03-1234567</li>
                         <li><i class="bi bi-envelope"></i> info@dormitoriesplus.ac.il</li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <h5>עקבו אחרינו</h5>
+                    <h5>{% trans "Quick Links" %}</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'legal_assistance' %}" class="text-light">{% trans "Legal Assistance" %}</a></li>
+                        <li><a href="{% url 'connect_us' %}" class="text-light">{% trans "Connect Us" %}</a></li>
+                        <li><a href="{% url 'accessibility' %}" class="text-light">{% trans "Accessibility" %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>{% trans "Follow Us" %}</h5>
                     <div class="social-links">
                         <a href="#" class="text-light me-2"><i class="bi bi-facebook"></i></a>
                         <a href="#" class="text-light me-2"><i class="bi bi-twitter"></i></a>
@@ -344,24 +404,27 @@
                     </div>
                 </div>
             </div>
+            <div class="text-center mt-4">
+                <p>&copy; {% now "Y" %} {% trans "DormitoriesPlus. All rights reserved." %}</p>
+            </div>
         </div>
     </footer>
 
     <!-- Accessibility Toolbar -->
     <div class="accessibility-toolbar" role="toolbar" aria-label="כלי נגישות">
-        <button id="increase-text" aria-label="הגדל טקסט">
+        <button id="increase-text" aria-label="{% trans 'Increase Font Size' %}">
             <i class="bi bi-zoom-in"></i>
         </button>
-        <button id="decrease-text" aria-label="הקטן טקסט">
+        <button id="decrease-text" aria-label="{% trans 'Decrease Font Size' %}">
             <i class="bi bi-zoom-out"></i>
         </button>
-        <button id="high-contrast" aria-label="מצב ניגודיות גבוהה">
+        <button id="high-contrast" aria-label="{% trans 'Toggle High Contrast' %}">
             <i class="bi bi-circle-half"></i>
         </button>
-        <button id="grayscale" aria-label="מצב שחור לבן">
+        <button id="grayscale" aria-label="{% trans 'Toggle Grayscale' %}">
             <i class="bi bi-circle"></i>
         </button>
-        <button id="reset-accessibility" aria-label="איפוס הגדרות נגישות">
+        <button id="reset-accessibility" aria-label="{% trans 'Reset Accessibility' %}">
             <i class="bi bi-arrow-counterclockwise"></i>
         </button>
     </div>

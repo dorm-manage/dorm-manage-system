@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{% trans "Office Manager Profile" %}</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ user.get_full_name }}</h5>
+            <p class="card-text">{% trans "Email" %}: {{ user.email }}</p>
+            <p class="card-text">{% trans "Username" %}: {{ user.username }}</p>
+            <a href="{% url 'Edit_Profile' %}" class="btn btn-primary">{% trans "Edit Profile" %}</a>
+            <a href="{% url 'Change_Password' %}" class="btn btn-secondary">{% trans "Change Password" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

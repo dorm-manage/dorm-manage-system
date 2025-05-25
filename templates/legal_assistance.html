@@ -1,96 +1,88 @@
 {% extends 'base.html' %}
 
+{% block title %}סיוע משפטי{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h1 class="text-center mb-4">מידע משפטי לדיירי המעונות</h1>
-    
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3>זכויות וחובות הדייר</h3>
-                </div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
                 <div class="card-body">
-                    <h4>זכויות הדייר:</h4>
-                    <ul>
-                        <li>זכות לפרטיות ולשקט</li>
-                        <li>זכות לתנאי מגורים הולמים</li>
-                        <li>זכות למידע על תנאי המגורים</li>
-                        <li>זכות להגנה על רכוש אישי</li>
-                    </ul>
+                    <h1 class="card-title text-center mb-4">סיוע משפטי</h1>
+                    
+                    <div class="mb-4">
+                        <h2 class="h4 mb-3">שירותים משפטיים</h2>
+                        <p>אנו מציעים מגוון שירותים משפטיים לתושבי המעונות:</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>סיוע בהבנת הסכמי שכירות</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>ייעוץ בנושא זכויות דיירים</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>בדיקת חוזים ומסמכים משפטיים</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>ייעוץ משפטי כללי בנושאי דיור</li>
+                        </ul>
+                    </div>
 
-                    <h4>חובות הדייר:</h4>
-                    <ul>
-                        <li>תשלום שכר דירה בזמן</li>
-                        <li>שמירה על ניקיון וסדר</li>
-                        <li>דיווח על תקלות</li>
-                        <li>שמירה על כללי הבטיחות</li>
-                    </ul>
-                </div>
-            </div>
+                    <div class="mb-4">
+                        <h2 class="h4 mb-3">איך לקבל עזרה?</h2>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="text-center">
+                                    <i class="bi bi-1-circle-fill text-primary fs-1"></i>
+                                    <h5 class="mt-2">מלאו את טופס הפנייה</h5>
+                                    <p class="small">הזינו את פרטיכם ופרטי הבקשה</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="text-center">
+                                    <i class="bi bi-2-circle-fill text-primary fs-1"></i>
+                                    <h5 class="mt-2">העלו מסמכים</h5>
+                                    <p class="small">צרפו את כל המסמכים הרלוונטיים</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="text-center">
+                                    <i class="bi bi-3-circle-fill text-primary fs-1"></i>
+                                    <h5 class="mt-2">קבלו תשובה</h5>
+                                    <p class="small">צוות המשפטי שלנו יצור איתכם קשר</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3>חוקים רלוונטיים</h3>
-                </div>
-                <div class="card-body">
-                    <h4>חוק הגנת הדייר:</h4>
-                    <p>החוק מגדיר את זכויות הדייר ומגן עליו מפני פינוי לא חוקי.</p>
+                    <div class="mb-4">
+                        <h2 class="h4 mb-3">טופס פנייה לסיוע משפטי</h2>
+                        <form method="post" action="{% url 'legal_assistance' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">שם מלא</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">דוא"ל</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">מספר טלפון</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="issue" class="form-label">תיאור הבעיה</label>
+                                <textarea class="form-control" id="issue" name="issue" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="documents" class="form-label">מסמכים רלוונטיים</label>
+                                <input type="file" class="form-control" id="documents" name="documents" multiple>
+                                <div class="form-text">ניתן להעלות מספר קבצים (PDF, Word, תמונות)</div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">שלח פנייה</button>
+                            </div>
+                        </form>
+                    </div>
 
-                    <h4>חוק השכירות והשאילה:</h4>
-                    <p>מסדיר את היחסים בין המשכיר לשוכר, כולל חובות ותשלומים.</p>
-
-                    <h4>חוק איסור לשון הרע:</h4>
-                    <p>מגן על הדייר מפני לשון הרע והטרדה.</p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3>הליכים משפטיים</h3>
-                </div>
-                <div class="card-body">
-                    <h4>במקרה של סכסוך:</h4>
-                    <ol>
-                        <li>ניסיון לפתרון מוסכם</li>
-                        <li>פנייה למנהל המעונות</li>
-                        <li>פנייה לוועדת ערר</li>
-                        <li>פנייה לבית המשפט</li>
-                    </ol>
-
-                    <h4>מוסדות תמיכה:</h4>
-                    <ul>
-                        <li>משרד המשפטים - 02-6466666</li>
-                        <li>האגודה לזכויות האזרח - 03-5608185</li>
-                        <li>משרד החינוך - 02-5602222</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3>מידע נוסף</h3>
-                </div>
-                <div class="card-body">
-                    <p>למידע נוסף ומפורט, ניתן לפנות ל:</p>
-                    <ul>
-                        <li>משרד המשפטים - <a href="https://www.justice.gov.il">www.justice.gov.il</a></li>
-                        <li>האגודה לזכויות האזרח - <a href="https://www.acri.org.il">www.acri.org.il</a></li>
-                        <li>משרד החינוך - <a href="https://www.education.gov.il">www.education.gov.il</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Assistance Button Section -->
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">צריכים עזרה משפטית?</h3>
-                </div>
-                <div class="card-body text-center">
-                    <p class="lead mb-4">אנחנו כאן לעזור! צרו איתנו קשר לקבלת סיוע משפטי</p>
-                    <a href="{% url 'connect_us' %}" class="btn btn-primary btn-lg">
-                        <i class="bi bi-envelope-fill me-2"></i>צור קשר לקבלת סיוע
-                    </a>
+                    <div class="alert alert-info">
+                        <h3 class="h5 mb-3">מידע חשוב</h3>
+                        <p class="mb-0">שירות הסיוע המשפטי ניתן ללא תשלום לתושבי המעונות. זמן התגובה הממוצע הוא עד יומיים עסקיים.</p>
+                    </div>
                 </div>
             </div>
         </div>

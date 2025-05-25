@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Count
@@ -15,6 +15,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Count, Q, Prefetch
 from django.db import transaction
 from django.contrib.auth.models import User
+from django.utils.translation import gettext as _
 # Then import your models
 from .models import (
     User,
@@ -1983,3 +1984,67 @@ def accessibility_contact(request):
         return redirect('accessibility')
     
     return redirect('accessibility')
+
+@login_required
+def Student_Profile(request):
+    return render(request, 'Student_Profile.html')
+
+@login_required
+def OM_Profile(request):
+    return render(request, 'OM_Profile.html')
+
+@login_required
+def Edit_Profile(request):
+    if request.method == 'POST':
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        messages.success(request, _("Profile updated successfully"))
+        return redirect('Profile_Updated')
+    return render(request, 'Edit_Profile.html')
+
+@login_required
+def Change_Password(request):
+    if request.method == 'POST':
+        user = request.user
+        old_password = request.POST.get('old_password')
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+        
+        if not user.check_password(old_password):
+            messages.error(request, _("Current password is incorrect"))
+            return redirect('Change_Password')
+        
+        if new_password1 != new_password2:
+            messages.error(request, _("New passwords don't match"))
+            return redirect('Change_Password')
+        
+        user.set_password(new_password1)
+        user.save()
+        update_session_auth_hash(request, user)  # Keep user logged in
+        messages.success(request, _("Password changed successfully"))
+        return redirect('Password_Changed')
+    
+    return render(request, 'Change_Password.html')
+
+@login_required
+def Password_Changed(request):
+    return render(request, 'Password_Changed.html')
+
+@login_required
+def Profile_Updated(request):
+    return render(request, 'Profile_Updated.html')
+
+@login_required
+def Back_to_Profile(request):
+    if request.user.is_staff:
+        return redirect('OM_Profile')
+    return redirect('Student_Profile')
+
+@login_required
+def Back_to_Homepage(request):
+    if request.user.is_staff:
+        return redirect('OM_Homepage')
+    return redirect('Students_homepage')

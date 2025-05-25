@@ -1,69 +1,100 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="he">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DormitoriesPlus - צור קשר</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+{% load i18n %}
 
-  <header>
-    <h1>DormitoriesPlus</h1>
-  </header>
+{% block title %}{% trans "Contact Us" %}{% endblock %}
 
-  <div class="container">
-    <div class="hero">
-      <h2>לא מצאתם את מה שחיפשתם? צרו קשר!</h2>
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">{% trans "Contact Us" %}</h1>
+                    
+                    <div class="mb-4">
+                        <h2 class="h4 mb-3">{% trans "Get in Touch" %}</h2>
+                        <p>{% trans "We're here to help! Please fill out the form below and we'll get back to you as soon as possible." %}</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h2 class="h4 mb-3">{% trans "Contact Information" %}</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                                    <div>
+                                        <h5 class="mb-1">{% trans "Address" %}</h5>
+                                        <p class="mb-0">{% trans "123 University Street, Tel Aviv, Israel" %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-telephone-fill text-primary me-2"></i>
+                                    <div>
+                                        <h5 class="mb-1">{% trans "Phone" %}</h5>
+                                        <p class="mb-0">03-1234567</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-envelope-fill text-primary me-2"></i>
+                                    <div>
+                                        <h5 class="mb-1">{% trans "Email" %}</h5>
+                                        <p class="mb-0">info@dormitoriesplus.ac.il</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-clock-fill text-primary me-2"></i>
+                                    <div>
+                                        <h5 class="mb-1">{% trans "Office Hours" %}</h5>
+                                        <p class="mb-0">{% trans "Sunday-Thursday: 9:00-17:00" %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h2 class="h4 mb-3">{% trans "Contact Form" %}</h2>
+                        <form method="post" action="{% url 'connect_us' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">{% trans "Full Name" %}</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">{% trans "Email" %}</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">{% trans "Phone Number" %}</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">{% trans "Subject" %}</label>
+                                <input type="text" class="form-control" id="subject" name="subject" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">{% trans "Message" %}</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">{% trans "Send Message" %}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h3 class="h5 mb-3">{% trans "Need Immediate Assistance?" %}</h3>
+                        <p class="mb-0">{% trans "For urgent matters, please call our office directly at 03-1234567. Our staff is available during office hours to assist you." %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="contact-info">
-      <p>בחרו בניין כדי לקבל פרטי איש קשר:</p>
-      <select id="buildingSelector">
-        <option value="">בחר בניין</option>
-        <option value="1">בניין 1</option>
-        <option value="2">בניין 2</option>
-        <option value="3">בניין 3</option>
-        <option value="4">בניין 4</option>
-      </select>
-      <div id="contactDetails" style="margin-top: 20px;">
-        <!-- כאן יוצגו פרטי הקשר -->
-      </div>
-    </div>
-
-    <div class="links">
-      <a href="/">חזרה לדף הבית</a>
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-  </footer>
-
-  <script>
-    const contactData = {
-      "1": { name: "יוסי כהן", phone: "050-1234567" },
-      "2": { name: "דנה לוי", phone: "052-7654321" },
-      "3": { name: "אבי ישראלי", phone: "054-9876543" },
-      "4": { name: "מיכל ברק", phone: "053-6543210" }
-    };
-
-    const buildingSelector = document.getElementById("buildingSelector");
-    const contactDetails = document.getElementById("contactDetails");
-
-    buildingSelector.addEventListener("change", function () {
-      const selectedBuilding = buildingSelector.value;
-      if (selectedBuilding && contactData[selectedBuilding]) {
-        const { name, phone } = contactData[selectedBuilding];
-        contactDetails.innerHTML = `<p><strong>שם:</strong> ${name}</p>
-                                    <p><strong>טלפון:</strong> ${phone}</p>`;
-      } else {
-        contactDetails.innerHTML = "<p>נא לבחור בניין מהרשימה.</p>";
-      }
-    });
-  </script>
-
-</body>
-</html>
+</div>
+{% endblock %}
