@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load inventory_tags %}
+{% load static %}
+
+{% block title %}ניהול מלאי - DormitoriesPlus{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/inventory.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/buttons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/modals.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="hero" aria-labelledby="page-title">
+        <h2 id="page-title">ניהול מלאי - מנהל משרד</h2>
+        <p>כאן תוכל לנהל את פריטי המלאי של כל הבניינים, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
+    </section>
+
+    {% if messages %}
+        <div role="alert" aria-live="polite">
+            {% for message in messages %}
+                <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <section class="table-container" aria-labelledby="inventory-heading">
+        <h3 id="inventory-heading">רשימת פריטי מלאי</h3>
+        <div class="table-responsive">
+            <table aria-label="רשימת פריטי מלאי">
+                <thead>
+                    <tr>
+                        <th scope="col">תמונה</th>
+                        <th scope="col">שם פריט</th>
+                        <th scope="col">כמות כוללת</th>
+                        <th scope="col">זמינים</th>
+                        <th scope="col">בהשאלה</th>
+                        <th scope="col">פעולות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory %}
+                    <tr>
+                        <td>
+                            {% if item.photo_url %}
+                                <img src="{{ item.photo_url.url }}" alt="{{ item.item_name }}" class="item-photo">
+                            {% else %}
+                                <img src="{% static 'img/no-image.png' %}" alt="אין תמונה" class="item-photo">
+                            {% endif %}
+                        </td>
+                        <td>{{ item.item_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td class="status-available" aria-label="כמות זמינה">
+                            {% if items_by_inventory|get_item:item.id %}
+                                {{ items_by_inventory|get_item:item.id|get_item:'available' }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                        <td class="status-borrowed" aria-label="כמות בהשאלה">
+                            {% if items_by_inventory|get_item:item.id %}
+                                {{ items_by_inventory|get_item:item.id|get_item:'borrowed' }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-warning" onclick="openEditModal({{ item.id }}, '{{ item.item_name }}', {{ item.quantity }})" aria-label="ערוך פריט {{ item.item_name }}">ערוך</button>
+                                <button class="btn btn-danger" onclick="confirmDelete({{ item.id }}, '{{ item.item_name }}')" aria-label="מחק פריט {{ item.item_name }}">מחק</button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="no-items" role="alert">אין פריטים במלאי</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_previous or page_obj.has_next %}
+        <nav class="pagination" aria-label="ניווט בין דפי מלאי">
+            <ul>
+                {% if page_obj.has_previous %}
+                    <li><a href="?page=1" aria-label="עמוד ראשון">&laquo; ראשון</a></li>
+                    <li><a href="?page={{ page_obj.previous_page_number }}" aria-label="עמוד קודם">הקודם</a></li>
+                {% else %}
+                    <li class="disabled"><span aria-hidden="true">&laquo; ראשון</span></li>
+                    <li class="disabled"><span aria-hidden="true">הקודם</span></li>
+                {% endif %}
+
+                <li class="active"><span aria-current="page">דף {{ page_obj.number }} מתוך {{ page_obj.paginator.num_pages }}</span></li>
+
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}" aria-label="עמוד הבא">הבא</a></li>
+                    <li><a href="?page={{ page_obj.paginator.num_pages }}" aria-label="עמוד אחרון">אחרון &raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span aria-hidden="true">הבא</span></li>
+                    <li class="disabled"><span aria-hidden="true">אחרון &raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </section>
+
+    <!-- Modal for adding new item -->
+    <div id="addModal" class="modal" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close" onclick="closeAddModal()" aria-label="סגור חלון הוספת פריט">&times;</button>
+            <h3 id="addModalTitle">הוספת פריט חדש למלאי</h3>
+            <form method="post" enctype="multipart/form-data" role="form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="item_name">שם הפריט</label>
+                    <input type="text" id="item_name" name="item_name" class="form-control" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="quantity">כמות</label>
+                    <input type="number" id="quantity" name="quantity" min="1" class="form-control" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="photo">תמונת פריט (אופציונלי)</label>
+                    <input type="file" id="photo" name="photo" class="form-control" accept="image/*" aria-describedby="photoHelp">
+                    <small id="photoHelp" class="form-text">תמונות בפורמט JPG, PNG או GIF</small>
+                </div>
+                <button type="submit" name="add_item" class="btn btn-primary">הוסף פריט</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for editing inventory item -->
+    <div id="editModal" class="modal" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close" onclick="closeEditModal()" aria-label="סגור חלון עריכת פריט">&times;</button>
+            <h3 id="editModalTitle">ערוך פריט מלאי</h3>
+            <form method="post" enctype="multipart/form-data" role="form">
+                {% csrf_token %}
+                <input type="hidden" id="inventory_id" name="inventory_id">
+                <div class="form-group">
+                    <label for="new_name">שם פריט</label>
+                    <input type="text" id="new_name" name="new_name" class="form-control" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="new_quantity">כמות</label>
+                    <input type="number" id="new_quantity" name="new_quantity" min="0" class="form-control" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="edit_photo">תמונת פריט חדשה (אופציונלי)</label>
+                    <input type="file" id="edit_photo" name="photo" class="form-control" accept="image/*" aria-describedby="editPhotoHelp">
+                    <small id="editPhotoHelp" class="form-text">תמונות בפורמט JPG, PNG או GIF</small>
+                </div>
+                <button type="submit" name="update_item" class="btn btn-success">עדכן פריט</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for confirming delete -->
+    <div id="deleteModal" class="modal" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close" onclick="closeDeleteModal()" aria-label="סגור חלון אישור מחיקה">&times;</button>
+            <h3 id="deleteModalTitle">האם אתה בטוח שברצונך למחוק פריט זה?</h3>
+            <p id="delete-item-name" class="delete-confirmation"></p>
+            <form method="post" role="form">
+                {% csrf_token %}
+                <input type="hidden" id="delete_inventory_id" name="inventory_id">
+                <div class="modal-actions">
+                    <button type="submit" name="remove_item" class="btn btn-danger" aria-label="אישור מחיקת פריט">כן, מחק</button>
+                    <button type="button" class="btn btn-primary" onclick="closeDeleteModal()" aria-label="ביטול מחיקת פריט">ביטול</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="actions-bar">
+        <a href="{% url 'OM_Homepage' %}" class="back-button" aria-label="חזרה לעמוד הראשי">חזרה לעמוד הראשי</a>
+        <button class="btn btn-primary" onclick="openAddModal()" aria-label="הוספת פריט חדש למלאי">הוספת פריט חדש</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Modal functions
+    function openAddModal() {
+        document.getElementById('addModal').style.display = 'block';
+        document.getElementById('addModal').setAttribute('aria-hidden', 'false');
+    }
+
+    function closeAddModal() {
+        document.getElementById('addModal').style.display = 'none';
+        document.getElementById('addModal').setAttribute('aria-hidden', 'true');
+    }
+
+    function openEditModal(id, name, quantity) {
+        document.getElementById('editModal').style.display = 'block';
+        document.getElementById('editModal').setAttribute('aria-hidden', 'false');
+        document.getElementById('inventory_id').value = id;
+        document.getElementById('new_name').value = name;
+        document.getElementById('new_quantity').value = quantity;
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+        document.getElementById('editModal').setAttribute('aria-hidden', 'true');
+    }
+
+    function confirmDelete(id, name) {
+        document.getElementById('deleteModal').style.display = 'block';
+        document.getElementById('deleteModal').setAttribute('aria-hidden', 'false');
+        document.getElementById('delete_inventory_id').value = id;
+        document.getElementById('delete-item-name').textContent = name;
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+        document.getElementById('deleteModal').setAttribute('aria-hidden', 'true');
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+            event.target.setAttribute('aria-hidden', 'true');
+        }
+    }
+</script>
+{% endblock %}

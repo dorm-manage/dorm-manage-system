@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}DormitoriesPlus - עמוד ראשי למנהל המערכת{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+<style>
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .stat-card {
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        transition: transform 0.2s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+
+    .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .button {
+        padding: 0.75rem 1.5rem;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+
+    .button:hover,
+    .button:focus {
+        background: #0056b3;
+        outline: 2px solid #0056b3;
+        outline-offset: 2px;
+    }
+
+    @media (max-width: 768px) {
+        .stats-container {
+            grid-template-columns: 1fr;
+        }
+
+        .links {
+            flex-direction: column;
+        }
+
+        .button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="hero" aria-labelledby="welcome-heading">
+        <h2 id="welcome-heading">ברוך הבא, {{ user.first_name }} {{ user.last_name }}</h2>
+        <p>עמוד ניהול ראשי למערכת DormitoriesPlus</p>
+    </section>
+
+    <!-- סטטיסטיקות מהירות -->
+    <section class="section" aria-labelledby="stats-heading">
+        <h3 id="stats-heading">סטטיסטיקות מערכת</h3>
+        <div class="stats-container" role="list">
+            <div class="stat-card" role="listitem">
+                <div>כרגע נמצאים</div>
+                <div class="stat-value" aria-label="מספר סטודנטים">{{ total_students }}</div>
+                <div>סטודנטים במעונות</div>
+            </div>
+            <div class="stat-card" role="listitem">
+                <div>תפוסת חדרים היא</div>
+                <div class="stat-value" aria-label="אחוז תפוסה">{{ occupancy_rate }}%</div>
+                <div>מהקיבולת המלאה</div>
+            </div>
+            <div class="stat-card" role="listitem">
+                <div>ישנם כרגע</div>
+                <div class="stat-value" aria-label="מספר פריטים באיחור">{{ late_items }}</div>
+                <div>פריטים באיחור</div>
+            </div>
+            <div class="stat-card" role="listitem">
+                <div>ישנם כרגע</div>
+                <div class="stat-value" aria-label="מספר תקלות פתוחות">{{ open_faults }}</div>
+                <div>תקלות פתוחות לטיפול</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" aria-labelledby="equipment-heading">
+        <h3 id="equipment-heading">ניהול ציוד ותקלות</h3>
+        <p>ניהול השאלות ציוד ודיווחי תקלות בכל הבניינים</p>
+
+        <nav class="links" aria-label="ניווט ניהול ציוד ותקלות">
+            <a href="{% url 'OM_inventory' %}" class="button" role="button" aria-label="ניהול מלאי">ניהול מלאי</a>
+            <a href="{% url 'OM_loan_requests' %}" class="button" role="button" aria-label="ניהול השאלות">ניהול השאלות</a>
+            <a href="{% url 'OM_faults' %}" class="button" role="button" aria-label="ניהול תקלות">ניהול תקלות</a>
+        </nav>
+    </section>
+
+    <section class="section" aria-labelledby="people-heading">
+        <h3 id="people-heading">ניהול אנשים</h3>
+        <p>ניהול שיבוץ סטודנטים ואחראי בניין</p>
+        <nav class="links" aria-label="ניווט ניהול אנשים">
+            <a href="{% url 'OM_manage_students' %}" class="button" role="button" aria-label="ניהול סטודנטים">ניהול סטודנטים</a>
+            <a href="{% url 'OM_manage_BM' %}" class="button" role="button" aria-label="ניהול אחראי בניין">ניהול אחראי בניין</a>
+        </nav>
+    </section>
+</div>
+{% endblock %}

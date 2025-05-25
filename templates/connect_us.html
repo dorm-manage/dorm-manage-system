@@ -1,69 +1,161 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DormitoriesPlus - צור קשר</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-</head>
-<body>
 
-  <header>
-    <h1>DormitoriesPlus</h1>
-  </header>
+{% block title %}צור קשר - DormitoriesPlus{% endblock %}
 
-  <div class="container">
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<style>
+    .contact-info {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .contact-card {
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+
+    .contact-card h4 {
+        margin: 0 0 0.5rem 0;
+        color: #007bff;
+    }
+
+    .contact-card p {
+        margin: 0.5rem 0;
+    }
+
+    .contact-card a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .contact-card a:hover, .contact-card a:focus {
+        text-decoration: underline;
+    }
+
+    .nav-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link:focus {
+        background-color: #007bff;
+        color: white;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .nav-link {
+            transition: none;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
     <div class="hero">
-      <h2>לא מצאתם את מה שחיפשתם? צרו קשר!</h2>
+        <h2>לא מצאתם את מה שחיפשתם? צרו קשר!</h2>
     </div>
 
-    <div class="contact-info">
-      <p>בחרו בניין כדי לקבל פרטי איש קשר:</p>
-      <select id="buildingSelector">
-        <option value="">בחר בניין</option>
-        <option value="1">בניין 1</option>
-        <option value="2">בניין 2</option>
-        <option value="3">בניין 3</option>
-        <option value="4">בניין 4</option>
-      </select>
-      <div id="contactDetails" style="margin-top: 20px;">
-        <!-- כאן יוצגו פרטי הקשר -->
-      </div>
+    <div class="contact-info" role="complementary" aria-label="פרטי קשר">
+        <h3>בחרו בניין כדי לקבל פרטי איש קשר:</h3>
+        <div class="form-group">
+            <label for="buildingSelector" id="building-label">בניין:</label>
+            <select id="buildingSelector" 
+                    aria-labelledby="building-label"
+                    aria-controls="contactDetails">
+                <option value="">בחר בניין</option>
+                <option value="1">בניין 1</option>
+                <option value="2">בניין 2</option>
+                <option value="3">בניין 3</option>
+                <option value="4">בניין 4</option>
+            </select>
+        </div>
+
+        <div id="contactDetails" role="region" aria-live="polite">
+            <!-- Contact details will be displayed here -->
+        </div>
     </div>
 
-    <div class="links">
-      <a href="/">חזרה לדף הבית</a>
-    </div>
-  </div>
+    <nav class="main-nav" role="navigation" aria-label="ניווט">
+        <a href="/" class="nav-link" role="button" aria-label="חזרה לדף הבית">
+            <span class="icon" aria-hidden="true">🏠</span>
+            <span>חזרה לדף הבית</span>
+        </a>
+    </nav>
+</div>
+{% endblock %}
 
-  <footer>
-    <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-  </footer>
+{% block extra_js %}
+<script>
+    const buildingSelector = document.getElementById('buildingSelector');
+    const contactDetails = document.getElementById('contactDetails');
 
-  <script>
-    const contactData = {
-      "1": { name: "יוסי כהן", phone: "050-1234567" },
-      "2": { name: "דנה לוי", phone: "052-7654321" },
-      "3": { name: "אבי ישראלי", phone: "054-9876543" },
-      "4": { name: "מיכל ברק", phone: "053-6543210" }
+    // Contact information for each building
+    const buildingContacts = {
+        '1': {
+            name: 'ישראל ישראלי',
+            role: 'אחראי בניין 1',
+            phone: '03-1234567',
+            email: 'building1@example.com'
+        },
+        '2': {
+            name: 'שרה כהן',
+            role: 'אחראי בניין 2',
+            phone: '03-2345678',
+            email: 'building2@example.com'
+        },
+        '3': {
+            name: 'דוד לוי',
+            role: 'אחראי בניין 3',
+            phone: '03-3456789',
+            email: 'building3@example.com'
+        },
+        '4': {
+            name: 'רחל אברהם',
+            role: 'אחראי בניין 4',
+            phone: '03-4567890',
+            email: 'building4@example.com'
+        }
     };
 
-    const buildingSelector = document.getElementById("buildingSelector");
-    const contactDetails = document.getElementById("contactDetails");
-
-    buildingSelector.addEventListener("change", function () {
-      const selectedBuilding = buildingSelector.value;
-      if (selectedBuilding && contactData[selectedBuilding]) {
-        const { name, phone } = contactData[selectedBuilding];
-        contactDetails.innerHTML = `<p><strong>שם:</strong> ${name}</p>
-                                    <p><strong>טלפון:</strong> ${phone}</p>`;
-      } else {
-        contactDetails.innerHTML = "<p>נא לבחור בניין מהרשימה.</p>";
-      }
+    buildingSelector.addEventListener('change', function() {
+        const selectedBuilding = this.value;
+        if (selectedBuilding && buildingContacts[selectedBuilding]) {
+            const contact = buildingContacts[selectedBuilding];
+            contactDetails.innerHTML = `
+                <div class="contact-card" role="article">
+                    <h4>${contact.name}</h4>
+                    <p>${contact.role}</p>
+                    <p>
+                        <strong>טלפון:</strong>
+                        <a href="tel:${contact.phone}" aria-label="טלפון: ${contact.phone}">
+                            ${contact.phone}
+                        </a>
+                    </p>
+                    <p>
+                        <strong>דוא"ל:</strong>
+                        <a href="mailto:${contact.email}" aria-label="דואל: ${contact.email}">
+                            ${contact.email}
+                        </a>
+                    </p>
+                </div>
+            `;
+        } else {
+            contactDetails.innerHTML = '<p>אנא בחר בניין כדי לראות את פרטי הקשר</p>';
+        }
     });
-  </script>
-
-</body>
-</html>
+</script>
+{% endblock %}

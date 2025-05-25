@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ניהול מנהלי בניין - DormitoriesPlus{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/modals.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- כותרת העמוד -->
+    <section class="hero" aria-labelledby="page-title">
+        <h2 id="page-title">ניהול אחראי בניין</h2>
+        <p>הוספה, עדכון והסרה של אחראי בניין</p>
+    </section>
+
+    <!-- הודעות מערכת -->
+    {% if messages %}
+        <div role="alert" aria-live="polite">
+            {% for message in messages %}
+                <div class="message {% if message.tags == 'success' %}message-success{% elif message.tags == 'error' %}message-error{% elif message.tags == 'warning' %}message-warning{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- טאבים -->
+    <div class="tabs" role="tablist">
+        <button class="tab-button active" data-tab="managers-tab" role="tab" aria-selected="true" aria-controls="managers-tab-content" id="managers-tab-button">ניהול אחראי בניין</button>
+        <button class="tab-button" data-tab="add-manager-tab" role="tab" aria-selected="false" aria-controls="add-manager-tab-content" id="add-manager-tab-button">הוספת אחראי בניין חדש</button>
+    </div>
+
+    <!-- טאב ניהול אחראי בניין -->
+    <div id="managers-tab-content" class="tab-content active" role="tabpanel" aria-labelledby="managers-tab-button">
+        <section class="section" aria-labelledby="managers-heading">
+            <h3 id="managers-heading">רשימת בניינים ואחראים</h3>
+
+            <div class="table-responsive">
+                <table aria-label="רשימת בניינים ואחראים">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%;">מס' בניין</th>
+                            <th scope="col" style="width: 20%;">שם בניין</th>
+                            <th scope="col" style="width: 25%;">אחראי בניין</th>
+                            <th scope="col" style="width: 25%;">אימייל</th>
+                            <th scope="col" style="width: 20%;">פעולות</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for building in buildings %}
+                            <tr>
+                                <td>{{ building.id }}</td>
+                                <td>{{ building.building_name }}</td>
+                                <td>
+                                    {% if building.building_staff_member %}
+                                        <span class="manager-label manager-assigned" aria-label="אחראי בניין מוגדר">
+                                            {{ building.building_staff_member.first_name }} {{ building.building_staff_member.last_name }}
+                                        </span>
+                                    {% else %}
+                                        <span class="manager-label manager-empty" aria-label="אין אחראי בניין מוגדר">לא מוגדר</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if building.building_staff_member %}
+                                        {{ building.building_staff_member.email }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if building.building_staff_member %}
+                                        <form method="post" style="display: inline-block;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="remove_manager">
+                                            <input type="hidden" name="building_id" value="{{ building.id }}">
+                                            <button type="submit" class="button button-danger" onclick="return confirm('האם אתה בטוח שברצונך להסיר את אחראי הבניין?')" aria-label="הסר אחראי בניין {{ building.building_name }}">
+                                                <i class="fas fa-user-minus" aria-hidden="true"></i> הסר
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <button class="button button-success" onclick="openAssignModal('{{ building.id }}', '{{ building.building_name }}')" aria-label="שייך אחראי בניין לבניין {{ building.building_name }}">
+                                            <i class="fas fa-user-plus" aria-hidden="true"></i> שיוך אחראי
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="no-items" role="alert">אין בניינים מוגדרים במערכת</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- טאב הוספת אחראי בניין חדש -->
+    <div id="add-manager-tab-content" class="tab-content" role="tabpanel" aria-labelledby="add-manager-tab-button" hidden>
+        <section class="section" aria-labelledby="add-manager-heading">
+            <h3 id="add-manager-heading">הוספת אחראי בניין חדש</h3>
+
+            <form method="post" role="form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_manager">
+
+                <div class="form-group">
+                    <label for="first_name">שם פרטי:</label>
+                    <input type="text" id="first_name" name="first_name" required aria-required="true">
+                </div>
+
+                <div class="form-group">
+                    <label for="last_name">שם משפחה:</label>
+                    <input type="text" id="last_name" name="last_name" required aria-required="true">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">אימייל:</label>
+                    <input type="email" id="email" name="email" required aria-required="true">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">סיסמה ראשונית:</label>
+                    <input type="password" id="password" name="password" value="123456789" aria-describedby="passwordHelp">
+                    <small id="passwordHelp" class="form-text">סיסמה ברירת מחדל: 123456789</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="assign_building_id">שייך לבניין (אופציונלי):</label>
+                    <select id="assign_building_id" name="assign_building_id">
+                        <option value="">-- בחר בניין --</option>
+                        {% for building in buildings %}
+                            {% if not building.building_staff_member %}
+                                <option value="{{ building.id }}">{{ building.building_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="button button-success" aria-label="הוסף אחראי בניין חדש">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i> הוסף אחראי בניין
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- מודל לשיוך אחראי בניין -->
+    <div id="assignModal" class="modal" role="dialog" aria-labelledby="assignModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close" onclick="closeAssignModal()" aria-label="סגור חלון שיוך אחראי בניין">&times;</button>
+            <h3 id="assignModalTitle">שיוך אחראי בניין</h3>
+            <p id="assignModalText"></p>
+
+            <form method="post" role="form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="assign_manager">
+                <input type="hidden" id="modal_building_id" name="building_id">
+
+                <div class="form-group">
+                    <label for="staff_user_id">בחר אחראי בניין:</label>
+                    <select id="staff_user_id" name="staff_user_id" required aria-required="true">
+                        <option value="" disabled selected>-- בחר אחראי בניין --</option>
+                        {% for staff in building_staff_users %}
+                            <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }} ({{ staff.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="button button-success" aria-label="שייך אחראי בניין">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i> שייך אחראי
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- כפתור חזרה -->
+    <div class="actions-bar">
+        <a href="{% url 'OM_Homepage' %}" class="back-button" aria-label="חזרה לעמוד הראשי">
+            <i class="fas fa-arrow-right" aria-hidden="true"></i> חזרה לעמוד הראשי
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Tab navigation
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    content.hidden = true;
+                });
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const contentId = tab.getAttribute('data-tab') + '-content';
+                const content = document.getElementById(contentId);
+                content.classList.add('active');
+                content.hidden = false;
+
+                // Update ARIA attributes
+                tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+                tab.setAttribute('aria-selected', 'true');
+            });
+        });
+    });
+
+    // Modal functions
+    function openAssignModal(buildingId, buildingName) {
+        const modal = document.getElementById('assignModal');
+        const modalText = document.getElementById('assignModalText');
+        const buildingIdInput = document.getElementById('modal_building_id');
+
+        modalText.textContent = `שיוך אחראי בניין לבניין ${buildingName}`;
+        buildingIdInput.value = buildingId;
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeAssignModal() {
+        const modal = document.getElementById('assignModal');
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('assignModal');
+        if (event.target === modal) {
+            closeAssignModal();
+        }
+    }
+
+    // Auto-hide messages after 5 seconds
+    setTimeout(function() {
+        const messages = document.getElementsByClassName('message');
+        for (let i = 0; i < messages.length; i++) {
+            messages[i].style.display = 'none';
+        }
+    }, 5000);
+</script>
+{% endblock %}

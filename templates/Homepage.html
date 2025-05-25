@@ -1,27 +1,66 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="he">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DormitoriesPlus - בחירת משתמש</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-</head>
-<body>
-<header>
-  <h1>ברוכים הבאים ל-DormitoriesPlus</h1>
-  <p>בחר את סוג המשתמש שלך להמשך:</p>
-</header>
+{% extends 'base.html' %}
 
-<div class="container">
-  <a href="{% url 'OM_Homepage' %}" class="user-type">מנהל מערכת</a>
-  <a href="{% url 'BM_Homepage' %}" class="user-type">אחראי בניין</a>
-  <a href="{% url 'Students_homepage' %}" class="user-type">סטודנט</a>
+{% block title %}בחירת משתמש - DormitoriesPlus{% endblock %}
+
+{% block content %}
+<div class="container" role="main" aria-label="בחירת סוג משתמש">
+    <div class="hero">
+        <h2>ברוכים הבאים ל-DormitoriesPlus</h2>
+        <p>בחר את סוג המשתמש שלך להמשך:</p>
+    </div>
+
+    <div class="user-selection" role="group" aria-label="בחירת סוג משתמש">
+        <a href="{% url 'OM_Homepage' %}" class="user-type" role="button" aria-label="מנהל מערכת">
+            <span class="user-icon" aria-hidden="true">👨‍💼</span>
+            <span>מנהל מערכת</span>
+        </a>
+        <a href="{% url 'BM_Homepage' %}" class="user-type" role="button" aria-label="אחראי בניין">
+            <span class="user-icon" aria-hidden="true">👷</span>
+            <span>אחראי בניין</span>
+        </a>
+        <a href="{% url 'Students_homepage' %}" class="user-type" role="button" aria-label="סטודנט">
+            <span class="user-icon" aria-hidden="true">👨‍🎓</span>
+            <span>סטודנט</span>
+        </a>
+    </div>
 </div>
+{% endblock %}
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
+{% block extra_css %}
+<style>
+    .user-selection {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 2rem 0;
+    }
 
-</body>
-</html>
+    .user-type {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease;
+    }
+
+    .user-type:hover, .user-type:focus {
+        background-color: #007bff;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .user-icon {
+        font-size: 1.5rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .user-type {
+            transition: none;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ניהול תקלות - DormitoriesPlus{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="hero" aria-labelledby="page-title">
+        <h2 id="page-title">ניהול תקלות במעונות - מנהל משרד</h2>
+        <p>ניהול דיווחי תקלות לכל הבניינים במערכת</p>
+    </section>
+
+    <!-- הודעות מערכת -->
+    {% if messages %}
+        <div role="alert" aria-live="polite">
+            {% for message in messages %}
+                <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- ניווט בין טאבים -->
+    <div class="tab-navigation" role="tablist">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="open-faults" id="tab-open-faults">תקלות פתוחות</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="pending-faults" id="tab-pending-faults">תקלות בטיפול</button>
+    </div>
+
+    <!-- תקלות פתוחות -->
+    <div id="open-faults" class="tab-content active" role="tabpanel" aria-labelledby="tab-open-faults">
+        <section class="section" aria-labelledby="open-faults-heading">
+            <h3 id="open-faults-heading">תקלות פתוחות</h3>
+
+            <!-- Filter Section for Office Manager -->
+            <div class="filter-section" aria-labelledby="open-filters-heading">
+                <h4 id="open-filters-heading">סינון תקלות</h4>
+                <form method="get" action="{% url 'OM_faults' %}" role="search">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="building-filter">בניין:</label>
+                            <select id="building-filter" name="building" aria-label="בחר בניין">
+                                <option value="">כל הבניינים</option>
+                                {% for building in all_buildings %}
+                                    <option value="{{ building.id }}" {% if request.GET.building == building.id|stringformat:"i" %}selected{% endif %}>
+                                        בניין {{ building.building_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="urgency-filter">דחיפות:</label>
+                            <select id="urgency-filter" name="urgency" aria-label="בחר דחיפות">
+                                <option value="">כל הדחיפויות</option>
+                                <option value="גבוהה" {% if request.GET.urgency == 'גבוהה' %}selected{% endif %}>גבוהה</option>
+                                <option value="בינונית" {% if request.GET.urgency == 'בינונית' %}selected{% endif %}>בינונית</option>
+                                <option value="נמוכה" {% if request.GET.urgency == 'נמוכה' %}selected{% endif %}>נמוכה</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="date-from">מתאריך:</label>
+                            <input type="date" id="date-from" name="date_from" value="{{ request.GET.date_from|default:'' }}" aria-label="בחר תאריך התחלה">
+                        </div>
+                        <div class="filter-buttons">
+                            <button type="submit" class="filter-button filter-apply" aria-label="החל סינון">החל סינון</button>
+                            <a href="{% url 'OM_faults' %}" class="filter-button filter-reset" role="button" aria-label="אפס סינון">אפס</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {% if open_fault_reports %}
+                <div class="table-responsive">
+                    <table aria-label="רשימת תקלות פתוחות">
+                        <thead>
+                            <tr>
+                                <th scope="col">סטודנט</th>
+                                <th scope="col">בניין</th>
+                                <th scope="col">חדר</th>
+                                <th scope="col">סוג התקלה</th>
+                                <th scope="col">תיאור התקלה</th>
+                                <th scope="col">דחיפות</th>
+                                <th scope="col">תאריך דיווח</th>
+                                <th scope="col">הערות מנהל</th>
+                                <th scope="col">פעולות</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fault in open_fault_reports %}
+                                <tr>
+                                    <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
+                                    <td><span class="building-badge">{{ fault.room.building.building_name }}</span></td>
+                                    <td>{{ fault.room.room_number }}</td>
+                                    <td>{{ fault.fault_type }}</td>
+                                    <td>{{ fault.fault_description }}</td>
+                                    <td class="urgency-{{ fault.urgency }}" aria-label="דחיפות: {{ fault.urgency }}">{{ fault.urgency }}</td>
+                                    <td>{{ fault.created_at|date:"d/m/Y H:i" }}</td>
+                                    <td>
+                                        {{ fault.admin_note|default:"" }}
+                                        <form method="POST" action="{% url 'OM_faults' %}" class="comment-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                            <input type="hidden" name="action" value="comment">
+                                            <div class="comment-container">
+                                                <label for="admin-comment-{{ fault.id }}" class="visually-hidden">הערה לסטודנט</label>
+                                                <textarea id="admin-comment-{{ fault.id }}" name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)" aria-label="הערה לסטודנט"></textarea>
+                                            </div>
+                                            <button type="submit" class="comment-btn" aria-label="שמור הערה">שמור</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{% url 'OM_faults' %}" class="action-buttons">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                            <button type="submit" name="action" value="pending" class="btn btn-primary" aria-label="סמן תקלה בטיפול">סמן בטיפול</button>
+                                            <button type="submit" name="action" value="resolved" class="btn btn-success" aria-label="סגור דיווח תקלה">סגור דיווח</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination for open faults -->
+                {% if open_fault_reports.has_other_pages %}
+                    <nav class="pagination" aria-label="ניווט בין דפי תקלות פתוחות">
+                        {% if open_fault_reports.has_previous %}
+                            <a href="?open_page={{ open_fault_reports.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}" class="pagination-link" aria-label="עמוד קודם">&laquo; הקודם</a>
+                        {% else %}
+                            <span class="disabled" aria-hidden="true">&laquo; הקודם</span>
+                        {% endif %}
+
+                        {% for i in open_fault_reports.paginator.page_range %}
+                            {% if open_fault_reports.number == i %}
+                                <span class="current-page" aria-current="page">{{ i }}</span>
+                            {% else %}
+                                <a href="?open_page={{ i }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}" class="pagination-link" aria-label="עמוד {{ i }}">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if open_fault_reports.has_next %}
+                            <a href="?open_page={{ open_fault_reports.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}" class="pagination-link" aria-label="עמוד הבא">הבא &raquo;</a>
+                        {% else %}
+                            <span class="disabled" aria-hidden="true">הבא &raquo;</span>
+                        {% endif %}
+                    </nav>
+                {% endif %}
+            {% else %}
+                <div class="no-requests" role="alert">
+                    <p>אין תקלות פתוחות</p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+
+    <!-- תקלות בטיפול -->
+    <div id="pending-faults" class="tab-content" role="tabpanel" aria-labelledby="tab-pending-faults" hidden>
+        <section class="section" aria-labelledby="pending-faults-heading">
+            <h3 id="pending-faults-heading">תקלות בטיפול</h3>
+
+            <!-- Filter Section for Office Manager -->
+            <div class="filter-section" aria-labelledby="pending-filters-heading">
+                <h4 id="pending-filters-heading">סינון תקלות בטיפול</h4>
+                <form method="get" action="{% url 'OM_faults' %}#pending-faults" role="search">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="pending-building-filter">בניין:</label>
+                            <select id="pending-building-filter" name="pending_building" aria-label="בחר בניין">
+                                <option value="">כל הבניינים</option>
+                                {% for building in all_buildings %}
+                                    <option value="{{ building.id }}" {% if request.GET.pending_building == building.id|stringformat:"i" %}selected{% endif %}>
+                                        בניין {{ building.building_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="days-filter">ימים בטיפול:</label>
+                            <select id="days-filter" name="days" aria-label="בחר מספר ימים">
+                                <option value="">הכל</option>
+                                <option value="7" {% if request.GET.days == '7' %}selected{% endif %}>מעל 7 ימים</option>
+                                <option value="14" {% if request.GET.days == '14' %}selected{% endif %}>מעל 14 ימים</option>
+                                <option value="30" {% if request.GET.days == '30' %}selected{% endif %}>מעל 30 ימים</option>
+                            </select>
+                        </div>
+                        <div class="filter-buttons">
+                            <button type="submit" class="filter-button filter-apply" aria-label="החל סינון">החל סינון</button>
+                            <a href="{% url 'OM_faults' %}#pending-faults" class="filter-button filter-reset" role="button" aria-label="אפס סינון">אפס</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {% if pending_fault_reports %}
+                <div class="table-responsive">
+                    <table aria-label="רשימת תקלות בטיפול">
+                        <thead>
+                            <tr>
+                                <th scope="col">סטודנט</th>
+                                <th scope="col">בניין</th>
+                                <th scope="col">חדר</th>
+                                <th scope="col">סוג התקלה</th>
+                                <th scope="col">תיאור התקלה</th>
+                                <th scope="col">דחיפות</th>
+                                <th scope="col">תאריך דיווח</th>
+                                <th scope="col">עדכון אחרון</th>
+                                <th scope="col">הערות מנהל</th>
+                                <th scope="col">פעולות</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fault in pending_fault_reports %}
+                                <tr>
+                                    <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
+                                    <td><span class="building-badge">{{ fault.room.building.building_name }}</span></td>
+                                    <td>{{ fault.room.room_number }}</td>
+                                    <td>{{ fault.fault_type }}</td>
+                                    <td>{{ fault.fault_description }}</td>
+                                    <td class="urgency-{{ fault.urgency }}" aria-label="דחיפות: {{ fault.urgency }}">{{ fault.urgency }}</td>
+                                    <td>
+                                        {{ fault.created_at|date:"d/m/Y H:i" }}
+                                        <br>
+                                        <span class="days-elapsed" aria-label="זמן בטיפול: {{ fault.days_elapsed_text }}">(בטיפול {{ fault.days_elapsed_text }})</span>
+                                    </td>
+                                    <td>{{ fault.updated_at|date:"d/m/Y H:i" }}</td>
+                                    <td>
+                                        {{ fault.admin_note|default:"" }}
+                                        <form method="POST" action="{% url 'OM_faults' %}" class="comment-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                            <input type="hidden" name="action" value="comment">
+                                            <div class="comment-container">
+                                                <label for="pending-admin-comment-{{ fault.id }}" class="visually-hidden">הערה לסטודנט</label>
+                                                <textarea id="pending-admin-comment-{{ fault.id }}" name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)" aria-label="הערה לסטודנט"></textarea>
+                                            </div>
+                                            <button type="submit" class="comment-btn" aria-label="שמור הערה">שמור</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{% url 'OM_faults' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                            <button type="submit" name="action" value="resolved" class="btn btn-success" aria-label="סגור דיווח תקלה">סגור דיווח</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination for pending faults -->
+                {% if pending_fault_reports.has_other_pages %}
+                    <nav class="pagination" aria-label="ניווט בין דפי תקלות בטיפול">
+                        {% if pending_fault_reports.has_previous %}
+                            <a href="?pending_page={{ pending_fault_reports.previous_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults" class="pagination-link" aria-label="עמוד קודם">&laquo; הקודם</a>
+                        {% else %}
+                            <span class="disabled" aria-hidden="true">&laquo; הקודם</span>
+                        {% endif %}
+
+                        {% for i in pending_fault_reports.paginator.page_range %}
+                            {% if pending_fault_reports.number == i %}
+                                <span class="current-page" aria-current="page">{{ i }}</span>
+                            {% else %}
+                                <a href="?pending_page={{ i }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults" class="pagination-link" aria-label="עמוד {{ i }}">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if pending_fault_reports.has_next %}
+                            <a href="?pending_page={{ pending_fault_reports.next_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults" class="pagination-link" aria-label="עמוד הבא">הבא &raquo;</a>
+                        {% else %}
+                            <span class="disabled" aria-hidden="true">הבא &raquo;</span>
+                        {% endif %}
+                    </nav>
+                {% endif %}
+            {% else %}
+                <div class="no-requests" role="alert">
+                    <p>אין תקלות בטיפול</p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Tab navigation
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    content.hidden = true;
+                });
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const contentId = tab.getAttribute('aria-controls');
+                const content = document.getElementById(contentId);
+                content.classList.add('active');
+                content.hidden = false;
+
+                // Update ARIA attributes
+                tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+                tab.setAttribute('aria-selected', 'true');
+            });
+        });
+
+        // Check URL hash for initial tab
+        const hash = window.location.hash;
+        if (hash) {
+            const targetTab = document.querySelector(`[aria-controls="${hash.substring(1)}"]`);
+            if (targetTab) {
+                targetTab.click();
+            }
+        }
+    });
+</script>
+{% endblock %}

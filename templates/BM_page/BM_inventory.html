@@ -1,0 +1,768 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ניהול מלאי - DormitoriesPlus{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<style>
+    .inventory-actions {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-primary, .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary:hover, .btn-secondary:focus {
+        background-color: #5a6268;
+    }
+
+    .inventory-filters {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: end;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .inventory-list {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .status-summary {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    .status-badge.available {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .status-badge.in_use {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .status-badge.maintenance {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .status-badge.retired {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        margin-top: 1rem;
+    }
+
+    .inventory-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .inventory-table th,
+    .inventory-table td {
+        padding: 0.75rem;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .inventory-table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .btn-icon {
+        padding: 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #6c757d;
+        transition: color 0.3s ease;
+    }
+
+    .btn-icon:hover,
+    .btn-icon:focus {
+        color: #007bff;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 1.5rem;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: #dc3545;
+    }
+
+    .modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .status-summary {
+            flex-wrap: wrap;
+        }
+
+        .modal-content {
+            width: 95%;
+            margin: 5% auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>ניהול מלאי</h2>
+        <p>ברוך הבא, {{ user.first_name }} {{ user.last_name }}</p>
+    </div>
+
+    <div class="inventory-actions" role="region" aria-label="פעולות מלאי">
+        <div class="action-buttons">
+            <button type="button" 
+                    class="btn-primary" 
+                    onclick="showAddItemModal()"
+                    aria-label="הוסף פריט חדש">
+                <i class="fas fa-plus"></i>
+                הוסף פריט
+            </button>
+            <button type="button" 
+                    class="btn-secondary" 
+                    onclick="showInventoryReport()"
+                    aria-label="הצג דוח מלאי">
+                <i class="fas fa-file-alt"></i>
+                דוח מלאי
+            </button>
+        </div>
+    </div>
+
+    <div class="inventory-filters" role="region" aria-label="סינון מלאי">
+        <h3>סינון מלאי</h3>
+        <form id="filterForm" class="filter-form" role="search" aria-labelledby="filterFormTitle">
+            <div class="form-group">
+                <label for="category" id="category-label">קטגוריה:</label>
+                <select id="category" 
+                        name="category" 
+                        aria-labelledby="category-label">
+                    <option value="">כל הקטגוריות</option>
+                    <option value="electronics">אלקטרוניקה</option>
+                    <option value="furniture">ריהוט</option>
+                    <option value="kitchen">כלי מטבח</option>
+                    <option value="other">אחר</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status" id="status-label">סטטוס:</label>
+                <select id="status" 
+                        name="status" 
+                        aria-labelledby="status-label">
+                    <option value="">כל הסטטוסים</option>
+                    <option value="available">זמין</option>
+                    <option value="in_use">בשימוש</option>
+                    <option value="maintenance">בתיקון</option>
+                    <option value="retired">לא בשימוש</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="search" id="search-label">חיפוש:</label>
+                <input type="text" 
+                       id="search" 
+                       name="search" 
+                       placeholder="חיפוש לפי שם פריט או מספר סידורי"
+                       aria-labelledby="search-label">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" 
+                        class="btn-primary" 
+                        aria-label="סנן מלאי">
+                    סנן
+                </button>
+                <button type="reset" 
+                        class="btn-secondary" 
+                        aria-label="נקה סינון">
+                    נקה
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="inventory-list" role="region" aria-label="רשימת מלאי">
+        <div class="list-header">
+            <h3>רשימת מלאי</h3>
+            <div class="status-summary" role="status" aria-label="סיכום סטטוסים">
+                <span class="status-badge available" aria-label="זמין: {{ available_count }}">
+                    זמין: {{ available_count }}
+                </span>
+                <span class="status-badge in_use" aria-label="בשימוש: {{ in_use_count }}">
+                    בשימוש: {{ in_use_count }}
+                </span>
+                <span class="status-badge maintenance" aria-label="בתיקון: {{ maintenance_count }}">
+                    בתיקון: {{ maintenance_count }}
+                </span>
+                <span class="status-badge retired" aria-label="לא בשימוש: {{ retired_count }}">
+                    לא בשימוש: {{ retired_count }}
+                </span>
+            </div>
+        </div>
+
+        {% if inventory_items %}
+        <div class="table-responsive">
+            <table class="inventory-table" role="grid" aria-label="רשימת מלאי">
+                <thead>
+                    <tr>
+                        <th scope="col" role="columnheader">מספר סידורי</th>
+                        <th scope="col" role="columnheader">שם פריט</th>
+                        <th scope="col" role="columnheader">קטגוריה</th>
+                        <th scope="col" role="columnheader">סטטוס</th>
+                        <th scope="col" role="columnheader">מיקום</th>
+                        <th scope="col" role="columnheader">פעולות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory_items %}
+                    <tr role="row">
+                        <td role="cell">{{ item.serial_number }}</td>
+                        <td role="cell">{{ item.name }}</td>
+                        <td role="cell">{{ item.category }}</td>
+                        <td role="cell">
+                            <span class="status-badge {{ item.status }}" 
+                                  aria-label="סטטוס: {{ item.status }}">
+                                {{ item.status }}
+                            </span>
+                        </td>
+                        <td role="cell">{{ item.location }}</td>
+                        <td role="cell">
+                            <div class="action-buttons" role="group" aria-label="פעולות לפריט">
+                                <button type="button" 
+                                        class="btn-icon" 
+                                        onclick="showItemDetails('{{ item.id }}')"
+                                        aria-label="הצג פרטי פריט">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button type="button" 
+                                        class="btn-icon" 
+                                        onclick="showItemHistory('{{ item.id }}')"
+                                        aria-label="הצג היסטוריית פריט">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                                <button type="button" 
+                                        class="btn-icon" 
+                                        onclick="editItem('{{ item.id }}')"
+                                        aria-label="ערוך פריט">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="no-items">לא נמצאו פריטים במלאי</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Add Item Modal -->
+<div id="addItemModal" 
+     class="modal" 
+     role="dialog" 
+     aria-labelledby="addItemTitle" 
+     aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="addItemTitle">הוספת פריט חדש</h3>
+            <button type="button" 
+                    class="close-btn" 
+                    onclick="closeModal('addItemModal')"
+                    aria-label="סגור חלון">
+                &times;
+            </button>
+        </div>
+        <form id="addItemForm" class="modal-form" role="form" aria-labelledby="addItemTitle">
+            <div class="form-group">
+                <label for="itemName" id="itemName-label">שם פריט:</label>
+                <input type="text" 
+                       id="itemName" 
+                       name="name" 
+                       required 
+                       aria-labelledby="itemName-label">
+            </div>
+
+            <div class="form-group">
+                <label for="itemCategory" id="itemCategory-label">קטגוריה:</label>
+                <select id="itemCategory" 
+                        name="category" 
+                        required 
+                        aria-labelledby="itemCategory-label">
+                    <option value="">בחר קטגוריה</option>
+                    <option value="electronics">אלקטרוניקה</option>
+                    <option value="furniture">ריהוט</option>
+                    <option value="kitchen">כלי מטבח</option>
+                    <option value="other">אחר</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="itemSerial" id="itemSerial-label">מספר סידורי:</label>
+                <input type="text" 
+                       id="itemSerial" 
+                       name="serial_number" 
+                       required 
+                       aria-labelledby="itemSerial-label">
+            </div>
+
+            <div class="form-group">
+                <label for="itemLocation" id="itemLocation-label">מיקום:</label>
+                <input type="text" 
+                       id="itemLocation" 
+                       name="location" 
+                       required 
+                       aria-labelledby="itemLocation-label">
+            </div>
+
+            <div class="form-group">
+                <label for="itemNotes" id="itemNotes-label">הערות:</label>
+                <textarea id="itemNotes" 
+                          name="notes" 
+                          rows="3" 
+                          aria-labelledby="itemNotes-label"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" 
+                        class="btn-primary" 
+                        aria-label="הוסף פריט">
+                    הוסף
+                </button>
+                <button type="button" 
+                        class="btn-secondary" 
+                        onclick="closeModal('addItemModal')"
+                        aria-label="ביטול">
+                    ביטול
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Item Details Modal -->
+<div id="itemDetailsModal" 
+     class="modal" 
+     role="dialog" 
+     aria-labelledby="itemDetailsTitle" 
+     aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="itemDetailsTitle">פרטי פריט</h3>
+            <button type="button" 
+                    class="close-btn" 
+                    onclick="closeModal('itemDetailsModal')"
+                    aria-label="סגור חלון">
+                &times;
+            </button>
+        </div>
+        <div class="item-details" role="region" aria-label="פרטי פריט">
+            <dl>
+                <dt>מספר סידורי:</dt>
+                <dd id="detailsSerialNumber"></dd>
+                
+                <dt>שם פריט:</dt>
+                <dd id="detailsName"></dd>
+                
+                <dt>קטגוריה:</dt>
+                <dd id="detailsCategory"></dd>
+                
+                <dt>סטטוס:</dt>
+                <dd id="detailsStatus"></dd>
+                
+                <dt>מיקום:</dt>
+                <dd id="detailsLocation"></dd>
+                
+                <dt>תאריך הוספה:</dt>
+                <dd id="detailsAddedDate"></dd>
+                
+                <dt>הערות:</dt>
+                <dd id="detailsNotes"></dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <button type="button" 
+                    class="btn-secondary" 
+                    onclick="closeModal('itemDetailsModal')"
+                    aria-label="סגור">
+                סגור
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Item History Modal -->
+<div id="itemHistoryModal" 
+     class="modal" 
+     role="dialog" 
+     aria-labelledby="itemHistoryTitle" 
+     aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="itemHistoryTitle">היסטוריית פריט</h3>
+            <button type="button" 
+                    class="close-btn" 
+                    onclick="closeModal('itemHistoryModal')"
+                    aria-label="סגור חלון">
+                &times;
+            </button>
+        </div>
+        <div class="item-history" role="region" aria-label="היסטוריית פריט">
+            <div id="historyList" class="history-list"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" 
+                    class="btn-secondary" 
+                    onclick="closeModal('itemHistoryModal')"
+                    aria-label="סגור">
+                סגור
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Filter form handling
+    document.getElementById('filterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const params = new URLSearchParams(formData);
+        
+        fetch(`/api/inventory?${params.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                updateInventoryList(data.items);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בטעינת המלאי');
+            });
+    });
+
+    // Update inventory list
+    function updateInventoryList(items) {
+        const tbody = document.querySelector('.inventory-table tbody');
+        tbody.innerHTML = '';
+        
+        if (items.length === 0) {
+            document.querySelector('.no-items').style.display = 'block';
+            return;
+        }
+        
+        document.querySelector('.no-items').style.display = 'none';
+        
+        items.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.setAttribute('role', 'row');
+            
+            tr.innerHTML = `
+                <td role="cell">${item.serial_number}</td>
+                <td role="cell">${item.name}</td>
+                <td role="cell">${item.category}</td>
+                <td role="cell">
+                    <span class="status-badge ${item.status}" aria-label="סטטוס: ${item.status}">
+                        ${item.status}
+                    </span>
+                </td>
+                <td role="cell">${item.location}</td>
+                <td role="cell">
+                    <div class="action-buttons" role="group" aria-label="פעולות לפריט">
+                        <button type="button" 
+                                class="btn-icon" 
+                                onclick="showItemDetails('${item.id}')"
+                                aria-label="הצג פרטי פריט">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button type="button" 
+                                class="btn-icon" 
+                                onclick="showItemHistory('${item.id}')"
+                                aria-label="הצג היסטוריית פריט">
+                            <i class="fas fa-history"></i>
+                        </button>
+                        <button type="button" 
+                                class="btn-icon" 
+                                onclick="editItem('${item.id}')"
+                                aria-label="ערוך פריט">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Modal handling
+    function showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Add item
+    function showAddItemModal() {
+        document.getElementById('addItemForm').reset();
+        showModal('addItemModal');
+    }
+
+    document.getElementById('addItemForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch('/api/inventory', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('הפריט נוסף בהצלחה');
+                closeModal('addItemModal');
+                window.location.reload();
+            } else {
+                alert('אירעה שגיאה בהוספת הפריט');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('אירעה שגיאה בהוספת הפריט');
+        });
+    });
+
+    // Item details
+    function showItemDetails(itemId) {
+        fetch(`/api/inventory/${itemId}`)
+            .then(response => response.json())
+            .then(item => {
+                document.getElementById('detailsSerialNumber').textContent = item.serial_number;
+                document.getElementById('detailsName').textContent = item.name;
+                document.getElementById('detailsCategory').textContent = item.category;
+                document.getElementById('detailsStatus').textContent = item.status;
+                document.getElementById('detailsLocation').textContent = item.location;
+                document.getElementById('detailsAddedDate').textContent = 
+                    new Date(item.added_date).toLocaleDateString();
+                document.getElementById('detailsNotes').textContent = item.notes || 'אין הערות';
+                
+                showModal('itemDetailsModal');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בטעינת פרטי הפריט');
+            });
+    }
+
+    // Item history
+    function showItemHistory(itemId) {
+        fetch(`/api/inventory/${itemId}/history`)
+            .then(response => response.json())
+            .then(history => {
+                const historyList = document.getElementById('historyList');
+                historyList.innerHTML = '';
+                
+                if (history.length === 0) {
+                    historyList.innerHTML = '<p class="no-history">אין היסטוריה לפריט זה</p>';
+                    return;
+                }
+                
+                history.forEach(entry => {
+                    const div = document.createElement('div');
+                    div.className = 'history-item';
+                    div.innerHTML = `
+                        <div class="history-date">${new Date(entry.date).toLocaleString()}</div>
+                        <div class="history-action">${entry.action}</div>
+                        <div class="history-details">${entry.details}</div>
+                    `;
+                    historyList.appendChild(div);
+                });
+                
+                showModal('itemHistoryModal');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בטעינת היסטוריית הפריט');
+            });
+    }
+
+    // Edit item
+    function editItem(itemId) {
+        // Implement edit functionality
+        alert('פונקציונליות עריכת פריט תיושם בקרוב');
+    }
+
+    // Show inventory report
+    function showInventoryReport() {
+        // Implement report functionality
+        alert('פונקציונליות דוח מלאי תיושם בקרוב');
+    }
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}
