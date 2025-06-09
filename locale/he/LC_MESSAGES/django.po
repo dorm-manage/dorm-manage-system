@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: DormitoriesPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-19 12:00+0000\n"
+"PO-Revision-Date: 2024-03-19 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Hebrew\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "DormitoriesPlus"
+msgstr "דורמיטוריז פלוס"
+
+msgid "Accessibility Tools"
+msgstr "כלי נגישות"
+
+msgid "Change text size"
+msgstr "שינוי גודל טקסט"
+
+msgid "Text Size"
+msgstr "גודל טקסט"
+
+msgid "Change contrast"
+msgstr "שינוי ניגודיות"
+
+msgid "Contrast"
+msgstr "ניגודיות"
+
+msgid "Black and white mode"
+msgstr "מצב שחור לבן"
+
+msgid "Black & White"
+msgstr "שחור לבן"
+
+msgid "Reset accessibility settings"
+msgstr "איפוס הגדרות נגישות"
+
+msgid "Reset"
+msgstr "איפוס"
+
+msgid "Skip to main content"
+msgstr "דלג לתוכן הראשי"
+
+msgid "Main navigation"
+msgstr "ניווט ראשי"
+
+msgid "All rights reserved"
+msgstr "כל הזכויות שמורות" 

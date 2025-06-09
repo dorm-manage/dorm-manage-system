@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: DormitoriesPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-19 12:00+0000\n"
+"PO-Revision-Date: 2024-03-19 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "דורמיטוריז פלוס"
+msgstr "DormitoriesPlus"
+
+msgid "כלי נגישות"
+msgstr "Accessibility Tools"
+
+msgid "שינוי גודל טקסט"
+msgstr "Change text size"
+
+msgid "גודל טקסט"
+msgstr "Text Size"
+
+msgid "שינוי ניגודיות"
+msgstr "Change contrast"
+
+msgid "ניגודיות"
+msgstr "Contrast"
+
+msgid "מצב שחור לבן"
+msgstr "Black and white mode"
+
+msgid "שחור לבן"
+msgstr "Black & White"
+
+msgid "איפוס הגדרות נגישות"
+msgstr "Reset accessibility settings"
+
+msgid "איפוס"
+msgstr "Reset"
+
+msgid "דלג לתוכן הראשי"
+msgstr "Skip to main content"
+
+msgid "ניווט ראשי"
+msgstr "Main navigation"
+
+msgid "כל הזכויות שמורות"
+msgstr "All rights reserved"
+
+msgid "בחירת משתמש - DormitoriesPlus"
+msgstr "User Selection - DormitoriesPlus"
+
+msgid "בחירת סוג משתמש"
+msgstr "Select User Type"
+
+msgid "ברוכים הבאים ל-DormitoriesPlus"
+msgstr "Welcome to DormitoriesPlus"
+
+msgid "בחר את סוג המשתמש שלך להמשך:"
+msgstr "Select your user type to continue:"
+
+msgid "מנהל מערכת"
+msgstr "System Manager"
+
+msgid "אחראי בניין"
+msgstr "Building Manager"
+
+msgid "סטודנט"
+msgstr "Student" 

@@ -1,0 +1,145 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: DormitoriesPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-19 12:00+0000\n"
+"PO-Revision-Date: 2024-03-19 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+msgid "דורמיטוריז פלוס"
+msgstr "دورميتوريز بلس"
+
+msgid "כלי נגישות"
+msgstr "أدوات إمكانية الوصول"
+
+msgid "שינוי גודל טקסט"
+msgstr "تغيير حجم النص"
+
+msgid "גודל טקסט"
+msgstr "حجم النص"
+
+msgid "שינוי ניגודיות"
+msgstr "تغيير التباين"
+
+msgid "ניגודיות"
+msgstr "التباين"
+
+msgid "מצב שחור לבן"
+msgstr "الوضع أبيض وأسود"
+
+msgid "שחור לבן"
+msgstr "أبيض وأسود"
+
+msgid "איפוס הגדרות נגישות"
+msgstr "إعادة تعيين إعدادات إمكانية الوصول"
+
+msgid "איפוס"
+msgstr "إعادة تعيين"
+
+msgid "התחברות - DormitoriesPlus"
+msgstr "تسجيل الدخول - دورميتوريز بلس"
+
+msgid "התחברות ל-DormitoriesPlus"
+msgstr "تسجيل الدخول إلى دورميتوريز بلس"
+
+msgid "טופס התחברות"
+msgstr "نموذج تسجيل الدخول"
+
+msgid "שם משתמש:"
+msgstr "اسم المستخدم:"
+
+msgid "סיסמה:"
+msgstr "كلمة المرور:"
+
+msgid "כפתור התחברות"
+msgstr "زر تسجيل الدخول"
+
+msgid "התחבר"
+msgstr "تسجيل الدخول"
+
+msgid "אנא מלא את כל השדות הנדרשים"
+msgstr "يرجى ملء جميع الحقول المطلوبة"
+
+msgid "DormitoriesPlus - עמוד ראשי למנהל המערכת"
+msgstr "دورميتوريز بلس - الصفحة الرئيسية لمدير النظام"
+
+msgid "ברוך הבא"
+msgstr "مرحباً بك"
+
+msgid "עמוד ניהול ראשי למערכת DormitoriesPlus"
+msgstr "الصفحة الرئيسية لإدارة نظام دورميتوريز بلس"
+
+msgid "סטטיסטיקות מערכת"
+msgstr "إحصائيات النظام"
+
+msgid "כרגע נמצאים"
+msgstr "حالياً يوجد"
+
+msgid "מספר סטודנטים"
+msgstr "عدد الطلاب"
+
+msgid "סטודנטים במעונות"
+msgstr "طلاب في السكن"
+
+msgid "תפוסת חדרים היא"
+msgstr "نسبة إشغال الغرف هي"
+
+msgid "אחוז תפוסה"
+msgstr "نسبة الإشغال"
+
+msgid "מהקיבולת המלאה"
+msgstr "من السعة الكاملة"
+
+msgid "ישנם כרגע"
+msgstr "حالياً يوجد"
+
+msgid "מספר פריטים באיחור"
+msgstr "عدد العناصر المتأخرة"
+
+msgid "פריטים באיחור"
+msgstr "عناصر متأخرة"
+
+msgid "מספר תקלות פתוחות"
+msgstr "عدد الأعطال المفتوحة"
+
+msgid "תקלות פתוחות לטיפול"
+msgstr "أعطال مفتوحة للعلاج"
+
+msgid "ניהול ציוד ותקלות"
+msgstr "إدارة المعدات والأعطال"
+
+msgid "ניהול השאלות ציוד ודיווחי תקלות בכל הבניינים"
+msgstr "إدارة طلبات المعدات وتقارير الأعطال في جميع المباني"
+
+msgid "ניווט ניהול ציוד ותקלות"
+msgstr "تنقل إدارة المعدات والأعطال"
+
+msgid "ניהול מלאי"
+msgstr "إدارة المخزون"
+
+msgid "ניהול השאלות"
+msgstr "إدارة الطلبات"
+
+msgid "ניהול תקלות"
+msgstr "إدارة الأعطال"
+
+msgid "ניהול אנשים"
+msgstr "إدارة الأشخاص"
+
+msgid "ניהול שיבוץ סטודנטים ואחראי בניין"
+msgstr "إدارة توزيع الطلاب ومسؤولي المباني"
+
+msgid "ניווט ניהול אנשים"
+msgstr "تنقل إدارة الأشخاص"
+
+msgid "ניהול סטודנטים"
+msgstr "إدارة الطلاب"
+
+msgid "ניהול אחראי בניין"
+msgstr "إدارة مسؤولي المباني" 

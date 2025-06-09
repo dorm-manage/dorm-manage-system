@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}DormitoriesPlus - עמוד ראשי למנהל המערכת{% endblock %}
+{% block title %}{% trans "DormitoriesPlus - עמוד ראשי למנהל המערכת" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
@@ -75,54 +76,54 @@
 {% block content %}
 <div class="container">
     <section class="hero" aria-labelledby="welcome-heading">
-        <h2 id="welcome-heading">ברוך הבא, {{ user.first_name }} {{ user.last_name }}</h2>
-        <p>עמוד ניהול ראשי למערכת DormitoriesPlus</p>
+        <h2 id="welcome-heading">{% trans "ברוך הבא" %}, {{ user.first_name }} {{ user.last_name }}</h2>
+        <p>{% trans "עמוד ניהול ראשי למערכת DormitoriesPlus" %}</p>
     </section>
 
     <!-- סטטיסטיקות מהירות -->
     <section class="section" aria-labelledby="stats-heading">
-        <h3 id="stats-heading">סטטיסטיקות מערכת</h3>
+        <h3 id="stats-heading">{% trans "סטטיסטיקות מערכת" %}</h3>
         <div class="stats-container" role="list">
             <div class="stat-card" role="listitem">
-                <div>כרגע נמצאים</div>
-                <div class="stat-value" aria-label="מספר סטודנטים">{{ total_students }}</div>
-                <div>סטודנטים במעונות</div>
+                <div>{% trans "כרגע נמצאים" %}</div>
+                <div class="stat-value" aria-label="{% trans 'מספר סטודנטים' %}">{{ total_students }}</div>
+                <div>{% trans "סטודנטים במעונות" %}</div>
             </div>
             <div class="stat-card" role="listitem">
-                <div>תפוסת חדרים היא</div>
-                <div class="stat-value" aria-label="אחוז תפוסה">{{ occupancy_rate }}%</div>
-                <div>מהקיבולת המלאה</div>
+                <div>{% trans "תפוסת חדרים היא" %}</div>
+                <div class="stat-value" aria-label="{% trans 'אחוז תפוסה' %}">{{ occupancy_rate }}%</div>
+                <div>{% trans "מהקיבולת המלאה" %}</div>
             </div>
             <div class="stat-card" role="listitem">
-                <div>ישנם כרגע</div>
-                <div class="stat-value" aria-label="מספר פריטים באיחור">{{ late_items }}</div>
-                <div>פריטים באיחור</div>
+                <div>{% trans "ישנם כרגע" %}</div>
+                <div class="stat-value" aria-label="{% trans 'מספר פריטים באיחור' %}">{{ late_items }}</div>
+                <div>{% trans "פריטים באיחור" %}</div>
             </div>
             <div class="stat-card" role="listitem">
-                <div>ישנם כרגע</div>
-                <div class="stat-value" aria-label="מספר תקלות פתוחות">{{ open_faults }}</div>
-                <div>תקלות פתוחות לטיפול</div>
+                <div>{% trans "ישנם כרגע" %}</div>
+                <div class="stat-value" aria-label="{% trans 'מספר תקלות פתוחות' %}">{{ open_faults }}</div>
+                <div>{% trans "תקלות פתוחות לטיפול" %}</div>
             </div>
         </div>
     </section>
 
     <section class="section" aria-labelledby="equipment-heading">
-        <h3 id="equipment-heading">ניהול ציוד ותקלות</h3>
-        <p>ניהול השאלות ציוד ודיווחי תקלות בכל הבניינים</p>
+        <h3 id="equipment-heading">{% trans "ניהול ציוד ותקלות" %}</h3>
+        <p>{% trans "ניהול השאלות ציוד ודיווחי תקלות בכל הבניינים" %}</p>
 
-        <nav class="links" aria-label="ניווט ניהול ציוד ותקלות">
-            <a href="{% url 'OM_inventory' %}" class="button" role="button" aria-label="ניהול מלאי">ניהול מלאי</a>
-            <a href="{% url 'OM_loan_requests' %}" class="button" role="button" aria-label="ניהול השאלות">ניהול השאלות</a>
-            <a href="{% url 'OM_faults' %}" class="button" role="button" aria-label="ניהול תקלות">ניהול תקלות</a>
+        <nav class="links" aria-label="{% trans 'ניווט ניהול ציוד ותקלות' %}">
+            <a href="{% url 'OM_inventory' %}" class="button" role="button" aria-label="{% trans 'ניהול מלאי' %}">{% trans "ניהול מלאי" %}</a>
+            <a href="{% url 'OM_loan_requests' %}" class="button" role="button" aria-label="{% trans 'ניהול השאלות' %}">{% trans "ניהול השאלות" %}</a>
+            <a href="{% url 'OM_faults' %}" class="button" role="button" aria-label="{% trans 'ניהול תקלות' %}">{% trans "ניהול תקלות" %}</a>
         </nav>
     </section>
 
     <section class="section" aria-labelledby="people-heading">
-        <h3 id="people-heading">ניהול אנשים</h3>
-        <p>ניהול שיבוץ סטודנטים ואחראי בניין</p>
-        <nav class="links" aria-label="ניווט ניהול אנשים">
-            <a href="{% url 'OM_manage_students' %}" class="button" role="button" aria-label="ניהול סטודנטים">ניהול סטודנטים</a>
-            <a href="{% url 'OM_manage_BM' %}" class="button" role="button" aria-label="ניהול אחראי בניין">ניהול אחראי בניין</a>
+        <h3 id="people-heading">{% trans "ניהול אנשים" %}</h3>
+        <p>{% trans "ניהול שיבוץ סטודנטים ואחראי בניין" %}</p>
+        <nav class="links" aria-label="{% trans 'ניווט ניהול אנשים' %}">
+            <a href="{% url 'OM_manage_students' %}" class="button" role="button" aria-label="{% trans 'ניהול סטודנטים' %}">{% trans "ניהול סטודנטים" %}</a>
+            <a href="{% url 'OM_manage_BM' %}" class="button" role="button" aria-label="{% trans 'ניהול אחראי בניין' %}">{% trans "ניהול אחראי בניין" %}</a>
         </nav>
     </section>
 </div>

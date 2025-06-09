@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}התחברות - DormitoriesPlus{% endblock %}
+{% block title %}{% trans "התחברות - DormitoriesPlus" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
@@ -91,44 +92,44 @@
 {% endblock %}
 
 {% block content %}
-<div class="accessibility-toolbar" role="toolbar" aria-label="כלי נגישות">
-    <button onclick="toggleTextSize()" aria-label="שינוי גודל טקסט">
+<div class="accessibility-toolbar" role="toolbar" aria-label="{% trans 'כלי נגישות' %}">
+    <button onclick="toggleTextSize()" aria-label="{% trans 'שינוי גודל טקסט' %}">
         <i class="fas fa-text-height" aria-hidden="true"></i>
-        גודל טקסט
+        {% trans "גודל טקסט" %}
     </button>
-    <button onclick="toggleContrast()" aria-label="שינוי ניגודיות">
+    <button onclick="toggleContrast()" aria-label="{% trans 'שינוי ניגודיות' %}">
         <i class="fas fa-adjust" aria-hidden="true"></i>
-        ניגודיות
+        {% trans "ניגודיות" %}
     </button>
-    <button onclick="toggleGrayscale()" aria-label="מצב שחור לבן">
+    <button onclick="toggleGrayscale()" aria-label="{% trans 'מצב שחור לבן' %}">
         <i class="fas fa-moon" aria-hidden="true"></i>
-        שחור לבן
+        {% trans "שחור לבן" %}
     </button>
-    <button onclick="resetAccessibility()" aria-label="איפוס הגדרות נגישות">
+    <button onclick="resetAccessibility()" aria-label="{% trans 'איפוס הגדרות נגישות' %}">
         <i class="fas fa-undo" aria-hidden="true"></i>
-        איפוס
+        {% trans "איפוס" %}
     </button>
 </div>
 
-<div class="login-container" role="form" aria-label="טופס התחברות">
-    <h2>התחברות ל-DormitoriesPlus</h2>
-    <form action="{% url 'login_page' %}" method="post" aria-label="טופס התחברות">
+<div class="login-container" role="form" aria-label="{% trans 'טופס התחברות' %}">
+    <h2>{% trans "התחברות ל-DormitoriesPlus" %}</h2>
+    <form action="{% url 'login_page' %}" method="post" aria-label="{% trans 'טופס התחברות' %}">
         {% csrf_token %}
         <div class="form-group">
-            <label for="username" id="username-label">שם משתמש:</label>
+            <label for="username" id="username-label">{% trans "שם משתמש:" %}</label>
             <input type="email" id="username" name="username" required
                    aria-labelledby="username-label"
                    aria-required="true"
                    aria-invalid="false">
         </div>
         <div class="form-group">
-            <label for="password" id="password-label">סיסמה:</label>
+            <label for="password" id="password-label">{% trans "סיסמה:" %}</label>
             <input type="password" id="password" name="password" required
                    aria-labelledby="password-label"
                    aria-required="true"
                    aria-invalid="false">
         </div>
-        <button type="submit" aria-label="כפתור התחברות">התחבר</button>
+        <button type="submit" aria-label="{% trans 'כפתור התחברות' %}">{% trans "התחבר" %}</button>
     </form>
 </div>
 {% endblock %}
@@ -157,7 +158,7 @@
 
         if (!isValid) {
             e.preventDefault();
-            alert('אנא מלא את כל השדות הנדרשים');
+            alert('{% trans "אנא מלא את כל השדות הנדרשים" %}');
         }
     });
 

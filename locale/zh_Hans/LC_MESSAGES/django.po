@@ -1,0 +1,145 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: DormitoriesPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-19 12:00+0000\n"
+"PO-Revision-Date: 2024-03-19 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Chinese (Simplified)\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "דורמיטוריז פלוס"
+msgstr "宿舍管理系统"
+
+msgid "כלי נגישות"
+msgstr "辅助功能工具"
+
+msgid "שינוי גודל טקסט"
+msgstr "更改文字大小"
+
+msgid "גודל טקסט"
+msgstr "文字大小"
+
+msgid "שינוי ניגודיות"
+msgstr "更改对比度"
+
+msgid "ניגודיות"
+msgstr "对比度"
+
+msgid "מצב שחור לבן"
+msgstr "黑白模式"
+
+msgid "שחור לבן"
+msgstr "黑白"
+
+msgid "איפוס הגדרות נגישות"
+msgstr "重置辅助功能设置"
+
+msgid "איפוס"
+msgstr "重置"
+
+msgid "התחברות - DormitoriesPlus"
+msgstr "登录 - 宿舍管理系统"
+
+msgid "התחברות ל-DormitoriesPlus"
+msgstr "登录宿舍管理系统"
+
+msgid "טופס התחברות"
+msgstr "登录表单"
+
+msgid "שם משתמש:"
+msgstr "用户名："
+
+msgid "סיסמה:"
+msgstr "密码："
+
+msgid "כפתור התחברות"
+msgstr "登录按钮"
+
+msgid "התחבר"
+msgstr "登录"
+
+msgid "אנא מלא את כל השדות הנדרשים"
+msgstr "请填写所有必填字段"
+
+msgid "DormitoriesPlus - עמוד ראשי למנהל המערכת"
+msgstr "宿舍管理系统 - 系统管理员主页"
+
+msgid "ברוך הבא"
+msgstr "欢迎"
+
+msgid "עמוד ניהול ראשי למערכת DormitoriesPlus"
+msgstr "宿舍管理系统主管理页面"
+
+msgid "סטטיסטיקות מערכת"
+msgstr "系统统计"
+
+msgid "כרגע נמצאים"
+msgstr "当前有"
+
+msgid "מספר סטודנטים"
+msgstr "学生人数"
+
+msgid "סטודנטים במעונות"
+msgstr "宿舍学生"
+
+msgid "תפוסת חדרים היא"
+msgstr "房间入住率为"
+
+msgid "אחוז תפוסה"
+msgstr "入住率"
+
+msgid "מהקיבולת המלאה"
+msgstr "总容量"
+
+msgid "ישנם כרגע"
+msgstr "当前有"
+
+msgid "מספר פריטים באיחור"
+msgstr "逾期物品数量"
+
+msgid "פריטים באיחור"
+msgstr "逾期物品"
+
+msgid "מספר תקלות פתוחות"
+msgstr "未解决故障数量"
+
+msgid "תקלות פתוחות לטיפול"
+msgstr "待处理故障"
+
+msgid "ניהול ציוד ותקלות"
+msgstr "设备和故障管理"
+
+msgid "ניהול השאלות ציוד ודיווחי תקלות בכל הבניינים"
+msgstr "管理所有建筑物的设备借用和故障报告"
+
+msgid "ניווט ניהול ציוד ותקלות"
+msgstr "设备和故障管理导航"
+
+msgid "ניהול מלאי"
+msgstr "库存管理"
+
+msgid "ניהול השאלות"
+msgstr "借用管理"
+
+msgid "ניהול תקלות"
+msgstr "故障管理"
+
+msgid "ניהול אנשים"
+msgstr "人员管理"
+
+msgid "ניהול שיבוץ סטודנטים ואחראי בניין"
+msgstr "管理学生分配和楼栋负责人"
+
+msgid "ניווט ניהול אנשים"
+msgstr "人员管理导航"
+
+msgid "ניהול סטודנטים"
+msgstr "学生管理"
+
+msgid "ניהול אחראי בניין"
+msgstr "楼栋负责人管理" 
