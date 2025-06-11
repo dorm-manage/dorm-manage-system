@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}דף בית - DormitoriesPlus{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<style>
+    .hero {
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .hero h2 {
+        color: #2c3e50;
+        font-size: 2rem;
+    }
+    .links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+    .links a {
+        padding: 0.75rem 1.5rem;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+    .links a:hover {
+        background-color: #2980b9;
+    }
+    .tab-container {
+        margin: 2rem 0;
+    }
+    .empty-table {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+    }
+    .comment-box {
+        background-color: #f8f9fa;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+    .status-pending {
+        color: #856404;
+    }
+    .status-rejected {
+        color: #721c24;
+    }
+    .due-soon {
+        background-color: #fff3cd;
+    }
+    .overdue {
+        background-color: #f8d7da;
+    }
+    .action-btn {
+        padding: 0.25rem 0.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h2>שלום, {{ user.first_name }}!</h2>
+</div>
+
+<div class="links">
+    <a href="{% url 'application' %}">השאלת ציוד</a>
+    <a href="{% url 'faults' %}">דיווח תקלות</a>
+    <a href="{% url 'connect_us' %}">צור קשר</a>
+</div>
+
+<div class="tab-container">
+    <div class="tabs">
+        <div class="tab active" onclick="openTab(event, 'loan-requests')">בקשות השאלת ציוד</div>
+        <div class="tab" onclick="openTab(event, 'approved-requests')">בקשות מאושרות</div>
+    </div>
+
+    <!-- בקשות השאלת ציוד ממתינות -->
+    <div id="loan-requests" class="tab-content active card">
+        <h3>בקשות השאלת ציוד ממתינות</h3>
+        {% if pending_loan_requests %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>פריט</th>
+                        <th>תאריך בקשה</th>
+                        <th>חדר</th>
+                        <th>הערות</th>
+                        <th>סטטוס</th>
+                        <th>פעולות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for request in pending_loan_requests %}
+                    <tr>
+                        <td>{{ request.item.inventory.item_name }}</td>
+                        <td>{{ request.created_at|date:"d/m/Y H:i" }}</td>
+                        <td>{{ request.room.room_number }}</td>
+                        <td>
+                            {{ request.note|default:""}}
+                            {% if request.admin_note %}
+                                <div class="comment-box">
+                                    <strong>הערת מנהל:</strong> {{ request.admin_note }}
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td class="status-{{ request.status }}">
+                            {% if request.status == 'pending' %}ממתין לאישור{% endif %}
+                            {% if request.status == 'rejected' %}נדחה{% endif %}
+                        </td>
+                        <td>
+                            {% if request.status == 'rejected' %}
+                                <form method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                                    <button type="submit" name="delete_request" class="action-btn delete-btn">מחק</button>
+                                </form>
+                            {% else %}
+                                &nbsp;
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination for pending loan requests -->
+            {% if pending_loan_requests.has_other_pages %}
+                <div class="pagination">
+                    {% if pending_loan_requests.has_previous %}
+                        <a href="?pending_page=1">&laquo; ראשון</a>
+                        <a href="?pending_page={{ pending_loan_requests.previous_page_number }}">הקודם</a>
+                    {% else %}
+                        <span class="disabled">&laquo; ראשון</span>
+                        <span class="disabled">הקודם</span>
+                    {% endif %}
+
+                    <span class="current">
+                        עמוד {{ pending_loan_requests.number }} מתוך {{ pending_loan_requests.paginator.num_pages }}
+                    </span>
+
+                    {% if pending_loan_requests.has_next %}
+                        <a href="?pending_page={{ pending_loan_requests.next_page_number }}">הבא</a>
+                        <a href="?pending_page={{ pending_loan_requests.paginator.num_pages }}">אחרון &raquo;</a>
+                    {% else %}
+                        <span class="disabled">הבא</span>
+                        <span class="disabled">אחרון &raquo;</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="empty-table">אין בקשות השאלה ממתינות</div>
+        {% endif %}
+    </div>
+
+    <!-- בקשות השאלה מאושרות -->
+    <div id="approved-requests" class="tab-content card">
+        <h3>בקשות השאלת ציוד מאושרות</h3>
+        {% if approved_requests %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>פריט</th>
+                        <th>תאריך בקשה</th>
+                        <th>תאריך אישור</th>
+                        <th>תאריך החזרה</th>
+                        <th>חדר</th>
+                        <th>הערות</th>
+                        <th>הערות מנהל</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in approved_requests %}
+                        <tr{% if request.is_due_soon %} class="due-soon"{% elif request.is_overdue %} class="overdue"{% endif %}>
+                            <td>{{ request.item.inventory.item_name }}</td>
+                            <td>{{ request.created_at|date:"d/m/Y" }}</td>
+                            <td>{{ request.updated_at|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if request.return_date %}
+                                    {{ request.return_date|date:"d/m/Y" }}
+                                    {% if request.is_due_soon %}
+                                        <br><span style="color: #856404; font-weight: bold;">(נותרו פחות מ-7 ימים)</span>
+                                    {% elif request.is_overdue %}
+                                        <br><span style="color: #721c24; font-weight: bold;">(באיחור)</span>
+                                    {% else %}
+                                        <br><span>({{ request.days_remaining_text }})</span>
+                                    {% endif %}
+                                {% else %}
+                                    לא צוין
+                                {% endif %}
+                            </td>
+                            <td>{{ request.room.room_number }}</td>
+                            <td>{{ request.note|default:"-" }}</td>
+                            <td>{{ request.admin_note|default:"-" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination for approved requests -->
+            {% if approved_requests.has_other_pages %}
+                <div class="pagination">
+                    {% if approved_requests.has_previous %}
+                        <a href="?approved_page=1">&laquo; ראשון</a>
+                        <a href="?approved_page={{ approved_requests.previous_page_number }}">הקודם</a>
+                    {% else %}
+                        <span class="disabled">&laquo; ראשון</span>
+                        <span class="disabled">הקודם</span>
+                    {% endif %}
+
+                    <span class="current">
+                        עמוד {{ approved_requests.number }} מתוך {{ approved_requests.paginator.num_pages }}
+                    </span>
+
+                    {% if approved_requests.has_next %}
+                        <a href="?approved_page={{ approved_requests.next_page_number }}">הבא</a>
+                        <a href="?approved_page={{ approved_requests.paginator.num_pages }}">אחרון &raquo;</a>
+                    {% else %}
+                        <span class="disabled">הבא</span>
+                        <span class="disabled">אחרון &raquo;</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="empty-table">אין בקשות השאלה מאושרות</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+{% endblock %}

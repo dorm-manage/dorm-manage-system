@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}צור קשר - DormitoriesPlus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .hero h2 {
+        color: #2c3e50;
+        font-size: 2rem;
+    }
+    .contact-info {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    .contact-info select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    .contact-info select:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+    }
+    .contact-info p {
+        margin: 0.5rem 0;
+        color: #2c3e50;
+    }
+    .back-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #95a5a6;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+    .back-button:hover {
+        background-color: #7f8c8d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h2>לא מצאתם את מה שחיפשתם? צרו קשר!</h2>
+</div>
+
+<div class="contact-info">
+    <p>בחרו בניין כדי לקבל פרטי איש קשר:</p>
+    <select id="buildingSelector">
+        <option value="">בחר בניין</option>
+        <option value="1">בניין 1</option>
+        <option value="2">בניין 2</option>
+        <option value="3">בניין 3</option>
+        <option value="4">בניין 4</option>
+    </select>
+    <div id="contactDetails" style="margin-top: 20px;">
+        <!-- כאן יוצגו פרטי הקשר -->
+    </div>
+</div>
+
+<div class="links">
+    <a href="{% url 'Students_homepage' %}" class="back-button">חזרה לדף הבית</a>
+</div>
+
+<script>
+    const contactData = {
+        "1": { name: "יוסי כהן", phone: "050-1234567" },
+        "2": { name: "דנה לוי", phone: "052-7654321" },
+        "3": { name: "אבי ישראלי", phone: "054-9876543" },
+        "4": { name: "מיכל ברק", phone: "053-6543210" }
+    };
+
+    const buildingSelector = document.getElementById("buildingSelector");
+    const contactDetails = document.getElementById("contactDetails");
+
+    buildingSelector.addEventListener("change", function () {
+        const selectedBuilding = buildingSelector.value;
+        if (selectedBuilding && contactData[selectedBuilding]) {
+            const { name, phone } = contactData[selectedBuilding];
+            contactDetails.innerHTML = `<p><strong>שם:</strong> ${name}</p>
+                                        <p><strong>טלפון:</strong> ${phone}</p>`;
+        } else {
+            contactDetails.innerHTML = "<p>נא לבחור בניין מהרשימה.</p>";
+        }
+    });
+</script>
+{% endblock %}
