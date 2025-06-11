@@ -54,10 +54,100 @@
         .alert {
             margin-top: 1rem;
         }
+
+        /* Accessibility Toolbar Styles */
+        .accessibility-toolbar {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            border: 1px solid #dee2e6;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 1000;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .accessibility-toolbar button {
+            padding: 0.25rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            font-size: 0.9rem;
+        }
+        .accessibility-toolbar button:hover {
+            background-color: #e9ecef;
+        }
+        .accessibility-toolbar button.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .accessibility-toolbar .font-size-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .accessibility-toolbar .font-size-controls button {
+            width: 35px;
+            height: 35px;
+            padding: 0;
+        }
+        .accessibility-toolbar button[title] {
+            position: relative;
+        }
+        .accessibility-toolbar button[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #333;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-right: 0.5rem;
+            z-index: 1001;
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    <!-- Accessibility Toolbar -->
+    <div class="accessibility-toolbar">
+        <div class="font-size-controls">
+            <button onclick="changeFontSize('increase')" title="הגדל טקסט">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button onclick="changeFontSize('reset')" title="גודל טקסט רגיל">
+                <i class="fas fa-text-height"></i>
+            </button>
+            <button onclick="changeFontSize('decrease')" title="הקטן טקסט">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+        <button onclick="toggleHighContrast()" title="ניגודיות גבוהה">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button onclick="toggleNegativeColors()" title="צבעים שליליים">
+            <i class="fas fa-palette"></i>
+        </button>
+        <button onclick="resetAccessibility()" title="איפוס הגדרות">
+            <i class="fas fa-undo"></i>
+        </button>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
@@ -154,6 +244,105 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Accessibility Scripts -->
+    <script>
+        // Font size control
+        function changeFontSize(action) {
+            const body = document.body;
+            const currentSize = parseFloat(window.getComputedStyle(body).fontSize);
+            
+            switch(action) {
+                case 'increase':
+                    body.style.fontSize = (currentSize + 2) + 'px';
+                    break;
+                case 'decrease':
+                    body.style.fontSize = (currentSize - 2) + 'px';
+                    break;
+                case 'reset':
+                    body.style.fontSize = '16px';
+                    break;
+            }
+        }
+
+        // High contrast mode
+        function toggleHighContrast() {
+            const body = document.body;
+            const button = event.currentTarget;
+            
+            if (body.classList.contains('high-contrast')) {
+                body.classList.remove('high-contrast');
+                button.classList.remove('active');
+            } else {
+                body.classList.add('high-contrast');
+                button.classList.add('active');
+                // Remove negative colors if active
+                body.classList.remove('negative-colors');
+                document.querySelector('[onclick="toggleNegativeColors()"]').classList.remove('active');
+            }
+        }
+
+        // Negative colors mode
+        function toggleNegativeColors() {
+            const body = document.body;
+            const button = event.currentTarget;
+            
+            if (body.classList.contains('negative-colors')) {
+                body.classList.remove('negative-colors');
+                button.classList.remove('active');
+            } else {
+                body.classList.add('negative-colors');
+                button.classList.add('active');
+                // Remove high contrast if active
+                body.classList.remove('high-contrast');
+                document.querySelector('[onclick="toggleHighContrast()"]').classList.remove('active');
+            }
+        }
+
+        // Reset all accessibility settings
+        function resetAccessibility() {
+            const body = document.body;
+            body.style.fontSize = '16px';
+            body.classList.remove('high-contrast', 'negative-colors');
+            
+            // Reset all toolbar buttons
+            document.querySelectorAll('.accessibility-toolbar button').forEach(button => {
+                button.classList.remove('active');
+            });
+        }
+
+        // Add styles for high contrast and negative colors
+        const style = document.createElement('style');
+        style.textContent = `
+            .high-contrast {
+                background-color: black !important;
+                color: white !important;
+            }
+            .high-contrast * {
+                background-color: black !important;
+                color: white !important;
+                border-color: white !important;
+            }
+            .high-contrast a {
+                color: yellow !important;
+            }
+            .high-contrast .navbar {
+                background-color: black !important;
+            }
+            .high-contrast .card {
+                background-color: black !important;
+                border-color: white !important;
+            }
+            
+            .negative-colors {
+                filter: invert(100%) hue-rotate(180deg);
+            }
+            .negative-colors img {
+                filter: invert(100%) hue-rotate(180deg);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html> 
