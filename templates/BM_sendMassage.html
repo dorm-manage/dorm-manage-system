@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormitoriesPlus - הודעות לדיירים</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="{% url 'BM_Homepage' %}">חזרה לעמוד ראשי</a>
+  <h1>DormitoriesPlus</h1>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h2>שליחת הודעות לדיירי הבניין</h2>
+    <p>כאן תוכל לבחור בניין ולשלוח הודעה לכל הדיירים</p>
+  </div>
+
+  <div class="form-section">
+    <form method="POST" action="{% url 'BM_sendMassage' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="building">בחר בניין:</label>
+          <select id="building" name="building" required>
+            <option value="" disabled selected>בחר בניין</option>
+            <option value="1">בניין 1</option>
+            <option value="2">בניין 2</option>
+            <option value="3">בניין 3</option>
+            <option value="4">בניין 4</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">תוכן ההודעה:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit">שלח הודעה</button>
+        </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+</body>
+</html>

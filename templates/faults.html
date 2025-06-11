@@ -1,104 +1,91 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
 {% load static %}
+<html lang="he">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormitoriesPlus - דיווח תקלות</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+  </head>
+  <body>
+    <header>
+      <h1>DormitoriesPlus</h1>
+    </header>
 
-{% block title %}דיווח תקלות - DormitoriesPlus{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="hero">
+    <div class="container">
+      <div class="hero">
         <h2>דיווח תקלות</h2>
-    </div>
+      </div>
 
-    <div class="info-box" role="complementary" aria-label="פרטי משתמש">
-        <h3>הפרטים שלך:</h3>
-        <ul>
-            <li>שם: {{ user.first_name }} {{ user.last_name }}</li>
-            {% if user_room and user_building %}
-                <li>בניין: {{ user_building }}</li>
-                <li>חדר: {{ user_room }}</li>
-            {% else %}
-                <li>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</li>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="info-box">
+          <p><strong>הפרטים שלך:</strong></p>
+          <p>שם: {{ user.first_name }} {{ user.last_name }}</p>
+          {% if user_room and user_building %}
+            <p>בניין: {{ user_building }}</p>
+            <p>חדר: {{ user_room }}</p>
+          {% else %}
+            <p>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</p>
+          {% endif %}
+      </div>
+
+      <div class="form-container">
+        <h2>פרטי התקלה</h2>
+        <form method="POST" action="{% url 'faults' %}">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="fault_type">סוג התקלה:</label>
+            <select id="fault_type" name="fault_type" required>
+              <option value="">בחר סוג תקלה</option>
+              <option value="אינסטלציה">אינסטלציה</option>
+              <option value="חשמל">חשמל</option>
+              <option value="מיזוג אוויר">מיזוג אוויר</option>
+              <option value="ריהוט">ריהוט</option>
+              <option value="דלתות/חלונות">דלתות/חלונות</option>
+              <option value="אינטרנט">אינטרנט</option>
+              <option value="אחר">אחר</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="fault_description">תיאור התקלה:</label>
+            <textarea id="fault_description" name="fault_description" rows="5" required placeholder="תאר את התקלה בצורה מפורטת ככל האפשר"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="urgency">דחיפות:</label>
+            <select id="urgency" name="urgency">
+              <option value="נמוכה">נמוכה</option>
+              <option value="בינונית" selected>בינונית</option>
+              <option value="גבוהה">גבוהה</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח דיווח</button>
+            {% if not user_room %}
+              <p style="color: #dc3545; margin-top: 10px;">לא ניתן לדווח על תקלה ללא שיבוץ חדר. אנא פנה למנהל המעונות.</p>
             {% endif %}
-        </ul>
+          </div>
+        </form>
+      </div>
+
+      <div class="links">
+        <a href="{% url 'Students_homepage' %}">חזרה לדף הבית</a>
+      </div>
     </div>
 
-    <form method="post" class="fault-form" role="form" aria-label="טופס דיווח תקלה">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="fault_type" id="fault-type-label">סוג התקלה:</label>
-            <select id="fault_type" name="fault_type" required
-                    aria-labelledby="fault-type-label"
-                    aria-required="true">
-                <option value="">בחר סוג תקלה</option>
-                <option value="electrical">תקלה חשמלית</option>
-                <option value="plumbing">תקלה בצנרת</option>
-                <option value="furniture">תקלה בריהוט</option>
-                <option value="other">אחר</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="fault_description" id="fault-description-label">תיאור התקלה:</label>
-            <textarea id="fault_description" name="fault_description" required
-                      aria-labelledby="fault-description-label"
-                      aria-required="true"
-                      rows="4"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="urgency" id="urgency-label">דחיפות:</label>
-            <select id="urgency" name="urgency" required
-                    aria-labelledby="urgency-label"
-                    aria-required="true">
-                <option value="">בחר דחיפות</option>
-                <option value="low">נמוכה</option>
-                <option value="medium">בינונית</option>
-                <option value="high">גבוהה</option>
-            </select>
-        </div>
-
-        <button type="submit" class="submit-btn" aria-label="שלח דיווח תקלה">שלח דיווח</button>
-    </form>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.querySelector('.fault-form').addEventListener('submit', function(e) {
-        const faultType = document.getElementById('fault_type');
-        const faultDescription = document.getElementById('fault_description');
-        const urgency = document.getElementById('urgency');
-        let isValid = true;
-
-        // Reset aria-invalid states
-        [faultType, faultDescription, urgency].forEach(field => {
-            field.setAttribute('aria-invalid', 'false');
-        });
-
-        // Validate fields
-        if (!faultType.value) {
-            faultType.setAttribute('aria-invalid', 'true');
-            isValid = false;
-        }
-
-        if (!faultDescription.value.trim()) {
-            faultDescription.setAttribute('aria-invalid', 'true');
-            isValid = false;
-        }
-
-        if (!urgency.value) {
-            urgency.setAttribute('aria-invalid', 'true');
-            isValid = false;
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-            alert('אנא מלא את כל השדות הנדרשים');
-        }
-    });
-</script>
-{% endblock %}
+    <footer>
+      <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+    </footer>
+  </body>
+</html>

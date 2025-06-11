@@ -1,203 +1,28 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
 {% load static %}
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>התחברות</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <h1>התחברות ל-DormitoriesPlus</h1>
+        <form action="{% url 'login_page' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">שם משתמש:</label>
+                <input type="email" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">סיסמה:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">התחבר</button>
 
-{% block title %}התחברות - DormitoriesPlus{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<style>
-    .accessibility-toolbar {
-        position: fixed;
-        top: 0;
-        right: 0;
-        background: #4A725A;
-        padding: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        z-index: 1000;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        border-radius: 0 0 0 8px;
-    }
-
-    .accessibility-toolbar button {
-        background: #fff;
-        border: none;
-        padding: 8px 12px;
-        cursor: pointer;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        color: #4A725A;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-
-    .accessibility-toolbar button:hover {
-        background: #f0f0f0;
-        transform: translateY(-1px);
-    }
-
-    .accessibility-toolbar button:active {
-        transform: translateY(0);
-    }
-
-    .accessibility-toolbar button i {
-        font-size: 16px;
-    }
-
-    .accessibility-toolbar button[aria-pressed="true"] {
-        background: #2C4A3B;
-        color: #fff;
-    }
-
-    /* High contrast mode */
-    .high-contrast {
-        filter: contrast(150%);
-    }
-
-    /* Large text mode */
-    .large-text {
-        font-size: 120%;
-    }
-
-    /* Grayscale mode */
-    .grayscale {
-        filter: grayscale(100%);
-    }
-
-    /* Focus styles */
-    .accessibility-toolbar button:focus {
-        outline: 2px solid #fff;
-        outline-offset: 2px;
-    }
-
-    @media (max-width: 768px) {
-        .accessibility-toolbar {
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            border-radius: 0;
-        }
-        
-        .accessibility-toolbar button {
-            font-size: 14px;
-            padding: 6px 10px;
-        }
-    }
-</style>
-{% endblock %}
-
-{% block content %}
-<div class="accessibility-toolbar" role="toolbar" aria-label="כלי נגישות">
-    <button onclick="toggleTextSize()" aria-label="שינוי גודל טקסט">
-        <i class="fas fa-text-height" aria-hidden="true"></i>
-        גודל טקסט
-    </button>
-    <button onclick="toggleContrast()" aria-label="שינוי ניגודיות">
-        <i class="fas fa-adjust" aria-hidden="true"></i>
-        ניגודיות
-    </button>
-    <button onclick="toggleGrayscale()" aria-label="מצב שחור לבן">
-        <i class="fas fa-moon" aria-hidden="true"></i>
-        שחור לבן
-    </button>
-    <button onclick="resetAccessibility()" aria-label="איפוס הגדרות נגישות">
-        <i class="fas fa-undo" aria-hidden="true"></i>
-        איפוס
-    </button>
-</div>
-
-<div class="login-container" role="form" aria-label="טופס התחברות">
-    <h2>התחברות ל-DormitoriesPlus</h2>
-    <form action="{% url 'login_page' %}" method="post" aria-label="טופס התחברות">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="username" id="username-label">שם משתמש:</label>
-            <input type="email" id="username" name="username" required
-                   aria-labelledby="username-label"
-                   aria-required="true"
-                   aria-invalid="false">
-        </div>
-        <div class="form-group">
-            <label for="password" id="password-label">סיסמה:</label>
-            <input type="password" id="password" name="password" required
-                   aria-labelledby="password-label"
-                   aria-required="true"
-                   aria-invalid="false">
-        </div>
-        <button type="submit" aria-label="כפתור התחברות">התחבר</button>
-    </form>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // Form validation feedback
-    document.querySelector('form').addEventListener('submit', function(e) {
-        const username = document.getElementById('username');
-        const password = document.getElementById('password');
-        let isValid = true;
-
-        if (!username.value) {
-            username.setAttribute('aria-invalid', 'true');
-            isValid = false;
-        } else {
-            username.setAttribute('aria-invalid', 'false');
-        }
-
-        if (!password.value) {
-            password.setAttribute('aria-invalid', 'true');
-            isValid = false;
-        } else {
-            password.setAttribute('aria-invalid', 'false');
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-            alert('אנא מלא את כל השדות הנדרשים');
-        }
-    });
-
-    // Accessibility functions
-    function toggleTextSize() {
-        document.body.classList.toggle('large-text');
-        updateButtonState('large-text');
-    }
-
-    function toggleContrast() {
-        document.body.classList.toggle('high-contrast');
-        updateButtonState('high-contrast');
-    }
-
-    function toggleGrayscale() {
-        document.body.classList.toggle('grayscale');
-        updateButtonState('grayscale');
-    }
-
-    function resetAccessibility() {
-        document.body.classList.remove('large-text', 'high-contrast', 'grayscale');
-        updateAllButtonStates();
-    }
-
-    function updateButtonState(className) {
-        const button = document.querySelector(`button[onclick="toggle${className.charAt(0).toUpperCase() + className.slice(1)}()"]`);
-        if (button) {
-            button.setAttribute('aria-pressed', document.body.classList.contains(className));
-        }
-    }
-
-    function updateAllButtonStates() {
-        updateButtonState('large-text');
-        updateButtonState('high-contrast');
-        updateButtonState('grayscale');
-    }
-
-    // Initialize button states
-    document.addEventListener('DOMContentLoaded', function() {
-        updateAllButtonStates();
-    });
-</script>
-{% endblock %}
+        </form>
+    </div>
+</body>
+</html>

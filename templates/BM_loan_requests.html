@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+{% load inventory_tags %}
+{% load static %}
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormitoriesPlus - ניהול בקשות השאלה</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Function to switch tabs
+        function switchTab(tabId) {
+          // Hide all tab contents
+          document.querySelectorAll('.tab-content').forEach(function(content) {
+            content.classList.remove('active');
+          });
+
+          // Remove active class from all tabs
+          document.querySelectorAll('.tab').forEach(function(tab) {
+            tab.classList.remove('active');
+          });
+
+          // Show the selected tab content
+          document.getElementById(tabId).classList.add('active');
+
+          // Add active class to the clicked tab
+          document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
+        }
+
+        // Add click event listeners to tabs
+        document.querySelectorAll('.tab').forEach(function(tab) {
+          tab.addEventListener('click', function() {
+            var tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
+            // Update URL hash without causing page reload
+            window.history.replaceState(null, null, '#' + tabId);
+          });
+        });
+
+        // Fix links to maintain tab state when using pagination
+        document.querySelectorAll('.pagination a').forEach(function(link) {
+          link.addEventListener('click', function(e) {
+            // Allow the link to work normally - no preventDefault()
+            // The hash in the pagination links will ensure the correct tab is shown
+          });
+        });
+
+        // Check if URL has a hash and switch to that tab
+        if(window.location.hash) {
+          var hashTabId = window.location.hash.substring(1); // Remove the # symbol
+          if(document.getElementById(hashTabId)) {
+            switchTab(hashTabId);
+          }
+        } else {
+          // Set default active tab if no hash
+          document.querySelector('.tab').classList.add('active');
+          document.querySelector('.tab-content').classList.add('active');
+        }
+      });
+    </script>
+</head>
+<body>
+
+<div class="container">
+  <!-- כותרת העמוד -->
+  <div class="hero">
+    <h2>ניהול בקשות השאלה</h2>
+  </div>
+
+    <!-- הודעות מערכת -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+  <!-- ניווט בין טאבים -->
+  <div class="tab-navigation">
+    <div class="tab active" data-tab="pending-requests">בקשות ממתינות</div>
+    <div class="tab" data-tab="borrowed-items">פריטים מושאלים</div>
+  </div>
+
+  <!-- טאב בקשות ממתינות -->
+  <div id="pending-requests" class="tab-content active">
+    <div class="section">
+      <h3>בקשות השאלה ממתינות</h3>
+
+      {% if pending_requests %}
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>שם הסטודנט</th>
+              <th>חדר</th>
+              <th>פריט מבוקש</th>
+              <th>תאריך הבקשה</th>
+              <th>תקופת השאלה</th>
+              <th>הערות הסטודנט</th>
+              <th>מלאי זמין</th>
+              <th>פעולות</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in pending_requests %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ request.user.first_name }} {{ request.user.last_name }}</td>
+                <td>{{ request.room.room_number }}</td>
+                <td>{{ request.item.inventory.item_name }}</td>
+                <td>{{ request.created_at|date:"d/m/Y H:i" }}</td>
+                <td>
+                  {% if request.return_date %}
+                    {{ request.return_date|timeuntil:request.created_at.date }}
+                    (עד {{ request.return_date|date:"d/m/Y" }})
+                  {% else %}
+                    לא צוין
+                  {% endif %}
+                </td>
+                <td>
+                  {% if request.note %}
+                    {{ request.note }}
+                  {% else %}
+                    <em>-</em>
+                  {% endif %}
+                </td>
+                <td>
+                  {% with available_count=available_counts|get_item:request.item.inventory.id %}
+                    {% if available_count > 3 %}
+                      <span class="badge badge-success">{{ available_count }} פריטים</span>
+                    {% elif available_count > 0 %}
+                      <span class="badge badge-warning">{{ available_count }} פריטים</span>
+                    {% else %}
+                      <span class="badge badge-danger">אזל במלאי</span>
+                    {% endif %}
+                  {% endwith %}
+                </td>
+                <td class="actions-container">
+                  <form method="post" action="{% url 'BM_loan_requests' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="request_id" value="{{ request.id }}">
+
+                    <div class="comment-container">
+                      <textarea name="comment" class="comment-field" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                      {% with available_count=available_counts|get_item:request.item.inventory.id %}
+                        {% if available_count > 0 %}
+                          <button type="submit" name="action" value="approve" class="button approve">אישור</button>
+                        {% endif %}
+                        <button type="submit" name="action" value="reject" class="button deny">דחייה</button>
+                      {% endwith %}
+                    </div>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        {% if pending_requests.has_other_pages %}
+          <div class="pagination">
+            {% if pending_requests.has_previous %}
+              <a href="?pending_page={{ pending_requests.previous_page_number }}">&laquo; הקודם</a>
+            {% else %}
+              <span class="disabled">&laquo; הקודם</span>
+            {% endif %}
+
+            {% for i in pending_requests.paginator.page_range %}
+              {% if pending_requests.number == i %}
+                <span class="current-page">{{ i }}</span>
+              {% else %}
+                <a href="?pending_page={{ i }}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+
+            {% if pending_requests.has_next %}
+              <a href="?pending_page={{ pending_requests.next_page_number }}">הבא &raquo;</a>
+            {% else %}
+              <span class="disabled">הבא &raquo;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+      {% else %}
+        <div class="no-requests">
+          <p>אין בקשות השאלה ממתינות כרגע</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- טאב פריטים מושאלים -->
+  <div id="borrowed-items" class="tab-content">
+    <div class="section">
+      <h3>פריטים מושאלים</h3>
+
+      {% if borrowed_items %}
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>שם הסטודנט</th>
+              <th>חדר</th>
+              <th>פריט מושאל</th>
+              <th>תאריך אישור</th>
+              <th>תאריך החזרה</th>
+              <th>הערות</th>
+              <th>פעולות</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in borrowed_items %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ request.user.first_name }} {{ request.user.last_name }}</td>
+                <td>{{ request.room.room_number }}</td>
+                <td>{{ request.item.inventory.item_name }}</td>
+                <td>{{ request.updated_at|date:"d/m/Y H:i" }}</td>
+                <td {% if request.is_due_soon %}style="background-color: #fff3cd; font-weight: bold;"{% elif request.is_overdue %}style="background-color: #f8d7da; font-weight: bold;"{% endif %}>
+                  {% if request.return_date %}
+                    {{ request.return_date|date:"d/m/Y" }}
+                    {% if request.is_due_soon %}
+                      <br><span style="color: #856404;">(פחות מ-7 ימים)</span>
+                    {% elif request.is_overdue %}
+                      <br><span style="color: #721c24;">(באיחור)</span>
+                    {% endif %}
+                  {% else %}
+                    לא צוין
+                  {% endif %}
+                </td>
+                <td>
+                  {% if request.note %}
+                    {{ request.note }}
+                  {% else %}
+                    <em>-</em>
+                  {% endif %}
+                </td>
+                <td>
+                  <form method="post" action="{% url 'BM_loan_requests' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="request_id" value="{{ request.id }}">
+                  <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
+                    <button type="submit" name="action" value="return" class="button return">סמן כהוחזר</button>
+                    <button type="submit" name="action" value="damaged" class="btn btn-danger"
+                          onclick="return confirm('האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין.')">
+                      הסר מהמלאי
+                    </button>
+                  </div>
+                </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+          {% if borrowed_items.has_other_pages %}
+              <div class="pagination">
+                {% if borrowed_items.has_previous %}
+                  <a href="?borrowed_page={{ borrowed_items.previous_page_number }}#borrowed-items">&laquo; הקודם</a>
+                {% else %}
+                  <span class="disabled">&laquo; הקודם</span>
+                {% endif %}
+
+                {% for i in borrowed_items.paginator.page_range %}
+                  {% if borrowed_items.number == i %}
+                    <span class="current-page">{{ i }}</span>
+                  {% else %}
+                    <a href="?borrowed_page={{ i }}#borrowed-items">{{ i }}</a>
+                  {% endif %}
+                {% endfor %}
+
+                {% if borrowed_items.has_next %}
+                  <a href="?borrowed_page={{ borrowed_items.next_page_number }}#borrowed-items">הבא &raquo;</a>
+                {% else %}
+                  <span class="disabled">הבא &raquo;</span>
+                {% endif %}
+              </div>
+            {% endif %}
+
+      {% else %}
+        <div class="no-requests">
+          <p>אין פריטים מושאלים כרגע</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+</div>
+
+<footer>
+  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+</footer>
+
+</body>
+</html>
