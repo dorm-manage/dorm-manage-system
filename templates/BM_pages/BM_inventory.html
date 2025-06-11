@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load inventory_tags %}
+{% load static %}
+
+{% block title %}ניהול מלאי - מנהל בניין{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/inventory.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/buttons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/modals.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+<style>
+    .hero {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .actions-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 2rem 0 1rem 0;
+    }
+    .back-button {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+    .back-button:hover {
+        background-color: #5a6268;
+    }
+    .table-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    .item-photo {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+    .pagination ul {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .pagination li {
+        display: inline-block;
+    }
+    .pagination a, .pagination span {
+        padding: 0.5rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        color: #3498db;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .pagination a:hover {
+        background-color: #f8f9fa;
+    }
+    .pagination .active span {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+    .pagination .disabled span {
+        color: #6c757d;
+        pointer-events: none;
+    }
+    .modal-content h3 {
+        margin-top: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>ניהול מלאי</h2>
+        <p>כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="table-container">
+        <h3>רשימת פריטי מלאי</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>תמונה</th>
+                    <th>שם פריט</th>
+                    <th>כמות כוללת</th>
+                    <th>זמינים</th>
+                    <th>בהשאלה</th>
+                    <th>פעולות</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in inventory %}
+                <tr>
+                    <td>
+                        {% if item.photo_url %}
+                            <img src="{{ item.photo_url.url }}" alt="{{ item.item_name }}" class="item-photo">
+                        {% else %}
+                            <img src="{% static 'img/no-image.png' %}" alt="אין תמונה" class="item-photo">
+                        {% endif %}
+                    </td>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="status-available">
+                        {% if items_by_inventory|get_item:item.id %}
+                            {{ items_by_inventory|get_item:item.id|get_item:'available' }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </td>
+                    <td class="status-borrowed">
+                        {% if items_by_inventory|get_item:item.id %}
+                            {{ items_by_inventory|get_item:item.id|get_item:'borrowed' }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn btn-warning" onclick="openEditModal({{ item.id }}, '{{ item.item_name }}', {{ item.quantity }})">ערוך</button>
+                        <button class="btn btn-danger" onclick="confirmDelete({{ item.id }}, '{{ item.item_name }}')">מחק</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center;">אין פריטים במלאי</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if page_obj.has_previous or page_obj.has_next %}
+        <div class="pagination">
+            <ul>
+                {% if page_obj.has_previous %}
+                    <li><a href="?page=1">&laquo; ראשון</a></li>
+                    <li><a href="?page={{ page_obj.previous_page_number }}">הקודם</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo; ראשון</span></li>
+                    <li class="disabled"><span>הקודם</span></li>
+                {% endif %}
+
+                <li class="active"><span>דף {{ page_obj.number }} מתוך {{ page_obj.paginator.num_pages }}</span></li>
+
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">הבא</a></li>
+                    <li><a href="?page={{ page_obj.paginator.num_pages }}">אחרון &raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>הבא</span></li>
+                    <li class="disabled"><span>אחרון &raquo;</span></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="actions-bar">
+        <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+        <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
+    </div>
+
+    <!-- Modal for adding new item -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddModal()">&times;</span>
+            <h3>הוספת פריט חדש למלאי</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="item_name">שם הפריט</label>
+                    <input type="text" id="item_name" name="item_name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">כמות</label>
+                    <input type="number" id="quantity" name="quantity" min="1" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="photo">תמונת פריט (אופציונלי)</label>
+                    <input type="file" id="photo" name="photo" class="form-control" accept="image/*">
+                </div>
+                <button type="submit" name="add_item" class="btn btn-primary">הוסף פריט</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for editing inventory item -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h3>ערוך פריט מלאי</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="inventory_id" name="inventory_id">
+                <div class="form-group">
+                    <label for="new_name">שם פריט</label>
+                    <input type="text" id="new_name" name="new_name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="new_quantity">כמות</label>
+                    <input type="number" id="new_quantity" name="new_quantity" min="0" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_photo">תמונת פריט חדשה (אופציונלי)</label>
+                    <input type="file" id="edit_photo" name="photo" class="form-control" accept="image/*">
+                </div>
+                <button type="submit" name="update_item" class="btn btn-success">עדכן פריט</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for confirming delete -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <h3>האם אתה בטוח שברצונך למחוק פריט זה?</h3>
+            <p id="delete-item-name"></p>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" id="delete_inventory_id" name="inventory_id">
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <button type="submit" name="remove_item" class="btn btn-danger">כן, מחק</button>
+                    <button type="button" class="btn btn-primary" onclick="closeDeleteModal()">ביטול</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add modal functions
+    function openAddModal() {
+        document.getElementById('addModal').style.display = "block";
+    }
+
+    function closeAddModal() {
+        document.getElementById('addModal').style.display = "none";
+    }
+
+    // Edit modal functions
+    function openEditModal(id, name, quantity) {
+        document.getElementById('inventory_id').value = id;
+        document.getElementById('new_name').value = name;
+        document.getElementById('new_quantity').value = quantity;
+        document.getElementById('editModal').style.display = "block";
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = "none";
+    }
+
+    // Delete confirmation modal
+    function confirmDelete(id, name) {
+        document.getElementById('delete_inventory_id').value = id;
+        document.getElementById('delete-item-name').textContent = 'שם פריט: ' + name;
+        document.getElementById('deleteModal').style.display = "block";
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = "none";
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('addModal')) {
+            closeAddModal();
+        }
+        if (event.target == document.getElementById('editModal')) {
+            closeEditModal();
+        }
+        if (event.target == document.getElementById('deleteModal')) {
+            closeDeleteModal();
+        }
+    }
+
+    // Auto-hide messages after 5 seconds
+    setTimeout(function() {
+        var messages = document.getElementsByClassName('message');
+        for (var i = 0; i < messages.length; i++) {
+            messages[i].style.display = 'none';
+        }
+    }, 5000);
+</script>
+{% endblock %}

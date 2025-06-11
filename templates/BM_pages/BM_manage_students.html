@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% load inventory_tags %}
+{% load static %}
+
+{% block title %}ניהול סטודנטים - מנהל בניין{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="hero">
+    <h2>ניהול סטודנטים</h2>
+    <div style="margin-top: 10px; font-size: 16px;">
+      <p>אחראי על בניין-
+        {% for building in managed_buildings %}
+          {{ building.building_name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </p>
+    </div>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message {% if message.tags == 'success' %}success-message{% elif message.tags == 'error' %}error-message{% endif %}">
+        {{ message|safe }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="section">
+    <div class="tab-navigation">
+      {% for building_data in buildings_data %}
+        <div class="tab {% if building_data.building.id == active_building_id %}active{% endif %}"
+             onclick="openBuildingTab('{{ building_data.building.id }}')">
+          בניין {{ building_data.building.building_name }}
+        </div>
+      {% endfor %}
+    </div>
+
+    {% for building_data in buildings_data %}
+      <div id="building-{{ building_data.building.id }}" class="tab-content {% if building_data.building.id == active_building_id %}active-content{% endif %}">
+        {% if building_data.has_data %}
+          <div class="sub-tabs">
+            <button class="sub-tab-button active"
+                    onclick="openSubTab('add-{{ building_data.building.id }}', 'remove-{{ building_data.building.id }}')">
+              הוספת סטודנט
+            </button>
+            <button class="sub-tab-button"
+                    onclick="openSubTab('remove-{{ building_data.building.id }}', 'add-{{ building_data.building.id }}')">
+              הסרת סטודנט
+            </button>
+          </div>
+          <div id="add-{{ building_data.building.id }}" class="tab-content active-content">
+            <div class="form-container">
+              <h3>הוספת סטודנט חדש לבניין {{ building_data.building.building_name }}</h3>
+              {% if building_data.available_rooms %}
+                <form method="POST" action="{% url 'BM_manage_students' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="add_student">
+                  <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
+                  <div class="form-group">
+                    <label for="first_name">שם פרטי:</label>
+                    <input type="text" id="first_name" name="first_name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="last_name">שם משפחה:</label>
+                    <input type="text" id="last_name" name="last_name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">אימייל:</label>
+                    <input type="email" id="email" name="email" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">סיסמה:</label>
+                    <div style="display: flex; position: relative;">
+                      <input type="password" id="password" name="password" value="123456789" required>
+                      <button type="button" onclick="togglePasswordVisibility()"
+                              style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #335db3; cursor: pointer;">
+                        <span id="password-toggle-icon">👁️</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="id_number">מספר זהות (אופציונלי):</label>
+                    <input type="text" id="id_number" name="id_number">
+                  </div>
+                  <div class="form-group">
+                    <label for="room_id">חדר:</label>
+                    <select id="room_id" name="room_id" required>
+                      <option value="" disabled selected>בחר חדר</option>
+                      {% for room_data in building_data.available_rooms %}
+                        <option value="{{ room_data.room.id }}">
+                          חדר {{ room_data.room.room_number }} ({{ room_data.available_spots }} מקומות פנויים)
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="end_date">תאריך סיום מגורים:</label>
+                    <input type="date" id="end_date" name="end_date" required>
+                  </div>
+                  <div class="form-actions">
+                    <button type="submit" class="add-button">הוסף סטודנט</button>
+                  </div>
+                </form>
+              {% else %}
+                <div class="no-data">
+                  <p>אין חדרים פנויים בבניין זה.</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div id="remove-{{ building_data.building.id }}" class="tab-content">
+            <h3>סטודנטים בבניין {{ building_data.building.building_name }}</h3>
+            <div class="search-container">
+              <input type="text" id="search-{{ building_data.building.id }}"
+                     onkeyup="searchStudents('{{ building_data.building.id }}')"
+                     placeholder="חיפוש לפי שם, חדר או אימייל...">
+            </div>
+            {% if building_data.students_page %}
+              <table id="students-table-{{ building_data.building.id }}">
+                <thead>
+                  <tr>
+                    <th>שם מלא</th>
+                    <th>אימייל</th>
+                    <th>חדר</th>
+                    <th>תאריך שיבוץ</th>
+                    <th>תאריך סיום</th>
+                    <th>פעולות</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for assignment in building_data.students_page %}
+                    <tr>
+                      <td>{{ assignment.user.first_name }} {{ assignment.user.last_name }}</td>
+                      <td>{{ assignment.user.email }}</td>
+                      <td>{{ assignment.room.room_number }}</td>
+                      <td>{{ assignment.start_date|date:"d/m/Y" }}</td>
+                      <td>{{ assignment.end_date|date:"d/m/Y"|default:"לא מוגדר" }}</td>
+                      <td>
+                          <form method="POST" action="{% url 'BM_manage_students' %}" style="display:inline-block; margin-right: 5px;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="remove_student">
+                            <input type="hidden" name="assignment_id" value="{{ assignment.id }}">
+                            <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
+                            <input type="hidden" name="delete_user" value="yes">
+                            <button type="submit" class="remove-button" style="background-color: #dc3545;"
+                                    onclick="return confirm('האם אתה בטוח שברצונך להסיר את הסטודנט מהמערכת?')">
+                              הסר מהמערכת
+                            </button>
+                          </form>
+                    </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% if building_data.students_page.has_other_pages %}
+                <div class="pagination">
+                  {% if building_data.students_page.has_previous %}
+                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.previous_page_number }}">&laquo; הקודם</a>
+                  {% else %}
+                    <span class="disabled">&laquo; הקודם</span>
+                  {% endif %}
+                  {% for i in building_data.students_page.paginator.page_range %}
+                    {% if building_data.students_page.number == i %}
+                      <span class="current-page">{{ i }}</span>
+                    {% else %}
+                      <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ i }}">{{ i }}</a>
+                    {% endif %}
+                  {% endfor %}
+                  {% if building_data.students_page.has_next %}
+                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.next_page_number }}">הבא &raquo;</a>
+                  {% else %}
+                    <span class="disabled">הבא &raquo;</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% else %}
+              <div class="no-data">
+                <p>אין סטודנטים משובצים בבניין זה.</p>
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="loading-indicator">
+            <p>לחץ על הכרטיסייה לטעינת הנתונים...</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    {% if not buildings_data %}
+      <div class="no-data">
+        <p>אין בניינים תחת ניהולך.</p>
+      </div>
+    {% endif %}
+  </div>
+  <div class="links">
+    <a href="{% url 'BM_Homepage' %}">חזרה לעמוד הראשי</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var endDateInputs = document.querySelectorAll('input[name="end_date"]');
+    var sixMonthsFromNow = new Date();
+    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+    var dateString = sixMonthsFromNow.toISOString().split('T')[0];
+    endDateInputs.forEach(function(input) {
+      input.value = dateString;
+    });
+  });
+  function openBuildingTab(buildingId) {
+    window.location.href = '?building_id=' + buildingId;
+  }
+  function openSubTab(showTabId, hideTabId) {
+    document.getElementById(showTabId).classList.add("active-content");
+    document.getElementById(hideTabId).classList.remove("active-content");
+    event.currentTarget.classList.add("active");
+    var siblingButtons = event.currentTarget.parentElement.getElementsByClassName("sub-tab-button");
+    for (var i = 0; i < siblingButtons.length; i++) {
+      if (siblingButtons[i] !== event.currentTarget) {
+        siblingButtons[i].classList.remove("active");
+      }
+    }
+  }
+  function searchStudents(buildingId) {
+    var input = document.getElementById("search-" + buildingId);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("students-table-" + buildingId);
+    var tr = table.getElementsByTagName("tr");
+    for (var i = 1; i < tr.length; i++) {
+      var found = false;
+      var td = tr[i].getElementsByTagName("td");
+      for (var j = 0; j < td.length - 1; j++) {
+        var txtValue = td[j].textContent || td[j].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break;
+        }
+      }
+      tr[i].style.display = found ? "" : "none";
+    }
+  }
+  function showRemoveOptions(assignmentId) {
+    var optionsDiv = document.getElementById("remove-options-" + assignmentId);
+    if (optionsDiv.style.display === "none") {
+      optionsDiv.style.display = "block";
+    } else {
+      optionsDiv.style.display = "none";
+    }
+  }
+  function togglePasswordVisibility() {
+    var passwordField = document.getElementById("password");
+    var toggleIcon = document.getElementById("password-toggle-icon");
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      toggleIcon.textContent = "🔒";
+    } else {
+      passwordField.type = "password";
+      toggleIcon.textContent = "👁️";
+    }
+  }
+</script>
+{% endblock %}

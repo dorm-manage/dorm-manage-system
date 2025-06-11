@@ -1,0 +1,605 @@
+{% extends 'base.html' %}
+{% load inventory_tags %}
+{% load static %}
+
+{% block title %}ניהול בקשות השאלה - מנהל משרד{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .hero h2 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    .hero p {
+        margin: 0.5rem 0 0;
+        opacity: 0.9;
+    }
+    .tab-navigation {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .tab {
+        padding: 0.75rem 1.5rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .tab.active {
+        background-color: #3498db;
+        color: white;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .section {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .filter-section {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+    .filter-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    .filter-group select,
+    .filter-group input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+    }
+    .filter-group select:focus,
+    .filter-group input:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    .filter-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+    .filter-button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .filter-apply {
+        background-color: #3498db;
+        color: white;
+    }
+    .filter-apply:hover {
+        background-color: #2980b9;
+    }
+    .filter-reset {
+        background-color: #e74c3c;
+        color: white;
+    }
+    .filter-reset:hover {
+        background-color: #c0392b;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+    th {
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        font-weight: 600;
+        text-align: right;
+    }
+    td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+    .building-badge {
+        background-color: #3498db;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+    .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+    .badge-success {
+        background-color: #2ecc71;
+        color: white;
+    }
+    .badge-warning {
+        background-color: #f1c40f;
+        color: #000;
+    }
+    .badge-danger {
+        background-color: #e74c3c;
+        color: white;
+    }
+    .actions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .comment-field {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+        min-height: 60px;
+    }
+    .button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        color: white;
+    }
+    .approve {
+        background-color: #2ecc71;
+    }
+    .approve:hover {
+        background-color: #27ae60;
+    }
+    .deny {
+        background-color: #e74c3c;
+    }
+    .deny:hover {
+        background-color: #c0392b;
+    }
+    .return {
+        background-color: #3498db;
+    }
+    .return:hover {
+        background-color: #2980b9;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+    .pagination a,
+    .pagination span {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        color: #3498db;
+        text-decoration: none;
+    }
+    .pagination a:hover {
+        background-color: #f8f9fa;
+    }
+    .pagination .current-page {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+    .pagination .disabled {
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+    .no-requests {
+        text-align: center;
+        padding: 2rem;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+    .back-button {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+    .back-button:hover {
+        background-color: #2980b9;
+      }
+    .message {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+    }
+    .message-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    .message-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <!-- כותרת העמוד -->
+  <div class="hero">
+    <h2>ניהול בקשות השאלה - מנהל משרד</h2>
+    <p>ניהול בקשות לכל הבניינים במערכת</p>
+  </div>
+
+    <!-- הודעות מערכת -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+  <!-- ניווט בין טאבים -->
+  <div class="tab-navigation">
+    <div class="tab active" data-tab="pending-requests">בקשות ממתינות</div>
+    <div class="tab" data-tab="borrowed-items">פריטים מושאלים</div>
+  </div>
+
+  <!-- טאב בקשות ממתינות -->
+  <div id="pending-requests" class="tab-content active">
+    <div class="section">
+      <h3>בקשות השאלה ממתינות</h3>
+
+      <!-- Filter Section for Office Manager -->
+      <div class="filter-section">
+        <h4>סינון בקשות</h4>
+        <form method="get" action="{% url 'OM_loan_requests' %}">
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="building-filter">בניין:</label>
+              <select id="building-filter" name="building">
+                <option value="">כל הבניינים</option>
+                {% for building in all_buildings %}
+                  <option value="{{ building.id }}" {% if request.GET.building == building.id|stringformat:"i" %}selected{% endif %}>
+                    בניין {{ building.building_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="date-from">מתאריך:</label>
+              <input type="date" id="date-from" name="date_from" value="{{ request.GET.date_from|default:'' }}">
+            </div>
+            <div class="filter-group">
+              <label for="date-to">עד תאריך:</label>
+              <input type="date" id="date-to" name="date_to" value="{{ request.GET.date_to|default:'' }}">
+            </div>
+            <div class="filter-buttons">
+              <button type="submit" class="filter-button filter-apply">החל סינון</button>
+              <a href="{% url 'OM_loan_requests' %}" class="filter-button filter-reset">אפס</a>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {% if pending_requests %}
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>שם הסטודנט</th>
+              <th>בניין</th>
+              <th>חדר</th>
+              <th>פריט מבוקש</th>
+              <th>תאריך הבקשה</th>
+              <th>תקופת השאלה</th>
+              <th>הערות הסטודנט</th>
+              <th>מלאי זמין</th>
+              <th>פעולות</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in pending_requests %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ request.user.first_name }} {{ request.user.last_name }}</td>
+                <td><span class="building-badge">{{ request.room.building.building_name }}</span></td>
+                <td>{{ request.room.room_number }}</td>
+                <td>{{ request.item.inventory.item_name }}</td>
+                <td>{{ request.created_at|date:"d/m/Y H:i" }}</td>
+                <td>
+                  {% if request.return_date %}
+                    {{ request.return_date|timeuntil:request.created_at.date }}
+                    (עד {{ request.return_date|date:"d/m/Y" }})
+                  {% else %}
+                    לא צוין
+                  {% endif %}
+                </td>
+                <td>
+                  {% if request.note %}
+                    {{ request.note }}
+                  {% else %}
+                    <em>-</em>
+                  {% endif %}
+                </td>
+                <td>
+                  {% with available_count=available_counts|get_item:request.item.inventory.id %}
+                    {% if available_count > 3 %}
+                      <span class="badge badge-success">{{ available_count }} פריטים</span>
+                    {% elif available_count > 0 %}
+                      <span class="badge badge-warning">{{ available_count }} פריטים</span>
+                    {% else %}
+                      <span class="badge badge-danger">אזל במלאי</span>
+                    {% endif %}
+                  {% endwith %}
+                </td>
+                <td class="actions-container">
+                  <form method="post" action="{% url 'OM_loan_requests' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="request_id" value="{{ request.id }}">
+
+                    <div class="comment-container">
+                      <textarea name="comment" class="comment-field" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                      {% with available_count=available_counts|get_item:request.item.inventory.id %}
+                        {% if available_count > 0 %}
+                          <button type="submit" name="action" value="approve" class="button approve">אישור</button>
+                        {% endif %}
+                        <button type="submit" name="action" value="reject" class="button deny">דחייה</button>
+                      {% endwith %}
+                    </div>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        {% if pending_requests.has_other_pages %}
+          <div class="pagination">
+            {% if pending_requests.has_previous %}
+              <a href="?pending_page={{ pending_requests.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">&laquo; הקודם</a>
+            {% else %}
+              <span class="disabled">&laquo; הקודם</span>
+            {% endif %}
+
+            {% for i in pending_requests.paginator.page_range %}
+              {% if pending_requests.number == i %}
+                <span class="current-page">{{ i }}</span>
+              {% else %}
+                <a href="?pending_page={{ i }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+
+            {% if pending_requests.has_next %}
+              <a href="?pending_page={{ pending_requests.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">הבא &raquo;</a>
+            {% else %}
+              <span class="disabled">הבא &raquo;</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+      {% else %}
+        <div class="no-requests">
+          <p>אין בקשות השאלה ממתינות כרגע</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- טאב פריטים מושאלים -->
+  <div id="borrowed-items" class="tab-content">
+    <div class="section">
+      <h3>פריטים מושאלים</h3>
+
+      <!-- Filter Section for Office Manager -->
+      <div class="filter-section">
+        <h4>סינון פריטים מושאלים</h4>
+        <form method="get" action="{% url 'OM_loan_requests' %}#borrowed-items">
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="borrowed-building-filter">בניין:</label>
+              <select id="borrowed-building-filter" name="borrowed_building">
+                <option value="">כל הבניינים</option>
+                {% for building in all_buildings %}
+                  <option value="{{ building.id }}" {% if request.GET.borrowed_building == building.id|stringformat:"i" %}selected{% endif %}>
+                    בניין {{ building.building_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="overdue">סטטוס:</label>
+              <select id="overdue" name="overdue">
+                <option value="">הכל</option>
+                <option value="yes" {% if request.GET.overdue == 'yes' %}selected{% endif %}>באיחור בלבד</option>
+                <option value="soon" {% if request.GET.overdue == 'soon' %}selected{% endif %}>מועד החזרה קרוב</option>
+              </select>
+            </div>
+            <div class="filter-buttons">
+              <button type="submit" class="filter-button filter-apply">החל סינון</button>
+              <a href="{% url 'OM_loan_requests' %}#borrowed-items" class="filter-button filter-reset">אפס</a>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {% if borrowed_items %}
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>שם הסטודנט</th>
+              <th>בניין</th>
+              <th>חדר</th>
+              <th>פריט מושאל</th>
+              <th>תאריך אישור</th>
+              <th>תאריך החזרה</th>
+              <th>הערות</th>
+              <th>פעולות</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in borrowed_items %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ request.user.first_name }} {{ request.user.last_name }}</td>
+                <td><span class="building-badge">{{ request.room.building.building_name }}</span></td>
+                <td>{{ request.room.room_number }}</td>
+                <td>{{ request.item.inventory.item_name }}</td>
+                <td>{{ request.updated_at|date:"d/m/Y H:i" }}</td>
+                <td {% if request.is_due_soon %}style="background-color: #fff3cd; font-weight: bold;"{% elif request.is_overdue %}style="background-color: #f8d7da; font-weight: bold;"{% endif %}>
+                  {% if request.return_date %}
+                    {{ request.return_date|date:"d/m/Y" }}
+                    {% if request.is_due_soon %}
+                      <br><span style="color: #856404;">(פחות מ-7 ימים)</span>
+                    {% elif request.is_overdue %}
+                      <br><span style="color: #721c24;">(באיחור)</span>
+                    {% endif %}
+                  {% else %}
+                    לא צוין
+                  {% endif %}
+                </td>
+                <td>
+                  {% if request.note %}
+                    {{ request.note }}
+                  {% else %}
+                    <em>-</em>
+                  {% endif %}
+                </td>
+                <td>
+                  <form method="post" action="{% url 'OM_loan_requests' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="request_id" value="{{ request.id }}">
+                  <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
+                    <button type="submit" name="action" value="return" class="button return">סמן כהוחזר</button>
+                                            <button type="submit" name="action" value="damaged" class="button deny"
+                          onclick="return confirm('האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין.')">
+                      הסר מהמלאי
+                    </button>
+                  </div>
+                </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+          {% if borrowed_items.has_other_pages %}
+              <div class="pagination">
+                {% if borrowed_items.has_previous %}
+                  <a href="?borrowed_page={{ borrowed_items.previous_page_number }}{% if request.GET.borrowed_building %}&borrowed_building={{ request.GET.borrowed_building }}{% endif %}{% if request.GET.overdue %}&overdue={{ request.GET.overdue }}{% endif %}#borrowed-items">&laquo; הקודם</a>
+                {% else %}
+                  <span class="disabled">&laquo; הקודם</span>
+                {% endif %}
+
+                {% for i in borrowed_items.paginator.page_range %}
+                  {% if borrowed_items.number == i %}
+                    <span class="current-page">{{ i }}</span>
+                  {% else %}
+                    <a href="?borrowed_page={{ i }}{% if request.GET.borrowed_building %}&borrowed_building={{ request.GET.borrowed_building }}{% endif %}{% if request.GET.overdue %}&overdue={{ request.GET.overdue }}{% endif %}#borrowed-items">{{ i }}</a>
+                  {% endif %}
+                {% endfor %}
+
+                {% if borrowed_items.has_next %}
+                  <a href="?borrowed_page={{ borrowed_items.next_page_number }}{% if request.GET.borrowed_building %}&borrowed_building={{ request.GET.borrowed_building }}{% endif %}{% if request.GET.overdue %}&overdue={{ request.GET.overdue }}{% endif %}#borrowed-items">הבא &raquo;</a>
+                {% else %}
+                  <span class="disabled">הבא &raquo;</span>
+                {% endif %}
+              </div>
+            {% endif %}
+
+      {% else %}
+        <div class="no-requests">
+          <p>אין פריטים מושאלים כרגע</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <a href="{% url 'OM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to switch tabs
+    function switchTab(tabId) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(function(content) {
+            content.classList.remove('active');
+        });
+
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab').forEach(function(tab) {
+            tab.classList.remove('active');
+        });
+
+        // Show the selected tab content
+        document.getElementById(tabId).classList.add('active');
+
+        // Add active class to the clicked tab
+        document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
+    }
+
+    // Add click event listeners to tabs
+    document.querySelectorAll('.tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
+            // Update URL hash without causing page reload
+            window.history.replaceState(null, null, '#' + tabId);
+        });
+    });
+
+    // Fix links to maintain tab state when using pagination
+    document.querySelectorAll('.pagination a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            // Allow the link to work normally - no preventDefault()
+            // The hash in the pagination links will ensure the correct tab is shown
+        });
+    });
+
+    // Check if URL has a hash and switch to that tab
+    if(window.location.hash) {
+        var hashTabId = window.location.hash.substring(1); // Remove the # symbol
+        if(document.getElementById(hashTabId)) {
+            switchTab(hashTabId);
+        }
+    } else {
+        // Set default active tab if no hash
+        document.querySelector('.tab').classList.add('active');
+        document.querySelector('.tab-content').classList.add('active');
+    }
+});
+</script>
+{% endblock %}

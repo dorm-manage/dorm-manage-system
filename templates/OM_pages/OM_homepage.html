@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}דף הבית - מנהל מערכת{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #4a90e2 0%, #2c3e50 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .hero h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+    .section {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+    .section h3 {
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+    .stat-card {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.2s;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .stat-card div:first-child {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+        margin: 0.5rem 0;
+    }
+    .stat-card div:last-child {
+        color: #666;
+        font-size: 1.1rem;
+    }
+    .action-menu {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .action-menu h3 {
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    .menu-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #2c3e50;
+        transition: all 0.2s;
+    }
+    .menu-item:hover {
+        background: #4a90e2;
+        color: white;
+        transform: translateY(-3px);
+    }
+    .menu-item i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .menu-item span {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    .message {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .message-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .message-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="hero">
+        <h2>ברוך הבא למערכת ניהול המעונות</h2>
+        <p>ניהול מרכזי של כל המעונות</p>
+    </div>
+
+    <!-- הודעות מערכת -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- סטטיסטיקות מערכת -->
+    <div class="section">
+        <h3>סטטיסטיקות מערכת</h3>
+        <div class="stats-container">
+            <div class="stat-card">
+                <div>כרגע נמצאים</div>
+                <div class="stat-value">{{ total_students }}</div>
+                <div>סטודנטים במעונות</div>
+            </div>
+            <div class="stat-card">
+                <div>תפוסת חדרים היא</div>
+                <div class="stat-value">{{ occupancy_rate }}%</div>
+                <div>מהקיבולת המלאה</div>
+            </div>
+            <div class="stat-card">
+                <div>ישנם כרגע</div>
+                <div class="stat-value">{{ late_items }}</div>
+                <div>פריטים באיחור</div>
+            </div>
+            <div class="stat-card">
+                <div>ישנם כרגע</div>
+                <div class="stat-value">{{ open_faults }}</div>
+                <div>תקלות פתוחות לטיפול</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- תפריט פעולות -->
+    <div class="action-menu">
+        <h3>תפריט פעולות</h3>
+        <div class="menu-grid">
+            <a href="{% url 'OM_inventory' %}" class="menu-item">
+                <i class="fas fa-boxes"></i>
+                <span>ניהול מלאי</span>
+            </a>
+            <a href="{% url 'OM_loan_requests' %}" class="menu-item">
+                <i class="fas fa-hand-holding"></i>
+                <span>בקשות השאלה</span>
+            </a>
+            <a href="{% url 'OM_faults' %}" class="menu-item">
+                <i class="fas fa-tools"></i>
+                <span>דיווחי תקלות</span>
+            </a>
+            <a href="{% url 'OM_manage_students' %}" class="menu-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>ניהול סטודנטים</span>
+            </a>
+            <a href="{% url 'OM_manage_BM' %}" class="menu-item">
+                <i class="fas fa-user-tie"></i>
+                <span>ניהול מנהלי בניינים</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

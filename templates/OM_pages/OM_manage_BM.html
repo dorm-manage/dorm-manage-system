@@ -1,0 +1,404 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ניהול אחראי בניין - מנהל מערכת{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .hero h2 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    .hero p {
+        margin: 0.5rem 0 0;
+        opacity: 0.9;
+    }
+    .tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .tab-button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .tab-button:hover {
+        background-color: #e9ecef;
+    }
+    .tab-button.active {
+        background-color: #3498db;
+        color: white;
+    }
+    .tab-content {
+        display: none;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .tab-content.active {
+        display: block;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+    th {
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        font-weight: 600;
+        text-align: right;
+    }
+    td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+    .manager-label {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+    .manager-assigned {
+        background-color: #2ecc71;
+        color: white;
+    }
+    .manager-empty {
+        background-color: #e74c3c;
+        color: white;
+    }
+    .button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .button-success {
+        background-color: #2ecc71;
+    }
+    .button-success:hover {
+        background-color: #27ae60;
+    }
+    .button-danger {
+        background-color: #e74c3c;
+    }
+    .button-danger:hover {
+        background-color: #c0392b;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 2rem;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 500px;
+        position: relative;
+    }
+    .close {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+    }
+    .close:hover {
+        color: #000;
+    }
+    .message {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+    }
+    .message-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    .message-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    .message-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        margin-top: 2rem;
+    }
+    .back-button:hover {
+        background-color: #2980b9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>ניהול אחראי בניין</h2>
+        <p>הוספה, עדכון והסרה של אחראי בניין</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags == 'success' %}message-success{% elif message.tags == 'error' %}message-error{% elif message.tags == 'warning' %}message-warning{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="tabs">
+        <button class="tab-button active" data-tab="managers-tab">ניהול אחראי בניין</button>
+        <button class="tab-button" data-tab="add-manager-tab">הוספת אחראי בניין חדש</button>
+    </div>
+
+    <div id="managers-tab" class="tab-content active">
+        <div class="section">
+            <h3>רשימת בניינים ואחראים</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">מס' בניין</th>
+                        <th style="width: 20%;">שם בניין</th>
+                        <th style="width: 25%;">אחראי בניין</th>
+                        <th style="width: 25%;">אימייל</th>
+                        <th style="width: 20%;">פעולות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for building in buildings %}
+                        <tr>
+                            <td>{{ building.id }}</td>
+                            <td>{{ building.building_name }}</td>
+                            <td>
+                                {% if building.building_staff_member %}
+                                    <span class="manager-label manager-assigned">
+                                        {{ building.building_staff_member.first_name }} {{ building.building_staff_member.last_name }}
+                                    </span>
+                                {% else %}
+                                    <span class="manager-label manager-empty">לא מוגדר</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if building.building_staff_member %}
+                                    {{ building.building_staff_member.email }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if building.building_staff_member %}
+                                    <form method="post" style="display: inline-block;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="remove_manager">
+                                        <input type="hidden" name="building_id" value="{{ building.id }}">
+                                        <button type="submit" class="button button-danger" onclick="return confirm('האם אתה בטוח שברצונך להסיר את אחראי הבניין?')">
+                                            <i class="fas fa-user-minus"></i> הסר
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <button class="button button-success" onclick="openAssignModal('{{ building.id }}', '{{ building.building_name }}')">
+                                        <i class="fas fa-user-plus"></i> שיוך אחראי
+                                    </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" style="text-align: center;">אין בניינים מוגדרים במערכת</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="add-manager-tab" class="tab-content">
+        <div class="section">
+            <h3>הוספת אחראי בניין חדש</h3>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_manager">
+
+                <div class="form-group">
+                    <label for="first_name">שם פרטי:</label>
+                    <input type="text" id="first_name" name="first_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_name">שם משפחה:</label>
+                    <input type="text" id="last_name" name="last_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">אימייל:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">סיסמה ראשונית:</label>
+                    <input type="password" id="password" name="password" value="123456789">
+                    <small style="color: #666;">סיסמה ברירת מחדל: 123456789</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="assign_building_id">שייך לבניין (אופציונלי):</label>
+                    <select id="assign_building_id" name="assign_building_id">
+                        <option value="">-- בחר בניין --</option>
+                        {% for building in buildings %}
+                            {% if not building.building_staff_member %}
+                                <option value="{{ building.id }}">{{ building.building_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div style="text-align: left; margin-top: 20px;">
+                    <button type="submit" class="button button-success">
+                        <i class="fas fa-user-plus"></i> הוסף אחראי בניין
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="assignModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAssignModal()">&times;</span>
+            <h3>שיוך אחראי בניין</h3>
+            <p id="assignModalText"></p>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="assign_manager">
+                <input type="hidden" id="modal_building_id" name="building_id">
+
+                <div class="form-group">
+                    <label for="staff_user_id">בחר אחראי בניין:</label>
+                    <select id="staff_user_id" name="staff_user_id" required>
+                        <option value="" disabled selected>-- בחר אחראי בניין --</option>
+                        {% for staff in building_staff_users %}
+                            <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }} ({{ staff.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div style="text-align: left; margin-top: 20px;">
+                    <button type="submit" class="button button-success">
+                        <i class="fas fa-user-plus"></i> שייך אחראי
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <a href="{% url 'OM_Homepage' %}" class="back-button">
+        <i class="fas fa-arrow-right"></i> חזרה לעמוד הראשי
+    </a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    });
+
+    function openAssignModal(buildingId, buildingName) {
+        document.getElementById("modal_building_id").value = buildingId;
+        document.getElementById("assignModalText").innerText = "שיוך אחראי בניין לבניין " + buildingName;
+        document.getElementById("assignModal").style.display = "block";
+    }
+
+    function closeAssignModal() {
+        document.getElementById("assignModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById("assignModal");
+        if (event.target == modal) {
+            closeAssignModal();
+        }
+    }
+
+    setTimeout(function() {
+        var messages = document.getElementsByClassName('message');
+        for (var i = 0; i < messages.length; i++) {
+            messages[i].style.display = 'none';
+        }
+    }, 5000);
+</script>
+{% endblock %}

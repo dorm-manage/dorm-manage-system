@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.urls import reverse
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.utils.safestring import mark_safe
 from django.db.models.functions import Cast
 from django.db.models import IntegerField
@@ -34,7 +34,7 @@ def Homepage(request):
 
 
 def connect_us(request):
-    return render(request, 'connect_us.html')
+    return render(request, 'Student_pages/connect_us.html')
 
 
 def Personal_erea(request):
@@ -42,7 +42,7 @@ def Personal_erea(request):
 
 
 def manager_Homepage(request):
-    return render(request, 'OM_Homepage.html')
+    return render(request, 'OM_pages/OM_Homepage.html')
 
 
 @login_required
@@ -144,7 +144,7 @@ def Students_homepage(request):
         'resolved_fault_reports': resolved_fault_page_obj,
     }
 
-    return render(request, 'Students_homepage.html', context)
+    return render(request, 'Student_pages/Students_homepage.html', context)
 
 
 @login_required
@@ -171,9 +171,7 @@ def application(request):
 
     # Get all available items that can be borrowed
     available_items = (InventoryTracking.objects
-                       .filter(item__status='available')
-                       .annotate(available_count=Count('item'))
-                       .filter(available_count__gt=0)
+                    
                        .distinct())
 
     # Define min and max return dates
@@ -244,7 +242,7 @@ def application(request):
         'end_date': end_date.strftime('%d/%m/%Y') if end_date else "לא ידוע",
     }
 
-    return render(request, 'application.html', context)
+    return render(request, 'Student_pages/application.html', context)
 
 # עמוד עבור דיווח תקלות (faults.html)
 @login_required
@@ -295,7 +293,7 @@ def faults(request):
         'user_building': building.building_name if building else None,
     }
 
-    return render(request, 'faults.html', context)
+    return render(request, 'Student_pages/faults.html', context)
 
 
 # עמוד לשליחת הודעות לדיירים (BM_sendMassage.html)
@@ -311,7 +309,7 @@ def BM_sendMassage(request):
         )
         messages.success(request, "ההודעה נשלחה בהצלחה!")
         return redirect('BM_sendMassage')
-    return render(request, 'BM_sendMassage.html')
+    return render(request, 'BM_pages/BM_sendMassage.html')
 
 
 # עמוד לניהול מלאי (BM_inventory.html)
@@ -460,7 +458,7 @@ def BM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'BM_inventory.html', {
+    return render(request, 'BM_pages/BM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
@@ -483,7 +481,7 @@ def BM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'BM_inventory.html', {
+    return render(request, 'BM_pages/BM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
@@ -543,7 +541,7 @@ def BM_Homepage(request):
         'managed_buildings': managed_buildings,
     }
 
-    return render(request, 'BM_Homepage.html', context)
+    return render(request, 'BM_pages/BM_Homepage.html', context)
 
 
 # עמוד לניהול בקשות השאלה (BM_loan_requests.html)
@@ -661,7 +659,7 @@ def BM_loan_requests(request):
         'available_counts': available_counts,
     }
 
-    return render(request, 'BM_loan_requests.html', context)
+    return render(request, 'BM_pages/BM_loan_requests.html', context)
 
 
 @login_required
@@ -748,7 +746,7 @@ def BM_faults(request):
         'pending_fault_reports': pending_page_obj,
     }
 
-    return render(request, 'BM_faults.html', context)
+    return render(request, 'BM_pages/BM_faults.html', context)
 
 
 
@@ -762,7 +760,7 @@ def BM_manage_students(request):
 
     if not managed_buildings.exists():
         # Early return if no buildings are managed
-        return render(request, 'BM_manage_students.html', {
+        return render(request, 'BM_pages/BM_manage_students.html', {
             'buildings_data': [],
             'managed_buildings': [],
         })
@@ -864,7 +862,7 @@ def BM_manage_students(request):
         'active_building_id': active_building_id,
     }
 
-    return render(request, 'BM_manage_students.html', context)
+    return render(request, 'BM_pages/BM_manage_students.html', context)
 
 
 def handle_add_student(request, managed_buildings):
@@ -1130,7 +1128,7 @@ def OM_Homepage(request):
         'all_buildings': all_buildings,
     }
 
-    return render(request, 'OM_homepage.html', context)
+    return render(request, 'OM_pages/OM_Homepage.html', context)
 
 
 @login_required
@@ -1278,7 +1276,7 @@ def OM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'OM_inventory.html', {
+    return render(request, 'OM_pages/OM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
@@ -1386,7 +1384,7 @@ def OM_loan_requests(request):
         'available_counts': available_counts,
     }
 
-    return render(request, 'OM_loan_requests.html', context)
+    return render(request, 'OM_pages/OM_loan_requests.html', context)
 
 
 @login_required
@@ -1463,7 +1461,7 @@ def OM_faults(request):
         'pending_fault_reports': pending_page_obj,
     }
 
-    return render(request, 'OM_faults.html', context)
+    return render(request, 'OM_pages/OM_faults.html', context)
 
 
 @login_required
@@ -1475,7 +1473,7 @@ def OM_manage_students(request):
 
     if not all_buildings.exists():
         # Early return if no buildings exist
-        return render(request, 'OM_manage_students.html', {
+        return render(request, 'OM_pages/OM_manage_students.html', {
             'buildings_data': [],
             'all_buildings': [],
         })
@@ -1521,13 +1519,13 @@ def OM_manage_students(request):
 
     # Current date for filtering assignments
     current_date = timezone.now().date()
-    # End of current month for filtering assignments ending this month
-    month_end = current_date.replace(day=28)
-    if month_end.month == 12:
-        next_month = datetime.date(month_end.year + 1, 1, 1)
+    
+    # Calculate end of current month
+    if current_date.month == 12:
+        next_month = date(current_date.year + 1, 1, 1)
     else:
-        next_month = datetime.date(month_end.year, month_end.month + 1, 1)
-    month_end = next_month - datetime.timedelta(days=1)
+        next_month = date(current_date.year, current_date.month + 1, 1)
+    month_end = next_month - timedelta(days=1)
 
     for building in all_buildings:
         is_active = building.id == active_building_id
@@ -1619,7 +1617,7 @@ def OM_manage_students(request):
         'ending_this_month': ending_this_month,
     }
 
-    return render(request, 'OM_manage_students.html', context)
+    return render(request, 'OM_pages/OM_manage_students.html', context)
 
 
 # Helper functions for OM_manage_students - similar to BM functions but for all buildings
@@ -1928,7 +1926,7 @@ def OM_manage_BM(request):
         'building_staff_users': building_staff_users,
     }
 
-    return render(request, 'OM_manage_BM.html', context)
+    return render(request, 'OM_pages/OM_manage_BM.html', context)
 
 def login_page(request):
     if request.method == 'POST':

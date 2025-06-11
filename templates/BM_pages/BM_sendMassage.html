@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}שליחת הודעה - מנהל בניין{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .hero h2 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    .hero p {
+        margin: 0.5rem 0 0;
+        opacity: 0.9;
+    }
+    .form-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+    }
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    .form-group textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+    .form-group button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        width: 100%;
+    }
+    .form-group button:hover {
+        background-color: #2980b9;
+    }
+    .links {
+        margin-top: 2rem;
+        text-align: center;
+    }
+    .links a {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+    .links a:hover {
+        background-color: #2980b9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h2>שליחת הודעות לדיירי הבניין</h2>
+        <p>כאן תוכל לבחור בניין ולשלוח הודעה לכל הדיירים</p>
+    </div>
+
+    <div class="form-section">
+        <form method="POST" action="{% url 'BM_sendMassage' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="building">בחר בניין:</label>
+                <select id="building" name="building" required>
+                    <option value="" disabled selected>בחר בניין</option>
+                    <option value="1">בניין 1</option>
+                    <option value="2">בניין 2</option>
+                    <option value="3">בניין 3</option>
+                    <option value="4">בניין 4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">תוכן ההודעה:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">שלח הודעה</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="links">
+        <a href="{% url 'BM_Homepage' %}">חזרה לעמוד ראשי</a>
+    </div>
+</div>
+{% endblock %}
