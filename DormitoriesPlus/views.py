@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.urls import reverse
-from datetime import datetime, date, timedelta
+from datetime import datetime
 from django.utils.safestring import mark_safe
 from django.db.models.functions import Cast
 from django.db.models import IntegerField
@@ -15,7 +15,6 @@ from django.shortcuts import render, redirect
 from django.db.models import Count, Q, Prefetch
 from django.db import transaction
 from django.contrib.auth.models import User
-from .decorators import role_required
 # Then import your models
 from .models import (
     User,
@@ -47,7 +46,6 @@ def manager_Homepage(request):
 
 
 @login_required
-@role_required(['student'])
 def Students_homepage(request):
     user = request.user
 
@@ -301,8 +299,6 @@ def faults(request):
 
 
 # עמוד לשליחת הודעות לדיירים (BM_sendMassage.html)
-@login_required
-@role_required(['building_staff'])
 def BM_sendMassage(request):
     if request.method == 'POST':
         building = request.POST.get('building')
@@ -315,12 +311,11 @@ def BM_sendMassage(request):
         )
         messages.success(request, "ההודעה נשלחה בהצלחה!")
         return redirect('BM_sendMassage')
-    return render(request, 'BM_page/BM_sendMassage.html')
+    return render(request, 'BM_sendMassage.html')
 
 
 # עמוד לניהול מלאי (BM_inventory.html)
 @login_required
-@role_required(['building_staff'])
 def BM_inventory(request):
     # Handle form submissions for inventory management
     if request.method == 'POST':
@@ -465,7 +460,7 @@ def BM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'BM_page/BM_inventory.html', {
+    return render(request, 'BM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
@@ -488,7 +483,7 @@ def BM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'BM_page/BM_inventory.html', {
+    return render(request, 'BM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
@@ -496,7 +491,6 @@ def BM_inventory(request):
 
 
 @login_required
-@role_required(['building_staff'])
 def BM_Homepage(request):
     # Get the building manager (current user)
     bm = request.user
@@ -549,12 +543,11 @@ def BM_Homepage(request):
         'managed_buildings': managed_buildings,
     }
 
-    return render(request, 'BM_page/BM_Homepage.html', context)
+    return render(request, 'BM_Homepage.html', context)
 
 
 # עמוד לניהול בקשות השאלה (BM_loan_requests.html)
 @login_required
-@role_required(['building_staff'])
 def BM_loan_requests(request):
     # Get the building manager (current user)
     bm = request.user
@@ -668,11 +661,10 @@ def BM_loan_requests(request):
         'available_counts': available_counts,
     }
 
-    return render(request, 'BM_page/BM_loan_requests.html', context)
+    return render(request, 'BM_loan_requests.html', context)
 
 
 @login_required
-@role_required(['building_staff'])
 def BM_faults(request):
     # Get the building manager (current user)
     bm = request.user
@@ -756,11 +748,11 @@ def BM_faults(request):
         'pending_fault_reports': pending_page_obj,
     }
 
-    return render(request, 'BM_page/BM_faults.html', context)
+    return render(request, 'BM_faults.html', context)
+
 
 
 @login_required
-@role_required(['building_staff'])
 def BM_manage_students(request):
     # Get the building manager (current user)
     bm = request.user
@@ -770,7 +762,7 @@ def BM_manage_students(request):
 
     if not managed_buildings.exists():
         # Early return if no buildings are managed
-        return render(request, 'BM_page/BM_manage_students.html', {
+        return render(request, 'BM_manage_students.html', {
             'buildings_data': [],
             'managed_buildings': [],
         })
@@ -872,7 +864,7 @@ def BM_manage_students(request):
         'active_building_id': active_building_id,
     }
 
-    return render(request, 'BM_page/BM_manage_students.html', context)
+    return render(request, 'BM_manage_students.html', context)
 
 
 def handle_add_student(request, managed_buildings):
@@ -1067,7 +1059,6 @@ def handle_remove_student(request, managed_buildings):
 # Add these views to your views.py file
 
 @login_required
-@role_required(['office_staff'])
 def OM_Homepage(request):
     # Get the office manager (current user)
     om = request.user
@@ -1139,11 +1130,10 @@ def OM_Homepage(request):
         'all_buildings': all_buildings,
     }
 
-    return render(request, 'OM_page/OM_homepage.html', context)
+    return render(request, 'OM_homepage.html', context)
 
 
 @login_required
-@role_required(['office_staff'])
 def OM_inventory(request):
     # This is similar to BM_inventory but without building filtering
     # Handle form submissions for inventory management
@@ -1288,7 +1278,7 @@ def OM_inventory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'OM_page/OM_inventory.html', {
+    return render(request, 'OM_inventory.html', {
         'inventory': page_obj,
         'items_by_inventory': items_by_inventory,
         'page_obj': page_obj,
@@ -1296,7 +1286,6 @@ def OM_inventory(request):
 
 
 @login_required
-@role_required(['office_staff'])
 def OM_loan_requests(request):
     # Similar to BM_loan_requests but with access to all buildings
 
@@ -1397,11 +1386,10 @@ def OM_loan_requests(request):
         'available_counts': available_counts,
     }
 
-    return render(request, 'OM_page/OM_loan_requests.html', context)
+    return render(request, 'OM_loan_requests.html', context)
 
 
 @login_required
-@role_required(['office_staff'])
 def OM_faults(request):
     # Similar to BM_faults but with access to all buildings
 
@@ -1475,11 +1463,10 @@ def OM_faults(request):
         'pending_fault_reports': pending_page_obj,
     }
 
-    return render(request, 'OM_page/OM_faults.html', context)
+    return render(request, 'OM_faults.html', context)
 
 
 @login_required
-@role_required(['office_staff'])
 def OM_manage_students(request):
     # Similar to BM_manage_students but with all-buildings access
 
@@ -1488,7 +1475,7 @@ def OM_manage_students(request):
 
     if not all_buildings.exists():
         # Early return if no buildings exist
-        return render(request, 'OM_page/OM_manage_students.html', {
+        return render(request, 'OM_manage_students.html', {
             'buildings_data': [],
             'all_buildings': [],
         })
@@ -1534,13 +1521,13 @@ def OM_manage_students(request):
 
     # Current date for filtering assignments
     current_date = timezone.now().date()
-    
-    # Calculate end of current month
-    if current_date.month == 12:
-        next_month = date(current_date.year + 1, 1, 1)
+    # End of current month for filtering assignments ending this month
+    month_end = current_date.replace(day=28)
+    if month_end.month == 12:
+        next_month = datetime.date(month_end.year + 1, 1, 1)
     else:
-        next_month = date(current_date.year, current_date.month + 1, 1)
-    month_end = next_month - timedelta(days=1)
+        next_month = datetime.date(month_end.year, month_end.month + 1, 1)
+    month_end = next_month - datetime.timedelta(days=1)
 
     for building in all_buildings:
         is_active = building.id == active_building_id
@@ -1628,11 +1615,11 @@ def OM_manage_students(request):
         # Stats for dashboard
         'total_students_count': total_students_count,
         'avg_occupancy': avg_occupancy,
-        'total_empty_slots': total_empty_slots,
+        'total_empty_slots': total_empty_slots,  # New stat - total empty slots instead of available rooms
         'ending_this_month': ending_this_month,
     }
 
-    return render(request, 'OM_page/OM_manage_students.html', context)
+    return render(request, 'OM_manage_students.html', context)
 
 
 # Helper functions for OM_manage_students - similar to BM functions but for all buildings
@@ -1824,7 +1811,6 @@ def is_operations_manager(user):
     return user.is_authenticated and hasattr(user, 'profile') and user.profile.role == 'OM'
 
 @login_required
-@role_required(['office_staff'])
 def OM_manage_BM(request):
     """
     View for office managers to manage building managers and their building assignments.
@@ -1942,7 +1928,7 @@ def OM_manage_BM(request):
         'building_staff_users': building_staff_users,
     }
 
-    return render(request, 'OM_page/OM_manage_BM.html', context)
+    return render(request, 'OM_manage_BM.html', context)
 
 def login_page(request):
     if request.method == 'POST':

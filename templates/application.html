@@ -1,121 +1,86 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
 {% load static %}
+<html lang="he">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormitoriesPlus - השאלת ציוד</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+  </head>
+  <body>
+    <header>
+      <h1>DormitoriesPlus</h1>
+    </header>
 
-{% block title %}השאלת ציוד - DormitoriesPlus{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="hero">
+    <div class="container">
+      <div class="hero">
         <h2>השאלת ציוד</h2>
-    </div>
+      </div>
 
-    <div class="info-box" role="complementary" aria-label="פרטי משתמש">
-        <h3>הפרטים שלך:</h3>
-        <ul>
-            <li>שם: {{ user.first_name }} {{ user.last_name }}</li>
-            {% if user_room and user_building %}
-                <li>בניין: {{ user_building }}</li>
-                <li>חדר: {{ user_room }}</li>
-                <li>תאריך סיום מגורים: {{ end_date }}</li>
-            {% else %}
-                <li>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</li>
-            {% endif %}
-        </ul>
-    </div>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
 
-    <form method="post" class="loan-form" role="form" aria-label="טופס השאלת ציוד">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="item" id="item-label">פריט להשאלה:</label>
-            <select id="item" name="item" required
-                    aria-labelledby="item-label"
-                    aria-required="true">
-                <option value="">בחר פריט</option>
-                {% for item in available_items %}
-                    <option value="{{ item.id }}">{{ item.item_name }}</option>
-                {% endfor %}
+      <div class="info-box">
+          <p><strong>הפרטים שלך:</strong></p>
+          <p>שם: {{ user.first_name }} {{ user.last_name }}</p>
+          {% if user_room and user_building %}
+            <p>בניין: {{ user_building }}</p>
+            <p>חדר: {{ user_room }}</p>
+            <p>תאריך סיום מגורים: {{ end_date }}</p>
+          {% else %}
+            <p>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</p>
+          {% endif %}
+      </div>
+
+      <div class="form-container">
+        <h2>בקשה להשאלת פריט</h2>
+        <form method="POST" action="{% url 'application' %}">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="product">בחר פריט להשאלה:</label>
+            <select id="product" name="product" required>
+              <option value="">בחר פריט</option>
+              {% for item in available_items %}
+                <option value="{{ item.id }}">{{ item.item_name }}</option>
+              {% endfor %}
             </select>
+          </div>
+
+          <div class="form-group">
+            <label for="return_date">תאריך החזרה:</label>
+            <input type="date" id="return_date" name="return_date" min="{{ min_return_date }}" max="{{ max_return_date }}" required>
+          </div>
+
+            <div class="form-group">
+              <label for="note">הערות נוספות (אופציונלי):</label>
+              <textarea id="note" name="note" class="form-control" rows="3" placeholder="אם יש לך בקשות מיוחדות או הערות נוספות, כתוב אותן כאן"></textarea>
+            </div>
+
+          <div class="form-group">
+              <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח בקשה</button>
+              {% if not user_room %}
+                <p style="color: #dc3545; margin-top: 10px;">לא ניתן להגיש בקשה ללא שיבוץ חדר. אנא פנה למנהל המעונות.</p>
+              {% endif %}
+            </div>
+        </form>
+      </div>
+
+
+        <div class="links" style="justify-content: flex-start;">
+          <a href="{% url 'Students_homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
         </div>
+      </div>
 
-        <div class="form-group">
-            <label for="return_date" id="return-date-label">תאריך החזרה:</label>
-            <input type="date" id="return_date" name="return_date" required
-                   aria-labelledby="return-date-label"
-                   aria-required="true"
-                   min="{{ min_date }}"
-                   max="{{ max_date }}">
-        </div>
 
-        <div class="form-group">
-            <label for="note" id="note-label">הערות:</label>
-            <textarea id="note" name="note" rows="3"
-                      aria-labelledby="note-label"
-                      placeholder="הוסף הערות רלוונטיות (אופציונלי)"></textarea>
-        </div>
-
-        <button type="submit" class="submit-btn" 
-                {% if not user_room %}disabled{% endif %}
-                aria-label="שלח בקשת השאלה"
-                {% if not user_room %}aria-disabled="true"{% endif %}>
-            שלח בקשת השאלה
-        </button>
-
-        {% if not user_room %}
-            <p class="error-message" role="alert">
-                לא ניתן להגיש בקשת השאלה ללא שיבוץ חדר. אנא פנה למנהל המעונות.
-            </p>
-        {% endif %}
-    </form>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.querySelector('.loan-form').addEventListener('submit', function(e) {
-        const item = document.getElementById('item');
-        const returnDate = document.getElementById('return_date');
-        let isValid = true;
-
-        // Reset aria-invalid states
-        [item, returnDate].forEach(field => {
-            field.setAttribute('aria-invalid', 'false');
-        });
-
-        // Validate fields
-        if (!item.value) {
-            item.setAttribute('aria-invalid', 'true');
-            isValid = false;
-        }
-
-        if (!returnDate.value) {
-            returnDate.setAttribute('aria-invalid', 'true');
-            isValid = false;
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-            alert('אנא מלא את כל השדות הנדרשים');
-        }
-    });
-
-    // Add date validation
-    const returnDateInput = document.getElementById('return_date');
-    const minDate = new Date(returnDateInput.min);
-    const maxDate = new Date(returnDateInput.max);
-
-    returnDateInput.addEventListener('change', function() {
-        const selectedDate = new Date(this.value);
-        if (selectedDate < minDate || selectedDate > maxDate) {
-            this.setAttribute('aria-invalid', 'true');
-            alert('אנא בחר תאריך החזרה בטווח התאריכים המותר');
-            this.value = '';
-        } else {
-            this.setAttribute('aria-invalid', 'false');
-        }
-    });
-</script>
-{% endblock %}
+    <footer>
+      <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+    </footer>
+  </body>
+</html>
