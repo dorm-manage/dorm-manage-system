@@ -1,140 +1,168 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - עמוד ראשי לאחראי הבניין</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
 
-<body>
+{% block title %}דף הבית - מנהל בניין{% endblock %}
 
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .hero h2 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    .hero p {
+        margin: 0.5rem 0 0;
+        opacity: 0.9;
+    }
+    .links {
+        display: flex;
+        gap: 1rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+    }
+    .links a {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+    .links a:hover {
+        background-color: #2980b9;
+    }
+    .section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    .section h3 {
+        margin: 0 0 1rem;
+        color: #2c3e50;
+    }
+    .alert {
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    .alert-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    .alert a {
+        display: inline-block;
+        padding: 8px 15px;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .alert-danger a {
+        background-color: #dc3545;
+    }
+    .alert-info a {
+        background-color: #17a2b8;
+    }
+    .alert a:hover {
+        opacity: 0.9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="container">
-
     <div class="hero">
-
-    <div style="margin-top: 5px; font-size: 18px;">
-      <p>עמוד ראשי לאחראי בניין</p>
+        <div style="margin-top: 5px; font-size: 18px;">
+            <p>עמוד ראשי לאחראי בניין</p>
+        </div>
+        <h2>שלום {{ user.first_name }} {{ user.last_name }}</h2>
+        {% if managed_buildings %}
+            <div style="margin-top: 10px; font-size: 16px;">
+                <p>אחראי על בניין-
+                    {% for building in managed_buildings %}
+                        {{ building.building_name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        {% endif %}
     </div>
-    <h2>שלום {{ user.first_name }} {{ user.last_name }}</h2>
-    {% if managed_buildings %}
-      <div style="margin-top: 10px; font-size: 16px;">
-        <p>אחראי על בניין-
-          {% for building in managed_buildings %}
-            {{ building.building_name }}{% if not forloop.last %}, {% endif %}
-          {% endfor %}
-        </p>
-      </div>
-    {% endif %}
-    </div>
-
 
     <div class="links">
-      <a href="{% url 'BM_inventory' %}">ניהול מלאי</a>
-      <a href="{% url 'BM_loan_requests' %}">ניהול השאלות</a>
-      <a href="{% url 'BM_faults' %}">ניהול תקלות</a>
-      <a href="{% url 'BM_manage_students' %}">ניהול סטודנטים</a>
+        <a href="{% url 'BM_inventory' %}">ניהול מלאי</a>
+        <a href="{% url 'BM_loan_requests' %}">ניהול השאלות</a>
+        <a href="{% url 'BM_faults' %}">ניהול תקלות</a>
+        <a href="{% url 'BM_manage_students' %}">ניהול סטודנטים</a>
     </div>
 
-
-    <!-- ניהול השאלות ציוד -->
     <div class="section">
-    <h3>ניהול השאלות ציוד</h3>
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      {% if pending_requests_count > 0 %}
-        <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
-          <strong>יש לך {{ pending_requests_count }} בקשות השאלה ממתינות לאישור!</strong>
-          <div style="margin-top: 10px;">
-            <a href="{% url 'BM_loan_requests' %}" style="
-              display: inline-block;
-              padding: 8px 15px;
-              background-color: #dc3545;
-              color: white;
-              text-decoration: none;
-              border-radius: 4px;
-              font-weight: bold;
-            ">צפה בבקשות</a>
-          </div>
-        </div>
-      {% endif %}
+        <h3>ניהול השאלות ציוד</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            {% if pending_requests_count > 0 %}
+                <div class="alert alert-danger">
+                    <strong>יש לך {{ pending_requests_count }} בקשות השאלה ממתינות לאישור!</strong>
+                    <div style="margin-top: 10px;">
+                        <a href="{% url 'BM_loan_requests' %}">צפה בבקשות</a>
+                    </div>
+                </div>
+            {% endif %}
 
-      {% if borrowed_items_count > 0 %}
-        <div style="background-color: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px;">
-          <strong>יש {{ borrowed_items_count }} פריטים מושאלים שטרם הוחזרו.</strong>
-          <div style="margin-top: 10px;">
-            <a href="{% url 'BM_loan_requests' %}#borrowed-items" style="
-              display: inline-block;
-              padding: 8px 15px;
-              background-color: #17a2b8;
-              color: white;
-              text-decoration: none;
-              border-radius: 4px;
-              font-weight: bold;
-            ">צפה בפריטים מושאלים</a>
-          </div>
-        </div>
-      {% endif %}
+            {% if borrowed_items_count > 0 %}
+                <div class="alert alert-info">
+                    <strong>יש {{ borrowed_items_count }} פריטים מושאלים שטרם הוחזרו.</strong>
+                    <div style="margin-top: 10px;">
+                        <a href="{% url 'BM_loan_requests' %}#borrowed-items">צפה בפריטים מושאלים</a>
+                    </div>
+                </div>
+            {% endif %}
 
-      {% if pending_requests_count == 0 and borrowed_items_count == 0 %}
-        <p>אין בקשות חדשות או פריטים מושאלים שממתינים לטיפול.</p>
-      {% endif %}
-    </div>
+            {% if pending_requests_count == 0 and borrowed_items_count == 0 %}
+                <p>אין בקשות חדשות או פריטים מושאלים שממתינים לטיפול.</p>
+            {% endif %}
+        </div>
     </div>
 
-    <!-- ניהול דיווחי תקלות -->
     <div class="section">
-    <h3>ניהול דיווחי תקלות</h3>
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-    {% if open_faults_count > 0 %}
-      <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
-        <strong>יש לך {{ open_faults_count }} דיווחי תקלות חדשים לטיפולך!</strong>
-        <div style="margin-top: 10px;">
-          <a href="{% url 'BM_faults' %}" style="
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: #dc3545;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-          ">צפה בדיווחים</a>
+        <h3>ניהול דיווחי תקלות</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            {% if open_faults_count > 0 %}
+                <div class="alert alert-danger">
+                    <strong>יש לך {{ open_faults_count }} דיווחי תקלות חדשים לטיפולך!</strong>
+                    <div style="margin-top: 10px;">
+                        <a href="{% url 'BM_faults' %}">צפה בדיווחים</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if pending_faults_count > 0 %}
+                <div class="alert alert-info">
+                    <strong>יש {{ pending_faults_count }} תקלות שעוד לא הסתיים הטיפול בהן.</strong>
+                    <div style="margin-top: 10px;">
+                        <a href="{% url 'BM_faults' %}#pending-faults">צפה בתקלות בטיפול</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if open_faults_count == 0 and pending_faults_count == 0 %}
+                <p>אין דיווחי תקלות חדשים או תקלות בטיפול שממתינות לך.</p>
+            {% endif %}
         </div>
-      </div>
-    {% endif %}
-
-    {% if pending_faults_count > 0 %}
-      <div style="background-color: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px;">
-        <strong>יש {{ pending_faults_count }} תקלות שעוד לא הסתיים הטיפול בהן.</strong>
-        <div style="margin-top: 10px;">
-          <a href="{% url 'BM_faults' %}#pending-faults" style="
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: #17a2b8;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-          ">צפה בתקלות בטיפול</a>
-        </div>
-      </div>
-    {% endif %}
-
-    {% if open_faults_count == 0 and pending_faults_count == 0 %}
-      <p>אין דיווחי תקלות חדשים או תקלות בטיפול שממתינות לך.</p>
-    {% endif %}
     </div>
-    </div>
-
-
 </div>
-
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
-
-</body>
-</html>
+{% endblock %}

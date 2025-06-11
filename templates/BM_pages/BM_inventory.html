@@ -1,22 +1,100 @@
+{% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/inventory.css' %}">
-    <title>DormitoriesPlus - ניהול מלאי</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/buttons.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/modals.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
-<body>
 
+{% block title %}ניהול מלאי - מנהל בניין{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/inventory.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/buttons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/modals.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
+<style>
+    .hero {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .actions-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 2rem 0 1rem 0;
+    }
+    .back-button {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+    .back-button:hover {
+        background-color: #5a6268;
+    }
+    .table-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    .item-photo {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+    .pagination ul {
+        display: flex;
+        gap: 0.5rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .pagination li {
+        display: inline-block;
+    }
+    .pagination a, .pagination span {
+        padding: 0.5rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        color: #3498db;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .pagination a:hover {
+        background-color: #f8f9fa;
+    }
+    .pagination .active span {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+    .pagination .disabled span {
+        color: #6c757d;
+        pointer-events: none;
+    }
+    .modal-content h3 {
+        margin-top: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="container">
-
     <div class="hero">
         <h2>ניהול מלאי</h2>
         <p>כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
@@ -82,7 +160,6 @@
             </tbody>
         </table>
 
-        <!-- Pagination -->
         {% if page_obj.has_previous or page_obj.has_next %}
         <div class="pagination">
             <ul>
@@ -108,12 +185,10 @@
         {% endif %}
     </div>
 
-
     <div class="actions-bar">
         <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
         <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
     </div>
-
 
     <!-- Modal for adding new item -->
     <div id="addModal" class="modal">
@@ -181,11 +256,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
-<footer>
-    <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
-
+{% block extra_js %}
 <script>
     // Add modal functions
     function openAddModal() {
@@ -240,6 +313,4 @@
         }
     }, 5000);
 </script>
-
-</body>
-</html>
+{% endblock %}

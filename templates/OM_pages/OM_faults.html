@@ -1,19 +1,264 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - ניהול תקלות - מנהל משרד</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-</head>
-<body>
 
+{% block title %}ניהול תקלות - מנהל משרד{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .hero h2 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    .hero p {
+        margin: 0.5rem 0 0;
+        opacity: 0.9;
+    }
+    .tab-navigation {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .tab {
+        padding: 0.75rem 1.5rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .tab.active {
+        background-color: #3498db;
+        color: white;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .section {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .filter-section {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+    .filter-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    .filter-group select,
+    .filter-group input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+    }
+    .filter-group select:focus,
+    .filter-group input:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    .filter-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+    .filter-button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .filter-apply {
+        background-color: #3498db;
+        color: white;
+    }
+    .filter-apply:hover {
+        background-color: #2980b9;
+    }
+    .filter-reset {
+        background-color: #e74c3c;
+        color: white;
+    }
+    .filter-reset:hover {
+        background-color: #c0392b;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+    th {
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        font-weight: 600;
+        text-align: right;
+    }
+    td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+    .building-badge {
+        background-color: #3498db;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+    .urgency-high {
+        color: #e74c3c;
+        font-weight: bold;
+    }
+    .urgency-medium {
+        color: #f1c40f;
+        font-weight: bold;
+    }
+    .urgency-low {
+        color: #2ecc71;
+    }
+    .comment-form {
+        margin-top: 0.5rem;
+    }
+    .comment-container {
+        margin-bottom: 0.5rem;
+    }
+    .comment-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+        min-height: 60px;
+    }
+    .comment-btn {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.875rem;
+    }
+    .comment-btn:hover {
+        background-color: #2980b9;
+    }
+    .button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        color: white;
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    .button:last-child {
+        margin-bottom: 0;
+    }
+    .button-primary {
+        background-color: #3498db;
+    }
+    .button-primary:hover {
+        background-color: #2980b9;
+    }
+    .button-success {
+        background-color: #2ecc71;
+    }
+    .button-success:hover {
+        background-color: #27ae60;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+    .pagination a,
+    .pagination span {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        color: #3498db;
+        text-decoration: none;
+    }
+    .pagination a:hover {
+        background-color: #f8f9fa;
+    }
+    .pagination .current-page {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+    .pagination .disabled {
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+    .no-requests {
+        text-align: center;
+        padding: 2rem;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+    .back-button {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+    .back-button:hover {
+        background-color: #2980b9;
+    }
+    .message {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+    }
+    .message-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    .message-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="container">
+    <!-- כותרת העמוד -->
     <div class="hero">
         <h2>ניהול תקלות במעונות - מנהל משרד</h2>
         <p>ניהול דיווחי תקלות לכל הבניינים במערכת</p>
@@ -43,118 +288,117 @@
             <div class="filter-section">
                 <h4>סינון תקלות</h4>
                 <form method="get" action="{% url 'OM_faults' %}">
-                  <div class="filter-row">
-                    <div class="filter-group">
-                      <label for="building-filter">בניין:</label>
-                      <select id="building-filter" name="building">
-                        <option value="">כל הבניינים</option>
-                        {% for building in all_buildings %}
-                          <option value="{{ building.id }}" {% if request.GET.building == building.id|stringformat:"i" %}selected{% endif %}>
-                            בניין {{ building.building_name }}
-                          </option>
-                        {% endfor %}
-                      </select>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="building-filter">בניין:</label>
+                            <select id="building-filter" name="building">
+                                <option value="">כל הבניינים</option>
+                                {% for building in all_buildings %}
+                                    <option value="{{ building.id }}" {% if request.GET.building == building.id|stringformat:"i" %}selected{% endif %}>
+                                        בניין {{ building.building_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="urgency-filter">דחיפות:</label>
+                            <select id="urgency-filter" name="urgency">
+                                <option value="">כל הדחיפויות</option>
+                                <option value="גבוהה" {% if request.GET.urgency == 'גבוהה' %}selected{% endif %}>גבוהה</option>
+                                <option value="בינונית" {% if request.GET.urgency == 'בינונית' %}selected{% endif %}>בינונית</option>
+                                <option value="נמוכה" {% if request.GET.urgency == 'נמוכה' %}selected{% endif %}>נמוכה</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="date-from">מתאריך:</label>
+                            <input type="date" id="date-from" name="date_from" value="{{ request.GET.date_from|default:'' }}">
+                        </div>
+                        <div class="filter-buttons">
+                            <button type="submit" class="filter-button filter-apply">החל סינון</button>
+                            <a href="{% url 'OM_faults' %}" class="filter-button filter-reset">אפס</a>
+                        </div>
                     </div>
-                    <div class="filter-group">
-                      <label for="urgency-filter">דחיפות:</label>
-                      <select id="urgency-filter" name="urgency">
-                        <option value="">כל הדחיפויות</option>
-                        <option value="גבוהה" {% if request.GET.urgency == 'גבוהה' %}selected{% endif %}>גבוהה</option>
-                        <option value="בינונית" {% if request.GET.urgency == 'בינונית' %}selected{% endif %}>בינונית</option>
-                        <option value="נמוכה" {% if request.GET.urgency == 'נמוכה' %}selected{% endif %}>נמוכה</option>
-                      </select>
-                    </div>
-                    <div class="filter-group">
-                      <label for="date-from">מתאריך:</label>
-                      <input type="date" id="date-from" name="date_from" value="{{ request.GET.date_from|default:'' }}">
-                    </div>
-                    <div class="filter-buttons">
-                      <button type="submit" class="filter-button filter-apply">החל סינון</button>
-                      <a href="{% url 'OM_faults' %}" class="filter-button filter-reset">אפס</a>
-                    </div>
-                  </div>
                 </form>
             </div>
 
             {% if open_fault_reports %}
-              <table>
-                <thead>
-                  <tr>
-                    <th>סטודנט</th>
-                    <th>בניין</th>
-                    <th>חדר</th>
-                    <th>סוג התקלה</th>
-                    <th>תיאור התקלה</th>
-                    <th>דחיפות</th>
-                    <th>תאריך דיווח</th>
-                    <th>הערות מנהל</th>
-                    <th>פעולות</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for fault in open_fault_reports %}
-                    <tr>
-                      <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
-                      <td><span class="building-badge">{{ fault.room.building.building_name }}</span></td>
-                      <td>{{ fault.room.room_number }}</td>
-                      <td>{{ fault.fault_type }}</td>
-                      <td>{{ fault.fault_description }}</td>
-                      <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
-                      <td>{{ fault.created_at|date:"d/m/Y H:i" }}</td>
-                      <td>
-                        {{ fault.admin_note|default:"" }}
-                        <form method="POST" action="{% url 'OM_faults' %}" class="comment-form">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <input type="hidden" name="action" value="comment">
-                          <div class="comment-container">
-                              <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
-                          </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>סטודנט</th>
+                            <th>בניין</th>
+                            <th>חדר</th>
+                            <th>סוג התקלה</th>
+                            <th>תיאור התקלה</th>
+                            <th>דחיפות</th>
+                            <th>תאריך דיווח</th>
+                            <th>הערות מנהל</th>
+                            <th>פעולות</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fault in open_fault_reports %}
+                            <tr>
+                                <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
+                                <td><span class="building-badge">{{ fault.room.building.building_name }}</span></td>
+                                <td>{{ fault.room.room_number }}</td>
+                                <td>{{ fault.fault_type }}</td>
+                                <td>{{ fault.fault_description }}</td>
+                                <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
+                                <td>{{ fault.created_at|date:"d/m/Y H:i" }}</td>
+                                <td>
+                                    {{ fault.admin_note|default:"" }}
+                                    <form method="POST" action="{% url 'OM_faults' %}" class="comment-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                        <input type="hidden" name="action" value="comment">
+                                        <div class="comment-container">
+                                            <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                                        </div>
+                                        <button type="submit" class="comment-btn">שמור</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url 'OM_faults' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                        <button type="submit" name="action" value="pending" class="button button-primary">סמן בטיפול</button>
+                                        <button type="submit" name="action" value="resolved" class="button button-success">סגור דיווח</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-                          <button type="submit" class="comment-btn">שמור</button>
-                        </form>
-                      </td>
-                      <td>
-                        <form method="POST" action="{% url 'OM_faults' %}">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <button type="submit" name="action" value="pending" class="btn btn-primary" style="display: block; margin-bottom: 5px;">סמן בטיפול</button>
-                          <button type="submit" name="action" value="resolved" class="btn btn-success" style="display: block;">סגור דיווח</button>
-                        </form>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+                <!-- Pagination for open faults -->
+                {% if open_fault_reports.has_other_pages %}
+                    <div class="pagination">
+                        {% if open_fault_reports.has_previous %}
+                            <a href="?open_page={{ open_fault_reports.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">&laquo; הקודם</a>
+                        {% else %}
+                            <span class="disabled">&laquo; הקודם</span>
+                        {% endif %}
 
-              <!-- Pagination for open faults -->
-              {% if open_fault_reports.has_other_pages %}
-                <div class="pagination">
-                  {% if open_fault_reports.has_previous %}
-                    <a href="?open_page={{ open_fault_reports.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">&laquo; הקודם</a>
-                  {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
-                  {% endif %}
+                        {% for i in open_fault_reports.paginator.page_range %}
+                            {% if open_fault_reports.number == i %}
+                                <span class="current-page">{{ i }}</span>
+                            {% else %}
+                                <a href="?open_page={{ i }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
 
-                  {% for i in open_fault_reports.paginator.page_range %}
-                    {% if open_fault_reports.number == i %}
-                      <span class="current-page">{{ i }}</span>
-                    {% else %}
-                      <a href="?open_page={{ i }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">{{ i }}</a>
-                    {% endif %}
-                  {% endfor %}
-
-                  {% if open_fault_reports.has_next %}
-                    <a href="?open_page={{ open_fault_reports.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">הבא &raquo;</a>
-                  {% else %}
-                    <span class="disabled">הבא &raquo;</span>
-                  {% endif %}
-                </div>
-              {% endif %}
+                        {% if open_fault_reports.has_next %}
+                            <a href="?open_page={{ open_fault_reports.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">הבא &raquo;</a>
+                        {% else %}
+                            <span class="disabled">הבא &raquo;</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
             {% else %}
-              <div class="no-requests">
-                <p>אין תקלות פתוחות</p>
-              </div>
+                <div class="no-requests">
+                    <p>אין תקלות פתוחות</p>
+                </div>
             {% endif %}
         </div>
     </div>
@@ -168,118 +412,118 @@
             <div class="filter-section">
                 <h4>סינון תקלות בטיפול</h4>
                 <form method="get" action="{% url 'OM_faults' %}#pending-faults">
-                  <div class="filter-row">
-                    <div class="filter-group">
-                      <label for="pending-building-filter">בניין:</label>
-                      <select id="pending-building-filter" name="pending_building">
-                        <option value="">כל הבניינים</option>
-                        {% for building in all_buildings %}
-                          <option value="{{ building.id }}" {% if request.GET.pending_building == building.id|stringformat:"i" %}selected{% endif %}>
-                            בניין {{ building.building_name }}
-                          </option>
-                        {% endfor %}
-                      </select>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="pending-building-filter">בניין:</label>
+                            <select id="pending-building-filter" name="pending_building">
+                                <option value="">כל הבניינים</option>
+                                {% for building in all_buildings %}
+                                    <option value="{{ building.id }}" {% if request.GET.pending_building == building.id|stringformat:"i" %}selected{% endif %}>
+                                        בניין {{ building.building_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="days-filter">ימים בטיפול:</label>
+                            <select id="days-filter" name="days">
+                                <option value="">הכל</option>
+                                <option value="7" {% if request.GET.days == '7' %}selected{% endif %}>מעל 7 ימים</option>
+                                <option value="14" {% if request.GET.days == '14' %}selected{% endif %}>מעל 14 ימים</option>
+                                <option value="30" {% if request.GET.days == '30' %}selected{% endif %}>מעל 30 ימים</option>
+                            </select>
+                        </div>
+                        <div class="filter-buttons">
+                            <button type="submit" class="filter-button filter-apply">החל סינון</button>
+                            <a href="{% url 'OM_faults' %}#pending-faults" class="filter-button filter-reset">אפס</a>
+                        </div>
                     </div>
-                    <div class="filter-group">
-                      <label for="days-filter">ימים בטיפול:</label>
-                      <select id="days-filter" name="days">
-                        <option value="">הכל</option>
-                        <option value="7" {% if request.GET.days == '7' %}selected{% endif %}>מעל 7 ימים</option>
-                        <option value="14" {% if request.GET.days == '14' %}selected{% endif %}>מעל 14 ימים</option>
-                        <option value="30" {% if request.GET.days == '30' %}selected{% endif %}>מעל 30 ימים</option>
-                      </select>
-                    </div>
-                    <div class="filter-buttons">
-                      <button type="submit" class="filter-button filter-apply">החל סינון</button>
-                      <a href="{% url 'OM_faults' %}#pending-faults" class="filter-button filter-reset">אפס</a>
-                    </div>
-                  </div>
                 </form>
             </div>
 
             {% if pending_fault_reports %}
-              <table>
-                <thead>
-                  <tr>
-                    <th>סטודנט</th>
-                    <th>בניין</th>
-                    <th>חדר</th>
-                    <th>סוג התקלה</th>
-                    <th>תיאור התקלה</th>
-                    <th>דחיפות</th>
-                    <th>תאריך דיווח</th>
-                    <th>עדכון אחרון</th>
-                    <th>הערות מנהל</th>
-                    <th>פעולות</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for fault in pending_fault_reports %}
-                    <tr>
-                      <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
-                      <td><span class="building-badge">{{ fault.room.building.building_name }}</span></td>
-                      <td>{{ fault.room.room_number }}</td>
-                      <td>{{ fault.fault_type }}</td>
-                      <td>{{ fault.fault_description }}</td>
-                      <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
-                      <td>
-                          {{ fault.created_at|date:"d/m/Y H:i" }}
-                          <br>
-                          <span style="font-size: 0.85em; color: #6c757d;">(בטיפול {{ fault.days_elapsed_text }})</span>
-                        </td>
-                      <td>{{ fault.updated_at|date:"d/m/Y H:i" }}</td>
-                      <td>
-                        {{ fault.admin_note|default:"" }}
-                        <form method="POST" action="{% url 'OM_faults' %}" class="comment-form">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <input type="hidden" name="action" value="comment">
-                          <div class="comment-container">
-                              <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
-                          </div>
-                          <button type="submit" class="comment-btn">שמור</button>
-                        </form>
-                      </td>
-                      <td>
-                        <form method="POST" action="{% url 'OM_faults' %}">
-                          {% csrf_token %}
-                          <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <button type="submit" name="action" value="resolved" class="btn btn-success">סגור דיווח</button>
-                        </form>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>סטודנט</th>
+                            <th>בניין</th>
+                            <th>חדר</th>
+                            <th>סוג התקלה</th>
+                            <th>תיאור התקלה</th>
+                            <th>דחיפות</th>
+                            <th>תאריך דיווח</th>
+                            <th>עדכון אחרון</th>
+                            <th>הערות מנהל</th>
+                            <th>פעולות</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fault in pending_fault_reports %}
+                            <tr>
+                                <td>{{ fault.user.first_name }} {{ fault.user.last_name }}</td>
+                                <td><span class="building-badge">{{ fault.room.building.building_name }}</span></td>
+                                <td>{{ fault.room.room_number }}</td>
+                                <td>{{ fault.fault_type }}</td>
+                                <td>{{ fault.fault_description }}</td>
+                                <td class="urgency-{{ fault.urgency }}">{{ fault.urgency }}</td>
+                                <td>
+                                    {{ fault.created_at|date:"d/m/Y H:i" }}
+                                    <br>
+                                    <span style="font-size: 0.85em; color: #6c757d;">(בטיפול {{ fault.days_elapsed_text }})</span>
+                                </td>
+                                <td>{{ fault.updated_at|date:"d/m/Y H:i" }}</td>
+                                <td>
+                                    {{ fault.admin_note|default:"" }}
+                                    <form method="POST" action="{% url 'OM_faults' %}" class="comment-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                        <input type="hidden" name="action" value="comment">
+                                        <div class="comment-container">
+                                            <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                                        </div>
+                                        <button type="submit" class="comment-btn">שמור</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url 'OM_faults' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="fault_id" value="{{ fault.id }}">
+                                        <button type="submit" name="action" value="resolved" class="button button-success">סגור דיווח</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-              <!-- Pagination for pending faults -->
-              {% if pending_fault_reports.has_other_pages %}
-                <div class="pagination">
-                  {% if pending_fault_reports.has_previous %}
-                    <a href="?pending_page={{ pending_fault_reports.previous_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">&laquo; הקודם</a>
-                  {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
-                  {% endif %}
+                <!-- Pagination for pending faults -->
+                {% if pending_fault_reports.has_other_pages %}
+                    <div class="pagination">
+                        {% if pending_fault_reports.has_previous %}
+                            <a href="?pending_page={{ pending_fault_reports.previous_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">&laquo; הקודם</a>
+                        {% else %}
+                            <span class="disabled">&laquo; הקודם</span>
+                        {% endif %}
 
-                  {% for i in pending_fault_reports.paginator.page_range %}
-                    {% if pending_fault_reports.number == i %}
-                      <span class="current-page">{{ i }}</span>
-                    {% else %}
-                      <a href="?pending_page={{ i }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">{{ i }}</a>
-                    {% endif %}
-                  {% endfor %}
+                        {% for i in pending_fault_reports.paginator.page_range %}
+                            {% if pending_fault_reports.number == i %}
+                                <span class="current-page">{{ i }}</span>
+                            {% else %}
+                                <a href="?pending_page={{ i }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
 
-                  {% if pending_fault_reports.has_next %}
-                    <a href="?pending_page={{ pending_fault_reports.next_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">הבא &raquo;</a>
-                  {% else %}
-                    <span class="disabled">הבא &raquo;</span>
-                  {% endif %}
-                </div>
-              {% endif %}
+                        {% if pending_fault_reports.has_next %}
+                            <a href="?pending_page={{ pending_fault_reports.next_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">הבא &raquo;</a>
+                        {% else %}
+                            <span class="disabled">הבא &raquo;</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
             {% else %}
-              <div class="no-requests">
-                <p>אין תקלות בטיפול</p>
-              </div>
+                <div class="no-requests">
+                    <p>אין תקלות בטיפול</p>
+                </div>
             {% endif %}
         </div>
     </div>
@@ -287,54 +531,48 @@
     <a href="{% url 'OM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
 </div>
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Function to switch tabs
     function switchTab(tabId) {
-      // Hide all tab contents
-      document.querySelectorAll('.tab-content').forEach(function(content) {
-        content.classList.remove('active');
-      });
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(function(content) {
+            content.classList.remove('active');
+        });
 
-      // Remove active class from all tabs
-      document.querySelectorAll('.tab').forEach(function(tab) {
-        tab.classList.remove('active');
-      });
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab').forEach(function(tab) {
+            tab.classList.remove('active');
+        });
 
-      // Show the selected tab content
-      document.getElementById(tabId).classList.add('active');
+        // Show the selected tab content
+        document.getElementById(tabId).classList.add('active');
 
-      // Add active class to the clicked tab
-      document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
+        // Add active class to the clicked tab
+        document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
     }
 
     // Add click event listeners to tabs
     document.querySelectorAll('.tab').forEach(function(tab) {
-      tab.addEventListener('click', function() {
-        var tabId = this.getAttribute('data-tab');
-        switchTab(tabId);
-        // Update URL hash without causing page reload
-        window.history.replaceState(null, null, '#' + tabId);
-      });
+        tab.addEventListener('click', function() {
+            var tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
+            // Update URL hash without causing page reload
+            window.history.replaceState(null, null, '#' + tabId);
+        });
     });
 
     // Check if URL has a hash and switch to that tab
     if(window.location.hash) {
-      var hashTabId = window.location.hash.substring(1); // Remove the # symbol
-      if(document.getElementById(hashTabId)) {
-        switchTab(hashTabId);
-      }
+        var hashTabId = window.location.hash.substring(1); // Remove the # symbol
+        if(document.getElementById(hashTabId)) {
+            switchTab(hashTabId);
+        }
     } else {
-      // Set default active tab if no hash
-      document.querySelector('.tab').classList.add('active');
-      document.querySelector('.tab-content').classList.add('active');
+        // Set default active tab if no hash
+        document.querySelector('.tab').classList.add('active');
+        document.querySelector('.tab-content').classList.add('active');
     }
-  });
+});
 </script>
-
-</body>
-</html>
+{% endblock %}

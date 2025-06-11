@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.urls import reverse
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.utils.safestring import mark_safe
 from django.db.models.functions import Cast
 from django.db.models import IntegerField
@@ -171,9 +171,7 @@ def application(request):
 
     # Get all available items that can be borrowed
     available_items = (InventoryTracking.objects
-                       .filter(item__status='available')
-                       .annotate(available_count=Count('item'))
-                       .filter(available_count__gt=0)
+                    
                        .distinct())
 
     # Define min and max return dates
@@ -1521,13 +1519,13 @@ def OM_manage_students(request):
 
     # Current date for filtering assignments
     current_date = timezone.now().date()
-    # End of current month for filtering assignments ending this month
-    month_end = current_date.replace(day=28)
-    if month_end.month == 12:
-        next_month = datetime.date(month_end.year + 1, 1, 1)
+    
+    # Calculate end of current month
+    if current_date.month == 12:
+        next_month = date(current_date.year + 1, 1, 1)
     else:
-        next_month = datetime.date(month_end.year, month_end.month + 1, 1)
-    month_end = next_month - datetime.timedelta(days=1)
+        next_month = date(current_date.year, current_date.month + 1, 1)
+    month_end = next_month - timedelta(days=1)
 
     for building in all_buildings:
         is_active = building.id == active_building_id

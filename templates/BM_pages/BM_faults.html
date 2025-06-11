@@ -1,28 +1,228 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="he">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DormitoriesPlus - ניהול תקלות</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/tables.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/manager.css' %}">
-    </head>
-<body>
 
-<header>
-  <h1>DormitoriesPlus</h1>
-</header>
+{% block title %}ניהול תקלות - מנהל בניין{% endblock %}
 
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .tab-navigation {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 0.5rem;
+    }
+
+    .tab {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .tab:hover {
+        background-color: #f8f9fa;
+    }
+
+    .tab.active {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .tab-content {
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .section {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .section h3 {
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5rem;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        text-align: right;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    td {
+        padding: 1rem;
+        border-bottom: 1px solid #e9ecef;
+        vertical-align: middle;
+    }
+
+    .urgency-high {
+        color: #dc3545;
+        font-weight: 600;
+    }
+
+    .urgency-medium {
+        color: #ffc107;
+        font-weight: 600;
+    }
+
+    .urgency-low {
+        color: #28a745;
+        font-weight: 600;
+    }
+
+    .comment-form {
+        margin-top: 1rem;
+    }
+
+    .comment-container {
+        margin-bottom: 0.5rem;
+    }
+
+    .comment-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        resize: vertical;
+        min-height: 60px;
+    }
+
+    .comment-btn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .comment-btn:hover {
+        background-color: #5a6268;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+
+    .pagination a, .pagination span {
+        padding: 0.5rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        color: #3498db;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .pagination a:hover {
+        background-color: #f8f9fa;
+    }
+
+    .pagination .current-page {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+
+    .pagination .disabled {
+        color: #6c757d;
+        pointer-events: none;
+    }
+
+    .no-requests {
+        text-align: center;
+        padding: 2rem;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        color: #6c757d;
+    }
+
+    .back-button {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+        background-color: #5a6268;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="container">
     <div class="hero">
         <h2>ניהול תקלות במעונות</h2>
     </div>
 
-    <!-- ניווט בין טאבים - בסגנון BM_loan_requests -->
+    <!-- ניווט בין טאבים -->
     <div class="tab-navigation">
         <div class="tab active" data-tab="open-faults">תקלות פתוחות</div>
         <div class="tab" data-tab="pending-faults">תקלות בטיפול</div>
@@ -66,7 +266,6 @@
                           <div class="comment-container">
                               <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
                           </div>
-
                           <button type="submit" class="comment-btn">שמור</button>
                         </form>
                       </td>
@@ -83,7 +282,7 @@
                 </tbody>
               </table>
 
-              <!-- Pagination for open faults - updated to match BM_loan_requests style -->
+              <!-- Pagination for open faults -->
               {% if open_fault_reports.has_other_pages %}
                 <div class="pagination">
                   {% if open_fault_reports.has_previous %}
@@ -174,7 +373,7 @@
                 </tbody>
               </table>
 
-              <!-- Pagination for pending faults - updated to match BM_loan_requests style -->
+              <!-- Pagination for pending faults -->
               {% if pending_fault_reports.has_other_pages %}
                 <div class="pagination">
                   {% if pending_fault_reports.has_previous %}
@@ -208,11 +407,9 @@
 
     <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
 </div>
+{% endblock %}
 
-<footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
-</footer>
-
+{% block extra_js %}
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Function to switch tabs
@@ -265,6 +462,4 @@
     }
   });
 </script>
-
-</body>
-</html>
+{% endblock %}
