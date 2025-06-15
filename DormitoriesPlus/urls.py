@@ -14,7 +14,6 @@ urlpatterns = [
     path('student/application/', views.application, name='application'),
     path('student/faults/', views.faults, name='faults'),
     path('student/connect-us/', views.connect_us, name='connect_us'),
-    path('student/personal-area/', views.Personal_erea, name='personal_erea'),
 
     # Building Manager URLs
     path('bm/homepage/', views.BM_Homepage, name='BM_Homepage'),
