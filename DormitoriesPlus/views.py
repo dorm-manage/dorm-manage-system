@@ -37,10 +37,6 @@ def connect_us(request):
     return render(request, 'Student_pages/connect_us.html')
 
 
-def Personal_erea(request):
-    return render(request, 'Personal_erea.html')
-
-
 def manager_Homepage(request):
     return render(request, 'OM_pages/OM_Homepage.html')
 
