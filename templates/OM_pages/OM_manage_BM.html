@@ -299,7 +299,13 @@
 
                 <div class="form-group">
                     <label for="password">סיסמה ראשונית:</label>
-                    <input type="password" id="password" name="password" value="123456789">
+                    <div style="display: flex; position: relative;">
+                        <input type="password" id="password" name="password" value="123456789" required>
+                        <button type="button" onclick="togglePasswordVisibility()"
+                                style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #335db3; cursor: pointer;">
+                            <span id="password-toggle-icon">👁️</span>
+                        </button>
+                    </div>
                     <small style="color: #666;">סיסמה ברירת מחדל: 123456789</small>
                 </div>
 
@@ -400,5 +406,18 @@
             messages[i].style.display = 'none';
         }
     }, 5000);
+
+    function togglePasswordVisibility() {
+        var passwordField = document.getElementById("password");
+        var toggleIcon = document.getElementById("password-toggle-icon");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.textContent = "🔒";
+        } else {
+            passwordField.type = "password";
+            toggleIcon.textContent = "👁️";
+        }
+    }
 </script>
 {% endblock %}
