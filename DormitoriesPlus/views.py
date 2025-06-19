@@ -1058,7 +1058,7 @@ def OM_Homepage(request):
     om = request.user
 
     # Get all buildings
-    all_buildings = Building.objects.all()
+    all_buildings = Building.objects.all().order_by('building_name')
 
     # Count total students
     total_students = User.objects.filter(role='student', is_active=True).count()
@@ -1465,7 +1465,7 @@ def OM_manage_students(request):
     # Similar to BM_manage_students but with all-buildings access
 
     # Get all buildings
-    all_buildings = Building.objects.all()
+    all_buildings = Building.objects.all().order_by('building_name')
 
     if not all_buildings.exists():
         # Early return if no buildings exist
@@ -1816,7 +1816,7 @@ def OM_manage_BM(request):
         return redirect('login_page')
 
     # Get all buildings
-    buildings = Building.objects.all().select_related('building_staff_member')
+    buildings = Building.objects.all().order_by('building_name').select_related('building_staff_member')
 
     # Get all users with building_staff role for dropdown
     building_staff_users = User.objects.filter(role='building_staff')
