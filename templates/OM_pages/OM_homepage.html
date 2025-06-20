@@ -190,5 +190,43 @@
             </a>
         </div>
     </div>
+
+    <!-- AI Summary Section -->
+    <div class="section" id="ai-summary-section">
+        <h3>AI Summary (English & Hebrew)</h3>
+        <button id="generate-ai-summary" style="margin-bottom: 1rem;">Generate AI Summary</button>
+        <div id="ai-summary-loading" style="display:none; color: #4a90e2;">Generating summary, please wait...</div>
+        <div id="ai-summary-result" style="white-space: pre-line;"></div>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('generate-ai-summary');
+    const resultDiv = document.getElementById('ai-summary-result');
+    const loadingDiv = document.getElementById('ai-summary-loading');
+    btn.addEventListener('click', function() {
+        resultDiv.textContent = '';
+        loadingDiv.style.display = 'block';
+        fetch('/api/om-ai-summary/')
+            .then(response => response.json())
+            .then(data => {
+                loadingDiv.style.display = 'none';
+                if (data.summary) {
+                    resultDiv.textContent = data.summary;
+                } else if (data.error) {
+                    resultDiv.textContent = 'Error: ' + data.error;
+                } else {
+                    resultDiv.textContent = 'No summary received.';
+                }
+            })
+            .catch(error => {
+                loadingDiv.style.display = 'none';
+                resultDiv.textContent = 'Error: ' + error;
+            });
+    });
+});
+</script>
 {% endblock %}
