@@ -150,7 +150,9 @@ class OMAISummaryAPIView(APIView):
         )
         # Use requests library to call Gemini REST API
         try:
-            api_key = "AIzaSyDbQYOF_JD7zSJRmZWNmLyKKbr3b-G_wvE" 
+            api_key = os.getenv("GEMINI_API_KEY")
+            if not api_key:
+                return Response({'error': 'GEMINI_API_KEY not found in environment variables.'}, status=500)
             url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={api_key}"
             headers = {"Content-Type": "application/json"}
             data = {
