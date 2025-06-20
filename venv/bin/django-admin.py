@@ -1,4 +1,4 @@
-#!/Users/ohadbachner/Documents/dorm-manage-system/venv/bin/python
+#!/Users/ohadbachner/Documents/dorm-manage-system/venv/bin/python3.8
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
