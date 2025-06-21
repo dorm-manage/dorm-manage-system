@@ -1740,15 +1740,6 @@ def OM_manage_students(request):
                 Q(end_date__isnull=True) | Q(end_date__gte=current_date)
             ).select_related('user', 'room').order_by('room__room_number')
 
-            # Count students ending this month
-            ending_this_month_count = RoomAssignment.objects.filter(
-                room__building=building,
-                end_date__gte=current_date,
-                end_date__lte=month_end
-            ).count()
-
-            ending_this_month += ending_this_month_count
-
             # Setup pagination
             page_size = 20  # 20 students per page
             paginator = Paginator(students_qs, page_size)
@@ -1769,16 +1760,25 @@ def OM_manage_students(request):
     total_students_count = total_occupied
     avg_occupancy = int((total_occupied / total_capacity * 100)) if total_capacity > 0 else 0
 
+    # Calculate occupancy rate - based on room assignments
+    total_rooms = Room.objects.count()
+    # Count rooms that have at least one assignment
+    occupied_rooms = Room.objects.annotate(
+        assignment_count=Count('assignments')
+    ).filter(assignment_count__gt=0).count()
+    occupancy_rate = int((occupied_rooms / total_rooms * 100)) if total_rooms > 0 else 0
+
     context = {
         'buildings_data': buildings_data,
         'all_buildings': all_buildings,
         'active_building_id': active_building_id,
         # Stats for dashboard
         'total_students_count': total_students_count,
-        'avg_occupancy': avg_occupancy,
+        'occupancy_rate': occupancy_rate,
         'total_empty_slots': total_empty_slots,  # New stat - total empty slots instead of available rooms
-        'ending_this_month': ending_this_month,
     }
+
+
 
     return render(request, 'OM_pages/OM_manage_students.html', context)
 
