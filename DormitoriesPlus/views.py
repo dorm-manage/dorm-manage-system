@@ -1315,19 +1315,68 @@ def OM_inventory(request):
 @login_required
 @role_required(['office_staff'])
 def OM_loan_requests(request):
-    # Similar to BM_loan_requests but with access to all buildings
+    # Get all buildings for the dropdown
+    all_buildings = Building.objects.all().order_by('building_name')
 
-    # Get all pending equipment rental requests
+    # Get filter parameters from request
+    building_filter = request.GET.get('building')
+    date_from_filter = request.GET.get('date_from')
+    date_to_filter = request.GET.get('date_to')
+    borrowed_building_filter = request.GET.get('borrowed_building')
+    overdue_filter = request.GET.get('overdue')
+
+    # Base queryset for pending equipment rental requests
     pending_requests_list = Request.objects.filter(
         request_type='equipment_rental',
         status='pending'
-    ).select_related('user', 'item', 'room').order_by('-created_at')
+    ).select_related('user', 'item', 'room', 'room__building')
 
-    # Get borrowed (approved but not returned) equipment requests
+    # Apply filters for pending requests
+    if building_filter:
+        pending_requests_list = pending_requests_list.filter(room__building_id=building_filter)
+
+    if date_from_filter:
+        try:
+            date_from = datetime.strptime(date_from_filter, '%Y-%m-%d').date()
+            pending_requests_list = pending_requests_list.filter(created_at__date__gte=date_from)
+        except ValueError:
+            pass  # Invalid date format, ignore filter
+
+    if date_to_filter:
+        try:
+            date_to = datetime.strptime(date_to_filter, '%Y-%m-%d').date()
+            pending_requests_list = pending_requests_list.filter(created_at__date__lte=date_to)
+        except ValueError:
+            pass  # Invalid date format, ignore filter
+
+    pending_requests_list = pending_requests_list.order_by('-created_at')
+
+    # Base queryset for borrowed (approved but not returned) equipment requests
     borrowed_items_list = Request.objects.filter(
         request_type='equipment_rental',
         status='approved'
-    ).select_related('user', 'item', 'room').order_by('-updated_at')
+    ).select_related('user', 'item', 'room', 'room__building')
+
+    # Apply filters for borrowed items
+    if borrowed_building_filter:
+        borrowed_items_list = borrowed_items_list.filter(room__building_id=borrowed_building_filter)
+
+    if overdue_filter:
+        current_date = timezone.now().date()
+        if overdue_filter == 'yes':
+            # Only overdue items
+            borrowed_items_list = borrowed_items_list.filter(
+                return_date__lt=current_date
+            )
+        elif overdue_filter == 'soon':
+            # Items due within 7 days
+            soon_date = current_date + timedelta(days=7)
+            borrowed_items_list = borrowed_items_list.filter(
+                return_date__gte=current_date,
+                return_date__lte=soon_date
+            )
+
+    borrowed_items_list = borrowed_items_list.order_by('-updated_at')
 
     # Pagination for pending requests - 10 items per page
     pending_paginator = Paginator(pending_requests_list, 10)
@@ -1399,11 +1448,31 @@ def OM_loan_requests(request):
 
             messages.success(request, "הבקשה עודכנה בהצלחה!")
 
-            # Preserve the active tab after form submission
+            # Preserve the active tab after form submission and maintain filters
+            redirect_url = reverse('OM_loan_requests')
+            params = []
+
+            # Preserve filter parameters
+            if building_filter:
+                params.append(f'building={building_filter}')
+            if date_from_filter:
+                params.append(f'date_from={date_from_filter}')
+            if date_to_filter:
+                params.append(f'date_to={date_to_filter}')
+            if borrowed_building_filter:
+                params.append(f'borrowed_building={borrowed_building_filter}')
+            if overdue_filter:
+                params.append(f'overdue={overdue_filter}')
+
+            if params:
+                redirect_url += '?' + '&'.join(params)
+
+            # If the action was on borrowed items, redirect to borrowed tab
             if action in ['return', 'damaged']:
-                return redirect(f"{reverse('OM_loan_requests')}#borrowed-items")
-            else:
-                return redirect('OM_loan_requests')
+                redirect_url += '#borrowed-items'
+
+            return redirect(redirect_url)
+
         except Request.DoesNotExist:
             messages.error(request, "בקשה לא נמצאה!")
             return redirect('OM_loan_requests')
@@ -1412,6 +1481,7 @@ def OM_loan_requests(request):
         'pending_requests': pending_page_obj,
         'borrowed_items': borrowed_page_obj,
         'available_counts': available_counts,
+        'all_buildings': all_buildings,  # This was missing!
     }
 
     return render(request, 'OM_pages/OM_loan_requests.html', context)
@@ -1420,19 +1490,57 @@ def OM_loan_requests(request):
 @login_required
 @role_required(['office_staff'])
 def OM_faults(request):
-    # Similar to BM_faults but with access to all buildings
+    # Get all buildings for the dropdown
+    all_buildings = Building.objects.all().order_by('building_name')
 
-    # Get open fault reports from all buildings
+    # Get filter parameters from request
+    building_filter = request.GET.get('building')
+    urgency_filter = request.GET.get('urgency')
+    date_from_filter = request.GET.get('date_from')
+    pending_building_filter = request.GET.get('pending_building')
+    days_filter = request.GET.get('days')
+
+    # Base queryset for open fault reports
     open_fault_reports = Request.objects.filter(
         request_type='fault_report',
         status='open'
-    ).select_related('user', 'room', 'room__building').order_by('-created_at')
+    ).select_related('user', 'room', 'room__building')
 
-    # Get pending fault reports from all buildings
+    # Apply filters for open faults
+    if building_filter:
+        open_fault_reports = open_fault_reports.filter(room__building_id=building_filter)
+
+    if urgency_filter:
+        open_fault_reports = open_fault_reports.filter(urgency=urgency_filter)
+
+    if date_from_filter:
+        try:
+            date_from = datetime.strptime(date_from_filter, '%Y-%m-%d').date()
+            open_fault_reports = open_fault_reports.filter(created_at__date__gte=date_from)
+        except ValueError:
+            pass  # Invalid date format, ignore filter
+
+    open_fault_reports = open_fault_reports.order_by('-created_at')
+
+    # Base queryset for pending fault reports
     pending_fault_reports = Request.objects.filter(
         request_type='fault_report',
         status='pending'
-    ).select_related('user', 'room', 'room__building').order_by('-updated_at')
+    ).select_related('user', 'room', 'room__building')
+
+    # Apply filters for pending faults
+    if pending_building_filter:
+        pending_fault_reports = pending_fault_reports.filter(room__building_id=pending_building_filter)
+
+    if days_filter:
+        try:
+            days = int(days_filter)
+            cutoff_date = timezone.now().date() - timedelta(days=days)
+            pending_fault_reports = pending_fault_reports.filter(created_at__date__lte=cutoff_date)
+        except ValueError:
+            pass  # Invalid number, ignore filter
+
+    pending_fault_reports = pending_fault_reports.order_by('-updated_at')
 
     # Calculate days elapsed for each pending fault report
     current_date = timezone.now().date()
@@ -1474,8 +1582,30 @@ def OM_faults(request):
         except Request.DoesNotExist:
             messages.error(request, "תקלה לא נמצאה!")
 
-        # Redirect back to the page, maintaining the correct tab
-        return redirect('OM_faults')
+        # Redirect back to the page, maintaining the correct tab and filters
+        redirect_url = reverse('OM_faults')
+        params = []
+
+        # Preserve filter parameters
+        if building_filter:
+            params.append(f'building={building_filter}')
+        if urgency_filter:
+            params.append(f'urgency={urgency_filter}')
+        if date_from_filter:
+            params.append(f'date_from={date_from_filter}')
+        if pending_building_filter:
+            params.append(f'pending_building={pending_building_filter}')
+        if days_filter:
+            params.append(f'days={days_filter}')
+
+        if params:
+            redirect_url += '?' + '&'.join(params)
+
+        # If the action was on a pending fault, redirect to pending tab
+        if action and fault.status == 'pending':
+            redirect_url += '#pending-faults'
+
+        return redirect(redirect_url)
 
     # Pagination for open faults - 10 items per page
     open_page_number = request.GET.get('open_page')
@@ -1490,6 +1620,7 @@ def OM_faults(request):
     context = {
         'open_fault_reports': open_page_obj,
         'pending_fault_reports': pending_page_obj,
+        'all_buildings': all_buildings,  # This was missing!
     }
 
     return render(request, 'OM_pages/OM_faults.html', context)
