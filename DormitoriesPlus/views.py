@@ -15,6 +15,8 @@ from django.shortcuts import render, redirect
 from django.db.models import Count, Q, Prefetch
 from django.db import transaction
 from django.contrib.auth.models import User
+from functools import wraps
+from django.core.exceptions import PermissionDenied
 # Then import your models
 from .models import (
     User,
@@ -27,6 +29,25 @@ from .models import (
     Room  # Make sure this is included if you've created it
 )
 
+def role_required(allowed_roles=[]):
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                return redirect('login_page')
+            
+            if request.user.role not in allowed_roles:
+                messages.error(request, "אין לך הרשאה לגשת לדף זה.")
+                if request.user.role == 'building_staff':
+                    return redirect('BM_Homepage')
+                elif request.user.role == 'office_staff':
+                    return redirect('OM_Homepage')
+                else:
+                    return redirect('login_page')
+            
+            return view_func(request, *args, **kwargs)
+        return _wrapped_view
+    return decorator
 
 # דוגמאות עבור עמודים שאינם דורשים עיבוד טפסים
 def Homepage(request):
@@ -42,6 +63,7 @@ def manager_Homepage(request):
 
 
 @login_required
+@role_required(['student'])
 def Students_homepage(request):
     user = request.user
 
@@ -144,6 +166,7 @@ def Students_homepage(request):
 
 
 @login_required
+@role_required(['student'])
 def application(request):
     # Get the currently logged-in user
     user = request.user
@@ -242,6 +265,7 @@ def application(request):
 
 # עמוד עבור דיווח תקלות (faults.html)
 @login_required
+@role_required(['student'])
 def faults(request):
     # Get the currently logged-in user
     user = request.user
@@ -293,6 +317,8 @@ def faults(request):
 
 
 # עמוד לשליחת הודעות לדיירים (BM_sendMassage.html)
+@login_required
+@role_required(['building_staff'])
 def BM_sendMassage(request):
     if request.method == 'POST':
         building = request.POST.get('building')
@@ -310,6 +336,7 @@ def BM_sendMassage(request):
 
 # עמוד לניהול מלאי (BM_inventory.html)
 @login_required
+@role_required(['building_staff'])
 def BM_inventory(request):
     # Handle form submissions for inventory management
     if request.method == 'POST':
@@ -485,6 +512,7 @@ def BM_inventory(request):
 
 
 @login_required
+@role_required(['building_staff'])
 def BM_Homepage(request):
     # Get the building manager (current user)
     bm = request.user
@@ -542,6 +570,7 @@ def BM_Homepage(request):
 
 # עמוד לניהול בקשות השאלה (BM_loan_requests.html)
 @login_required
+@role_required(['building_staff'])
 def BM_loan_requests(request):
     # Get the building manager (current user)
     bm = request.user
@@ -659,6 +688,7 @@ def BM_loan_requests(request):
 
 
 @login_required
+@role_required(['building_staff'])
 def BM_faults(request):
     # Get the building manager (current user)
     bm = request.user
@@ -747,6 +777,7 @@ def BM_faults(request):
 
 
 @login_required
+@role_required(['building_staff'])
 def BM_manage_students(request):
     # Get the building manager (current user)
     bm = request.user
@@ -1053,6 +1084,7 @@ def handle_remove_student(request, managed_buildings):
 # Add these views to your views.py file
 
 @login_required
+@role_required(['office_staff'])
 def OM_Homepage(request):
     # Get the office manager (current user)
     om = request.user
@@ -1128,6 +1160,7 @@ def OM_Homepage(request):
 
 
 @login_required
+@role_required(['office_staff'])
 def OM_inventory(request):
     # This is similar to BM_inventory but without building filtering
     # Handle form submissions for inventory management
@@ -1280,6 +1313,7 @@ def OM_inventory(request):
 
 
 @login_required
+@role_required(['office_staff'])
 def OM_loan_requests(request):
     # Similar to BM_loan_requests but with access to all buildings
 
@@ -1384,6 +1418,7 @@ def OM_loan_requests(request):
 
 
 @login_required
+@role_required(['office_staff'])
 def OM_faults(request):
     # Similar to BM_faults but with access to all buildings
 
@@ -1461,6 +1496,7 @@ def OM_faults(request):
 
 
 @login_required
+@role_required(['office_staff'])
 def OM_manage_students(request):
     # Similar to BM_manage_students but with all-buildings access
 
@@ -1805,6 +1841,7 @@ def is_operations_manager(user):
     return user.is_authenticated and hasattr(user, 'profile') and user.profile.role == 'OM'
 
 @login_required
+@role_required(['office_staff'])
 def OM_manage_BM(request):
     """
     View for office managers to manage building managers and their building assignments.

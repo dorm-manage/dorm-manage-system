@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .api_views import OMSummaryAPIView, OMAISummaryAPIView, GeminiModelsAPIView
 
 urlpatterns = [
     # Root URL - add this line to handle the empty path
@@ -34,4 +35,9 @@ urlpatterns = [
     # Legacy URLs (for backward compatibility)
     path('Homepage/', views.Homepage, name='Homepage'),
     path('manager_Homepage/', views.manager_Homepage, name='manager_Homepage'),
+
+    # New URL for OM summary API
+    path('api/om-summary/', OMSummaryAPIView.as_view(), name='om_summary_api'),
+    path('api/om-ai-summary/', OMAISummaryAPIView.as_view(), name='om_ai_summary_api'),
+    path('api/gemini-models/', GeminiModelsAPIView.as_view(), name='gemini_models_api'),
 ]

@@ -194,6 +194,21 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
+                            {% if user.role == 'student' %}
+                                <a class="nav-link" href="{% url 'Students_homepage' %}">
+                                    <i class="fas fa-user"></i> {{ user.get_full_name|default:user.username }}
+                                </a>
+                            {% elif user.role == 'building_staff' %}
+                                <a class="nav-link" href="{% url 'BM_Homepage' %}">
+                                    <i class="fas fa-user"></i> {{ user.get_full_name|default:user.username }}
+                                </a>
+                            {% elif user.role == 'office_staff' %}
+                                <a class="nav-link" href="{% url 'OM_Homepage' %}">
+                                    <i class="fas fa-user"></i> {{ user.get_full_name|default:user.username }}
+                                </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">
                                 <i class="fas fa-sign-out-alt"></i> התנתק
                             </a>
