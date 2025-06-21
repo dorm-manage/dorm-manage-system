@@ -118,6 +118,54 @@
         background-color: #f8d7da;
         color: #721c24;
     }
+
+    .ai-button {
+        background: linear-gradient(135deg, #4a90e2, #2c3e50);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .ai-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .ai-loading {
+        display: none;
+        text-align: center;
+        color: #4a90e2;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .ai-loading i {
+        margin-left: 0.5rem;
+    }
+
+    .ai-result {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        white-space: pre-line;
+        font-size: 1rem;
+        line-height: 1.6;
+        border: 1px solid #e9ecef;
+        min-height: 100px;
+        display: none;
+    }
+
+    .ai-result:not(:empty) {
+        display: block;
+    }
 </style>
 {% endblock %}
 
@@ -190,15 +238,24 @@
             </a>
         </div>
     </div>
+</div>
 
     <!-- AI Summary Section -->
-    <div class="section" id="ai-summary-section">
+    <div class="section">
         <h3>AI Summary (English & Hebrew)</h3>
-        <button id="generate-ai-summary" style="margin-bottom: 1rem;">Generate AI Summary</button>
-        <div id="ai-summary-loading" style="display:none; color: #4a90e2;">Generating summary, please wait...</div>
-        <div id="ai-summary-result" style="white-space: pre-line;"></div>
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <button id="generate-ai-summary" class="ai-button">
+                <i class="fas fa-robot"></i>
+                Generate AI Summary
+            </button>
+        </div>
+        <div id="ai-summary-loading" class="ai-loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Generating summary, please wait...
+        </div>
+        <div id="ai-summary-result" class="ai-result"></div>
     </div>
-</div>
+
 {% endblock %}
 
 {% block extra_js %}
@@ -207,24 +264,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('generate-ai-summary');
     const resultDiv = document.getElementById('ai-summary-result');
     const loadingDiv = document.getElementById('ai-summary-loading');
+
     btn.addEventListener('click', function() {
+        // Reset states
         resultDiv.textContent = '';
+        resultDiv.style.display = 'none';
         loadingDiv.style.display = 'block';
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> generating...';
+
         fetch('/api/om-ai-summary/')
             .then(response => response.json())
             .then(data => {
                 loadingDiv.style.display = 'none';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-robot"></i>Generate AI Summary';
+
                 if (data.summary) {
                     resultDiv.textContent = data.summary;
+                    resultDiv.style.display = 'block';
                 } else if (data.error) {
-                    resultDiv.textContent = 'Error: ' + data.error;
+                    resultDiv.textContent = 'error: ' + data.error;
+                    resultDiv.style.display = 'block';
                 } else {
-                    resultDiv.textContent = 'No summary received.';
+                    resultDiv.textContent = 'No summary available';
+                    resultDiv.style.display = 'block';
                 }
             })
             .catch(error => {
                 loadingDiv.style.display = 'none';
-                resultDiv.textContent = 'Error: ' + error;
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-robot"></i>Generate AI Summary';
+                resultDiv.textContent = 'Conction error: ' + error;
+                resultDiv.style.display = 'block';
             });
     });
 });
