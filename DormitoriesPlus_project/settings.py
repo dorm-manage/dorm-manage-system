@@ -30,7 +30,13 @@ SECRET_KEY = 'django-insecure-3al128n$0b(jr*h7@n*nc0qtn&b^$8d@drbd3ey)1u20#y14bd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0',
+    'dormi.plus',
+    'www.dormi.plus',
+]
 
 
 # Application definition
