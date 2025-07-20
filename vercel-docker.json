@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "Dockerfile",
+      "use": "@vercel/docker"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "/media/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "env": {
+    "DEBUG": "False",
+    "DB_NAME": "@db-name",
+    "DB_USER": "@db-user", 
+    "DB_PASSWORD": "@db-password",
+    "DB_HOST": "@db-host",
+    "DB_PORT": "@db-port",
+    "EMAIL_HOST_USER": "@email-host-user",
+    "EMAIL_HOST_PASSWORD": "@email-host-password",
+    "DEFAULT_FROM_EMAIL": "@default-from-email"
+  }
+} 

@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: dormitoriesplus
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: PORT
+        value: "8000"
+      - key: DB_NAME
+        fromDatabase:
+          name: dormitoriesplus-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: dormitoriesplus-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: dormitoriesplus-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: dormitoriesplus-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: dormitoriesplus-db
+          property: port
+    healthCheckPath: /
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT DormitoriesPlus_project.wsgi:application
+
+databases:
+  - name: dormitoriesplus-db
+    databaseName: dormitoriesplus
+    user: dorm_user 
