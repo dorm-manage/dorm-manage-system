@@ -9,6 +9,8 @@ services:
         value: "False"
       - key: PORT
         value: "8000"
+      - key: SECRET_KEY
+        generateValue: true
       - key: DB_NAME
         fromDatabase:
           name: dormitoriesplus-db
