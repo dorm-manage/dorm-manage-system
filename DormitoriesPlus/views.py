@@ -59,7 +59,7 @@ def connect_us(request):
 
 
 def manager_Homepage(request):
-    return render(request, 'OM_pages/OM_Homepage.html')
+    return render(request, 'OM_pages/OM_homepage.html')
 
 
 @login_required
@@ -1156,7 +1156,7 @@ def OM_Homepage(request):
         'all_buildings': all_buildings,
     }
 
-    return render(request, 'OM_pages/OM_Homepage.html', context)
+    return render(request, 'OM_pages/OM_homepage.html', context)
 
 
 @login_required

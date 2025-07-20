@@ -209,7 +209,7 @@ class OfficeManagerViewsTest(BaseTestCase):
         """Test office manager homepage when authenticated"""
         response = self.client.get('/om/homepage/')  # Fixed URL path
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'OM_pages/OM_Homepage.html')
+        self.assertTemplateUsed(response, 'OM_pages/OM_homepage.html')
     
     def test_om_homepage_unauthenticated(self):
         """Test office manager homepage when not authenticated"""
