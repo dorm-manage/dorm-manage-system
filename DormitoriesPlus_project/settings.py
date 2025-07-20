@@ -36,6 +36,8 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     'dormi.plus',
     'www.dormi.plus',
+    'dorm-manage-system.onrender.com',
+    '.onrender.com',  # Allow all Render subdomains
 ]
 
 
