@@ -11,6 +11,9 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError('The Email must be set')
         email = self.normalize_email(email)
+        # Always set username to email if not provided
+        if 'username' not in extra_fields or not extra_fields['username']:
+            extra_fields['username'] = email
         user = self.model(email=email, **extra_fields)
         user.set_password(password)  # מצפין את הסיסמה
         user.save(using=self._db)
@@ -23,6 +26,9 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
+        # Always set username to email if not provided
+        if 'username' not in extra_fields or not extra_fields['username']:
+            extra_fields['username'] = email
         return self.create_user(email, password, **extra_fields)
 
 
@@ -111,7 +117,8 @@ class Room(models.Model):
 
     def is_occupied(self):
         """Check if this room currently has any active assignments"""
-        return self.assignments.filter(is_active=True).exists()
+        # Use Python filtering for is_active property
+        return any(a.is_active for a in self.assignments.all())
 
 
 # מודל שיבוץ חדרים (RoomAssignment)
@@ -138,6 +145,11 @@ class RoomAssignment(models.Model):
         # Check if there's already an active assignment for this room
         if self.is_active and self.room.assignments.filter(is_active=True).exclude(id=self.id).exists():
             raise ValidationError("This room is already assigned to another student.")
+
+    @property
+    def is_active(self):
+        """Return True if the assignment is currently active (no end_date or end_date in the future)"""
+        return self.end_date is None or self.end_date >= timezone.now().date()
 
 
 # מודל בקשות (Request)
