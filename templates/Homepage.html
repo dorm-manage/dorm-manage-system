@@ -1,26 +1,27 @@
+{% load i18n %}
 <!DOCTYPE html>
 {% load static %}
-<html lang="he">
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DormitoriesPlus - בחירת משתמש</title>
+  <title>{% translate "DormitoriesPlus - User Selection" %}</title>
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 <body>
 <header>
-  <h1>ברוכים הבאים ל-DormitoriesPlus</h1>
-  <p>בחר את סוג המשתמש שלך להמשך:</p>
+  <h1>{% translate "Welcome to DormitoriesPlus" %}</h1>
+  <p>{% translate "Choose your user type to continue:" %}</p>
 </header>
 
 <div class="container">
-  <a href="{% url 'OM_Homepage' %}" class="user-type">מנהל מערכת</a>
-  <a href="{% url 'BM_Homepage' %}" class="user-type">אחראי בניין</a>
-  <a href="{% url 'Students_homepage' %}" class="user-type">סטודנט</a>
+  <a href="{% url 'OM_Homepage' %}" class="user-type">{% translate "System Manager" %}</a>
+  <a href="{% url 'BM_Homepage' %}" class="user-type">{% translate "Building Manager" %}</a>
+  <a href="{% url 'Students_homepage' %}" class="user-type">{% translate "Student" %}</a>
 </div>
 
 <footer>
-  <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+  <p>{% translate "© 2025 DormitoriesPlus - All rights reserved" %}</p>
 </footer>
 
 </body>

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}השאלת ציוד - DormitoriesPlus{% endblock %}
+{% block title %}{% translate "Equipment Rental" %} - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -90,30 +91,30 @@
 
 {% block content %}
 <div class="hero">
-    <h2>השאלת ציוד</h2>
+    <h2>{% translate "Equipment Rental" %}</h2>
 </div>
 
 <div class="info-box">
-    <p><strong>הפרטים שלך:</strong></p>
-    <p>שם: {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>{% translate "Your Details:" %}</strong></p>
+    <p>{% translate "Name" %}: {{ user.first_name }} {{ user.last_name }}</p>
     {% if user_room and user_building %}
-        <p>בניין: {{ user_building }}</p>
-        <p>חדר: {{ user_room }}</p>
-        <p>תאריך סיום מגורים: {{ end_date }}</p>
+        <p>{% translate "Building" %}: {{ user_building }}</p>
+        <p>{% translate "Room" %}: {{ user_room }}</p>
+        <p>{% translate "End Date" %}: {{ end_date }}</p>
     {% else %}
-        <p>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</p>
+        <p>{% translate "You don't have a room assignment in the system. Please contact the dormitory manager." %}</p>
     {% endif %}
 </div>
 
 <div class="form-container">
-    <h2>בקשה להשאלת פריט</h2>
+    <h2>{% translate "Item Rental Request" %}</h2>
     <form method="POST" action="{% url 'application' %}">
         {% csrf_token %}
 
         <div class="form-group">
-            <label for="product">בחר פריט להשאלה:</label>
+            <label for="product">{% translate "Select item to rent:" %}</label>
             <select id="product" name="product" required>
-                <option value="">בחר פריט</option>
+                <option value="">{% translate "Select item" %}</option>
                 {% for item in available_items %}
                     <option value="{{ item.id }}">{{ item.item_name }}</option>
                 {% endfor %}
@@ -121,25 +122,25 @@
         </div>
 
         <div class="form-group">
-            <label for="return_date">תאריך החזרה:</label>
+            <label for="return_date">{% translate "Return date:" %}</label>
             <input type="date" id="return_date" name="return_date" min="{{ min_return_date }}" max="{{ max_return_date }}" required>
         </div>
 
         <div class="form-group">
-            <label for="note">הערות נוספות (אופציונלי):</label>
-            <textarea id="note" name="note" class="form-control" rows="3" placeholder="אם יש לך בקשות מיוחדות או הערות נוספות, כתוב אותן כאן"></textarea>
+            <label for="note">{% translate "Additional notes (optional):" %}</label>
+            <textarea id="note" name="note" class="form-control" rows="3" placeholder="{% translate 'If you have special requests or additional notes, write them here' %}"></textarea>
         </div>
 
         <div class="form-group">
-            <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח בקשה</button>
+            <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>{% translate "Submit Request" %}</button>
             {% if not user_room %}
-                <p style="color: #dc3545; margin-top: 10px;">לא ניתן להגיש בקשה ללא שיבוץ חדר. אנא פנה למנהל המעונות.</p>
+                <p style="color: #dc3545; margin-top: 10px;">{% translate "Cannot submit request without room assignment. Please contact the dormitory manager." %}</p>
             {% endif %}
         </div>
     </form>
 </div>
 
 <div class="links" style="justify-content: flex-start;">
-    <a href="{% url 'Students_homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+    <a href="{% url 'Students_homepage' %}" class="back-button">{% translate "Back to Homepage" %}</a>
 </div>
 {% endblock %}

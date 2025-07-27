@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}דף הבית - מנהל בניין{% endblock %}
+{% block title %}{% translate "Homepage - Building Manager" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -90,12 +91,12 @@
 <div class="container">
     <div class="hero">
         <div style="margin-top: 5px; font-size: 18px;">
-            <p>עמוד ראשי לאחראי בניין</p>
+            <p>{% translate "Homepage for Building Manager" %}</p>
         </div>
-        <h2>שלום {{ user.first_name }} {{ user.last_name }}</h2>
+        <h2>{% translate "Hello" %} {{ user.first_name }} {{ user.last_name }}</h2>
         {% if managed_buildings %}
             <div style="margin-top: 10px; font-size: 16px;">
-                <p>אחראי על בניין-
+                <p>{% translate "Manager of building" %}-
                     {% for building in managed_buildings %}
                         {{ building.building_name }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
@@ -105,62 +106,62 @@
     </div>
 
     <div class="links">
-        <a href="{% url 'BM_inventory' %}">ניהול מלאי</a>
-        <a href="{% url 'BM_loan_requests' %}">ניהול השאלות</a>
-        <a href="{% url 'BM_faults' %}">ניהול תקלות</a>
-        <a href="{% url 'BM_manage_students' %}">ניהול סטודנטים</a>
+        <a href="{% url 'BM_inventory' %}">{% translate "Inventory Management" %}</a>
+        <a href="{% url 'BM_loan_requests' %}">{% translate "Loan Management" %}</a>
+        <a href="{% url 'BM_faults' %}">{% translate "Fault Management" %}</a>
+        <a href="{% url 'BM_manage_students' %}">{% translate "Student Management" %}</a>
     </div>
 
     <div class="section">
-        <h3>ניהול השאלות ציוד</h3>
+        <h3>{% translate "Loan Equipment Management" %}</h3>
         <div style="display: flex; flex-direction: column; gap: 10px;">
             {% if pending_requests_count > 0 %}
                 <div class="alert alert-danger">
-                    <strong>יש לך {{ pending_requests_count }} בקשות השאלה ממתינות לאישור!</strong>
+                    <strong>{% translate "You have" %} {{ pending_requests_count }} {% translate "loan requests pending approval!" %}</strong>
                     <div style="margin-top: 10px;">
-                        <a href="{% url 'BM_loan_requests' %}">צפה בבקשות</a>
+                        <a href="{% url 'BM_loan_requests' %}">{% translate "View requests" %}</a>
                     </div>
                 </div>
             {% endif %}
 
             {% if borrowed_items_count > 0 %}
                 <div class="alert alert-info">
-                    <strong>יש {{ borrowed_items_count }} פריטים מושאלים שטרם הוחזרו.</strong>
+                    <strong>{% translate "There are" %} {{ borrowed_items_count }} {% translate "items borrowed that have not been returned." %}</strong>
                     <div style="margin-top: 10px;">
-                        <a href="{% url 'BM_loan_requests' %}#borrowed-items">צפה בפריטים מושאלים</a>
+                        <a href="{% url 'BM_loan_requests' %}#borrowed-items">{% translate "View borrowed items" %}</a>
                     </div>
                 </div>
             {% endif %}
 
             {% if pending_requests_count == 0 and borrowed_items_count == 0 %}
-                <p>אין בקשות חדשות או פריטים מושאלים שממתינים לטיפול.</p>
+                <p>{% translate "No new requests or borrowed items pending." %}</p>
             {% endif %}
         </div>
     </div>
 
     <div class="section">
-        <h3>ניהול דיווחי תקלות</h3>
+        <h3>{% translate "Fault Reporting Management" %}</h3>
         <div style="display: flex; flex-direction: column; gap: 10px;">
             {% if open_faults_count > 0 %}
                 <div class="alert alert-danger">
-                    <strong>יש לך {{ open_faults_count }} דיווחי תקלות חדשים לטיפולך!</strong>
+                    <strong>{% translate "You have" %} {{ open_faults_count }} {% translate "new fault reports for you to handle!" %}</strong>
                     <div style="margin-top: 10px;">
-                        <a href="{% url 'BM_faults' %}">צפה בדיווחים</a>
+                        <a href="{% url 'BM_faults' %}">{% translate "View reports" %}</a>
                     </div>
                 </div>
             {% endif %}
 
             {% if pending_faults_count > 0 %}
                 <div class="alert alert-info">
-                    <strong>יש {{ pending_faults_count }} תקלות שעוד לא הסתיים הטיפול בהן.</strong>
+                    <strong>{% translate "There are" %} {{ pending_faults_count }} {% translate "faults that have not yet been completed." %}</strong>
                     <div style="margin-top: 10px;">
-                        <a href="{% url 'BM_faults' %}#pending-faults">צפה בתקלות בטיפול</a>
+                        <a href="{% url 'BM_faults' %}#pending-faults">{% translate "View faults in progress" %}</a>
                     </div>
                 </div>
             {% endif %}
 
             {% if open_faults_count == 0 and pending_faults_count == 0 %}
-                <p>אין דיווחי תקלות חדשים או תקלות בטיפול שממתינות לך.</p>
+                <p>{% translate "No new fault reports or faults in progress pending." %}</p>
             {% endif %}
         </div>
     </div>
