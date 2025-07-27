@@ -351,12 +351,12 @@ msgstr "没有处理中的故障"
 #: templates/Student_pages/application.html:5
 #: templates/Student_pages/application.html:94 templates/index.html:25
 msgid "Equipment Rental"
-msgstr ""
+msgstr "设备租赁"
 
 #: templates/Student_pages/application.html:98
 #: templates/Student_pages/faults.html:104
 msgid "Your Details:"
-msgstr ""
+msgstr "您的详情："
 
 #: templates/Student_pages/application.html:99
 #: templates/Student_pages/connect_us.html:94
@@ -367,57 +367,57 @@ msgstr "姓名"
 #: templates/Student_pages/application.html:101
 #: templates/Student_pages/faults.html:107
 msgid "Building"
-msgstr ""
+msgstr "建筑物"
 
 #: templates/Student_pages/application.html:102
 #: templates/Student_pages/faults.html:108
 msgid "Room"
-msgstr ""
+msgstr "房间"
 
 #: templates/Student_pages/application.html:103
 msgid "End Date"
-msgstr ""
+msgstr "结束日期"
 
 #: templates/Student_pages/application.html:105
 #: templates/Student_pages/faults.html:110
 msgid ""
 "You don't have a room assignment in the system. Please contact the dormitory "
 "manager."
-msgstr ""
+msgstr "您在系统中没有房间分配。请联系宿舍管理员。"
 
 #: templates/Student_pages/application.html:110
 msgid "Item Rental Request"
-msgstr ""
+msgstr "物品租赁请求"
 
 #: templates/Student_pages/application.html:115
 msgid "Select item to rent:"
-msgstr ""
+msgstr "选择要租赁的物品："
 
 #: templates/Student_pages/application.html:117
 msgid "Select item"
-msgstr ""
+msgstr "选择物品"
 
 #: templates/Student_pages/application.html:125
 msgid "Return date:"
-msgstr ""
+msgstr "归还日期："
 
 #: templates/Student_pages/application.html:130
 msgid "Additional notes (optional):"
-msgstr ""
+msgstr "附加说明（可选）："
 
 #: templates/Student_pages/application.html:131
 msgid "If you have special requests or additional notes, write them here"
-msgstr ""
+msgstr "如果您有特殊要求或附加说明，请在此处写下"
 
 #: templates/Student_pages/application.html:135
 msgid "Submit Request"
-msgstr ""
+msgstr "提交请求"
 
 #: templates/Student_pages/application.html:137
 msgid ""
 "Cannot submit request without room assignment. Please contact the dormitory "
 "manager."
-msgstr ""
+msgstr "没有房间分配无法提交请求。请联系宿舍管理员。"
 
 #: templates/Student_pages/application.html:144
 #: templates/Student_pages/connect_us.html:76
@@ -484,81 +484,81 @@ msgstr "请从列表中选择一个建筑物。"
 #: templates/Student_pages/faults.html:5 templates/Student_pages/faults.html:92
 #: templates/index.html:26
 msgid "Fault Reports"
-msgstr ""
+msgstr "故障报告"
 
 #: templates/Student_pages/faults.html:115
 msgid "Fault Details"
-msgstr ""
+msgstr "故障详情"
 
 #: templates/Student_pages/faults.html:120
 msgid "Fault Type:"
-msgstr ""
+msgstr "故障类型："
 
 #: templates/Student_pages/faults.html:122
 msgid "Select fault type"
-msgstr ""
+msgstr "选择故障类型"
 
 #: templates/Student_pages/faults.html:123
 msgid "Plumbing"
-msgstr ""
+msgstr "管道"
 
 #: templates/Student_pages/faults.html:124
 msgid "Electrical"
-msgstr ""
+msgstr "电气"
 
 #: templates/Student_pages/faults.html:125
 msgid "Air Conditioning"
-msgstr ""
+msgstr "空调"
 
 #: templates/Student_pages/faults.html:126
 msgid "Furniture"
-msgstr ""
+msgstr "家具"
 
 #: templates/Student_pages/faults.html:127
 msgid "Doors/Windows"
-msgstr ""
+msgstr "门窗"
 
 #: templates/Student_pages/faults.html:128
 msgid "Internet"
-msgstr ""
+msgstr "互联网"
 
 #: templates/Student_pages/faults.html:129
 msgid "Other"
-msgstr ""
+msgstr "其他"
 
 #: templates/Student_pages/faults.html:134
 msgid "Fault Description:"
-msgstr ""
+msgstr "故障描述："
 
 #: templates/Student_pages/faults.html:135
 msgid "Describe the fault in as much detail as possible"
-msgstr ""
+msgstr "尽可能详细地描述故障"
 
 #: templates/Student_pages/faults.html:139
 msgid "Urgency:"
-msgstr ""
+msgstr "紧急程度："
 
 #: templates/Student_pages/faults.html:141
 msgid "Low"
-msgstr ""
+msgstr "低"
 
 #: templates/Student_pages/faults.html:142
 msgid "Medium"
-msgstr ""
+msgstr "中"
 
 #: templates/Student_pages/faults.html:143
 msgid "High"
-msgstr ""
+msgstr "高"
 
 #: templates/Student_pages/faults.html:148
 msgid "Submit Report"
-msgstr ""
+msgstr "提交报告"
 
 #: templates/Student_pages/faults.html:150
 msgid ""
 "Cannot report a fault without room assignment. Please contact the dormitory "
 "manager."
-msgstr ""
+msgstr "没有房间分配无法报告故障。请联系宿舍管理员。"
 
 #: templates/base.html:182
 msgid "Home"

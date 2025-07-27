@@ -78,4 +78,136 @@ msgstr "אנא בחר בניין מהרשימה."
 
 #: templates/Student_pages/connect_us.html:76
 msgid "Back to Homepage"
-msgstr "חזור לדף הבית" 
+msgstr "חזור לדף הבית"
+
+#: templates/Student_pages/faults.html:5
+msgid "Fault Reports"
+msgstr "דיווחי תקלות"
+
+#: templates/Student_pages/faults.html:75
+msgid "Your Details:"
+msgstr "פרטיך:"
+
+#: templates/Student_pages/faults.html:77
+msgid "Building"
+msgstr "בניין"
+
+#: templates/Student_pages/faults.html:78
+msgid "Room"
+msgstr "חדר"
+
+#: templates/Student_pages/faults.html:80
+msgid "You don't have a room assignment in the system. Please contact the dormitory manager."
+msgstr "אין לך הקצאת חדר במערכת. אנא פנה למנהל המעונות."
+
+#: templates/Student_pages/faults.html:85
+msgid "Fault Details"
+msgstr "פרטי התקלה"
+
+#: templates/Student_pages/faults.html:90
+msgid "Fault Type:"
+msgstr "סוג התקלה:"
+
+#: templates/Student_pages/faults.html:92
+msgid "Select fault type"
+msgstr "בחר סוג תקלה"
+
+#: templates/Student_pages/faults.html:93
+msgid "Plumbing"
+msgstr "אינסטלציה"
+
+#: templates/Student_pages/faults.html:94
+msgid "Electrical"
+msgstr "חשמל"
+
+#: templates/Student_pages/faults.html:95
+msgid "Air Conditioning"
+msgstr "מיזוג אוויר"
+
+#: templates/Student_pages/faults.html:96
+msgid "Furniture"
+msgstr "רהיטים"
+
+#: templates/Student_pages/faults.html:97
+msgid "Doors/Windows"
+msgstr "דלתות/חלונות"
+
+#: templates/Student_pages/faults.html:98
+msgid "Internet"
+msgstr "אינטרנט"
+
+#: templates/Student_pages/faults.html:99
+msgid "Other"
+msgstr "אחר"
+
+#: templates/Student_pages/faults.html:103
+msgid "Fault Description:"
+msgstr "תיאור התקלה:"
+
+#: templates/Student_pages/faults.html:104
+msgid "Describe the fault in as much detail as possible"
+msgstr "תאר את התקלה בפירוט רב ככל האפשר"
+
+#: templates/Student_pages/faults.html:109
+msgid "Urgency:"
+msgstr "דחיפות:"
+
+#: templates/Student_pages/faults.html:111
+msgid "Low"
+msgstr "נמוכה"
+
+#: templates/Student_pages/faults.html:112
+msgid "Medium"
+msgstr "בינונית"
+
+#: templates/Student_pages/faults.html:113
+msgid "High"
+msgstr "גבוהה"
+
+#: templates/Student_pages/faults.html:117
+msgid "Submit Report"
+msgstr "שלח דיווח"
+
+#: templates/Student_pages/faults.html:120
+msgid "Cannot report a fault without room assignment. Please contact the dormitory manager."
+msgstr "לא ניתן לדווח על תקלה ללא הקצאת חדר. אנא פנה למנהל המעונות."
+
+#: templates/Student_pages/application.html:5
+msgid "Equipment Rental"
+msgstr "השכרת ציוד"
+
+#: templates/Student_pages/application.html:85
+msgid "Item Rental Request"
+msgstr "בקשת השכרת פריט"
+
+#: templates/Student_pages/application.html:92
+msgid "Select item to rent:"
+msgstr "בחר פריט להשכרה:"
+
+#: templates/Student_pages/application.html:94
+msgid "Select item"
+msgstr "בחר פריט"
+
+#: templates/Student_pages/application.html:100
+msgid "Return date:"
+msgstr "תאריך החזרה:"
+
+#: templates/Student_pages/application.html:105
+msgid "Additional notes (optional):"
+msgstr "הערות נוספות (אופציונלי):"
+
+#: templates/Student_pages/application.html:106
+msgid "If you have special requests or additional notes, write them here"
+msgstr "אם יש לך בקשות מיוחדות או הערות נוספות, כתוב אותן כאן"
+
+#: templates/Student_pages/application.html:111
+msgid "Submit Request"
+msgstr "שלח בקשה"
+
+#: templates/Student_pages/application.html:114
+msgid "Cannot submit request without room assignment. Please contact the dormitory manager."
+msgstr "לא ניתן לשלוח בקשה ללא הקצאת חדר. אנא פנה למנהל המעונות."
+
+#: templates/Student_pages/application.html:78
+msgid "End Date"
+msgstr "תאריך סיום" 

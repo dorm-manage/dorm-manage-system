@@ -352,12 +352,12 @@ msgstr "لا توجد أعطال قيد المعالجة"
 #: templates/Student_pages/application.html:5
 #: templates/Student_pages/application.html:94 templates/index.html:25
 msgid "Equipment Rental"
-msgstr ""
+msgstr "تأجير المعدات"
 
 #: templates/Student_pages/application.html:98
 #: templates/Student_pages/faults.html:104
 msgid "Your Details:"
-msgstr ""
+msgstr "تفاصيلك:"
 
 #: templates/Student_pages/application.html:99
 #: templates/Student_pages/connect_us.html:94
@@ -368,57 +368,57 @@ msgstr "الاسم"
 #: templates/Student_pages/application.html:101
 #: templates/Student_pages/faults.html:107
 msgid "Building"
-msgstr ""
+msgstr "المبنى"
 
 #: templates/Student_pages/application.html:102
 #: templates/Student_pages/faults.html:108
 msgid "Room"
-msgstr ""
+msgstr "الغرفة"
 
 #: templates/Student_pages/application.html:103
 msgid "End Date"
-msgstr ""
+msgstr "تاريخ الانتهاء"
 
 #: templates/Student_pages/application.html:105
 #: templates/Student_pages/faults.html:110
 msgid ""
 "You don't have a room assignment in the system. Please contact the dormitory "
 "manager."
-msgstr ""
+msgstr "ليس لديك تعيين غرفة في النظام. يرجى الاتصال بمدير السكن."
 
 #: templates/Student_pages/application.html:110
 msgid "Item Rental Request"
-msgstr ""
+msgstr "طلب تأجير العنصر"
 
 #: templates/Student_pages/application.html:115
 msgid "Select item to rent:"
-msgstr ""
+msgstr "اختر العنصر للتأجير:"
 
 #: templates/Student_pages/application.html:117
 msgid "Select item"
-msgstr ""
+msgstr "اختر العنصر"
 
 #: templates/Student_pages/application.html:125
 msgid "Return date:"
-msgstr ""
+msgstr "تاريخ الإرجاع:"
 
 #: templates/Student_pages/application.html:130
 msgid "Additional notes (optional):"
-msgstr ""
+msgstr "ملاحظات إضافية (اختياري):"
 
 #: templates/Student_pages/application.html:131
 msgid "If you have special requests or additional notes, write them here"
-msgstr ""
+msgstr "إذا كان لديك طلبات خاصة أو ملاحظات إضافية، اكتبها هنا"
 
 #: templates/Student_pages/application.html:135
 msgid "Submit Request"
-msgstr ""
+msgstr "إرسال الطلب"
 
 #: templates/Student_pages/application.html:137
 msgid ""
 "Cannot submit request without room assignment. Please contact the dormitory "
 "manager."
-msgstr ""
+msgstr "لا يمكن إرسال الطلب بدون تعيين غرفة. يرجى الاتصال بمدير السكن."
 
 #: templates/Student_pages/application.html:144
 #: templates/Student_pages/connect_us.html:76
@@ -485,81 +485,81 @@ msgstr "يرجى اختيار مبنى من القائمة."
 #: templates/Student_pages/faults.html:5 templates/Student_pages/faults.html:92
 #: templates/index.html:26
 msgid "Fault Reports"
-msgstr ""
+msgstr "تقارير الأعطال"
 
 #: templates/Student_pages/faults.html:115
 msgid "Fault Details"
-msgstr ""
+msgstr "تفاصيل العطل"
 
 #: templates/Student_pages/faults.html:120
 msgid "Fault Type:"
-msgstr ""
+msgstr "نوع العطل:"
 
 #: templates/Student_pages/faults.html:122
 msgid "Select fault type"
-msgstr ""
+msgstr "اختر نوع العطل"
 
 #: templates/Student_pages/faults.html:123
 msgid "Plumbing"
-msgstr ""
+msgstr "سباكة"
 
 #: templates/Student_pages/faults.html:124
 msgid "Electrical"
-msgstr ""
+msgstr "كهرباء"
 
 #: templates/Student_pages/faults.html:125
 msgid "Air Conditioning"
-msgstr ""
+msgstr "تكييف الهواء"
 
 #: templates/Student_pages/faults.html:126
 msgid "Furniture"
-msgstr ""
+msgstr "أثاث"
 
 #: templates/Student_pages/faults.html:127
 msgid "Doors/Windows"
-msgstr ""
+msgstr "أبواب/نوافذ"
 
 #: templates/Student_pages/faults.html:128
 msgid "Internet"
-msgstr ""
+msgstr "إنترنت"
 
 #: templates/Student_pages/faults.html:129
 msgid "Other"
-msgstr ""
+msgstr "أخرى"
 
 #: templates/Student_pages/faults.html:134
 msgid "Fault Description:"
-msgstr ""
+msgstr "وصف العطل:"
 
 #: templates/Student_pages/faults.html:135
 msgid "Describe the fault in as much detail as possible"
-msgstr ""
+msgstr "صف العطل بأكبر قدر ممكن من التفاصيل"
 
 #: templates/Student_pages/faults.html:139
 msgid "Urgency:"
-msgstr ""
+msgstr "الاستعجال:"
 
 #: templates/Student_pages/faults.html:141
 msgid "Low"
-msgstr ""
+msgstr "منخفض"
 
 #: templates/Student_pages/faults.html:142
 msgid "Medium"
-msgstr ""
+msgstr "متوسط"
 
 #: templates/Student_pages/faults.html:143
 msgid "High"
-msgstr ""
+msgstr "عالي"
 
 #: templates/Student_pages/faults.html:148
 msgid "Submit Report"
-msgstr ""
+msgstr "إرسال التقرير"
 
 #: templates/Student_pages/faults.html:150
 msgid ""
 "Cannot report a fault without room assignment. Please contact the dormitory "
 "manager."
-msgstr ""
+msgstr "لا يمكن الإبلاغ عن عطل بدون تعيين غرفة. يرجى الاتصال بمدير السكن."
 
 #: templates/base.html:182
 msgid "Home"
