@@ -363,7 +363,7 @@ msgstr ""
 #: templates/Student_pages/connect_us.html:94
 #: templates/Student_pages/faults.html:105
 msgid "Name"
-msgstr "שם"
+msgstr "الاسم"
 
 #: templates/Student_pages/application.html:101
 #: templates/Student_pages/faults.html:107
@@ -424,39 +424,39 @@ msgstr ""
 #: templates/Student_pages/connect_us.html:76
 #: templates/Student_pages/faults.html:157
 msgid "Back to Homepage"
-msgstr "חזור לדף הבית"
+msgstr "العودة إلى الصفحة الرئيسية"
 
 #: templates/Student_pages/connect_us.html:5 templates/index.html:27
 msgid "Contact Us"
-msgstr "צור קשר"
+msgstr "اتصل بنا"
 
 #: templates/Student_pages/connect_us.html:58
 msgid "Couldn't find what you were looking for? Contact us!"
-msgstr "לא מצאת מה שחיפשת? צור איתנו קשר!"
+msgstr "لم تجد ما كنت تبحث عنه؟ اتصل بنا!"
 
 #: templates/Student_pages/connect_us.html:62
 msgid "Select a building to get contact details:"
-msgstr "בחר בניין לקבלת פרטי קשר:"
+msgstr "اختر مبنى للحصول على تفاصيل الاتصال:"
 
 #: templates/Student_pages/connect_us.html:64
 msgid "Select building"
-msgstr "בחר בניין"
+msgstr "اختر المبنى"
 
 #: templates/Student_pages/connect_us.html:65
 msgid "Building 1"
-msgstr "בניין 1"
+msgstr "المبنى 1"
 
 #: templates/Student_pages/connect_us.html:66
 msgid "Building 2"
-msgstr "בניין 2"
+msgstr "المبنى 2"
 
 #: templates/Student_pages/connect_us.html:67
 msgid "Building 3"
-msgstr "בניין 3"
+msgstr "المبنى 3"
 
 #: templates/Student_pages/connect_us.html:68
 msgid "Building 4"
-msgstr "בניין 4"
+msgstr "المبنى 4"
 
 #: templates/Student_pages/connect_us.html:81
 msgid "Yossi Cohen"
@@ -476,11 +476,11 @@ msgstr ""
 
 #: templates/Student_pages/connect_us.html:95
 msgid "Phone"
-msgstr "טלפון"
+msgstr "الهاتف"
 
 #: templates/Student_pages/connect_us.html:97
 msgid "Please select a building from the list."
-msgstr "אנא בחר בניין מהרשימה."
+msgstr "يرجى اختيار مبنى من القائمة."
 
 #: templates/Student_pages/faults.html:5 templates/Student_pages/faults.html:92
 #: templates/index.html:26

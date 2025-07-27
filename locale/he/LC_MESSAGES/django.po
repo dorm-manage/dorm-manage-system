@@ -1,4 +1,4 @@
-# Chinese translations for DormitoriesPlus project.
+# Arabic translations for DormitoriesPlus project.
 # Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the DormitoriesPlus project.
 msgid ""
@@ -8,11 +8,12 @@ msgstr ""
 "POT-Creation-Date: 2025-07-27 14:58+0300\n"
 "PO-Revision-Date: 2025-01-27 10:00+0200\n"
 "Last-Translator: \n"
-"Language: zh\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 
 #: templates/BM_pages/BM_Homepage.html:6
 msgid "Homepage - Building Manager"
@@ -134,81 +135,81 @@ msgstr ""
 
 #: templates/Student_pages/Students_homepage.html:5
 msgid "דף בית"
-msgstr "主页"
+msgstr "الصفحة الرئيسية"
 
 #: templates/Student_pages/Students_homepage.html:82
 msgid "שלום"
-msgstr "你好"
+msgstr "مرحباً"
 
 #: templates/Student_pages/Students_homepage.html:86
 msgid "השאלת ציוד"
-msgstr "设备借用"
+msgstr "استعارة المعدات"
 
 #: templates/Student_pages/Students_homepage.html:87
 msgid "דיווח תקלות"
-msgstr "故障报告"
+msgstr "الإبلاغ عن الأعطال"
 
 #: templates/Student_pages/Students_homepage.html:88
 msgid "צור קשר"
-msgstr "联系我们"
+msgstr "اتصل بنا"
 
 #: templates/Student_pages/Students_homepage.html:93
 msgid "בקשות השאלת ציוד"
-msgstr "设备借用申请"
+msgstr "طلبات استعارة المعدات"
 
 #: templates/Student_pages/Students_homepage.html:94
 msgid "בקשות מאושרות"
-msgstr "已批准申请"
+msgstr "الطلبات المعتمدة"
 
 #: templates/Student_pages/Students_homepage.html:99
 msgid "בקשות השאלת ציוד ממתינות"
-msgstr "待处理的设备借用申请"
+msgstr "طلبات استعارة المعدات المعلقة"
 
 #: templates/Student_pages/Students_homepage.html:104
 #: templates/Student_pages/Students_homepage.html:182
 msgid "פריט"
-msgstr "项目"
+msgstr "العنصر"
 
 #: templates/Student_pages/Students_homepage.html:105
 #: templates/Student_pages/Students_homepage.html:183
 msgid "תאריך בקשה"
-msgstr "申请日期"
+msgstr "تاريخ الطلب"
 
 #: templates/Student_pages/Students_homepage.html:106
 #: templates/Student_pages/Students_homepage.html:186
 #: templates/Student_pages/Students_homepage.html:265
 #: templates/Student_pages/Students_homepage.html:324
 msgid "חדר"
-msgstr "房间"
+msgstr "الغرفة"
 
 #: templates/Student_pages/Students_homepage.html:107
 #: templates/Student_pages/Students_homepage.html:187
 msgid "הערות"
-msgstr "备注"
+msgstr "ملاحظات"
 
 #: templates/Student_pages/Students_homepage.html:108
 msgid "סטטוס"
-msgstr "状态"
+msgstr "الحالة"
 
 #: templates/Student_pages/Students_homepage.html:109
 msgid "פעולות"
-msgstr "操作"
+msgstr "الإجراءات"
 
 #: templates/Student_pages/Students_homepage.html:122
 msgid "הערת מנהל"
-msgstr "管理员备注"
+msgstr "ملاحظة المدير"
 
 #: templates/Student_pages/Students_homepage.html:127
 msgid "ממתין לאישור"
-msgstr "等待批准"
+msgstr "في انتظار الموافقة"
 
 #: templates/Student_pages/Students_homepage.html:128
 msgid "נדחה"
-msgstr "已拒绝"
+msgstr "مرفوض"
 
 #: templates/Student_pages/Students_homepage.html:135
 msgid "מחק"
-msgstr "删除"
+msgstr "حذف"
 
 #: templates/Student_pages/Students_homepage.html:150
 #: templates/Student_pages/Students_homepage.html:153
@@ -219,7 +220,7 @@ msgstr "删除"
 #: templates/Student_pages/Students_homepage.html:348
 #: templates/Student_pages/Students_homepage.html:351
 msgid "&laquo; ראשון"
-msgstr "&laquo; 首页"
+msgstr "&laquo; الأول"
 
 #: templates/Student_pages/Students_homepage.html:151
 #: templates/Student_pages/Students_homepage.html:154
@@ -230,21 +231,21 @@ msgstr "&laquo; 首页"
 #: templates/Student_pages/Students_homepage.html:349
 #: templates/Student_pages/Students_homepage.html:352
 msgid "הקודם"
-msgstr "上一页"
+msgstr "السابق"
 
 #: templates/Student_pages/Students_homepage.html:158
 #: templates/Student_pages/Students_homepage.html:231
 #: templates/Student_pages/Students_homepage.html:296
 #: templates/Student_pages/Students_homepage.html:356
 msgid "עמוד"
-msgstr "第"
+msgstr "الصفحة"
 
 #: templates/Student_pages/Students_homepage.html:158
 #: templates/Student_pages/Students_homepage.html:231
 #: templates/Student_pages/Students_homepage.html:296
 #: templates/Student_pages/Students_homepage.html:356
 msgid "מתוך"
-msgstr "页，共"
+msgstr "من"
 
 #: templates/Student_pages/Students_homepage.html:162
 #: templates/Student_pages/Students_homepage.html:165
@@ -255,7 +256,7 @@ msgstr "页，共"
 #: templates/Student_pages/Students_homepage.html:360
 #: templates/Student_pages/Students_homepage.html:363
 msgid "הבא"
-msgstr "下一页"
+msgstr "التالي"
 
 #: templates/Student_pages/Students_homepage.html:163
 #: templates/Student_pages/Students_homepage.html:166
@@ -266,87 +267,87 @@ msgstr "下一页"
 #: templates/Student_pages/Students_homepage.html:361
 #: templates/Student_pages/Students_homepage.html:364
 msgid "אחרון &raquo;"
-msgstr "末页 &raquo;"
+msgstr "الأخير &raquo;"
 
 #: templates/Student_pages/Students_homepage.html:171
 msgid "אין בקשות השאלה ממתינות"
-msgstr "没有待处理的借用申请"
+msgstr "لا توجد طلبات استعارة معلقة"
 
 #: templates/Student_pages/Students_homepage.html:177
 msgid "בקשות השאלת ציוד מאושרות"
-msgstr "已批准的设备借用申请"
+msgstr "طلبات استعارة المعدات المعتمدة"
 
 #: templates/Student_pages/Students_homepage.html:184
 msgid "תאריך אישור"
-msgstr "批准日期"
+msgstr "تاريخ الموافقة"
 
 #: templates/Student_pages/Students_homepage.html:185
 msgid "תאריך החזרה"
-msgstr "归还日期"
+msgstr "تاريخ الإرجاع"
 
 #: templates/Student_pages/Students_homepage.html:188
 #: templates/Student_pages/Students_homepage.html:267
 #: templates/Student_pages/Students_homepage.html:326
 msgid "הערות מנהל"
-msgstr "管理员备注"
+msgstr "ملاحظات المدير"
 
 #: templates/Student_pages/Students_homepage.html:201
 msgid "(נותרו פחות מ-7 ימים)"
-msgstr "(剩余不到7天)"
+msgstr "(المتبقي أقل من 7 أيام)"
 
 #: templates/Student_pages/Students_homepage.html:203
 msgid "(באיחור)"
-msgstr "(逾期)"
+msgstr "(متأخر)"
 
 #: templates/Student_pages/Students_homepage.html:208
 msgid "לא צוין"
-msgstr "未指定"
+msgstr "غير محدد"
 
 #: templates/Student_pages/Students_homepage.html:244
 msgid "אין בקשות השאלה מאושרות"
-msgstr "没有已批准的借用申请"
+msgstr "لا توجد طلبات استعارة معتمدة"
 
 #: templates/Student_pages/Students_homepage.html:251
 #: templates/Student_pages/Students_homepage.html:257
 msgid "תקלות פתוחות"
-msgstr "开放故障"
+msgstr "الأعطال المفتوحة"
 
 #: templates/Student_pages/Students_homepage.html:252
 #: templates/Student_pages/Students_homepage.html:315
 msgid "תקלות בטיפול"
-msgstr "处理中的故障"
+msgstr "الأعطال قيد المعالجة"
 
 #: templates/Student_pages/Students_homepage.html:262
 #: templates/Student_pages/Students_homepage.html:320
 msgid "סוג התקלה"
-msgstr "故障类型"
+msgstr "نوع العطل"
 
 #: templates/Student_pages/Students_homepage.html:263
 #: templates/Student_pages/Students_homepage.html:321
 msgid "תיאור התקלה"
-msgstr "故障描述"
+msgstr "وصف العطل"
 
 #: templates/Student_pages/Students_homepage.html:264
 #: templates/Student_pages/Students_homepage.html:322
 msgid "תאריך דיווח"
-msgstr "报告日期"
+msgstr "تاريخ الإبلاغ"
 
 #: templates/Student_pages/Students_homepage.html:266
 #: templates/Student_pages/Students_homepage.html:325
 msgid "דחיפות"
-msgstr "紧急程度"
+msgstr "الأولوية"
 
 #: templates/Student_pages/Students_homepage.html:309
 msgid "אין תקלות פתוחות"
-msgstr "没有开放故障"
+msgstr "لا توجد أعطال مفتوحة"
 
 #: templates/Student_pages/Students_homepage.html:323
 msgid "עדכון אחרון"
-msgstr "最后更新"
+msgstr "آخر تحديث"
 
 #: templates/Student_pages/Students_homepage.html:369
 msgid "אין תקלות בטיפול"
-msgstr "没有处理中的故障"
+msgstr "لا توجد أعطال قيد المعالجة"
 
 #: templates/Student_pages/application.html:5
 #: templates/Student_pages/application.html:94 templates/index.html:25
@@ -362,7 +363,7 @@ msgstr ""
 #: templates/Student_pages/connect_us.html:94
 #: templates/Student_pages/faults.html:105
 msgid "Name"
-msgstr "姓名"
+msgstr "שם"
 
 #: templates/Student_pages/application.html:101
 #: templates/Student_pages/faults.html:107
@@ -423,39 +424,39 @@ msgstr ""
 #: templates/Student_pages/connect_us.html:76
 #: templates/Student_pages/faults.html:157
 msgid "Back to Homepage"
-msgstr "返回首页"
+msgstr "חזור לדף הבית"
 
 #: templates/Student_pages/connect_us.html:5 templates/index.html:27
 msgid "Contact Us"
-msgstr "联系我们"
+msgstr "צור קשר"
 
 #: templates/Student_pages/connect_us.html:58
 msgid "Couldn't find what you were looking for? Contact us!"
-msgstr "找不到您要找的内容？联系我们！"
+msgstr "לא מצאת מה שחיפשת? צור איתנו קשר!"
 
 #: templates/Student_pages/connect_us.html:62
 msgid "Select a building to get contact details:"
-msgstr "选择建筑物获取联系详情："
+msgstr "בחר בניין לקבלת פרטי קשר:"
 
 #: templates/Student_pages/connect_us.html:64
 msgid "Select building"
-msgstr "选择建筑物"
+msgstr "בחר בניין"
 
 #: templates/Student_pages/connect_us.html:65
 msgid "Building 1"
-msgstr "建筑物 1"
+msgstr "בניין 1"
 
 #: templates/Student_pages/connect_us.html:66
 msgid "Building 2"
-msgstr "建筑物 2"
+msgstr "בניין 2"
 
 #: templates/Student_pages/connect_us.html:67
 msgid "Building 3"
-msgstr "建筑物 3"
+msgstr "בניין 3"
 
 #: templates/Student_pages/connect_us.html:68
 msgid "Building 4"
-msgstr "建筑物 4"
+msgstr "בניין 4"
 
 #: templates/Student_pages/connect_us.html:81
 msgid "Yossi Cohen"
@@ -475,11 +476,11 @@ msgstr ""
 
 #: templates/Student_pages/connect_us.html:95
 msgid "Phone"
-msgstr "电话"
+msgstr "טלפון"
 
 #: templates/Student_pages/connect_us.html:97
 msgid "Please select a building from the list."
-msgstr "请从列表中选择一个建筑物。"
+msgstr "אנא בחר בניין מהרשימה."
 
 #: templates/Student_pages/faults.html:5 templates/Student_pages/faults.html:92
 #: templates/index.html:26
@@ -600,25 +601,26 @@ msgstr ""
 msgid "Use the links below to access the relevant service for you."
 msgstr ""
 
+# Hebrew strings that need translation
 #: templates/login_page.html:5
 msgid "התחברות"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #: templates/login_page.html:69
 msgid "התחברות ל-DormitoriesPlus"
-msgstr ""
+msgstr "تسجيل الدخول إلى DormitoriesPlus"
 
 #: templates/login_page.html:73
 msgid "אימייל:"
-msgstr ""
+msgstr "البريد الإلكتروني:"
 
 #: templates/login_page.html:77
 msgid "סיסמה:"
-msgstr ""
+msgstr "كلمة المرور:"
 
 #: templates/login_page.html:80
 msgid "התחבר"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #: venv/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -721,6 +723,11 @@ msgid_plural ""
 "Ensure this value has at least %(limit_value)d characters (it has "
 "%(show_value)d)."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/core/validators.py:383
 #, python-format
@@ -731,6 +738,11 @@ msgid_plural ""
 "Ensure this value has at most %(limit_value)d characters (it has "
 "%(show_value)d)."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/core/validators.py:402
 #: venv/lib/python3.8/site-packages/django/forms/fields.py:292
@@ -743,12 +755,22 @@ msgstr ""
 msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/core/validators.py:409
 #, python-format
 msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/core/validators.py:414
 #, python-format
@@ -757,6 +779,11 @@ msgid ""
 msgid_plural ""
 "Ensure that there are no more than %(max)s digits before the decimal point."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/core/validators.py:476
 #, python-format
@@ -1096,6 +1123,11 @@ msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
 msgid_plural ""
 "Ensure this filename has at most %(max)d characters (it has %(length)d)."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/forms/fields.py:552
 msgid "Please either submit a file or check the clear checkbox, not both."
@@ -1151,12 +1183,22 @@ msgstr ""
 msgid "Please submit %d or fewer forms."
 msgid_plural "Please submit %d or fewer forms."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/forms/formsets.py:352
 #, python-format
 msgid "Please submit %d or more forms."
 msgid_plural "Please submit %d or more forms."
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/forms/formsets.py:379
 #: venv/lib/python3.8/site-packages/django/forms/formsets.py:386
@@ -1243,6 +1285,11 @@ msgstr ""
 msgid "%(size)d byte"
 msgid_plural "%(size)d bytes"
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:838
 #, python-format
@@ -1590,36 +1637,66 @@ msgstr ""
 msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:10
 #, python-format
 msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:11
 #, python-format
 msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:12
 #, python-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:13
 #, python-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/utils/timesince.py:14
 #, python-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: venv/lib/python3.8/site-packages/django/views/csrf.py:110
 msgid "Forbidden"
@@ -1794,3 +1871,7 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/djongo/models/fields.py:630
 msgid "ObjectId"
 msgstr ""
+
+# Test string
+#~ msgid "TEST ENGLISH STRING"
+#~ msgstr "هذا اختبار للترجمة"
