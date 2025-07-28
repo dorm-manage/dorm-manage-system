@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול מלאי - מנהל בניין{% endblock %}
+{% block title %}{% translate "Inventory Management - Building Manager" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/inventory.css' %}">
@@ -96,8 +97,8 @@
 {% block content %}
 <div class="container">
     <div class="hero">
-        <h2>ניהול מלאי</h2>
-        <p>כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים</p>
+        <h2>{% translate "Inventory Management" %}</h2>
+        <p>{% translate "Here you can manage inventory items, add new items and update the status of existing items" %}</p>
     </div>
 
     {% if messages %}
@@ -109,16 +110,16 @@
     {% endif %}
 
     <div class="table-container">
-        <h3>רשימת פריטי מלאי</h3>
+        <h3>{% translate "Inventory Items List" %}</h3>
         <table>
             <thead>
                 <tr>
-                    <th>תמונה</th>
-                    <th>שם פריט</th>
-                    <th>כמות כוללת</th>
-                    <th>זמינים</th>
-                    <th>בהשאלה</th>
-                    <th>פעולות</th>
+                    <th>{% translate "Image" %}</th>
+                    <th>{% translate "Item Name" %}</th>
+                    <th>{% translate "Total Quantity" %}</th>
+                    <th>{% translate "Available" %}</th>
+                    <th>{% translate "Borrowed" %}</th>
+                    <th>{% translate "Actions" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -128,7 +129,7 @@
                         {% if item.photo_url %}
                             <img src="{{ item.photo_url.url }}" alt="{{ item.item_name }}" class="item-photo">
                         {% else %}
-                            <img src="{% static 'img/no-image.png' %}" alt="אין תמונה" class="item-photo">
+                            <img src="{% static 'img/no-image.png' %}" alt="{% translate 'No image' %}" class="item-photo">
                         {% endif %}
                     </td>
                     <td>{{ item.item_name }}</td>
@@ -148,13 +149,13 @@
                         {% endif %}
                     </td>
                     <td>
-                        <button class="btn btn-warning" onclick="openEditModal({{ item.id }}, '{{ item.item_name }}', {{ item.quantity }})">ערוך</button>
-                        <button class="btn btn-danger" onclick="confirmDelete({{ item.id }}, '{{ item.item_name }}')">מחק</button>
+                        <button class="btn btn-warning" onclick="openEditModal('{{ item.id }}', '{{ item.item_name }}', '{{ item.quantity }}')">{% translate "Edit" %}</button>
+                        <button class="btn btn-danger" onclick="confirmDelete('{{ item.id }}', '{{ item.item_name }}')">{% translate "Delete" %}</button>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="7" style="text-align: center;">אין פריטים במלאי</td>
+                    <td colspan="7" style="text-align: center;">{% translate "No items in inventory" %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -164,21 +165,21 @@
         <div class="pagination">
             <ul>
                 {% if page_obj.has_previous %}
-                    <li><a href="?page=1">&laquo; ראשון</a></li>
-                    <li><a href="?page={{ page_obj.previous_page_number }}">הקודם</a></li>
+                    <li><a href="?page=1">&laquo; {% translate "First" %}</a></li>
+                    <li><a href="?page={{ page_obj.previous_page_number }}">{% translate "Previous" %}</a></li>
                 {% else %}
-                    <li class="disabled"><span>&laquo; ראשון</span></li>
-                    <li class="disabled"><span>הקודם</span></li>
+                    <li class="disabled"><span>&laquo; {% translate "First" %}</span></li>
+                    <li class="disabled"><span>{% translate "Previous" %}</span></li>
                 {% endif %}
 
-                <li class="active"><span>דף {{ page_obj.number }} מתוך {{ page_obj.paginator.num_pages }}</span></li>
+                <li class="active"><span>{% translate "Page" %} {{ page_obj.number }} {% translate "of" %} {{ page_obj.paginator.num_pages }}</span></li>
 
                 {% if page_obj.has_next %}
-                    <li><a href="?page={{ page_obj.next_page_number }}">הבא</a></li>
-                    <li><a href="?page={{ page_obj.paginator.num_pages }}">אחרון &raquo;</a></li>
+                    <li><a href="?page={{ page_obj.next_page_number }}">{% translate "Next" %}</a></li>
+                    <li><a href="?page={{ page_obj.paginator.num_pages }}">{% translate "Last" %} &raquo;</a></li>
                 {% else %}
-                    <li class="disabled"><span>הבא</span></li>
-                    <li class="disabled"><span>אחרון &raquo;</span></li>
+                    <li class="disabled"><span>{% translate "Next" %}</span></li>
+                    <li class="disabled"><span>{% translate "Last" %} &raquo;</span></li>
                 {% endif %}
             </ul>
         </div>
@@ -186,30 +187,30 @@
     </div>
 
     <div class="actions-bar">
-        <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
-        <button class="btn btn-primary" onclick="openAddModal()">הוספת פריט חדש</button>
+        <a href="{% url 'BM_Homepage' %}" class="back-button">{% translate "Back to Homepage" %}</a>
+        <button class="btn btn-primary" onclick="openAddModal()">{% translate "Add New Item" %}</button>
     </div>
 
     <!-- Modal for adding new item -->
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAddModal()">&times;</span>
-            <h3>הוספת פריט חדש למלאי</h3>
+            <h3>{% translate "Add New Item to Inventory" %}</h3>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="item_name">שם הפריט</label>
+                    <label for="item_name">{% translate "Item Name" %}</label>
                     <input type="text" id="item_name" name="item_name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="quantity">כמות</label>
+                    <label for="quantity">{% translate "Quantity" %}</label>
                     <input type="number" id="quantity" name="quantity" min="1" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="photo">תמונת פריט (אופציונלי)</label>
+                    <label for="photo">{% translate "Item Photo (Optional)" %}</label>
                     <input type="file" id="photo" name="photo" class="form-control" accept="image/*">
                 </div>
-                <button type="submit" name="add_item" class="btn btn-primary">הוסף פריט</button>
+                <button type="submit" name="add_item" class="btn btn-primary">{% translate "Add Item" %}</button>
             </form>
         </div>
     </div>
@@ -218,23 +219,23 @@
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()">&times;</span>
-            <h3>ערוך פריט מלאי</h3>
+            <h3>{% translate "Edit Inventory Item" %}</h3>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" id="inventory_id" name="inventory_id">
                 <div class="form-group">
-                    <label for="new_name">שם פריט</label>
+                    <label for="new_name">{% translate "Item Name" %}</label>
                     <input type="text" id="new_name" name="new_name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="new_quantity">כמות</label>
+                    <label for="new_quantity">{% translate "Quantity" %}</label>
                     <input type="number" id="new_quantity" name="new_quantity" min="0" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="edit_photo">תמונת פריט חדשה (אופציונלי)</label>
+                    <label for="edit_photo">{% translate "New Item Photo (Optional)" %}</label>
                     <input type="file" id="edit_photo" name="photo" class="form-control" accept="image/*">
                 </div>
-                <button type="submit" name="update_item" class="btn btn-success">עדכן פריט</button>
+                <button type="submit" name="update_item" class="btn btn-success">{% translate "Update Item" %}</button>
             </form>
         </div>
     </div>
@@ -243,14 +244,14 @@
     <div id="deleteModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeDeleteModal()">&times;</span>
-            <h3>האם אתה בטוח שברצונך למחוק פריט זה?</h3>
+            <h3>{% translate "Are you sure you want to delete this item?" %}</h3>
             <p id="delete-item-name"></p>
             <form method="post">
                 {% csrf_token %}
                 <input type="hidden" id="delete_inventory_id" name="inventory_id">
                 <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-                    <button type="submit" name="remove_item" class="btn btn-danger">כן, מחק</button>
-                    <button type="button" class="btn btn-primary" onclick="closeDeleteModal()">ביטול</button>
+                    <button type="submit" name="remove_item" class="btn btn-danger">{% translate "Yes, Delete" %}</button>
+                    <button type="button" class="btn btn-primary" onclick="closeDeleteModal()">{% translate "Cancel" %}</button>
                 </div>
             </form>
         </div>
@@ -260,6 +261,9 @@
 
 {% block extra_js %}
 <script>
+    // Define translated strings
+    var itemNameText = '{% translate "Item Name" %}';
+    
     // Add modal functions
     function openAddModal() {
         document.getElementById('addModal').style.display = "block";
@@ -284,7 +288,7 @@
     // Delete confirmation modal
     function confirmDelete(id, name) {
         document.getElementById('delete_inventory_id').value = id;
-        document.getElementById('delete-item-name').textContent = 'שם פריט: ' + name;
+        document.getElementById('delete-item-name').textContent = itemNameText + ': ' + name;
         document.getElementById('deleteModal').style.display = "block";
     }
 

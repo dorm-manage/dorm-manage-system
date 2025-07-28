@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DormitoriesPlus 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-27 14:58+0300\n"
+"POT-Creation-Date: 2025-07-27 23:11+0300\n"
 "PO-Revision-Date: 2025-01-27 10:00+0200\n"
 "Last-Translator: \n"
 "Language: en\n"
@@ -43,6 +43,7 @@ msgid "Fault Management"
 msgstr ""
 
 #: templates/BM_pages/BM_Homepage.html:112
+#: templates/BM_pages/BM_manage_students.html:19
 msgid "Student Management"
 msgstr ""
 
@@ -104,6 +105,227 @@ msgstr ""
 msgid "No new fault reports or faults in progress pending."
 msgstr ""
 
+#: templates/BM_pages/BM_faults.html:4
+msgid "Fault Management - Building Manager"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:222
+msgid "Dormitory Fault Management"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:227 templates/BM_pages/BM_faults.html:234
+msgid "Open Faults"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:228 templates/BM_pages/BM_faults.html:320
+msgid "Faults in Progress"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:239 templates/BM_pages/BM_faults.html:325
+#: templates/Homepage.html:20
+msgid "Student"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:240 templates/BM_pages/BM_faults.html:326
+#: templates/BM_pages/BM_manage_students.html:42
+#: templates/Student_pages/application.html:101
+#: templates/Student_pages/faults.html:107
+msgid "Building"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:241 templates/BM_pages/BM_faults.html:327
+#: templates/BM_pages/BM_manage_students.html:100
+#: templates/BM_pages/BM_manage_students.html:133
+#: templates/Student_pages/application.html:102
+#: templates/Student_pages/faults.html:108
+msgid "Room"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:242 templates/BM_pages/BM_faults.html:328
+msgid "Fault Type"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:243 templates/BM_pages/BM_faults.html:329
+msgid "Fault Description"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:244 templates/BM_pages/BM_faults.html:330
+msgid "Urgency"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:245 templates/BM_pages/BM_faults.html:331
+msgid "Report Date"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:246 templates/BM_pages/BM_faults.html:333
+msgid "Manager Comments"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:247 templates/BM_pages/BM_faults.html:334
+#: templates/BM_pages/BM_manage_students.html:136
+msgid "Actions"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:267 templates/BM_pages/BM_faults.html:359
+msgid "Add a comment to the student (optional)"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:269 templates/BM_pages/BM_faults.html:361
+msgid "Save"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:276
+msgid "Mark as In Progress"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:277 templates/BM_pages/BM_faults.html:368
+msgid "Close Report"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:289 templates/BM_pages/BM_faults.html:291
+#: templates/BM_pages/BM_faults.html:380 templates/BM_pages/BM_faults.html:382
+#: templates/BM_pages/BM_manage_students.html:167
+#: templates/BM_pages/BM_manage_students.html:169
+msgid "Previous"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:303 templates/BM_pages/BM_faults.html:305
+#: templates/BM_pages/BM_faults.html:394 templates/BM_pages/BM_faults.html:396
+#: templates/BM_pages/BM_manage_students.html:179
+#: templates/BM_pages/BM_manage_students.html:181
+msgid "Next"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:311
+msgid "No open faults"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:332
+msgid "Last Update"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:349
+msgid "In progress"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:402
+msgid "No faults in progress"
+msgstr ""
+
+#: templates/BM_pages/BM_faults.html:408
+#: templates/BM_pages/BM_manage_students.html:205
+#: templates/Student_pages/application.html:144
+#: templates/Student_pages/connect_us.html:76
+#: templates/Student_pages/faults.html:157
+msgid "Back to Homepage"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:6
+msgid "Student Management - Building Manager"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:21
+msgid "Responsible for building"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:53
+#: templates/BM_pages/BM_manage_students.html:110
+msgid "Add Student"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:57
+msgid "Remove Student"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:62
+msgid "Add new student to building"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:69
+msgid "First Name:"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:73
+msgid "Last Name:"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:77
+msgid "Email:"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:81
+msgid "Password:"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:91
+msgid "ID Number (optional):"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:95
+msgid "Room:"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:97
+msgid "Select room"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:100
+msgid "available spots"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:106
+msgid "Housing End Date:"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:115
+msgid "No available rooms in this building."
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:121
+msgid "Students in building"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:125
+msgid "Search by name or email..."
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:131
+msgid "Full Name"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:132
+msgid "Email"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:134
+msgid "Assignment Date"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:135
+#: templates/Student_pages/application.html:103
+msgid "End Date"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:155
+msgid "Are you sure you want to remove the student from the system?"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:156
+msgid "Remove from system"
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:187
+msgid "No students assigned to this building."
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:193
+msgid "Click on the tab to load data..."
+msgstr ""
+
+#: templates/BM_pages/BM_manage_students.html:200
+msgid "No buildings under your management."
+msgstr ""
+
 #: templates/Homepage.html:8
 msgid "DormitoriesPlus - User Selection"
 msgstr ""
@@ -122,10 +344,6 @@ msgstr ""
 
 #: templates/Homepage.html:19
 msgid "Building Manager"
-msgstr ""
-
-#: templates/Homepage.html:20
-msgid "Student"
 msgstr ""
 
 #: templates/Homepage.html:24 templates/index.html:34
@@ -364,20 +582,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: templates/Student_pages/application.html:101
-#: templates/Student_pages/faults.html:107
-msgid "Building"
-msgstr ""
-
-#: templates/Student_pages/application.html:102
-#: templates/Student_pages/faults.html:108
-msgid "Room"
-msgstr ""
-
-#: templates/Student_pages/application.html:103
-msgid "End Date"
-msgstr ""
-
 #: templates/Student_pages/application.html:105
 #: templates/Student_pages/faults.html:110
 msgid ""
@@ -417,12 +621,6 @@ msgstr ""
 msgid ""
 "Cannot submit request without room assignment. Please contact the dormitory "
 "manager."
-msgstr ""
-
-#: templates/Student_pages/application.html:144
-#: templates/Student_pages/connect_us.html:76
-#: templates/Student_pages/faults.html:157
-msgid "Back to Homepage"
 msgstr ""
 
 #: templates/Student_pages/connect_us.html:5 templates/index.html:27
