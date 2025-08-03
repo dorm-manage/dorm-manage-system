@@ -2035,4 +2035,72 @@ msgstr "从库存中移除"
 msgid "No borrowed items at the moment"
 msgstr "目前没有已借物品"
 
+#: templates/BM_pages/BM_faults.html:6
+msgid "Fault Management - Building Manager"
+msgstr "故障管理 - 楼宇管理员"
+
+#: templates/BM_pages/BM_faults.html:18
+msgid "Dormitory Fault Management"
+msgstr "宿舍故障管理"
+
+#: templates/BM_pages/BM_faults.html:26
+msgid "Open Faults"
+msgstr "开放故障"
+
+#: templates/BM_pages/BM_faults.html:27
+msgid "Faults in Progress"
+msgstr "进行中的故障"
+
+
+
+#: templates/BM_pages/BM_faults.html:35
+msgid "Fault Type"
+msgstr "故障类型"
+
+#: templates/BM_pages/BM_faults.html:36
+msgid "Fault Description"
+msgstr "故障描述"
+
+#: templates/BM_pages/BM_faults.html:37
+msgid "Urgency"
+msgstr "紧急程度"
+
+#: templates/BM_pages/BM_faults.html:38
+msgid "Report Date"
+msgstr "报告日期"
+
+#: templates/BM_pages/BM_faults.html:39
+msgid "Admin Notes"
+msgstr "管理员备注"
+
+
+
+#: templates/BM_pages/BM_faults.html:68
+msgid "Mark in Progress"
+msgstr "标记为进行中"
+
+#: templates/BM_pages/BM_faults.html:70
+msgid "Close Report"
+msgstr "关闭报告"
+
+
+
+#: templates/BM_pages/BM_faults.html:92
+msgid "No open faults"
+msgstr "没有开放故障"
+
+#: templates/BM_pages/BM_faults.html:98
+msgid "Last Update"
+msgstr "最后更新"
+
+#: templates/BM_pages/BM_faults.html:108
+msgid "in progress"
+msgstr "进行中"
+
+
+
+#: templates/BM_pages/BM_faults.html:133
+msgid "No faults in progress"
+msgstr "没有进行中的故障"
+
 

@@ -2055,4 +2055,72 @@ msgstr "Remove from Inventory"
 msgid "No borrowed items at the moment"
 msgstr "No borrowed items at the moment"
 
+#: templates/BM_pages/BM_faults.html:6
+msgid "Fault Management - Building Manager"
+msgstr "Fault Management - Building Manager"
+
+#: templates/BM_pages/BM_faults.html:18
+msgid "Dormitory Fault Management"
+msgstr "Dormitory Fault Management"
+
+#: templates/BM_pages/BM_faults.html:26
+msgid "Open Faults"
+msgstr "Open Faults"
+
+#: templates/BM_pages/BM_faults.html:27
+msgid "Faults in Progress"
+msgstr "Faults in Progress"
+
+
+
+#: templates/BM_pages/BM_faults.html:35
+msgid "Fault Type"
+msgstr "Fault Type"
+
+#: templates/BM_pages/BM_faults.html:36
+msgid "Fault Description"
+msgstr "Fault Description"
+
+#: templates/BM_pages/BM_faults.html:37
+msgid "Urgency"
+msgstr "Urgency"
+
+#: templates/BM_pages/BM_faults.html:38
+msgid "Report Date"
+msgstr "Report Date"
+
+#: templates/BM_pages/BM_faults.html:39
+msgid "Admin Notes"
+msgstr "Admin Notes"
+
+
+
+#: templates/BM_pages/BM_faults.html:68
+msgid "Mark in Progress"
+msgstr "Mark in Progress"
+
+#: templates/BM_pages/BM_faults.html:70
+msgid "Close Report"
+msgstr "Close Report"
+
+
+
+#: templates/BM_pages/BM_faults.html:92
+msgid "No open faults"
+msgstr "No open faults"
+
+#: templates/BM_pages/BM_faults.html:98
+msgid "Last Update"
+msgstr "Last Update"
+
+#: templates/BM_pages/BM_faults.html:108
+msgid "in progress"
+msgstr "in progress"
+
+
+
+#: templates/BM_pages/BM_faults.html:133
+msgid "No faults in progress"
+msgstr "No faults in progress"
+
 

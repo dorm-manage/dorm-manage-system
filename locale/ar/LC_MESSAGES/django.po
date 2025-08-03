@@ -2116,4 +2116,72 @@ msgstr "إزالة من المخزون"
 msgid "No borrowed items at the moment"
 msgstr "لا توجد عناصر معارة في الوقت الحالي"
 
+#: templates/BM_pages/BM_faults.html:6
+msgid "Fault Management - Building Manager"
+msgstr "إدارة الأعطال - مدير المبنى"
+
+#: templates/BM_pages/BM_faults.html:18
+msgid "Dormitory Fault Management"
+msgstr "إدارة أعطال السكن الجامعي"
+
+#: templates/BM_pages/BM_faults.html:26
+msgid "Open Faults"
+msgstr "الأعطال المفتوحة"
+
+#: templates/BM_pages/BM_faults.html:27
+msgid "Faults in Progress"
+msgstr "الأعطال قيد المعالجة"
+
+
+
+#: templates/BM_pages/BM_faults.html:35
+msgid "Fault Type"
+msgstr "نوع العطل"
+
+#: templates/BM_pages/BM_faults.html:36
+msgid "Fault Description"
+msgstr "وصف العطل"
+
+#: templates/BM_pages/BM_faults.html:37
+msgid "Urgency"
+msgstr "الاستعجال"
+
+#: templates/BM_pages/BM_faults.html:38
+msgid "Report Date"
+msgstr "تاريخ التقرير"
+
+#: templates/BM_pages/BM_faults.html:39
+msgid "Admin Notes"
+msgstr "ملاحظات المدير"
+
+
+
+#: templates/BM_pages/BM_faults.html:68
+msgid "Mark in Progress"
+msgstr "تحديد قيد المعالجة"
+
+#: templates/BM_pages/BM_faults.html:70
+msgid "Close Report"
+msgstr "إغلاق التقرير"
+
+
+
+#: templates/BM_pages/BM_faults.html:92
+msgid "No open faults"
+msgstr "لا توجد أعطال مفتوحة"
+
+#: templates/BM_pages/BM_faults.html:98
+msgid "Last Update"
+msgstr "آخر تحديث"
+
+#: templates/BM_pages/BM_faults.html:108
+msgid "in progress"
+msgstr "قيد المعالجة"
+
+
+
+#: templates/BM_pages/BM_faults.html:133
+msgid "No faults in progress"
+msgstr "لا توجد أعطال قيد المعالجة"
+
 

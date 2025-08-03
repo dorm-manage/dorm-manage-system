@@ -548,4 +548,70 @@ msgstr "הסר מהמלאי"
 msgid "No borrowed items at the moment"
 msgstr "אין פריטים מושאלים כרגע"
 
- 
+#: templates/BM_pages/BM_faults.html:6
+msgid "Fault Management - Building Manager"
+msgstr "ניהול תקלות - מנהל בניין"
+
+#: templates/BM_pages/BM_faults.html:18
+msgid "Dormitory Fault Management"
+msgstr "ניהול תקלות במעונות"
+
+#: templates/BM_pages/BM_faults.html:26
+msgid "Open Faults"
+msgstr "תקלות פתוחות"
+
+#: templates/BM_pages/BM_faults.html:27
+msgid "Faults in Progress"
+msgstr "תקלות בטיפול"
+
+
+
+#: templates/BM_pages/BM_faults.html:35
+msgid "Fault Type"
+msgstr "סוג התקלה"
+
+#: templates/BM_pages/BM_faults.html:36
+msgid "Fault Description"
+msgstr "תיאור התקלה"
+
+#: templates/BM_pages/BM_faults.html:37
+msgid "Urgency"
+msgstr "דחיפות"
+
+#: templates/BM_pages/BM_faults.html:38
+msgid "Report Date"
+msgstr "תאריך דיווח"
+
+#: templates/BM_pages/BM_faults.html:39
+msgid "Admin Notes"
+msgstr "הערות מנהל"
+
+
+
+#: templates/BM_pages/BM_faults.html:68
+msgid "Mark in Progress"
+msgstr "סמן בטיפול"
+
+#: templates/BM_pages/BM_faults.html:70
+msgid "Close Report"
+msgstr "סגור דיווח"
+
+
+
+#: templates/BM_pages/BM_faults.html:92
+msgid "No open faults"
+msgstr "אין תקלות פתוחות"
+
+#: templates/BM_pages/BM_faults.html:98
+msgid "Last Update"
+msgstr "עדכון אחרון"
+
+#: templates/BM_pages/BM_faults.html:108
+msgid "in progress"
+msgstr "בטיפול"
+
+
+
+#: templates/BM_pages/BM_faults.html:133
+msgid "No faults in progress"
+msgstr "אין תקלות בטיפול"

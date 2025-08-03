@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול תקלות - מנהל בניין{% endblock %}
+{% block title %}{% translate "Fault Management - Building Manager" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -219,32 +220,32 @@
 {% block content %}
 <div class="container">
     <div class="hero">
-        <h2>ניהול תקלות במעונות</h2>
+        <h2>{% translate "Dormitory Fault Management" %}</h2>
     </div>
 
-    <!-- ניווט בין טאבים -->
+    <!-- Tab Navigation -->
     <div class="tab-navigation">
-        <div class="tab active" data-tab="open-faults">תקלות פתוחות</div>
-        <div class="tab" data-tab="pending-faults">תקלות בטיפול</div>
+        <div class="tab active" data-tab="open-faults">{% translate "Open Faults" %}</div>
+        <div class="tab" data-tab="pending-faults">{% translate "Faults in Progress" %}</div>
     </div>
 
-    <!-- תקלות פתוחות -->
+    <!-- Open Faults -->
     <div id="open-faults" class="tab-content active">
         <div class="section">
-            <h3>תקלות פתוחות</h3>
+            <h3>{% translate "Open Faults" %}</h3>
             {% if open_fault_reports %}
               <table>
                 <thead>
                   <tr>
-                    <th>סטודנט</th>
-                    <th>בניין</th>
-                    <th>חדר</th>
-                    <th>סוג התקלה</th>
-                    <th>תיאור התקלה</th>
-                    <th>דחיפות</th>
-                    <th>תאריך דיווח</th>
-                    <th>הערות מנהל</th>
-                    <th>פעולות</th>
+                    <th>{% translate "Student" %}</th>
+                    <th>{% translate "Building" %}</th>
+                    <th>{% translate "Room" %}</th>
+                    <th>{% translate "Fault Type" %}</th>
+                    <th>{% translate "Fault Description" %}</th>
+                    <th>{% translate "Urgency" %}</th>
+                    <th>{% translate "Report Date" %}</th>
+                    <th>{% translate "Admin Notes" %}</th>
+                    <th>{% translate "Actions" %}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -273,8 +274,8 @@
                         <form method="POST" action="{% url 'BM_faults' %}">
                           {% csrf_token %}
                           <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <button type="submit" name="action" value="pending" class="btn btn-primary" style="display: block; margin-bottom: 5px;">סמן בטיפול</button>
-                          <button type="submit" name="action" value="resolved" class="btn btn-success" style="display: block;">סגור דיווח</button>
+                          <button type="submit" name="action" value="pending" class="btn btn-primary" style="display: block; margin-bottom: 5px;">{% translate "Mark in Progress" %}</button>
+                          <button type="submit" name="action" value="resolved" class="btn btn-success" style="display: block;">{% translate "Close Report" %}</button>
                         </form>
                       </td>
                     </tr>
@@ -286,9 +287,9 @@
               {% if open_fault_reports.has_other_pages %}
                 <div class="pagination">
                   {% if open_fault_reports.has_previous %}
-                    <a href="?open_page={{ open_fault_reports.previous_page_number }}">&laquo; הקודם</a>
+                    <a href="?open_page={{ open_fault_reports.previous_page_number }}">&laquo; {% translate "Previous" %}</a>
                   {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
+                    <span class="disabled">&laquo; {% translate "Previous" %}</span>
                   {% endif %}
 
                   {% for i in open_fault_reports.paginator.page_range %}
@@ -300,38 +301,38 @@
                   {% endfor %}
 
                   {% if open_fault_reports.has_next %}
-                    <a href="?open_page={{ open_fault_reports.next_page_number }}">הבא &raquo;</a>
+                    <a href="?open_page={{ open_fault_reports.next_page_number }}">{% translate "Next" %} &raquo;</a>
                   {% else %}
-                    <span class="disabled">הבא &raquo;</span>
+                    <span class="disabled">{% translate "Next" %} &raquo;</span>
                   {% endif %}
                 </div>
               {% endif %}
             {% else %}
               <div class="no-requests">
-                <p>אין תקלות פתוחות</p>
+                <p>{% translate "No open faults" %}</p>
               </div>
             {% endif %}
         </div>
     </div>
 
-    <!-- תקלות בטיפול -->
+    <!-- Faults in Progress -->
     <div id="pending-faults" class="tab-content">
         <div class="section">
-            <h3>תקלות בטיפול</h3>
+            <h3>{% translate "Faults in Progress" %}</h3>
             {% if pending_fault_reports %}
               <table>
                 <thead>
                   <tr>
-                    <th>סטודנט</th>
-                    <th>בניין</th>
-                    <th>חדר</th>
-                    <th>סוג התקלה</th>
-                    <th>תיאור התקלה</th>
-                    <th>דחיפות</th>
-                    <th>תאריך דיווח</th>
-                    <th>עדכון אחרון</th>
-                    <th>הערות מנהל</th>
-                    <th>פעולות</th>
+                    <th>{% translate "Student" %}</th>
+                    <th>{% translate "Building" %}</th>
+                    <th>{% translate "Room" %}</th>
+                    <th>{% translate "Fault Type" %}</th>
+                    <th>{% translate "Fault Description" %}</th>
+                    <th>{% translate "Urgency" %}</th>
+                    <th>{% translate "Report Date" %}</th>
+                    <th>{% translate "Last Update" %}</th>
+                    <th>{% translate "Admin Notes" %}</th>
+                    <th>{% translate "Actions" %}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -346,7 +347,7 @@
                       <td>
                           {{ fault.created_at|date:"d/m/Y H:i" }}
                           <br>
-                          <span style="font-size: 0.85em; color: #6c757d;">(בטיפול {{ fault.days_elapsed_text }})</span>
+                          <span style="font-size: 0.85em; color: #6c757d;">({% translate "in progress" %} {{ fault.days_elapsed_text }})</span>
                         </td>
                       <td>{{ fault.updated_at|date:"d/m/Y H:i" }}</td>
                       <td>
@@ -356,16 +357,16 @@
                           <input type="hidden" name="fault_id" value="{{ fault.id }}">
                           <input type="hidden" name="action" value="comment">
                           <div class="comment-container">
-                              <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                              <textarea name="admin_comment" class="comment-input" placeholder="{% translate 'Add comment to student (optional)' %}"></textarea>
                           </div>
-                          <button type="submit" class="comment-btn">שמור</button>
+                          <button type="submit" class="comment-btn">{% translate "Save" %}</button>
                         </form>
                       </td>
                       <td>
                         <form method="POST" action="{% url 'BM_faults' %}">
                           {% csrf_token %}
                           <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                          <button type="submit" name="action" value="resolved" class="btn btn-success">סגור דיווח</button>
+                          <button type="submit" name="action" value="resolved" class="btn btn-success">{% translate "Close Report" %}</button>
                         </form>
                       </td>
                     </tr>
@@ -377,9 +378,9 @@
               {% if pending_fault_reports.has_other_pages %}
                 <div class="pagination">
                   {% if pending_fault_reports.has_previous %}
-                    <a href="?pending_page={{ pending_fault_reports.previous_page_number }}#pending-faults">&laquo; הקודם</a>
+                    <a href="?pending_page={{ pending_fault_reports.previous_page_number }}#pending-faults">&laquo; {% translate "Previous" %}</a>
                   {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
+                    <span class="disabled">&laquo; {% translate "Previous" %}</span>
                   {% endif %}
 
                   {% for i in pending_fault_reports.paginator.page_range %}
@@ -391,21 +392,21 @@
                   {% endfor %}
 
                   {% if pending_fault_reports.has_next %}
-                    <a href="?pending_page={{ pending_fault_reports.next_page_number }}#pending-faults">הבא &raquo;</a>
+                    <a href="?pending_page={{ pending_fault_reports.next_page_number }}#pending-faults">{% translate "Next" %} &raquo;</a>
                   {% else %}
-                    <span class="disabled">הבא &raquo;</span>
+                    <span class="disabled">{% translate "Next" %} &raquo;</span>
                   {% endif %}
                 </div>
               {% endif %}
             {% else %}
               <div class="no-requests">
-                <p>אין תקלות בטיפול</p>
+                <p>{% translate "No faults in progress" %}</p>
               </div>
             {% endif %}
         </div>
     </div>
 
-    <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+    <a href="{% url 'BM_Homepage' %}" class="back-button">{% translate "Back to Homepage" %}</a>
 </div>
 {% endblock %}
 
