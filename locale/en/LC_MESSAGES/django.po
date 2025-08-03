@@ -1936,3 +1936,123 @@ msgstr ""
 # Test string
 #~ msgid "TEST ENGLISH STRING"
 #~ msgstr "This is a test translation"
+
+#: templates/BM_pages/BM_loan_requests.html:6
+msgid "Loan Request Management - Building Manager"
+msgstr "Loan Request Management - Building Manager"
+
+#: templates/BM_pages/BM_loan_requests.html:18
+msgid "Loan Request Management"
+msgstr "Loan Request Management"
+
+#: templates/BM_pages/BM_loan_requests.html:26
+msgid "Pending Requests"
+msgstr "Pending Requests"
+
+#: templates/BM_pages/BM_loan_requests.html:27
+msgid "Borrowed Items"
+msgstr "Borrowed Items"
+
+#: templates/BM_pages/BM_loan_requests.html:30
+msgid "Pending Loan Requests"
+msgstr "Pending Loan Requests"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:37
+msgid "Requested Item"
+msgstr "Requested Item"
+
+#: templates/BM_pages/BM_loan_requests.html:38
+msgid "Request Date"
+msgstr "Request Date"
+
+#: templates/BM_pages/BM_loan_requests.html:39
+msgid "Loan Period"
+msgstr "Loan Period"
+
+#: templates/BM_pages/BM_loan_requests.html:40
+msgid "Student Notes"
+msgstr "Student Notes"
+
+#: templates/BM_pages/BM_loan_requests.html:41
+msgid "Available Stock"
+msgstr "Available Stock"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:50
+msgid "until"
+msgstr "until"
+
+#: templates/BM_pages/BM_loan_requests.html:52
+msgid "Not specified"
+msgstr "Not specified"
+
+#: templates/BM_pages/BM_loan_requests.html:58
+msgid "items"
+msgstr "items"
+
+#: templates/BM_pages/BM_loan_requests.html:62
+msgid "Out of stock"
+msgstr "Out of stock"
+
+#: templates/BM_pages/BM_loan_requests.html:68
+msgid "Add comment to student (optional)"
+msgstr "Add comment to student (optional)"
+
+#: templates/BM_pages/BM_loan_requests.html:72
+msgid "Approve"
+msgstr "Approve"
+
+#: templates/BM_pages/BM_loan_requests.html:74
+msgid "Reject"
+msgstr "Reject"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:92
+msgid "No pending loan requests at the moment"
+msgstr "No pending loan requests at the moment"
+
+#: templates/BM_pages/BM_loan_requests.html:98
+msgid "Borrowed Item"
+msgstr "Borrowed Item"
+
+#: templates/BM_pages/BM_loan_requests.html:99
+msgid "Approval Date"
+msgstr "Approval Date"
+
+#: templates/BM_pages/BM_loan_requests.html:100
+msgid "Return Date"
+msgstr "Return Date"
+
+#: templates/BM_pages/BM_loan_requests.html:101
+msgid "Notes"
+msgstr "Notes"
+
+#: templates/BM_pages/BM_loan_requests.html:108
+msgid "less than 7 days"
+msgstr "less than 7 days"
+
+#: templates/BM_pages/BM_loan_requests.html:110
+msgid "overdue"
+msgstr "overdue"
+
+#: templates/BM_pages/BM_loan_requests.html:118
+msgid "Mark as Returned"
+msgstr "Mark as Returned"
+
+#: templates/BM_pages/BM_loan_requests.html:120
+msgid "Was the item returned damaged or not returned at all? This action will remove the item from inventory permanently."
+msgstr "Was the item returned damaged or not returned at all? This action will remove the item from inventory permanently."
+
+#: templates/BM_pages/BM_loan_requests.html:121
+msgid "Remove from Inventory"
+msgstr "Remove from Inventory"
+
+#: templates/BM_pages/BM_loan_requests.html:133
+msgid "No borrowed items at the moment"
+msgstr "No borrowed items at the moment"
+
+

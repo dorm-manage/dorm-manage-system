@@ -1916,3 +1916,123 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/djongo/models/fields.py:630
 msgid "ObjectId"
 msgstr ""
+
+#: templates/BM_pages/BM_loan_requests.html:6
+msgid "Loan Request Management - Building Manager"
+msgstr "借阅请求管理 - 楼宇管理员"
+
+#: templates/BM_pages/BM_loan_requests.html:18
+msgid "Loan Request Management"
+msgstr "借阅请求管理"
+
+#: templates/BM_pages/BM_loan_requests.html:26
+msgid "Pending Requests"
+msgstr "待处理请求"
+
+#: templates/BM_pages/BM_loan_requests.html:27
+msgid "Borrowed Items"
+msgstr "已借物品"
+
+#: templates/BM_pages/BM_loan_requests.html:30
+msgid "Pending Loan Requests"
+msgstr "待处理借阅请求"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:37
+msgid "Requested Item"
+msgstr "请求物品"
+
+#: templates/BM_pages/BM_loan_requests.html:38
+msgid "Request Date"
+msgstr "请求日期"
+
+#: templates/BM_pages/BM_loan_requests.html:39
+msgid "Loan Period"
+msgstr "借阅期限"
+
+#: templates/BM_pages/BM_loan_requests.html:40
+msgid "Student Notes"
+msgstr "学生备注"
+
+#: templates/BM_pages/BM_loan_requests.html:41
+msgid "Available Stock"
+msgstr "可用库存"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:50
+msgid "until"
+msgstr "直到"
+
+#: templates/BM_pages/BM_loan_requests.html:52
+msgid "Not specified"
+msgstr "未指定"
+
+#: templates/BM_pages/BM_loan_requests.html:58
+msgid "items"
+msgstr "物品"
+
+#: templates/BM_pages/BM_loan_requests.html:62
+msgid "Out of stock"
+msgstr "缺货"
+
+#: templates/BM_pages/BM_loan_requests.html:68
+msgid "Add comment to student (optional)"
+msgstr "给学生添加评论（可选）"
+
+#: templates/BM_pages/BM_loan_requests.html:72
+msgid "Approve"
+msgstr "批准"
+
+#: templates/BM_pages/BM_loan_requests.html:74
+msgid "Reject"
+msgstr "拒绝"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:92
+msgid "No pending loan requests at the moment"
+msgstr "目前没有待处理的借阅请求"
+
+#: templates/BM_pages/BM_loan_requests.html:98
+msgid "Borrowed Item"
+msgstr "已借物品"
+
+#: templates/BM_pages/BM_loan_requests.html:99
+msgid "Approval Date"
+msgstr "批准日期"
+
+#: templates/BM_pages/BM_loan_requests.html:100
+msgid "Return Date"
+msgstr "归还日期"
+
+#: templates/BM_pages/BM_loan_requests.html:101
+msgid "Notes"
+msgstr "备注"
+
+#: templates/BM_pages/BM_loan_requests.html:108
+msgid "less than 7 days"
+msgstr "少于7天"
+
+#: templates/BM_pages/BM_loan_requests.html:110
+msgid "overdue"
+msgstr "逾期"
+
+#: templates/BM_pages/BM_loan_requests.html:118
+msgid "Mark as Returned"
+msgstr "标记为已归还"
+
+#: templates/BM_pages/BM_loan_requests.html:120
+msgid "Was the item returned damaged or not returned at all? This action will remove the item from inventory permanently."
+msgstr "物品是否损坏归还或根本没有归还？此操作将永久从库存中移除该物品。"
+
+#: templates/BM_pages/BM_loan_requests.html:121
+msgid "Remove from Inventory"
+msgstr "从库存中移除"
+
+#: templates/BM_pages/BM_loan_requests.html:133
+msgid "No borrowed items at the moment"
+msgstr "目前没有已借物品"
+
+

@@ -1997,3 +1997,123 @@ msgstr ""
 # Test string
 #~ msgid "TEST ENGLISH STRING"
 #~ msgstr "هذا اختبار للترجمة"
+
+#: templates/BM_pages/BM_loan_requests.html:6
+msgid "Loan Request Management - Building Manager"
+msgstr "إدارة طلبات الإعارة - مدير المبنى"
+
+#: templates/BM_pages/BM_loan_requests.html:18
+msgid "Loan Request Management"
+msgstr "إدارة طلبات الإعارة"
+
+#: templates/BM_pages/BM_loan_requests.html:26
+msgid "Pending Requests"
+msgstr "الطلبات المعلقة"
+
+#: templates/BM_pages/BM_loan_requests.html:27
+msgid "Borrowed Items"
+msgstr "العناصر المعارة"
+
+#: templates/BM_pages/BM_loan_requests.html:30
+msgid "Pending Loan Requests"
+msgstr "طلبات الإعارة المعلقة"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:37
+msgid "Requested Item"
+msgstr "العنصر المطلوب"
+
+#: templates/BM_pages/BM_loan_requests.html:38
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+#: templates/BM_pages/BM_loan_requests.html:39
+msgid "Loan Period"
+msgstr "فترة الإعارة"
+
+#: templates/BM_pages/BM_loan_requests.html:40
+msgid "Student Notes"
+msgstr "ملاحظات الطالب"
+
+#: templates/BM_pages/BM_loan_requests.html:41
+msgid "Available Stock"
+msgstr "المخزون المتاح"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:50
+msgid "until"
+msgstr "حتى"
+
+#: templates/BM_pages/BM_loan_requests.html:52
+msgid "Not specified"
+msgstr "غير محدد"
+
+#: templates/BM_pages/BM_loan_requests.html:58
+msgid "items"
+msgstr "عناصر"
+
+#: templates/BM_pages/BM_loan_requests.html:62
+msgid "Out of stock"
+msgstr "نفذ من المخزون"
+
+#: templates/BM_pages/BM_loan_requests.html:68
+msgid "Add comment to student (optional)"
+msgstr "أضف تعليق للطالب (اختياري)"
+
+#: templates/BM_pages/BM_loan_requests.html:72
+msgid "Approve"
+msgstr "موافقة"
+
+#: templates/BM_pages/BM_loan_requests.html:74
+msgid "Reject"
+msgstr "رفض"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:92
+msgid "No pending loan requests at the moment"
+msgstr "لا توجد طلبات إعارة معلقة في الوقت الحالي"
+
+#: templates/BM_pages/BM_loan_requests.html:98
+msgid "Borrowed Item"
+msgstr "العنصر المعار"
+
+#: templates/BM_pages/BM_loan_requests.html:99
+msgid "Approval Date"
+msgstr "تاريخ الموافقة"
+
+#: templates/BM_pages/BM_loan_requests.html:100
+msgid "Return Date"
+msgstr "تاريخ الإرجاع"
+
+#: templates/BM_pages/BM_loan_requests.html:101
+msgid "Notes"
+msgstr "ملاحظات"
+
+#: templates/BM_pages/BM_loan_requests.html:108
+msgid "less than 7 days"
+msgstr "أقل من 7 أيام"
+
+#: templates/BM_pages/BM_loan_requests.html:110
+msgid "overdue"
+msgstr "متأخر"
+
+#: templates/BM_pages/BM_loan_requests.html:118
+msgid "Mark as Returned"
+msgstr "تحديد كمرجع"
+
+#: templates/BM_pages/BM_loan_requests.html:120
+msgid "Was the item returned damaged or not returned at all? This action will remove the item from inventory permanently."
+msgstr "هل تم إرجاع العنصر تالفاً أو لم يتم إرجاعه على الإطلاق؟ هذا الإجراء سيزيل العنصر من المخزون نهائياً."
+
+#: templates/BM_pages/BM_loan_requests.html:121
+msgid "Remove from Inventory"
+msgstr "إزالة من المخزون"
+
+#: templates/BM_pages/BM_loan_requests.html:133
+msgid "No borrowed items at the moment"
+msgstr "لا توجد عناصر معارة في الوقت الحالي"
+
+

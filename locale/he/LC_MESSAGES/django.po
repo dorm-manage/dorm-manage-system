@@ -428,4 +428,124 @@ msgstr "כן, מחק"
 
 #: templates/BM_pages/BM_inventory.html:249
 msgid "Cancel"
-msgstr "ביטול" 
+msgstr "ביטול"
+
+#: templates/BM_pages/BM_loan_requests.html:6
+msgid "Loan Request Management - Building Manager"
+msgstr "ניהול בקשות השאלה - מנהל בניין"
+
+#: templates/BM_pages/BM_loan_requests.html:18
+msgid "Loan Request Management"
+msgstr "ניהול בקשות השאלה"
+
+#: templates/BM_pages/BM_loan_requests.html:26
+msgid "Pending Requests"
+msgstr "בקשות ממתינות"
+
+#: templates/BM_pages/BM_loan_requests.html:27
+msgid "Borrowed Items"
+msgstr "פריטים מושאלים"
+
+#: templates/BM_pages/BM_loan_requests.html:30
+msgid "Pending Loan Requests"
+msgstr "בקשות השאלה ממתינות"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:37
+msgid "Requested Item"
+msgstr "פריט מבוקש"
+
+#: templates/BM_pages/BM_loan_requests.html:38
+msgid "Request Date"
+msgstr "תאריך הבקשה"
+
+#: templates/BM_pages/BM_loan_requests.html:39
+msgid "Loan Period"
+msgstr "תקופת השאלה"
+
+#: templates/BM_pages/BM_loan_requests.html:40
+msgid "Student Notes"
+msgstr "הערות הסטודנט"
+
+#: templates/BM_pages/BM_loan_requests.html:41
+msgid "Available Stock"
+msgstr "מלאי זמין"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:50
+msgid "until"
+msgstr "עד"
+
+#: templates/BM_pages/BM_loan_requests.html:52
+msgid "Not specified"
+msgstr "לא צוין"
+
+#: templates/BM_pages/BM_loan_requests.html:58
+msgid "items"
+msgstr "פריטים"
+
+#: templates/BM_pages/BM_loan_requests.html:62
+msgid "Out of stock"
+msgstr "אזל במלאי"
+
+#: templates/BM_pages/BM_loan_requests.html:68
+msgid "Add comment to student (optional)"
+msgstr "הוסף הערה לסטודנט (לא חובה)"
+
+#: templates/BM_pages/BM_loan_requests.html:72
+msgid "Approve"
+msgstr "אישור"
+
+#: templates/BM_pages/BM_loan_requests.html:74
+msgid "Reject"
+msgstr "דחייה"
+
+
+
+#: templates/BM_pages/BM_loan_requests.html:92
+msgid "No pending loan requests at the moment"
+msgstr "אין בקשות השאלה ממתינות כרגע"
+
+#: templates/BM_pages/BM_loan_requests.html:98
+msgid "Borrowed Item"
+msgstr "פריט מושאל"
+
+#: templates/BM_pages/BM_loan_requests.html:99
+msgid "Approval Date"
+msgstr "תאריך אישור"
+
+#: templates/BM_pages/BM_loan_requests.html:100
+msgid "Return Date"
+msgstr "תאריך החזרה"
+
+#: templates/BM_pages/BM_loan_requests.html:101
+msgid "Notes"
+msgstr "הערות"
+
+#: templates/BM_pages/BM_loan_requests.html:108
+msgid "less than 7 days"
+msgstr "פחות מ-7 ימים"
+
+#: templates/BM_pages/BM_loan_requests.html:110
+msgid "overdue"
+msgstr "באיחור"
+
+#: templates/BM_pages/BM_loan_requests.html:118
+msgid "Mark as Returned"
+msgstr "סמן כהוחזר"
+
+#: templates/BM_pages/BM_loan_requests.html:120
+msgid "Was the item returned damaged or not returned at all? This action will remove the item from inventory permanently."
+msgstr "האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין."
+
+#: templates/BM_pages/BM_loan_requests.html:121
+msgid "Remove from Inventory"
+msgstr "הסר מהמלאי"
+
+#: templates/BM_pages/BM_loan_requests.html:133
+msgid "No borrowed items at the moment"
+msgstr "אין פריטים מושאלים כרגע"
+
+ 

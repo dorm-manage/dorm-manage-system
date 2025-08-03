@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול בקשות השאלה - מנהל בניין{% endblock %}
+{% block title %}{% translate "Loan Request Management - Building Manager" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
@@ -15,7 +16,7 @@
 {% block content %}
 <div class="container">
   <div class="hero">
-    <h2>ניהול בקשות השאלה</h2>
+    <h2>{% translate "Loan Request Management" %}</h2>
   </div>
 
   {% if messages %}
@@ -27,26 +28,26 @@
   {% endif %}
 
   <div class="tab-navigation">
-    <div class="tab active" data-tab="pending-requests">בקשות ממתינות</div>
-    <div class="tab" data-tab="borrowed-items">פריטים מושאלים</div>
+    <div class="tab active" data-tab="pending-requests">{% translate "Pending Requests" %}</div>
+    <div class="tab" data-tab="borrowed-items">{% translate "Borrowed Items" %}</div>
   </div>
 
   <div id="pending-requests" class="tab-content active">
     <div class="section">
-      <h3>בקשות השאלה ממתינות</h3>
+      <h3>{% translate "Pending Loan Requests" %}</h3>
       {% if pending_requests %}
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th>שם הסטודנט</th>
-              <th>חדר</th>
-              <th>פריט מבוקש</th>
-              <th>תאריך הבקשה</th>
-              <th>תקופת השאלה</th>
-              <th>הערות הסטודנט</th>
-              <th>מלאי זמין</th>
-              <th>פעולות</th>
+              <th>{% translate "Student Name" %}</th>
+              <th>{% translate "Room" %}</th>
+              <th>{% translate "Requested Item" %}</th>
+              <th>{% translate "Request Date" %}</th>
+              <th>{% translate "Loan Period" %}</th>
+              <th>{% translate "Student Notes" %}</th>
+              <th>{% translate "Available Stock" %}</th>
+              <th>{% translate "Actions" %}</th>
             </tr>
           </thead>
           <tbody>
@@ -60,9 +61,9 @@
                 <td>
                   {% if request.return_date %}
                     {{ request.return_date|timeuntil:request.created_at.date }}
-                    (עד {{ request.return_date|date:"d/m/Y" }})
+                    ({% translate "until" %} {{ request.return_date|date:"d/m/Y" }})
                   {% else %}
-                    לא צוין
+                    {% translate "Not specified" %}
                   {% endif %}
                 </td>
                 <td>
@@ -75,11 +76,11 @@
                 <td>
                   {% with available_count=available_counts|get_item:request.item.inventory.id %}
                     {% if available_count > 3 %}
-                      <span class="badge badge-success">{{ available_count }} פריטים</span>
+                      <span class="badge badge-success">{{ available_count }} {% translate "items" %}</span>
                     {% elif available_count > 0 %}
-                      <span class="badge badge-warning">{{ available_count }} פריטים</span>
+                      <span class="badge badge-warning">{{ available_count }} {% translate "items" %}</span>
                     {% else %}
-                      <span class="badge badge-danger">אזל במלאי</span>
+                      <span class="badge badge-danger">{% translate "Out of stock" %}</span>
                     {% endif %}
                   {% endwith %}
                 </td>
@@ -88,14 +89,14 @@
                     {% csrf_token %}
                     <input type="hidden" name="request_id" value="{{ request.id }}">
                     <div class="comment-container">
-                      <textarea name="comment" class="comment-field" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                      <textarea name="comment" class="comment-field" placeholder="{% translate 'Add comment to student (optional)' %}"></textarea>
                     </div>
                     <div style="margin-top: 10px;">
                       {% with available_count=available_counts|get_item:request.item.inventory.id %}
                         {% if available_count > 0 %}
-                          <button type="submit" name="action" value="approve" class="button approve">אישור</button>
+                          <button type="submit" name="action" value="approve" class="button approve">{% translate "Approve" %}</button>
                         {% endif %}
-                        <button type="submit" name="action" value="reject" class="button deny">דחייה</button>
+                        <button type="submit" name="action" value="reject" class="button deny">{% translate "Reject" %}</button>
                       {% endwith %}
                     </div>
                   </form>
@@ -107,9 +108,9 @@
         {% if pending_requests.has_other_pages %}
           <div class="pagination">
             {% if pending_requests.has_previous %}
-              <a href="?pending_page={{ pending_requests.previous_page_number }}">&laquo; הקודם</a>
+              <a href="?pending_page={{ pending_requests.previous_page_number }}">&laquo; {% translate "Previous" %}</a>
             {% else %}
-              <span class="disabled">&laquo; הקודם</span>
+              <span class="disabled">&laquo; {% translate "Previous" %}</span>
             {% endif %}
             {% for i in pending_requests.paginator.page_range %}
               {% if pending_requests.number == i %}
@@ -119,15 +120,15 @@
               {% endif %}
             {% endfor %}
             {% if pending_requests.has_next %}
-              <a href="?pending_page={{ pending_requests.next_page_number }}">הבא &raquo;</a>
+              <a href="?pending_page={{ pending_requests.next_page_number }}">{% translate "Next" %} &raquo;</a>
             {% else %}
-              <span class="disabled">הבא &raquo;</span>
+              <span class="disabled">{% translate "Next" %} &raquo;</span>
             {% endif %}
           </div>
         {% endif %}
       {% else %}
         <div class="no-requests">
-          <p>אין בקשות השאלה ממתינות כרגע</p>
+          <p>{% translate "No pending loan requests at the moment" %}</p>
         </div>
       {% endif %}
     </div>
@@ -135,19 +136,19 @@
 
   <div id="borrowed-items" class="tab-content">
     <div class="section">
-      <h3>פריטים מושאלים</h3>
+      <h3>{% translate "Borrowed Items" %}</h3>
       {% if borrowed_items %}
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th>שם הסטודנט</th>
-              <th>חדר</th>
-              <th>פריט מושאל</th>
-              <th>תאריך אישור</th>
-              <th>תאריך החזרה</th>
-              <th>הערות</th>
-              <th>פעולות</th>
+              <th>{% translate "Student Name" %}</th>
+              <th>{% translate "Room" %}</th>
+              <th>{% translate "Borrowed Item" %}</th>
+              <th>{% translate "Approval Date" %}</th>
+              <th>{% translate "Return Date" %}</th>
+              <th>{% translate "Notes" %}</th>
+              <th>{% translate "Actions" %}</th>
             </tr>
           </thead>
           <tbody>
@@ -162,13 +163,13 @@
                   {% if request.return_date %}
                     {{ request.return_date|date:"d/m/Y" }}
                     {% if request.is_due_soon %}
-                      <br><span style="color: #856404;">(פחות מ-7 ימים)</span>
+                      <br><span style="color: #856404;">({% translate "less than 7 days" %})</span>
                     {% elif request.is_overdue %}
-                      <br><span style="color: #721c24;">(באיחור)</span>
+                      <br><span style="color: #721c24;">({% translate "overdue" %})</span>
                     {% endif %}
-                  {% else %}
-                    לא צוין
-                  {% endif %}
+                                      {% else %}
+                      {% translate "Not specified" %}
+                    {% endif %}
                 </td>
                 <td>
                   {% if request.note %}
@@ -182,11 +183,11 @@
                   {% csrf_token %}
                   <input type="hidden" name="request_id" value="{{ request.id }}">
                   <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
-                    <button type="submit" name="action" value="return" class="button return">סמן כהוחזר</button>
-                    <button type="submit" name="action" value="damaged" class="btn btn-danger"
-                          onclick="return confirm('האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין.')">
-                      הסר מהמלאי
-                    </button>
+                    <button type="submit" name="action" value="return" class="button return">{% translate "Mark as Returned" %}</button>
+                                          <button type="submit" name="action" value="damaged" class="btn btn-danger"
+                            onclick="return confirm('{% translate "Was the item returned damaged or not returned at all? This action will remove the item from inventory permanently." %}')">
+                        {% translate "Remove from Inventory" %}
+                      </button>
                   </div>
                 </form>
                 </td>
@@ -197,9 +198,9 @@
         {% if borrowed_items.has_other_pages %}
             <div class="pagination">
               {% if borrowed_items.has_previous %}
-                <a href="?borrowed_page={{ borrowed_items.previous_page_number }}#borrowed-items">&laquo; הקודם</a>
+                <a href="?borrowed_page={{ borrowed_items.previous_page_number }}#borrowed-items">&laquo; {% translate "Previous" %}</a>
               {% else %}
-                <span class="disabled">&laquo; הקודם</span>
+                <span class="disabled">&laquo; {% translate "Previous" %}</span>
               {% endif %}
               {% for i in borrowed_items.paginator.page_range %}
                 {% if borrowed_items.number == i %}
@@ -209,21 +210,21 @@
                 {% endif %}
               {% endfor %}
               {% if borrowed_items.has_next %}
-                <a href="?borrowed_page={{ borrowed_items.next_page_number }}#borrowed-items">הבא &raquo;</a>
+                <a href="?borrowed_page={{ borrowed_items.next_page_number }}#borrowed-items">{% translate "Next" %} &raquo;</a>
               {% else %}
-                <span class="disabled">הבא &raquo;</span>
+                <span class="disabled">{% translate "Next" %} &raquo;</span>
               {% endif %}
             </div>
           {% endif %}
       {% else %}
         <div class="no-requests">
-          <p>אין פריטים מושאלים כרגע</p>
+          <p>{% translate "No borrowed items at the moment" %}</p>
         </div>
       {% endif %}
     </div>
   </div>
 
-  <a href="{% url 'BM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+  <a href="{% url 'BM_Homepage' %}" class="back-button">{% translate "Back to Homepage" %}</a>
 </div>
 {% endblock %}
 
