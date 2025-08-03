@@ -210,4 +210,222 @@ msgstr "לא ניתן לשלוח בקשה ללא הקצאת חדר. אנא פנ�
 
 #: templates/Student_pages/application.html:78
 msgid "End Date"
-msgstr "תאריך סיום" 
+msgstr "תאריך סיום"
+
+#: templates/BM_pages/BM_Homepage.html:6
+msgid "Homepage - Building Manager"
+msgstr "דף הבית - מנהל בניין"
+
+#: templates/BM_pages/BM_Homepage.html:94
+msgid "Homepage for Building Manager"
+msgstr "דף הבית למנהל בניין"
+
+#: templates/BM_pages/BM_Homepage.html:96
+msgid "Hello"
+msgstr "שלום"
+
+#: templates/BM_pages/BM_Homepage.html:99
+msgid "Manager of building"
+msgstr "מנהל בניין"
+
+#: templates/BM_pages/BM_Homepage.html:109
+msgid "Inventory Management"
+msgstr "ניהול מלאי"
+
+#: templates/BM_pages/BM_Homepage.html:110
+msgid "Loan Management"
+msgstr "ניהול השאלות"
+
+#: templates/BM_pages/BM_Homepage.html:111
+msgid "Fault Management"
+msgstr "ניהול תקלות"
+
+#: templates/BM_pages/BM_Homepage.html:112
+msgid "Student Management"
+msgstr "ניהול סטודנטים"
+
+#: templates/BM_pages/BM_Homepage.html:116
+msgid "Loan Equipment Management"
+msgstr "ניהול השאלת ציוד"
+
+#: templates/BM_pages/BM_Homepage.html:120
+#: templates/BM_pages/BM_Homepage.html:147
+msgid "You have"
+msgstr "יש לך"
+
+#: templates/BM_pages/BM_Homepage.html:120
+msgid "loan requests pending approval!"
+msgstr "בקשות השאלה ממתינות לאישור!"
+
+#: templates/BM_pages/BM_Homepage.html:122
+msgid "View requests"
+msgstr "צפה בבקשות"
+
+#: templates/BM_pages/BM_Homepage.html:129
+#: templates/BM_pages/BM_Homepage.html:156
+msgid "There are"
+msgstr "יש"
+
+#: templates/BM_pages/BM_Homepage.html:129
+msgid "items borrowed that have not been returned."
+msgstr "פריטים מושאלים שטרם הוחזרו."
+
+#: templates/BM_pages/BM_Homepage.html:131
+msgid "View borrowed items"
+msgstr "צפה בפריטים מושאלים"
+
+#: templates/BM_pages/BM_Homepage.html:137
+msgid "No new requests or borrowed items pending."
+msgstr "אין בקשות חדשות או פריטים מושאלים ממתינים."
+
+#: templates/BM_pages/BM_Homepage.html:143
+msgid "Fault Reporting Management"
+msgstr "ניהול דיווחי תקלות"
+
+#: templates/BM_pages/BM_Homepage.html:147
+msgid "new fault reports for you to handle!"
+msgstr "דיווחי תקלות חדשים לטיפול!"
+
+#: templates/BM_pages/BM_Homepage.html:149
+msgid "View reports"
+msgstr "צפה בדיווחים"
+
+#: templates/BM_pages/BM_Homepage.html:156
+msgid "faults that have not yet been completed."
+msgstr "תקלות שטרם הושלמו."
+
+#: templates/BM_pages/BM_Homepage.html:158
+msgid "View faults in progress"
+msgstr "צפה בתקלות בתהליך"
+
+#: templates/BM_pages/BM_Homepage.html:164
+msgid "No new fault reports or faults in progress pending."
+msgstr "אין דיווחי תקלות חדשים או תקלות בתהליך ממתינים."
+
+#: templates/BM_pages/BM_inventory.html:6
+msgid "Inventory Management - Building Manager"
+msgstr "ניהול מלאי - מנהל בניין"
+
+
+
+#: templates/BM_pages/BM_inventory.html:68
+msgid "Here you can manage inventory items, add new items and update the status of existing items"
+msgstr "כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים"
+
+#: templates/BM_pages/BM_inventory.html:78
+msgid "Inventory Items List"
+msgstr "רשימת פריטי מלאי"
+
+#: templates/BM_pages/BM_inventory.html:82
+msgid "Image"
+msgstr "תמונה"
+
+#: templates/BM_pages/BM_inventory.html:83
+msgid "Item Name"
+msgstr "שם פריט"
+
+#: templates/BM_pages/BM_inventory.html:84
+msgid "Total Quantity"
+msgstr "כמות כוללת"
+
+#: templates/BM_pages/BM_inventory.html:85
+msgid "Available"
+msgstr "זמינים"
+
+#: templates/BM_pages/BM_inventory.html:86
+msgid "Borrowed"
+msgstr "בהשאלה"
+
+#: templates/BM_pages/BM_inventory.html:87
+msgid "Actions"
+msgstr "פעולות"
+
+#: templates/BM_pages/BM_inventory.html:95
+msgid "No image"
+msgstr "אין תמונה"
+
+#: templates/BM_pages/BM_inventory.html:151
+msgid "Edit"
+msgstr "ערוך"
+
+#: templates/BM_pages/BM_inventory.html:152
+msgid "Delete"
+msgstr "מחק"
+
+#: templates/BM_pages/BM_inventory.html:156
+msgid "No items in inventory"
+msgstr "אין פריטים במלאי"
+
+#: templates/BM_pages/BM_inventory.html:162
+msgid "First"
+msgstr "ראשון"
+
+#: templates/BM_pages/BM_inventory.html:163
+msgid "Previous"
+msgstr "הקודם"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "Page"
+msgstr "דף"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "of"
+msgstr "מתוך"
+
+#: templates/BM_pages/BM_inventory.html:171
+msgid "Next"
+msgstr "הבא"
+
+#: templates/BM_pages/BM_inventory.html:172
+msgid "Last"
+msgstr "אחרון"
+
+
+
+#: templates/BM_pages/BM_inventory.html:181
+msgid "Add New Item"
+msgstr "הוספת פריט חדש"
+
+#: templates/BM_pages/BM_inventory.html:189
+msgid "Add New Item to Inventory"
+msgstr "הוספת פריט חדש למלאי"
+
+
+
+#: templates/BM_pages/BM_inventory.html:203
+msgid "Item Photo (Optional)"
+msgstr "תמונת פריט (אופציונלי)"
+
+#: templates/BM_pages/BM_inventory.html:207
+msgid "Add Item"
+msgstr "הוסף פריט"
+
+#: templates/BM_pages/BM_inventory.html:215
+msgid "Edit Inventory Item"
+msgstr "ערוך פריט מלאי"
+
+
+
+#: templates/BM_pages/BM_inventory.html:230
+msgid "New Item Photo (Optional)"
+msgstr "תמונת פריט חדשה (אופציונלי)"
+
+#: templates/BM_pages/BM_inventory.html:234
+msgid "Update Item"
+msgstr "עדכן פריט"
+
+#: templates/BM_pages/BM_inventory.html:242
+msgid "Are you sure you want to delete this item?"
+msgstr "האם אתה בטוח שברצונך למחוק פריט זה?"
+
+#: templates/BM_pages/BM_inventory.html:244
+msgid "Item Name:"
+msgstr "שם פריט:"
+
+#: templates/BM_pages/BM_inventory.html:248
+msgid "Yes, Delete"
+msgstr "כן, מחק"
+
+#: templates/BM_pages/BM_inventory.html:249
+msgid "Cancel"
+msgstr "ביטול" 

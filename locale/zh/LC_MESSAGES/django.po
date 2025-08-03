@@ -16,93 +16,223 @@ msgstr ""
 
 #: templates/BM_pages/BM_Homepage.html:6
 msgid "Homepage - Building Manager"
-msgstr ""
+msgstr "主页 - 建筑管理员"
 
 #: templates/BM_pages/BM_Homepage.html:94
 msgid "Homepage for Building Manager"
-msgstr ""
+msgstr "建筑管理员主页"
 
 #: templates/BM_pages/BM_Homepage.html:96
 msgid "Hello"
-msgstr ""
+msgstr "您好"
 
 #: templates/BM_pages/BM_Homepage.html:99
 msgid "Manager of building"
-msgstr ""
+msgstr "建筑管理员"
 
 #: templates/BM_pages/BM_Homepage.html:109
 msgid "Inventory Management"
-msgstr ""
+msgstr "库存管理"
 
 #: templates/BM_pages/BM_Homepage.html:110
 msgid "Loan Management"
-msgstr ""
+msgstr "借用管理"
 
 #: templates/BM_pages/BM_Homepage.html:111
 msgid "Fault Management"
-msgstr ""
+msgstr "故障管理"
 
 #: templates/BM_pages/BM_Homepage.html:112
 msgid "Student Management"
-msgstr ""
+msgstr "学生管理"
 
 #: templates/BM_pages/BM_Homepage.html:116
 msgid "Loan Equipment Management"
-msgstr ""
+msgstr "设备借用管理"
 
 #: templates/BM_pages/BM_Homepage.html:120
 #: templates/BM_pages/BM_Homepage.html:147
 msgid "You have"
-msgstr ""
+msgstr "您有"
 
 #: templates/BM_pages/BM_Homepage.html:120
 msgid "loan requests pending approval!"
-msgstr ""
+msgstr "个借用请求等待批准！"
 
 #: templates/BM_pages/BM_Homepage.html:122
 msgid "View requests"
-msgstr ""
+msgstr "查看请求"
 
 #: templates/BM_pages/BM_Homepage.html:129
 #: templates/BM_pages/BM_Homepage.html:156
 msgid "There are"
-msgstr ""
+msgstr "有"
 
 #: templates/BM_pages/BM_Homepage.html:129
 msgid "items borrowed that have not been returned."
-msgstr ""
+msgstr "个借用的物品尚未归还。"
 
 #: templates/BM_pages/BM_Homepage.html:131
 msgid "View borrowed items"
-msgstr ""
+msgstr "查看借用物品"
 
 #: templates/BM_pages/BM_Homepage.html:137
 msgid "No new requests or borrowed items pending."
-msgstr ""
+msgstr "没有新的请求或借用物品待处理。"
 
 #: templates/BM_pages/BM_Homepage.html:143
 msgid "Fault Reporting Management"
-msgstr ""
+msgstr "故障报告管理"
 
 #: templates/BM_pages/BM_Homepage.html:147
 msgid "new fault reports for you to handle!"
-msgstr ""
+msgstr "个新的故障报告需要您处理！"
 
 #: templates/BM_pages/BM_Homepage.html:149
 msgid "View reports"
-msgstr ""
+msgstr "查看报告"
 
 #: templates/BM_pages/BM_Homepage.html:156
 msgid "faults that have not yet been completed."
-msgstr ""
+msgstr "个故障尚未完成。"
 
 #: templates/BM_pages/BM_Homepage.html:158
 msgid "View faults in progress"
-msgstr ""
+msgstr "查看进行中的故障"
 
 #: templates/BM_pages/BM_Homepage.html:164
 msgid "No new fault reports or faults in progress pending."
-msgstr ""
+msgstr "没有新的故障报告或进行中的故障待处理。"
+
+#: templates/BM_pages/BM_inventory.html:6
+msgid "Inventory Management - Building Manager"
+msgstr "库存管理 - 建筑管理员"
+
+
+
+#: templates/BM_pages/BM_inventory.html:68
+msgid "Here you can manage inventory items, add new items and update the status of existing items"
+msgstr "在这里您可以管理库存物品，添加新物品并更新现有物品的状态"
+
+#: templates/BM_pages/BM_inventory.html:78
+msgid "Inventory Items List"
+msgstr "库存物品列表"
+
+#: templates/BM_pages/BM_inventory.html:82
+msgid "Image"
+msgstr "图片"
+
+#: templates/BM_pages/BM_inventory.html:83
+msgid "Item Name"
+msgstr "物品名称"
+
+#: templates/BM_pages/BM_inventory.html:84
+msgid "Total Quantity"
+msgstr "总数量"
+
+#: templates/BM_pages/BM_inventory.html:85
+msgid "Available"
+msgstr "可用"
+
+#: templates/BM_pages/BM_inventory.html:86
+msgid "Borrowed"
+msgstr "已借出"
+
+#: templates/BM_pages/BM_inventory.html:87
+msgid "Actions"
+msgstr "操作"
+
+#: templates/BM_pages/BM_inventory.html:95
+msgid "No image"
+msgstr "无图片"
+
+#: templates/BM_pages/BM_inventory.html:151
+msgid "Edit"
+msgstr "编辑"
+
+#: templates/BM_pages/BM_inventory.html:152
+msgid "Delete"
+msgstr "删除"
+
+#: templates/BM_pages/BM_inventory.html:156
+msgid "No items in inventory"
+msgstr "库存中没有物品"
+
+#: templates/BM_pages/BM_inventory.html:162
+msgid "First"
+msgstr "首页"
+
+#: templates/BM_pages/BM_inventory.html:163
+msgid "Previous"
+msgstr "上一页"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "Page"
+msgstr "第"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "of"
+msgstr "页，共"
+
+#: templates/BM_pages/BM_inventory.html:171
+msgid "Next"
+msgstr "下一页"
+
+#: templates/BM_pages/BM_inventory.html:172
+msgid "Last"
+msgstr "末页"
+
+#: templates/BM_pages/BM_inventory.html:180
+msgid "Back to Homepage"
+msgstr "返回主页"
+
+#: templates/BM_pages/BM_inventory.html:181
+msgid "Add New Item"
+msgstr "添加新物品"
+
+#: templates/BM_pages/BM_inventory.html:189
+msgid "Add New Item to Inventory"
+msgstr "向库存添加新物品"
+
+
+
+#: templates/BM_pages/BM_inventory.html:203
+msgid "Item Photo (Optional)"
+msgstr "物品照片（可选）"
+
+#: templates/BM_pages/BM_inventory.html:207
+msgid "Add Item"
+msgstr "添加物品"
+
+#: templates/BM_pages/BM_inventory.html:215
+msgid "Edit Inventory Item"
+msgstr "编辑库存物品"
+
+
+
+#: templates/BM_pages/BM_inventory.html:230
+msgid "New Item Photo (Optional)"
+msgstr "新物品照片（可选）"
+
+#: templates/BM_pages/BM_inventory.html:234
+msgid "Update Item"
+msgstr "更新物品"
+
+#: templates/BM_pages/BM_inventory.html:242
+msgid "Are you sure you want to delete this item?"
+msgstr "您确定要删除这个物品吗？"
+
+#: templates/BM_pages/BM_inventory.html:244
+msgid "Item Name:"
+msgstr "物品名称："
+
+#: templates/BM_pages/BM_inventory.html:248
+msgid "Yes, Delete"
+msgstr "是的，删除"
+
+#: templates/BM_pages/BM_inventory.html:249
+msgid "Cancel"
+msgstr "取消"
 
 #: templates/Homepage.html:8
 msgid "DormitoriesPlus - User Selection"
@@ -419,11 +549,7 @@ msgid ""
 "manager."
 msgstr "没有房间分配无法提交请求。请联系宿舍管理员。"
 
-#: templates/Student_pages/application.html:144
-#: templates/Student_pages/connect_us.html:76
-#: templates/Student_pages/faults.html:157
-msgid "Back to Homepage"
-msgstr "返回首页"
+
 
 #: templates/Student_pages/connect_us.html:5 templates/index.html:27
 msgid "Contact Us"
@@ -1002,9 +1128,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: venv/lib/python3.8/site-packages/django/db/models/fields/files.py:381
-msgid "Image"
-msgstr ""
+
 
 #: venv/lib/python3.8/site-packages/django/db/models/fields/json.py:18
 msgid "A JSON object"
@@ -1163,9 +1287,7 @@ msgstr[0] ""
 msgid "Order"
 msgstr ""
 
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:391
-msgid "Delete"
-msgstr ""
+
 
 #: venv/lib/python3.8/site-packages/django/forms/models.py:755
 #, python-format

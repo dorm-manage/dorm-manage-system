@@ -17,93 +17,223 @@ msgstr ""
 
 #: templates/BM_pages/BM_Homepage.html:6
 msgid "Homepage - Building Manager"
-msgstr ""
+msgstr "الصفحة الرئيسية - مدير المبنى"
 
 #: templates/BM_pages/BM_Homepage.html:94
 msgid "Homepage for Building Manager"
-msgstr ""
+msgstr "الصفحة الرئيسية لمدير المبنى"
 
 #: templates/BM_pages/BM_Homepage.html:96
 msgid "Hello"
-msgstr ""
+msgstr "مرحباً"
 
 #: templates/BM_pages/BM_Homepage.html:99
 msgid "Manager of building"
-msgstr ""
+msgstr "مدير المبنى"
 
 #: templates/BM_pages/BM_Homepage.html:109
 msgid "Inventory Management"
-msgstr ""
+msgstr "إدارة المخزون"
 
 #: templates/BM_pages/BM_Homepage.html:110
 msgid "Loan Management"
-msgstr ""
+msgstr "إدارة الإعارة"
 
 #: templates/BM_pages/BM_Homepage.html:111
 msgid "Fault Management"
-msgstr ""
+msgstr "إدارة الأعطال"
 
 #: templates/BM_pages/BM_Homepage.html:112
 msgid "Student Management"
-msgstr ""
+msgstr "إدارة الطلاب"
 
 #: templates/BM_pages/BM_Homepage.html:116
 msgid "Loan Equipment Management"
-msgstr ""
+msgstr "إدارة إعارة المعدات"
 
 #: templates/BM_pages/BM_Homepage.html:120
 #: templates/BM_pages/BM_Homepage.html:147
 msgid "You have"
-msgstr ""
+msgstr "لديك"
 
 #: templates/BM_pages/BM_Homepage.html:120
 msgid "loan requests pending approval!"
-msgstr ""
+msgstr "طلب إعارة في انتظار الموافقة!"
 
 #: templates/BM_pages/BM_Homepage.html:122
 msgid "View requests"
-msgstr ""
+msgstr "عرض الطلبات"
 
 #: templates/BM_pages/BM_Homepage.html:129
 #: templates/BM_pages/BM_Homepage.html:156
 msgid "There are"
-msgstr ""
+msgstr "هناك"
 
 #: templates/BM_pages/BM_Homepage.html:129
 msgid "items borrowed that have not been returned."
-msgstr ""
+msgstr "عناصر مستعارة لم يتم إرجاعها."
 
 #: templates/BM_pages/BM_Homepage.html:131
 msgid "View borrowed items"
-msgstr ""
+msgstr "عرض العناصر المستعارة"
 
 #: templates/BM_pages/BM_Homepage.html:137
 msgid "No new requests or borrowed items pending."
-msgstr ""
+msgstr "لا توجد طلبات جديدة أو عناصر مستعارة معلقة."
 
 #: templates/BM_pages/BM_Homepage.html:143
 msgid "Fault Reporting Management"
-msgstr ""
+msgstr "إدارة تقارير الأعطال"
 
 #: templates/BM_pages/BM_Homepage.html:147
 msgid "new fault reports for you to handle!"
-msgstr ""
+msgstr "تقرير عطل جديد يتطلب معالجتك!"
 
 #: templates/BM_pages/BM_Homepage.html:149
 msgid "View reports"
-msgstr ""
+msgstr "عرض التقارير"
 
 #: templates/BM_pages/BM_Homepage.html:156
 msgid "faults that have not yet been completed."
-msgstr ""
+msgstr "أعطال لم يتم إكمالها بعد."
 
 #: templates/BM_pages/BM_Homepage.html:158
 msgid "View faults in progress"
-msgstr ""
+msgstr "عرض الأعطال قيد التنفيذ"
 
 #: templates/BM_pages/BM_Homepage.html:164
 msgid "No new fault reports or faults in progress pending."
-msgstr ""
+msgstr "لا توجد تقارير أعطال جديدة أو أعطال قيد التنفيذ معلقة."
+
+#: templates/BM_pages/BM_inventory.html:6
+msgid "Inventory Management - Building Manager"
+msgstr "إدارة المخزون - مدير المبنى"
+
+
+
+#: templates/BM_pages/BM_inventory.html:68
+msgid "Here you can manage inventory items, add new items and update the status of existing items"
+msgstr "هنا يمكنك إدارة عناصر المخزون وإضافة عناصر جديدة وتحديث حالة العناصر الموجودة"
+
+#: templates/BM_pages/BM_inventory.html:78
+msgid "Inventory Items List"
+msgstr "قائمة عناصر المخزون"
+
+#: templates/BM_pages/BM_inventory.html:82
+msgid "Image"
+msgstr "صورة"
+
+#: templates/BM_pages/BM_inventory.html:83
+msgid "Item Name"
+msgstr "اسم العنصر"
+
+#: templates/BM_pages/BM_inventory.html:84
+msgid "Total Quantity"
+msgstr "الكمية الإجمالية"
+
+#: templates/BM_pages/BM_inventory.html:85
+msgid "Available"
+msgstr "متاح"
+
+#: templates/BM_pages/BM_inventory.html:86
+msgid "Borrowed"
+msgstr "مستعار"
+
+#: templates/BM_pages/BM_inventory.html:87
+msgid "Actions"
+msgstr "إجراءات"
+
+#: templates/BM_pages/BM_inventory.html:95
+msgid "No image"
+msgstr "لا توجد صورة"
+
+#: templates/BM_pages/BM_inventory.html:151
+msgid "Edit"
+msgstr "تحرير"
+
+#: templates/BM_pages/BM_inventory.html:152
+msgid "Delete"
+msgstr "حذف"
+
+#: templates/BM_pages/BM_inventory.html:156
+msgid "No items in inventory"
+msgstr "لا توجد عناصر في المخزون"
+
+#: templates/BM_pages/BM_inventory.html:162
+msgid "First"
+msgstr "أول"
+
+#: templates/BM_pages/BM_inventory.html:163
+msgid "Previous"
+msgstr "السابق"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "Page"
+msgstr "صفحة"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "of"
+msgstr "من"
+
+#: templates/BM_pages/BM_inventory.html:171
+msgid "Next"
+msgstr "التالي"
+
+#: templates/BM_pages/BM_inventory.html:172
+msgid "Last"
+msgstr "آخر"
+
+#: templates/BM_pages/BM_inventory.html:180
+msgid "Back to Homepage"
+msgstr "العودة إلى الصفحة الرئيسية"
+
+#: templates/BM_pages/BM_inventory.html:181
+msgid "Add New Item"
+msgstr "إضافة عنصر جديد"
+
+#: templates/BM_pages/BM_inventory.html:189
+msgid "Add New Item to Inventory"
+msgstr "إضافة عنصر جديد إلى المخزون"
+
+
+
+#: templates/BM_pages/BM_inventory.html:203
+msgid "Item Photo (Optional)"
+msgstr "صورة العنصر (اختياري)"
+
+#: templates/BM_pages/BM_inventory.html:207
+msgid "Add Item"
+msgstr "إضافة عنصر"
+
+#: templates/BM_pages/BM_inventory.html:215
+msgid "Edit Inventory Item"
+msgstr "تحرير عنصر المخزون"
+
+
+
+#: templates/BM_pages/BM_inventory.html:230
+msgid "New Item Photo (Optional)"
+msgstr "صورة العنصر الجديد (اختياري)"
+
+#: templates/BM_pages/BM_inventory.html:234
+msgid "Update Item"
+msgstr "تحديث العنصر"
+
+#: templates/BM_pages/BM_inventory.html:242
+msgid "Are you sure you want to delete this item?"
+msgstr "هل أنت متأكد من أنك تريد حذف هذا العنصر؟"
+
+#: templates/BM_pages/BM_inventory.html:244
+msgid "Item Name:"
+msgstr "اسم العنصر:"
+
+#: templates/BM_pages/BM_inventory.html:248
+msgid "Yes, Delete"
+msgstr "نعم، احذف"
+
+#: templates/BM_pages/BM_inventory.html:249
+msgid "Cancel"
+msgstr "إلغاء"
 
 #: templates/Homepage.html:8
 msgid "DormitoriesPlus - User Selection"
@@ -420,11 +550,7 @@ msgid ""
 "manager."
 msgstr "لا يمكن إرسال الطلب بدون تعيين غرفة. يرجى الاتصال بمدير السكن."
 
-#: templates/Student_pages/application.html:144
-#: templates/Student_pages/connect_us.html:76
-#: templates/Student_pages/faults.html:157
-msgid "Back to Homepage"
-msgstr "العودة إلى الصفحة الرئيسية"
+
 
 #: templates/Student_pages/connect_us.html:5 templates/index.html:27
 msgid "Contact Us"
@@ -1029,9 +1155,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: venv/lib/python3.8/site-packages/django/db/models/fields/files.py:381
-msgid "Image"
-msgstr ""
+
 
 #: venv/lib/python3.8/site-packages/django/db/models/fields/json.py:18
 msgid "A JSON object"
@@ -1205,9 +1329,7 @@ msgstr[5] ""
 msgid "Order"
 msgstr ""
 
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:391
-msgid "Delete"
-msgstr ""
+
 
 #: venv/lib/python3.8/site-packages/django/forms/models.py:755
 #, python-format

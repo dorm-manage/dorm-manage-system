@@ -16,93 +16,223 @@ msgstr ""
 
 #: templates/BM_pages/BM_Homepage.html:6
 msgid "Homepage - Building Manager"
-msgstr ""
+msgstr "Homepage - Building Manager"
 
 #: templates/BM_pages/BM_Homepage.html:94
 msgid "Homepage for Building Manager"
-msgstr ""
+msgstr "Homepage for Building Manager"
 
 #: templates/BM_pages/BM_Homepage.html:96
 msgid "Hello"
-msgstr ""
+msgstr "Hello"
 
 #: templates/BM_pages/BM_Homepage.html:99
 msgid "Manager of building"
-msgstr ""
+msgstr "Manager of building"
 
 #: templates/BM_pages/BM_Homepage.html:109
 msgid "Inventory Management"
-msgstr ""
+msgstr "Inventory Management"
 
 #: templates/BM_pages/BM_Homepage.html:110
 msgid "Loan Management"
-msgstr ""
+msgstr "Loan Management"
 
 #: templates/BM_pages/BM_Homepage.html:111
 msgid "Fault Management"
-msgstr ""
+msgstr "Fault Management"
 
 #: templates/BM_pages/BM_Homepage.html:112
 msgid "Student Management"
-msgstr ""
+msgstr "Student Management"
 
 #: templates/BM_pages/BM_Homepage.html:116
 msgid "Loan Equipment Management"
-msgstr ""
+msgstr "Loan Equipment Management"
 
 #: templates/BM_pages/BM_Homepage.html:120
 #: templates/BM_pages/BM_Homepage.html:147
 msgid "You have"
-msgstr ""
+msgstr "You have"
 
 #: templates/BM_pages/BM_Homepage.html:120
 msgid "loan requests pending approval!"
-msgstr ""
+msgstr "loan requests pending approval!"
 
 #: templates/BM_pages/BM_Homepage.html:122
 msgid "View requests"
-msgstr ""
+msgstr "View requests"
 
 #: templates/BM_pages/BM_Homepage.html:129
 #: templates/BM_pages/BM_Homepage.html:156
 msgid "There are"
-msgstr ""
+msgstr "There are"
 
 #: templates/BM_pages/BM_Homepage.html:129
 msgid "items borrowed that have not been returned."
-msgstr ""
+msgstr "items borrowed that have not been returned."
 
 #: templates/BM_pages/BM_Homepage.html:131
 msgid "View borrowed items"
-msgstr ""
+msgstr "View borrowed items"
 
 #: templates/BM_pages/BM_Homepage.html:137
 msgid "No new requests or borrowed items pending."
-msgstr ""
+msgstr "No new requests or borrowed items pending."
 
 #: templates/BM_pages/BM_Homepage.html:143
 msgid "Fault Reporting Management"
-msgstr ""
+msgstr "Fault Reporting Management"
 
 #: templates/BM_pages/BM_Homepage.html:147
 msgid "new fault reports for you to handle!"
-msgstr ""
+msgstr "new fault reports for you to handle!"
 
 #: templates/BM_pages/BM_Homepage.html:149
 msgid "View reports"
-msgstr ""
+msgstr "View reports"
 
 #: templates/BM_pages/BM_Homepage.html:156
 msgid "faults that have not yet been completed."
-msgstr ""
+msgstr "faults that have not yet been completed."
 
 #: templates/BM_pages/BM_Homepage.html:158
 msgid "View faults in progress"
-msgstr ""
+msgstr "View faults in progress"
 
 #: templates/BM_pages/BM_Homepage.html:164
 msgid "No new fault reports or faults in progress pending."
-msgstr ""
+msgstr "No new fault reports or faults in progress pending."
+
+#: templates/BM_pages/BM_inventory.html:6
+msgid "Inventory Management - Building Manager"
+msgstr "Inventory Management - Building Manager"
+
+
+
+#: templates/BM_pages/BM_inventory.html:68
+msgid "Here you can manage inventory items, add new items and update the status of existing items"
+msgstr "Here you can manage inventory items, add new items and update the status of existing items"
+
+#: templates/BM_pages/BM_inventory.html:78
+msgid "Inventory Items List"
+msgstr "Inventory Items List"
+
+#: templates/BM_pages/BM_inventory.html:82
+msgid "Image"
+msgstr "Image"
+
+#: templates/BM_pages/BM_inventory.html:83
+msgid "Item Name"
+msgstr "Item Name"
+
+#: templates/BM_pages/BM_inventory.html:84
+msgid "Total Quantity"
+msgstr "Total Quantity"
+
+#: templates/BM_pages/BM_inventory.html:85
+msgid "Available"
+msgstr "Available"
+
+#: templates/BM_pages/BM_inventory.html:86
+msgid "Borrowed"
+msgstr "Borrowed"
+
+#: templates/BM_pages/BM_inventory.html:87
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/BM_pages/BM_inventory.html:95
+msgid "No image"
+msgstr "No image"
+
+#: templates/BM_pages/BM_inventory.html:151
+msgid "Edit"
+msgstr "Edit"
+
+#: templates/BM_pages/BM_inventory.html:152
+msgid "Delete"
+msgstr "Delete"
+
+#: templates/BM_pages/BM_inventory.html:156
+msgid "No items in inventory"
+msgstr "No items in inventory"
+
+#: templates/BM_pages/BM_inventory.html:162
+msgid "First"
+msgstr "First"
+
+#: templates/BM_pages/BM_inventory.html:163
+msgid "Previous"
+msgstr "Previous"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "Page"
+msgstr "Page"
+
+#: templates/BM_pages/BM_inventory.html:168
+msgid "of"
+msgstr "of"
+
+#: templates/BM_pages/BM_inventory.html:171
+msgid "Next"
+msgstr "Next"
+
+#: templates/BM_pages/BM_inventory.html:172
+msgid "Last"
+msgstr "Last"
+
+#: templates/BM_pages/BM_inventory.html:180
+msgid "Back to Homepage"
+msgstr "Back to Homepage"
+
+#: templates/BM_pages/BM_inventory.html:181
+msgid "Add New Item"
+msgstr "Add New Item"
+
+#: templates/BM_pages/BM_inventory.html:189
+msgid "Add New Item to Inventory"
+msgstr "Add New Item to Inventory"
+
+
+
+#: templates/BM_pages/BM_inventory.html:203
+msgid "Item Photo (Optional)"
+msgstr "Item Photo (Optional)"
+
+#: templates/BM_pages/BM_inventory.html:207
+msgid "Add Item"
+msgstr "Add Item"
+
+#: templates/BM_pages/BM_inventory.html:215
+msgid "Edit Inventory Item"
+msgstr "Edit Inventory Item"
+
+
+
+#: templates/BM_pages/BM_inventory.html:230
+msgid "New Item Photo (Optional)"
+msgstr "New Item Photo (Optional)"
+
+#: templates/BM_pages/BM_inventory.html:234
+msgid "Update Item"
+msgstr "Update Item"
+
+#: templates/BM_pages/BM_inventory.html:242
+msgid "Are you sure you want to delete this item?"
+msgstr "Are you sure you want to delete this item?"
+
+#: templates/BM_pages/BM_inventory.html:244
+msgid "Item Name:"
+msgstr "Item Name:"
+
+#: templates/BM_pages/BM_inventory.html:248
+msgid "Yes, Delete"
+msgstr "Yes, Delete"
+
+#: templates/BM_pages/BM_inventory.html:249
+msgid "Cancel"
+msgstr "Cancel"
 
 #: templates/Homepage.html:8
 msgid "DormitoriesPlus - User Selection"
@@ -419,11 +549,7 @@ msgid ""
 "manager."
 msgstr ""
 
-#: templates/Student_pages/application.html:144
-#: templates/Student_pages/connect_us.html:76
-#: templates/Student_pages/faults.html:157
-msgid "Back to Homepage"
-msgstr ""
+
 
 #: templates/Student_pages/connect_us.html:5 templates/index.html:27
 msgid "Contact Us"
@@ -1008,9 +1134,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: venv/lib/python3.8/site-packages/django/db/models/fields/files.py:381
-msgid "Image"
-msgstr ""
+
 
 #: venv/lib/python3.8/site-packages/django/db/models/fields/json.py:18
 msgid "A JSON object"
@@ -1172,9 +1296,7 @@ msgstr[1] ""
 msgid "Order"
 msgstr ""
 
-#: venv/lib/python3.8/site-packages/django/forms/formsets.py:391
-msgid "Delete"
-msgstr ""
+
 
 #: venv/lib/python3.8/site-packages/django/forms/models.py:755
 #, python-format
