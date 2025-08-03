@@ -2103,4 +2103,110 @@ msgstr "进行中"
 msgid "No faults in progress"
 msgstr "没有进行中的故障"
 
+#: templates/BM_pages/BM_manage_students.html:6
+msgid "Student Management - Building Manager"
+msgstr "学生管理 - 楼宇管理员"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:20
+msgid "Responsible for building"
+msgstr "负责建筑物"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:42
+msgid "Add Student"
+msgstr "添加学生"
+
+#: templates/BM_pages/BM_manage_students.html:45
+msgid "Remove Student"
+msgstr "移除学生"
+
+#: templates/BM_pages/BM_manage_students.html:50
+msgid "Add New Student to Building"
+msgstr "向建筑物添加新学生"
+
+#: templates/BM_pages/BM_manage_students.html:55
+msgid "First Name"
+msgstr "名字"
+
+#: templates/BM_pages/BM_manage_students.html:58
+msgid "Last Name"
+msgstr "姓氏"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:64
+msgid "Password"
+msgstr "密码"
+
+#: templates/BM_pages/BM_manage_students.html:70
+msgid "ID Number (Optional)"
+msgstr "身份证号（可选）"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:74
+msgid "Select Room"
+msgstr "选择房间"
+
+#: templates/BM_pages/BM_manage_students.html:77
+msgid "available spots"
+msgstr "可用位置"
+
+#: templates/BM_pages/BM_manage_students.html:80
+msgid "Residence End Date"
+msgstr "住宿结束日期"
+
+#: templates/BM_pages/BM_manage_students.html:83
+msgid "No available rooms in this building."
+msgstr "此建筑物中没有可用房间。"
+
+#: templates/BM_pages/BM_manage_students.html:90
+msgid "Students in Building"
+msgstr "建筑物中的学生"
+
+#: templates/BM_pages/BM_manage_students.html:93
+msgid "Search by name or email..."
+msgstr "按姓名或邮箱搜索..."
+
+#: templates/BM_pages/BM_manage_students.html:97
+msgid "Full Name"
+msgstr "全名"
+
+#: templates/BM_pages/BM_manage_students.html:100
+msgid "Assignment Date"
+msgstr "分配日期"
+
+
+
+
+
+#: templates/BM_pages/BM_manage_students.html:107
+msgid "Not defined"
+msgstr "未定义"
+
+#: templates/BM_pages/BM_manage_students.html:110
+msgid "Are you sure you want to remove the student from the system?"
+msgstr "您确定要从系统中移除该学生吗？"
+
+#: templates/BM_pages/BM_manage_students.html:111
+msgid "Remove from System"
+msgstr "从系统中移除"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:127
+msgid "No students assigned to this building."
+msgstr "没有学生分配到此建筑物。"
+
+#: templates/BM_pages/BM_manage_students.html:133
+msgid "Click on the tab to load data..."
+msgstr "点击选项卡加载数据..."
+
+#: templates/BM_pages/BM_manage_students.html:137
+msgid "No buildings under your management."
+msgstr "您管理下没有建筑物。"
+
 

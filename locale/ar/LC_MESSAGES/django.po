@@ -2184,4 +2184,110 @@ msgstr "قيد المعالجة"
 msgid "No faults in progress"
 msgstr "لا توجد أعطال قيد المعالجة"
 
+#: templates/BM_pages/BM_manage_students.html:6
+msgid "Student Management - Building Manager"
+msgstr "إدارة الطلاب - مدير المبنى"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:20
+msgid "Responsible for building"
+msgstr "مسؤول عن المبنى"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:42
+msgid "Add Student"
+msgstr "إضافة طالب"
+
+#: templates/BM_pages/BM_manage_students.html:45
+msgid "Remove Student"
+msgstr "إزالة طالب"
+
+#: templates/BM_pages/BM_manage_students.html:50
+msgid "Add New Student to Building"
+msgstr "إضافة طالب جديد للمبنى"
+
+#: templates/BM_pages/BM_manage_students.html:55
+msgid "First Name"
+msgstr "الاسم الأول"
+
+#: templates/BM_pages/BM_manage_students.html:58
+msgid "Last Name"
+msgstr "اسم العائلة"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:64
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: templates/BM_pages/BM_manage_students.html:70
+msgid "ID Number (Optional)"
+msgstr "رقم الهوية (اختياري)"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:74
+msgid "Select Room"
+msgstr "اختر الغرفة"
+
+#: templates/BM_pages/BM_manage_students.html:77
+msgid "available spots"
+msgstr "الأماكن المتاحة"
+
+#: templates/BM_pages/BM_manage_students.html:80
+msgid "Residence End Date"
+msgstr "تاريخ انتهاء الإقامة"
+
+#: templates/BM_pages/BM_manage_students.html:83
+msgid "No available rooms in this building."
+msgstr "لا توجد غرف متاحة في هذا المبنى."
+
+#: templates/BM_pages/BM_manage_students.html:90
+msgid "Students in Building"
+msgstr "الطلاب في المبنى"
+
+#: templates/BM_pages/BM_manage_students.html:93
+msgid "Search by name or email..."
+msgstr "البحث بالاسم أو البريد الإلكتروني..."
+
+#: templates/BM_pages/BM_manage_students.html:97
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+#: templates/BM_pages/BM_manage_students.html:100
+msgid "Assignment Date"
+msgstr "تاريخ التعيين"
+
+
+
+
+
+#: templates/BM_pages/BM_manage_students.html:107
+msgid "Not defined"
+msgstr "غير محدد"
+
+#: templates/BM_pages/BM_manage_students.html:110
+msgid "Are you sure you want to remove the student from the system?"
+msgstr "هل أنت متأكد من أنك تريد إزالة الطالب من النظام؟"
+
+#: templates/BM_pages/BM_manage_students.html:111
+msgid "Remove from System"
+msgstr "إزالة من النظام"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:127
+msgid "No students assigned to this building."
+msgstr "لا يوجد طلاب معينون لهذا المبنى."
+
+#: templates/BM_pages/BM_manage_students.html:133
+msgid "Click on the tab to load data..."
+msgstr "انقر على التبويب لتحميل البيانات..."
+
+#: templates/BM_pages/BM_manage_students.html:137
+msgid "No buildings under your management."
+msgstr "لا توجد مباني تحت إدارتك."
+
 

@@ -2123,4 +2123,110 @@ msgstr "in progress"
 msgid "No faults in progress"
 msgstr "No faults in progress"
 
+#: templates/BM_pages/BM_manage_students.html:6
+msgid "Student Management - Building Manager"
+msgstr "Student Management - Building Manager"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:20
+msgid "Responsible for building"
+msgstr "Responsible for building"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:42
+msgid "Add Student"
+msgstr "Add Student"
+
+#: templates/BM_pages/BM_manage_students.html:45
+msgid "Remove Student"
+msgstr "Remove Student"
+
+#: templates/BM_pages/BM_manage_students.html:50
+msgid "Add New Student to Building"
+msgstr "Add New Student to Building"
+
+#: templates/BM_pages/BM_manage_students.html:55
+msgid "First Name"
+msgstr "First Name"
+
+#: templates/BM_pages/BM_manage_students.html:58
+msgid "Last Name"
+msgstr "Last Name"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:64
+msgid "Password"
+msgstr "Password"
+
+#: templates/BM_pages/BM_manage_students.html:70
+msgid "ID Number (Optional)"
+msgstr "ID Number (Optional)"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:74
+msgid "Select Room"
+msgstr "Select Room"
+
+#: templates/BM_pages/BM_manage_students.html:77
+msgid "available spots"
+msgstr "available spots"
+
+#: templates/BM_pages/BM_manage_students.html:80
+msgid "Residence End Date"
+msgstr "Residence End Date"
+
+#: templates/BM_pages/BM_manage_students.html:83
+msgid "No available rooms in this building."
+msgstr "No available rooms in this building."
+
+#: templates/BM_pages/BM_manage_students.html:90
+msgid "Students in Building"
+msgstr "Students in Building"
+
+#: templates/BM_pages/BM_manage_students.html:93
+msgid "Search by name or email..."
+msgstr "Search by name or email..."
+
+#: templates/BM_pages/BM_manage_students.html:97
+msgid "Full Name"
+msgstr "Full Name"
+
+#: templates/BM_pages/BM_manage_students.html:100
+msgid "Assignment Date"
+msgstr "Assignment Date"
+
+
+
+
+
+#: templates/BM_pages/BM_manage_students.html:107
+msgid "Not defined"
+msgstr "Not defined"
+
+#: templates/BM_pages/BM_manage_students.html:110
+msgid "Are you sure you want to remove the student from the system?"
+msgstr "Are you sure you want to remove the student from the system?"
+
+#: templates/BM_pages/BM_manage_students.html:111
+msgid "Remove from System"
+msgstr "Remove from System"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:127
+msgid "No students assigned to this building."
+msgstr "No students assigned to this building."
+
+#: templates/BM_pages/BM_manage_students.html:133
+msgid "Click on the tab to load data..."
+msgstr "Click on the tab to load data..."
+
+#: templates/BM_pages/BM_manage_students.html:137
+msgid "No buildings under your management."
+msgstr "No buildings under your management."
+
 

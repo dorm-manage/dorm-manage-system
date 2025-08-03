@@ -615,3 +615,109 @@ msgstr "בטיפול"
 #: templates/BM_pages/BM_faults.html:133
 msgid "No faults in progress"
 msgstr "אין תקלות בטיפול"
+
+#: templates/BM_pages/BM_manage_students.html:6
+msgid "Student Management - Building Manager"
+msgstr "ניהול סטודנטים - מנהל בניין"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:20
+msgid "Responsible for building"
+msgstr "אחראי על בניין"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:42
+msgid "Add Student"
+msgstr "הוספת סטודנט"
+
+#: templates/BM_pages/BM_manage_students.html:45
+msgid "Remove Student"
+msgstr "הסרת סטודנט"
+
+#: templates/BM_pages/BM_manage_students.html:50
+msgid "Add New Student to Building"
+msgstr "הוספת סטודנט חדש לבניין"
+
+#: templates/BM_pages/BM_manage_students.html:55
+msgid "First Name"
+msgstr "שם פרטי"
+
+#: templates/BM_pages/BM_manage_students.html:58
+msgid "Last Name"
+msgstr "שם משפחה"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:64
+msgid "Password"
+msgstr "סיסמה"
+
+#: templates/BM_pages/BM_manage_students.html:70
+msgid "ID Number (Optional)"
+msgstr "מספר זהות (אופציונלי)"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:74
+msgid "Select Room"
+msgstr "בחר חדר"
+
+#: templates/BM_pages/BM_manage_students.html:77
+msgid "available spots"
+msgstr "מקומות פנויים"
+
+#: templates/BM_pages/BM_manage_students.html:80
+msgid "Residence End Date"
+msgstr "תאריך סיום מגורים"
+
+#: templates/BM_pages/BM_manage_students.html:83
+msgid "No available rooms in this building."
+msgstr "אין חדרים פנויים בבניין זה."
+
+#: templates/BM_pages/BM_manage_students.html:90
+msgid "Students in Building"
+msgstr "סטודנטים בבניין"
+
+#: templates/BM_pages/BM_manage_students.html:93
+msgid "Search by name or email..."
+msgstr "חיפוש לפי שם או אימייל..."
+
+#: templates/BM_pages/BM_manage_students.html:97
+msgid "Full Name"
+msgstr "שם מלא"
+
+#: templates/BM_pages/BM_manage_students.html:100
+msgid "Assignment Date"
+msgstr "תאריך שיבוץ"
+
+
+
+
+
+#: templates/BM_pages/BM_manage_students.html:107
+msgid "Not defined"
+msgstr "לא מוגדר"
+
+#: templates/BM_pages/BM_manage_students.html:110
+msgid "Are you sure you want to remove the student from the system?"
+msgstr "האם אתה בטוח שברצונך להסיר את הסטודנט מהמערכת?"
+
+#: templates/BM_pages/BM_manage_students.html:111
+msgid "Remove from System"
+msgstr "הסר מהמערכת"
+
+
+
+#: templates/BM_pages/BM_manage_students.html:127
+msgid "No students assigned to this building."
+msgstr "אין סטודנטים משובצים בבניין זה."
+
+#: templates/BM_pages/BM_manage_students.html:133
+msgid "Click on the tab to load data..."
+msgstr "לחץ על הכרטיסייה לטעינת הנתונים..."
+
+#: templates/BM_pages/BM_manage_students.html:137
+msgid "No buildings under your management."
+msgstr "אין בניינים תחת ניהולך."
