@@ -602,23 +602,23 @@ msgstr ""
 
 #: templates/login_page.html:5
 msgid "התחברות"
-msgstr ""
+msgstr "登录"
 
 #: templates/login_page.html:69
 msgid "התחברות ל-DormitoriesPlus"
-msgstr ""
+msgstr "登录 DormitoriesPlus"
 
 #: templates/login_page.html:73
 msgid "אימייל:"
-msgstr ""
+msgstr "邮箱:"
 
 #: templates/login_page.html:77
 msgid "סיסמה:"
-msgstr ""
+msgstr "密码:"
 
 #: templates/login_page.html:80
 msgid "התחבר"
-msgstr ""
+msgstr "登录"
 
 #: venv/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"

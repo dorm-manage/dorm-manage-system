@@ -258,7 +258,7 @@
                                         </button>
                                     </form>
                                 {% else %}
-                                    <button class="button button-success" onclick="openAssignModal('{{ building.id }}', '{{ building.building_name }}')">
+                                    <button class="button button-success" onclick="openAssignModal('{{ building.id }}', '{{ building.building_name|escapejs }}')">
                                         <i class="fas fa-user-plus"></i> שיוך אחראי
                                     </button>
                                 {% endif %}

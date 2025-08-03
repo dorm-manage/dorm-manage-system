@@ -148,8 +148,8 @@
                         {% endif %}
                     </td>
                     <td>
-                        <button class="btn btn-warning" onclick="openEditModal({{ item.id }}, '{{ item.item_name }}', {{ item.quantity }})">ערוך</button>
-                        <button class="btn btn-danger" onclick="confirmDelete({{ item.id }}, '{{ item.item_name }}')">מחק</button>
+                        <button class="btn btn-warning" onclick="openEditModal({{ item.id }}, '{{ item.item_name|escapejs }}', {{ item.quantity }})">ערוך</button>
+                        <button class="btn btn-danger" onclick="confirmDelete({{ item.id }}, '{{ item.item_name|escapejs }}')">מחק</button>
                     </td>
                 </tr>
                 {% empty %}
