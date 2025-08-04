@@ -2273,4 +2273,66 @@ msgstr "生成 AI 摘要"
 msgid "Generating summary, please wait..."
 msgstr "正在生成摘要，请稍候..."
 
+#: templates/OM_pages/OM_manage_BM.html:5
+msgid "Building Manager Management - System Manager"
+msgstr "建筑管理员管理 - 系统管理员"
+
+
+
+#: templates/OM_pages/OM_manage_BM.html:126
+msgid "Add, update and remove building managers"
+msgstr "添加、更新和删除建筑管理员"
+
+#: templates/OM_pages/OM_manage_BM.html:135
+msgid "Add New Building Manager"
+msgstr "添加新建筑管理员"
+
+#: templates/OM_pages/OM_manage_BM.html:140
+msgid "List of Buildings and Managers"
+msgstr "建筑物和管理员列表"
+
+#: templates/OM_pages/OM_manage_BM.html:143
+msgid "Building No."
+msgstr "建筑物编号"
+
+#: templates/OM_pages/OM_manage_BM.html:144
+msgid "Building Name"
+msgstr "建筑物名称"
+
+#: templates/OM_pages/OM_manage_BM.html:185
+msgid "Initial Password"
+msgstr "初始密码"
+
+#: templates/OM_pages/OM_manage_BM.html:192
+msgid "Default password: 123456789"
+msgstr "默认密码: 123456789"
+
+#: templates/OM_pages/OM_manage_BM.html:195
+msgid "Assign to Building (Optional)"
+msgstr "分配到建筑物（可选）"
+
+#: templates/OM_pages/OM_manage_BM.html:197
+msgid "-- Select Building --"
+msgstr "-- 选择建筑物 --"
+
+#: templates/OM_pages/OM_manage_BM.html:202
+msgid "Add Building Manager"
+msgstr "添加建筑管理员"
+
+#: templates/OM_pages/OM_manage_BM.html:210
+msgid "Assign Building Manager"
+msgstr "分配建筑管理员"
+
+#: templates/OM_pages/OM_manage_BM.html:215
+msgid "Select Building Manager"
+msgstr "选择建筑管理员"
+
+#: templates/OM_pages/OM_manage_BM.html:217
+msgid "-- Select Building Manager --"
+msgstr "-- 选择建筑管理员 --"
+
+#: templates/OM_pages/OM_manage_BM.html:235
+msgid "Assign Building Manager to Building"
+msgstr "将建筑管理员分配到建筑物"
+
 

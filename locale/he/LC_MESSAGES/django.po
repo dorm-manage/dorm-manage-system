@@ -785,3 +785,65 @@ msgstr "יצירת סיכום AI"
 #: templates/OM_pages/OM_homepage.html:197
 msgid "Generating summary, please wait..."
 msgstr "מייצר סיכום, אנא המתן..."
+
+#: templates/OM_pages/OM_manage_BM.html:5
+msgid "Building Manager Management - System Manager"
+msgstr "ניהול אחראי בניין - מנהל מערכת"
+
+
+
+#: templates/OM_pages/OM_manage_BM.html:126
+msgid "Add, update and remove building managers"
+msgstr "הוספה, עדכון והסרה של אחראי בניין"
+
+#: templates/OM_pages/OM_manage_BM.html:135
+msgid "Add New Building Manager"
+msgstr "הוספת אחראי בניין חדש"
+
+#: templates/OM_pages/OM_manage_BM.html:140
+msgid "List of Buildings and Managers"
+msgstr "רשימת בניינים ואחראים"
+
+#: templates/OM_pages/OM_manage_BM.html:143
+msgid "Building No."
+msgstr "מס' בניין"
+
+#: templates/OM_pages/OM_manage_BM.html:144
+msgid "Building Name"
+msgstr "שם בניין"
+
+#: templates/OM_pages/OM_manage_BM.html:185
+msgid "Initial Password"
+msgstr "סיסמה ראשונית"
+
+#: templates/OM_pages/OM_manage_BM.html:192
+msgid "Default password: 123456789"
+msgstr "סיסמה ברירת מחדל: 123456789"
+
+#: templates/OM_pages/OM_manage_BM.html:195
+msgid "Assign to Building (Optional)"
+msgstr "שייך לבניין (אופציונלי)"
+
+#: templates/OM_pages/OM_manage_BM.html:197
+msgid "-- Select Building --"
+msgstr "-- בחר בניין --"
+
+#: templates/OM_pages/OM_manage_BM.html:202
+msgid "Add Building Manager"
+msgstr "הוסף אחראי בניין"
+
+#: templates/OM_pages/OM_manage_BM.html:210
+msgid "Assign Building Manager"
+msgstr "שיוך אחראי בניין"
+
+#: templates/OM_pages/OM_manage_BM.html:215
+msgid "Select Building Manager"
+msgstr "בחר אחראי בניין"
+
+#: templates/OM_pages/OM_manage_BM.html:217
+msgid "-- Select Building Manager --"
+msgstr "-- בחר אחראי בניין --"
+
+#: templates/OM_pages/OM_manage_BM.html:235
+msgid "Assign Building Manager to Building"
+msgstr "שיוך אחראי בניין לבניין"
