@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DormitoriesPlus 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-27 22:17+0000\n"
+"POT-Creation-Date: 2025-08-05 00:16+0300\n"
 "PO-Revision-Date: 2025-07-27 22:17+0000\n"
 "Last-Translator: \n"
 "Language: he\n"
@@ -15,202 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: templates/Student_pages/connect_us.html:5 templates/index.html:27
-msgid "Contact Us"
-msgstr "צור קשר"
-
-#: templates/Student_pages/connect_us.html:58
-msgid "Couldn't find what you were looking for? Contact us!"
-msgstr "לא מצאת מה שחיפשת? צור איתנו קשר!"
-
-#: templates/Student_pages/connect_us.html:62
-msgid "Select a building to get contact details:"
-msgstr "בחר בניין לקבלת פרטי קשר:"
-
-#: templates/Student_pages/connect_us.html:64
-msgid "Select building"
-msgstr "בחר בניין"
-
-#: templates/Student_pages/connect_us.html:65
-msgid "Building 1"
-msgstr "בניין 1"
-
-#: templates/Student_pages/connect_us.html:66
-msgid "Building 2"
-msgstr "בניין 2"
-
-#: templates/Student_pages/connect_us.html:67
-msgid "Building 3"
-msgstr "בניין 3"
-
-#: templates/Student_pages/connect_us.html:68
-msgid "Building 4"
-msgstr "בניין 4"
-
-#: templates/Student_pages/connect_us.html:81
-msgid "Yossi Cohen"
-msgstr "יוסי כהן"
-
-#: templates/Student_pages/connect_us.html:82
-msgid "Dana Levy"
-msgstr "דנה לוי"
-
-#: templates/Student_pages/connect_us.html:83
-msgid "Avi Israeli"
-msgstr "אבי ישראלי"
-
-#: templates/Student_pages/connect_us.html:84
-msgid "Michal Barak"
-msgstr "מיכל ברק"
-
-#: templates/Student_pages/connect_us.html:94
-msgid "Name"
-msgstr "שם"
-
-#: templates/Student_pages/connect_us.html:95
-msgid "Phone"
-msgstr "טלפון"
-
-#: templates/Student_pages/connect_us.html:97
-msgid "Please select a building from the list."
-msgstr "אנא בחר בניין מהרשימה."
-
-#: templates/Student_pages/connect_us.html:76
-msgid "Back to Homepage"
-msgstr "חזור לדף הבית"
-
-#: templates/Student_pages/faults.html:5
-msgid "Fault Reports"
-msgstr "דיווחי תקלות"
-
-#: templates/Student_pages/faults.html:75
-msgid "Your Details:"
-msgstr "פרטיך:"
-
-#: templates/Student_pages/faults.html:77
-msgid "Building"
-msgstr "בניין"
-
-#: templates/Student_pages/faults.html:78
-msgid "Room"
-msgstr "חדר"
-
-#: templates/Student_pages/faults.html:80
-msgid "You don't have a room assignment in the system. Please contact the dormitory manager."
-msgstr "אין לך הקצאת חדר במערכת. אנא פנה למנהל המעונות."
-
-#: templates/Student_pages/faults.html:85
-msgid "Fault Details"
-msgstr "פרטי התקלה"
-
-#: templates/Student_pages/faults.html:90
-msgid "Fault Type:"
-msgstr "סוג התקלה:"
-
-#: templates/Student_pages/faults.html:92
-msgid "Select fault type"
-msgstr "בחר סוג תקלה"
-
-#: templates/Student_pages/faults.html:93
-msgid "Plumbing"
-msgstr "אינסטלציה"
-
-#: templates/Student_pages/faults.html:94
-msgid "Electrical"
-msgstr "חשמל"
-
-#: templates/Student_pages/faults.html:95
-msgid "Air Conditioning"
-msgstr "מיזוג אוויר"
-
-#: templates/Student_pages/faults.html:96
-msgid "Furniture"
-msgstr "רהיטים"
-
-#: templates/Student_pages/faults.html:97
-msgid "Doors/Windows"
-msgstr "דלתות/חלונות"
-
-#: templates/Student_pages/faults.html:98
-msgid "Internet"
-msgstr "אינטרנט"
-
-#: templates/Student_pages/faults.html:99
-msgid "Other"
-msgstr "אחר"
-
-#: templates/Student_pages/faults.html:103
-msgid "Fault Description:"
-msgstr "תיאור התקלה:"
-
-#: templates/Student_pages/faults.html:104
-msgid "Describe the fault in as much detail as possible"
-msgstr "תאר את התקלה בפירוט רב ככל האפשר"
-
-#: templates/Student_pages/faults.html:109
-msgid "Urgency:"
-msgstr "דחיפות:"
-
-#: templates/Student_pages/faults.html:111
-msgid "Low"
-msgstr "נמוכה"
-
-#: templates/Student_pages/faults.html:112
-msgid "Medium"
-msgstr "בינונית"
-
-#: templates/Student_pages/faults.html:113
-msgid "High"
-msgstr "גבוהה"
-
-#: templates/Student_pages/faults.html:117
-msgid "Submit Report"
-msgstr "שלח דיווח"
-
-#: templates/Student_pages/faults.html:120
-msgid "Cannot report a fault without room assignment. Please contact the dormitory manager."
-msgstr "לא ניתן לדווח על תקלה ללא הקצאת חדר. אנא פנה למנהל המעונות."
-
-#: templates/Student_pages/application.html:5
-msgid "Equipment Rental"
-msgstr "השכרת ציוד"
-
-#: templates/Student_pages/application.html:85
-msgid "Item Rental Request"
-msgstr "בקשת השכרת פריט"
-
-#: templates/Student_pages/application.html:92
-msgid "Select item to rent:"
-msgstr "בחר פריט להשכרה:"
-
-#: templates/Student_pages/application.html:94
-msgid "Select item"
-msgstr "בחר פריט"
-
-#: templates/Student_pages/application.html:100
-msgid "Return date:"
-msgstr "תאריך החזרה:"
-
-#: templates/Student_pages/application.html:105
-msgid "Additional notes (optional):"
-msgstr "הערות נוספות (אופציונלי):"
-
-#: templates/Student_pages/application.html:106
-msgid "If you have special requests or additional notes, write them here"
-msgstr "אם יש לך בקשות מיוחדות או הערות נוספות, כתוב אותן כאן"
-
-#: templates/Student_pages/application.html:111
-msgid "Submit Request"
-msgstr "שלח בקשה"
-
-#: templates/Student_pages/application.html:114
-msgid "Cannot submit request without room assignment. Please contact the dormitory manager."
-msgstr "לא ניתן לשלוח בקשה ללא הקצאת חדר. אנא פנה למנהל המעונות."
-
-#: templates/Student_pages/application.html:78
-msgid "End Date"
-msgstr "תאריך סיום"
 
 #: templates/BM_pages/BM_Homepage.html:6
 msgid "Homepage - Building Manager"
@@ -229,6 +33,8 @@ msgid "Manager of building"
 msgstr "מנהל בניין"
 
 #: templates/BM_pages/BM_Homepage.html:109
+#: templates/BM_pages/BM_inventory.html:100
+#: templates/OM_pages/OM_homepage.html:222
 msgid "Inventory Management"
 msgstr "ניהול מלאי"
 
@@ -241,6 +47,8 @@ msgid "Fault Management"
 msgstr "ניהול תקלות"
 
 #: templates/BM_pages/BM_Homepage.html:112
+#: templates/BM_pages/BM_manage_students.html:19
+#: templates/OM_pages/OM_homepage.html:234
 msgid "Student Management"
 msgstr "ניהול סטודנטים"
 
@@ -302,131 +110,290 @@ msgstr "צפה בתקלות בתהליך"
 msgid "No new fault reports or faults in progress pending."
 msgstr "אין דיווחי תקלות חדשים או תקלות בתהליך ממתינים."
 
+#: templates/BM_pages/BM_faults.html:5
+msgid "Fault Management - Building Manager"
+msgstr "ניהול תקלות - מנהל בניין"
+
+#: templates/BM_pages/BM_faults.html:223
+msgid "Dormitory Fault Management"
+msgstr "ניהול תקלות במעונות"
+
+#: templates/BM_pages/BM_faults.html:228 templates/BM_pages/BM_faults.html:235
+#: templates/OM_pages/OM_faults.html:279 templates/OM_pages/OM_faults.html:286
+msgid "Open Faults"
+msgstr "תקלות פתוחות"
+
+#: templates/BM_pages/BM_faults.html:229 templates/BM_pages/BM_faults.html:321
+#: templates/OM_pages/OM_faults.html:280 templates/OM_pages/OM_faults.html:410
+msgid "Faults in Progress"
+msgstr "תקלות בטיפול"
+
+#: templates/BM_pages/BM_faults.html:240 templates/BM_pages/BM_faults.html:326
+#: templates/Homepage.html:20 templates/OM_pages/OM_faults.html:329
+#: templates/OM_pages/OM_faults.html:449
+#, fuzzy
+#| msgid "students"
+msgid "Student"
+msgstr "סטודנטים"
+
+#: templates/BM_pages/BM_faults.html:241 templates/BM_pages/BM_faults.html:327
+#: templates/BM_pages/BM_manage_students.html:42
+#: templates/OM_pages/OM_faults.html:299 templates/OM_pages/OM_faults.html:330
+#: templates/OM_pages/OM_faults.html:423 templates/OM_pages/OM_faults.html:450
+#: templates/OM_pages/OM_manage_students.html:295
+#: templates/Student_pages/application.html:101
+#: templates/Student_pages/faults.html:107
+msgid "Building"
+msgstr "בניין"
+
+#: templates/BM_pages/BM_faults.html:242 templates/BM_pages/BM_faults.html:328
+#: templates/BM_pages/BM_loan_requests.html:44
+#: templates/BM_pages/BM_loan_requests.html:146
+#: templates/BM_pages/BM_manage_students.html:95
+#: templates/BM_pages/BM_manage_students.html:100
+#: templates/BM_pages/BM_manage_students.html:133
+#: templates/OM_pages/OM_faults.html:331 templates/OM_pages/OM_faults.html:451
+#: templates/OM_pages/OM_manage_students.html:362
+#: templates/OM_pages/OM_manage_students.html:400
+#: templates/Student_pages/application.html:102
+#: templates/Student_pages/faults.html:108
+msgid "Room"
+msgstr "חדר"
+
+#: templates/BM_pages/BM_faults.html:243 templates/BM_pages/BM_faults.html:329
+#: templates/OM_pages/OM_faults.html:332 templates/OM_pages/OM_faults.html:452
+msgid "Fault Type"
+msgstr "סוג התקלה"
+
+#: templates/BM_pages/BM_faults.html:244 templates/BM_pages/BM_faults.html:330
+#: templates/OM_pages/OM_faults.html:333 templates/OM_pages/OM_faults.html:453
+msgid "Fault Description"
+msgstr "תיאור התקלה"
+
+#: templates/BM_pages/BM_faults.html:245 templates/BM_pages/BM_faults.html:331
+#: templates/OM_pages/OM_faults.html:334 templates/OM_pages/OM_faults.html:454
+msgid "Urgency"
+msgstr "דחיפות"
+
+#: templates/BM_pages/BM_faults.html:246 templates/BM_pages/BM_faults.html:332
+#: templates/OM_pages/OM_faults.html:335 templates/OM_pages/OM_faults.html:455
+msgid "Report Date"
+msgstr "תאריך דיווח"
+
+#: templates/BM_pages/BM_faults.html:247 templates/BM_pages/BM_faults.html:334
+#: templates/OM_pages/OM_faults.html:336 templates/OM_pages/OM_faults.html:457
+msgid "Admin Notes"
+msgstr "הערות מנהל"
+
+#: templates/BM_pages/BM_faults.html:248 templates/BM_pages/BM_faults.html:335
+#: templates/BM_pages/BM_inventory.html:122
+#: templates/BM_pages/BM_loan_requests.html:50
+#: templates/BM_pages/BM_loan_requests.html:151
+#: templates/BM_pages/BM_manage_students.html:136
+#: templates/OM_pages/OM_faults.html:337 templates/OM_pages/OM_faults.html:458
+#: templates/OM_pages/OM_manage_BM.html:227
+#: templates/OM_pages/OM_manage_students.html:403
+msgid "Actions"
+msgstr "פעולות"
+
+#: templates/BM_pages/BM_faults.html:277 templates/OM_pages/OM_faults.html:366
+msgid "Mark in Progress"
+msgstr "סמן בטיפול"
+
+#: templates/BM_pages/BM_faults.html:278 templates/BM_pages/BM_faults.html:369
+#: templates/OM_pages/OM_faults.html:367 templates/OM_pages/OM_faults.html:492
+msgid "Close Report"
+msgstr "סגור דיווח"
+
+#: templates/BM_pages/BM_faults.html:290 templates/BM_pages/BM_faults.html:292
+#: templates/BM_pages/BM_faults.html:381 templates/BM_pages/BM_faults.html:383
+#: templates/BM_pages/BM_inventory.html:169
+#: templates/BM_pages/BM_inventory.html:172
+#: templates/BM_pages/BM_loan_requests.html:111
+#: templates/BM_pages/BM_loan_requests.html:113
+#: templates/BM_pages/BM_loan_requests.html:201
+#: templates/BM_pages/BM_loan_requests.html:203
+#: templates/BM_pages/BM_manage_students.html:167
+#: templates/BM_pages/BM_manage_students.html:169
+#: templates/OM_pages/OM_faults.html:379 templates/OM_pages/OM_faults.html:381
+#: templates/OM_pages/OM_faults.html:504 templates/OM_pages/OM_faults.html:506
+#: templates/OM_pages/OM_manage_students.html:435
+#: templates/OM_pages/OM_manage_students.html:437
+msgid "Previous"
+msgstr "הקודם"
+
+#: templates/BM_pages/BM_faults.html:304 templates/BM_pages/BM_faults.html:306
+#: templates/BM_pages/BM_faults.html:395 templates/BM_pages/BM_faults.html:397
+#: templates/BM_pages/BM_inventory.html:178
+#: templates/BM_pages/BM_inventory.html:181
+#: templates/BM_pages/BM_loan_requests.html:123
+#: templates/BM_pages/BM_loan_requests.html:125
+#: templates/BM_pages/BM_loan_requests.html:213
+#: templates/BM_pages/BM_loan_requests.html:215
+#: templates/BM_pages/BM_manage_students.html:179
+#: templates/BM_pages/BM_manage_students.html:181
+#: templates/OM_pages/OM_faults.html:393 templates/OM_pages/OM_faults.html:395
+#: templates/OM_pages/OM_faults.html:518 templates/OM_pages/OM_faults.html:520
+#: templates/OM_pages/OM_manage_students.html:449
+#: templates/OM_pages/OM_manage_students.html:451
+msgid "Next"
+msgstr "הבא"
+
+#: templates/BM_pages/BM_faults.html:312 templates/OM_pages/OM_faults.html:401
+msgid "No open faults"
+msgstr "אין תקלות פתוחות"
+
+#: templates/BM_pages/BM_faults.html:333 templates/OM_pages/OM_faults.html:456
+msgid "Last Update"
+msgstr "עדכון אחרון"
+
+#: templates/BM_pages/BM_faults.html:350 templates/OM_pages/OM_faults.html:473
+msgid "in progress"
+msgstr "בטיפול"
+
+#: templates/BM_pages/BM_faults.html:360
+#: templates/BM_pages/BM_loan_requests.html:92
+msgid "Add comment to student (optional)"
+msgstr "הוסף הערה לסטודנט (לא חובה)"
+
+#: templates/BM_pages/BM_faults.html:362 templates/OM_pages/OM_faults.html:359
+#: templates/OM_pages/OM_faults.html:485
+msgid "Save"
+msgstr "שמור"
+
+#: templates/BM_pages/BM_faults.html:403 templates/OM_pages/OM_faults.html:526
+msgid "No faults in progress"
+msgstr "אין תקלות בטיפול"
+
+#: templates/BM_pages/BM_faults.html:409
+#: templates/BM_pages/BM_inventory.html:190
+#: templates/BM_pages/BM_loan_requests.html:227
+#: templates/BM_pages/BM_manage_students.html:205
+#: templates/OM_pages/OM_faults.html:532
+#: templates/OM_pages/OM_manage_BM.html:365
+#: templates/OM_pages/OM_manage_students.html:477
+#: templates/Student_pages/application.html:144
+#: templates/Student_pages/connect_us.html:76
+#: templates/Student_pages/faults.html:157
+msgid "Back to Homepage"
+msgstr "חזרה לעמוד הראשי"
+
 #: templates/BM_pages/BM_inventory.html:6
 msgid "Inventory Management - Building Manager"
 msgstr "ניהול מלאי - מנהל בניין"
 
+#: templates/BM_pages/BM_inventory.html:101
+msgid ""
+"Here you can manage inventory items, add new items and update the status of "
+"existing items"
+msgstr ""
+"כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של "
+"הפריטים הקיימים"
 
-
-#: templates/BM_pages/BM_inventory.html:68
-msgid "Here you can manage inventory items, add new items and update the status of existing items"
-msgstr "כאן תוכל לנהל את פריטי המלאי, להוסיף פריטים חדשים ולעדכן את הסטטוס של הפריטים הקיימים"
-
-#: templates/BM_pages/BM_inventory.html:78
+#: templates/BM_pages/BM_inventory.html:113
 msgid "Inventory Items List"
 msgstr "רשימת פריטי מלאי"
 
-#: templates/BM_pages/BM_inventory.html:82
+#: templates/BM_pages/BM_inventory.html:117
 msgid "Image"
 msgstr "תמונה"
 
-#: templates/BM_pages/BM_inventory.html:83
+#: templates/BM_pages/BM_inventory.html:118
+#: templates/BM_pages/BM_inventory.html:202
+#: templates/BM_pages/BM_inventory.html:227
 msgid "Item Name"
 msgstr "שם פריט"
 
-#: templates/BM_pages/BM_inventory.html:84
+#: templates/BM_pages/BM_inventory.html:119
 msgid "Total Quantity"
 msgstr "כמות כוללת"
 
-#: templates/BM_pages/BM_inventory.html:85
+#: templates/BM_pages/BM_inventory.html:120
 msgid "Available"
 msgstr "זמינים"
 
-#: templates/BM_pages/BM_inventory.html:86
+#: templates/BM_pages/BM_inventory.html:121
 msgid "Borrowed"
 msgstr "בהשאלה"
 
-#: templates/BM_pages/BM_inventory.html:87
-msgid "Actions"
-msgstr "פעולות"
-
-#: templates/BM_pages/BM_inventory.html:95
+#: templates/BM_pages/BM_inventory.html:132
 msgid "No image"
 msgstr "אין תמונה"
 
-#: templates/BM_pages/BM_inventory.html:151
+#: templates/BM_pages/BM_inventory.html:152
 msgid "Edit"
 msgstr "ערוך"
 
-#: templates/BM_pages/BM_inventory.html:152
+#: templates/BM_pages/BM_inventory.html:153
 msgid "Delete"
 msgstr "מחק"
 
-#: templates/BM_pages/BM_inventory.html:156
+#: templates/BM_pages/BM_inventory.html:158
 msgid "No items in inventory"
 msgstr "אין פריטים במלאי"
 
-#: templates/BM_pages/BM_inventory.html:162
+#: templates/BM_pages/BM_inventory.html:168
+#: templates/BM_pages/BM_inventory.html:171
 msgid "First"
 msgstr "ראשון"
 
-#: templates/BM_pages/BM_inventory.html:163
-msgid "Previous"
-msgstr "הקודם"
-
-#: templates/BM_pages/BM_inventory.html:168
+#: templates/BM_pages/BM_inventory.html:175
 msgid "Page"
 msgstr "דף"
 
-#: templates/BM_pages/BM_inventory.html:168
+#: templates/BM_pages/BM_inventory.html:175
 msgid "of"
 msgstr "מתוך"
 
-#: templates/BM_pages/BM_inventory.html:171
-msgid "Next"
-msgstr "הבא"
-
-#: templates/BM_pages/BM_inventory.html:172
+#: templates/BM_pages/BM_inventory.html:179
+#: templates/BM_pages/BM_inventory.html:182
 msgid "Last"
 msgstr "אחרון"
 
-
-
-#: templates/BM_pages/BM_inventory.html:181
+#: templates/BM_pages/BM_inventory.html:191
 msgid "Add New Item"
 msgstr "הוספת פריט חדש"
 
-#: templates/BM_pages/BM_inventory.html:189
+#: templates/BM_pages/BM_inventory.html:198
 msgid "Add New Item to Inventory"
 msgstr "הוספת פריט חדש למלאי"
 
+#: templates/BM_pages/BM_inventory.html:206
+#: templates/BM_pages/BM_inventory.html:231
+#, fuzzy
+#| msgid "Total Quantity"
+msgid "Quantity"
+msgstr "כמות כוללת"
 
-
-#: templates/BM_pages/BM_inventory.html:203
+#: templates/BM_pages/BM_inventory.html:210
 msgid "Item Photo (Optional)"
 msgstr "תמונת פריט (אופציונלי)"
 
-#: templates/BM_pages/BM_inventory.html:207
+#: templates/BM_pages/BM_inventory.html:213
 msgid "Add Item"
 msgstr "הוסף פריט"
 
-#: templates/BM_pages/BM_inventory.html:215
+#: templates/BM_pages/BM_inventory.html:222
 msgid "Edit Inventory Item"
 msgstr "ערוך פריט מלאי"
 
-
-
-#: templates/BM_pages/BM_inventory.html:230
+#: templates/BM_pages/BM_inventory.html:235
 msgid "New Item Photo (Optional)"
 msgstr "תמונת פריט חדשה (אופציונלי)"
 
-#: templates/BM_pages/BM_inventory.html:234
+#: templates/BM_pages/BM_inventory.html:238
 msgid "Update Item"
 msgstr "עדכן פריט"
 
-#: templates/BM_pages/BM_inventory.html:242
+#: templates/BM_pages/BM_inventory.html:247
 msgid "Are you sure you want to delete this item?"
 msgstr "האם אתה בטוח שברצונך למחוק פריט זה?"
 
-#: templates/BM_pages/BM_inventory.html:244
-msgid "Item Name:"
-msgstr "שם פריט:"
-
-#: templates/BM_pages/BM_inventory.html:248
+#: templates/BM_pages/BM_inventory.html:253
 msgid "Yes, Delete"
 msgstr "כן, מחק"
 
-#: templates/BM_pages/BM_inventory.html:249
+#: templates/BM_pages/BM_inventory.html:254
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -434,355 +401,433 @@ msgstr "ביטול"
 msgid "Loan Request Management - Building Manager"
 msgstr "ניהול בקשות השאלה - מנהל בניין"
 
-#: templates/BM_pages/BM_loan_requests.html:18
+#: templates/BM_pages/BM_loan_requests.html:19
 msgid "Loan Request Management"
 msgstr "ניהול בקשות השאלה"
 
-#: templates/BM_pages/BM_loan_requests.html:26
+#: templates/BM_pages/BM_loan_requests.html:31
 msgid "Pending Requests"
 msgstr "בקשות ממתינות"
 
-#: templates/BM_pages/BM_loan_requests.html:27
+#: templates/BM_pages/BM_loan_requests.html:32
+#: templates/BM_pages/BM_loan_requests.html:139
 msgid "Borrowed Items"
 msgstr "פריטים מושאלים"
 
-#: templates/BM_pages/BM_loan_requests.html:30
+#: templates/BM_pages/BM_loan_requests.html:37
 msgid "Pending Loan Requests"
 msgstr "בקשות השאלה ממתינות"
 
+#: templates/BM_pages/BM_loan_requests.html:43
+#: templates/BM_pages/BM_loan_requests.html:145
+#, fuzzy
+#| msgid "Student Notes"
+msgid "Student Name"
+msgstr "הערות הסטודנט"
 
-
-#: templates/BM_pages/BM_loan_requests.html:37
+#: templates/BM_pages/BM_loan_requests.html:45
 msgid "Requested Item"
 msgstr "פריט מבוקש"
 
-#: templates/BM_pages/BM_loan_requests.html:38
+#: templates/BM_pages/BM_loan_requests.html:46
 msgid "Request Date"
 msgstr "תאריך הבקשה"
 
-#: templates/BM_pages/BM_loan_requests.html:39
+#: templates/BM_pages/BM_loan_requests.html:47
 msgid "Loan Period"
 msgstr "תקופת השאלה"
 
-#: templates/BM_pages/BM_loan_requests.html:40
+#: templates/BM_pages/BM_loan_requests.html:48
 msgid "Student Notes"
 msgstr "הערות הסטודנט"
 
-#: templates/BM_pages/BM_loan_requests.html:41
+#: templates/BM_pages/BM_loan_requests.html:49
 msgid "Available Stock"
 msgstr "מלאי זמין"
 
-
-
-#: templates/BM_pages/BM_loan_requests.html:50
+#: templates/BM_pages/BM_loan_requests.html:64
 msgid "until"
 msgstr "עד"
 
-#: templates/BM_pages/BM_loan_requests.html:52
+#: templates/BM_pages/BM_loan_requests.html:66
+#: templates/BM_pages/BM_loan_requests.html:171
 msgid "Not specified"
 msgstr "לא צוין"
 
-#: templates/BM_pages/BM_loan_requests.html:58
+#: templates/BM_pages/BM_loan_requests.html:79
+#: templates/BM_pages/BM_loan_requests.html:81
 msgid "items"
 msgstr "פריטים"
 
-#: templates/BM_pages/BM_loan_requests.html:62
+#: templates/BM_pages/BM_loan_requests.html:83
 msgid "Out of stock"
 msgstr "אזל במלאי"
 
-#: templates/BM_pages/BM_loan_requests.html:68
-msgid "Add comment to student (optional)"
-msgstr "הוסף הערה לסטודנט (לא חובה)"
-
-#: templates/BM_pages/BM_loan_requests.html:72
+#: templates/BM_pages/BM_loan_requests.html:97
 msgid "Approve"
 msgstr "אישור"
 
-#: templates/BM_pages/BM_loan_requests.html:74
+#: templates/BM_pages/BM_loan_requests.html:99
 msgid "Reject"
 msgstr "דחייה"
 
-
-
-#: templates/BM_pages/BM_loan_requests.html:92
+#: templates/BM_pages/BM_loan_requests.html:131
 msgid "No pending loan requests at the moment"
 msgstr "אין בקשות השאלה ממתינות כרגע"
 
-#: templates/BM_pages/BM_loan_requests.html:98
+#: templates/BM_pages/BM_loan_requests.html:147
 msgid "Borrowed Item"
 msgstr "פריט מושאל"
 
-#: templates/BM_pages/BM_loan_requests.html:99
+#: templates/BM_pages/BM_loan_requests.html:148
 msgid "Approval Date"
 msgstr "תאריך אישור"
 
-#: templates/BM_pages/BM_loan_requests.html:100
+#: templates/BM_pages/BM_loan_requests.html:149
 msgid "Return Date"
 msgstr "תאריך החזרה"
 
-#: templates/BM_pages/BM_loan_requests.html:101
+#: templates/BM_pages/BM_loan_requests.html:150
 msgid "Notes"
 msgstr "הערות"
 
-#: templates/BM_pages/BM_loan_requests.html:108
+#: templates/BM_pages/BM_loan_requests.html:166
 msgid "less than 7 days"
 msgstr "פחות מ-7 ימים"
 
-#: templates/BM_pages/BM_loan_requests.html:110
+#: templates/BM_pages/BM_loan_requests.html:168
 msgid "overdue"
 msgstr "באיחור"
 
-#: templates/BM_pages/BM_loan_requests.html:118
+#: templates/BM_pages/BM_loan_requests.html:186
 msgid "Mark as Returned"
 msgstr "סמן כהוחזר"
 
-#: templates/BM_pages/BM_loan_requests.html:120
-msgid "Was the item returned damaged or not returned at all? This action will remove the item from inventory permanently."
-msgstr "האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין."
+#: templates/BM_pages/BM_loan_requests.html:188
+msgid ""
+"Was the item returned damaged or not returned at all? This action will "
+"remove the item from inventory permanently."
+msgstr ""
+"האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין."
 
-#: templates/BM_pages/BM_loan_requests.html:121
+#: templates/BM_pages/BM_loan_requests.html:189
 msgid "Remove from Inventory"
 msgstr "הסר מהמלאי"
 
-#: templates/BM_pages/BM_loan_requests.html:133
+#: templates/BM_pages/BM_loan_requests.html:221
 msgid "No borrowed items at the moment"
 msgstr "אין פריטים מושאלים כרגע"
-
-#: templates/BM_pages/BM_faults.html:6
-msgid "Fault Management - Building Manager"
-msgstr "ניהול תקלות - מנהל בניין"
-
-#: templates/BM_pages/BM_faults.html:18
-msgid "Dormitory Fault Management"
-msgstr "ניהול תקלות במעונות"
-
-#: templates/BM_pages/BM_faults.html:26
-msgid "Open Faults"
-msgstr "תקלות פתוחות"
-
-#: templates/BM_pages/BM_faults.html:27
-msgid "Faults in Progress"
-msgstr "תקלות בטיפול"
-
-
-
-#: templates/BM_pages/BM_faults.html:35
-msgid "Fault Type"
-msgstr "סוג התקלה"
-
-#: templates/BM_pages/BM_faults.html:36
-msgid "Fault Description"
-msgstr "תיאור התקלה"
-
-#: templates/BM_pages/BM_faults.html:37
-msgid "Urgency"
-msgstr "דחיפות"
-
-#: templates/BM_pages/BM_faults.html:38
-msgid "Report Date"
-msgstr "תאריך דיווח"
-
-#: templates/BM_pages/BM_faults.html:39
-msgid "Admin Notes"
-msgstr "הערות מנהל"
-
-
-
-#: templates/BM_pages/BM_faults.html:68
-msgid "Mark in Progress"
-msgstr "סמן בטיפול"
-
-#: templates/BM_pages/BM_faults.html:70
-msgid "Close Report"
-msgstr "סגור דיווח"
-
-
-
-#: templates/BM_pages/BM_faults.html:92
-msgid "No open faults"
-msgstr "אין תקלות פתוחות"
-
-#: templates/BM_pages/BM_faults.html:98
-msgid "Last Update"
-msgstr "עדכון אחרון"
-
-#: templates/BM_pages/BM_faults.html:108
-msgid "in progress"
-msgstr "בטיפול"
-
-
-
-#: templates/BM_pages/BM_faults.html:133
-msgid "No faults in progress"
-msgstr "אין תקלות בטיפול"
 
 #: templates/BM_pages/BM_manage_students.html:6
 msgid "Student Management - Building Manager"
 msgstr "ניהול סטודנטים - מנהל בניין"
 
-
-
-#: templates/BM_pages/BM_manage_students.html:20
+#: templates/BM_pages/BM_manage_students.html:21
 msgid "Responsible for building"
 msgstr "אחראי על בניין"
 
-
-
-#: templates/BM_pages/BM_manage_students.html:42
+#: templates/BM_pages/BM_manage_students.html:53
+#: templates/BM_pages/BM_manage_students.html:110
+#: templates/OM_pages/OM_manage_students.html:306
+#: templates/OM_pages/OM_manage_students.html:374
 msgid "Add Student"
 msgstr "הוספת סטודנט"
 
-#: templates/BM_pages/BM_manage_students.html:45
+#: templates/BM_pages/BM_manage_students.html:57
+#: templates/OM_pages/OM_manage_students.html:310
 msgid "Remove Student"
 msgstr "הסרת סטודנט"
 
-#: templates/BM_pages/BM_manage_students.html:50
+#: templates/BM_pages/BM_manage_students.html:62
+#: templates/OM_pages/OM_manage_students.html:316
 msgid "Add New Student to Building"
 msgstr "הוספת סטודנט חדש לבניין"
 
-#: templates/BM_pages/BM_manage_students.html:55
+#: templates/BM_pages/BM_manage_students.html:69
+#: templates/OM_pages/OM_manage_BM.html:287
 msgid "First Name"
 msgstr "שם פרטי"
 
-#: templates/BM_pages/BM_manage_students.html:58
+#: templates/BM_pages/BM_manage_students.html:73
+#: templates/OM_pages/OM_manage_BM.html:292
 msgid "Last Name"
 msgstr "שם משפחה"
 
+#: templates/BM_pages/BM_manage_students.html:77
+#: templates/BM_pages/BM_manage_students.html:132
+#: templates/OM_pages/OM_manage_BM.html:226
+#: templates/OM_pages/OM_manage_BM.html:297
+#: templates/OM_pages/OM_manage_students.html:399
+msgid "Email"
+msgstr "אימייל"
 
-
-#: templates/BM_pages/BM_manage_students.html:64
+#: templates/BM_pages/BM_manage_students.html:81
 msgid "Password"
 msgstr "סיסמה"
 
-#: templates/BM_pages/BM_manage_students.html:70
+#: templates/BM_pages/BM_manage_students.html:91
 msgid "ID Number (Optional)"
 msgstr "מספר זהות (אופציונלי)"
 
-
-
-#: templates/BM_pages/BM_manage_students.html:74
+#: templates/BM_pages/BM_manage_students.html:97
 msgid "Select Room"
 msgstr "בחר חדר"
 
-#: templates/BM_pages/BM_manage_students.html:77
+#: templates/BM_pages/BM_manage_students.html:100
+#: templates/OM_pages/OM_manage_students.html:362
 msgid "available spots"
 msgstr "מקומות פנויים"
 
-#: templates/BM_pages/BM_manage_students.html:80
+#: templates/BM_pages/BM_manage_students.html:106
 msgid "Residence End Date"
 msgstr "תאריך סיום מגורים"
 
-#: templates/BM_pages/BM_manage_students.html:83
+#: templates/BM_pages/BM_manage_students.html:115
+#: templates/OM_pages/OM_manage_students.html:379
 msgid "No available rooms in this building."
 msgstr "אין חדרים פנויים בבניין זה."
 
-#: templates/BM_pages/BM_manage_students.html:90
+#: templates/BM_pages/BM_manage_students.html:121
+#: templates/OM_pages/OM_manage_students.html:386
 msgid "Students in Building"
 msgstr "סטודנטים בבניין"
 
-#: templates/BM_pages/BM_manage_students.html:93
+#: templates/BM_pages/BM_manage_students.html:125
+#: templates/OM_pages/OM_manage_students.html:391
 msgid "Search by name or email..."
 msgstr "חיפוש לפי שם או אימייל..."
 
-#: templates/BM_pages/BM_manage_students.html:97
+#: templates/BM_pages/BM_manage_students.html:131
+#: templates/OM_pages/OM_manage_students.html:398
 msgid "Full Name"
 msgstr "שם מלא"
 
-#: templates/BM_pages/BM_manage_students.html:100
+#: templates/BM_pages/BM_manage_students.html:134
+#: templates/OM_pages/OM_manage_students.html:401
 msgid "Assignment Date"
 msgstr "תאריך שיבוץ"
 
+#: templates/BM_pages/BM_manage_students.html:135
+#: templates/OM_pages/OM_manage_students.html:402
+#: templates/Student_pages/application.html:103
+msgid "End Date"
+msgstr "תאריך סיום"
 
-
-
-
-#: templates/BM_pages/BM_manage_students.html:107
-msgid "Not defined"
-msgstr "לא מוגדר"
-
-#: templates/BM_pages/BM_manage_students.html:110
+#: templates/BM_pages/BM_manage_students.html:155
+#: templates/OM_pages/OM_manage_students.html:422
 msgid "Are you sure you want to remove the student from the system?"
 msgstr "האם אתה בטוח שברצונך להסיר את הסטודנט מהמערכת?"
 
-#: templates/BM_pages/BM_manage_students.html:111
+#: templates/BM_pages/BM_manage_students.html:156
+#: templates/OM_pages/OM_manage_students.html:423
 msgid "Remove from System"
 msgstr "הסר מהמערכת"
 
-
-
-#: templates/BM_pages/BM_manage_students.html:127
+#: templates/BM_pages/BM_manage_students.html:187
+#: templates/OM_pages/OM_manage_students.html:457
 msgid "No students assigned to this building."
 msgstr "אין סטודנטים משובצים בבניין זה."
 
-#: templates/BM_pages/BM_manage_students.html:133
+#: templates/BM_pages/BM_manage_students.html:193
+#: templates/OM_pages/OM_manage_students.html:463
 msgid "Click on the tab to load data..."
 msgstr "לחץ על הכרטיסייה לטעינת הנתונים..."
 
-#: templates/BM_pages/BM_manage_students.html:137
+#: templates/BM_pages/BM_manage_students.html:200
 msgid "No buildings under your management."
 msgstr "אין בניינים תחת ניהולך."
+
+#: templates/Homepage.html:8
+msgid "DormitoriesPlus - User Selection"
+msgstr ""
+
+#: templates/Homepage.html:13
+#, fuzzy
+#| msgid "Welcome to the Dormitory Management System"
+msgid "Welcome to DormitoriesPlus"
+msgstr "ברוך הבא למערכת ניהול המעונות"
+
+#: templates/Homepage.html:14
+msgid "Choose your user type to continue:"
+msgstr ""
+
+#: templates/Homepage.html:18
+#, fuzzy
+#| msgid "Homepage - System Manager"
+msgid "System Manager"
+msgstr "דף הבית - מנהל מערכת"
+
+#: templates/Homepage.html:19 templates/OM_pages/OM_manage_BM.html:225
+#, fuzzy
+#| msgid "Add Building Manager"
+msgid "Building Manager"
+msgstr "הוסף אחראי בניין"
+
+#: templates/Homepage.html:24 templates/index.html:34
+msgid "© 2025 DormitoriesPlus - All rights reserved"
+msgstr ""
+
+#: templates/OM_pages/OM_faults.html:5
+msgid "Fault Management - Office Manager"
+msgstr "ניהול תקלות - מנהל משרד"
+
+#: templates/OM_pages/OM_faults.html:264
+msgid "Dormitory Fault Management - Office Manager"
+msgstr "ניהול תקלות במעונות - מנהל משרד"
+
+#: templates/OM_pages/OM_faults.html:265
+msgid "Management of fault reports for all buildings in the system"
+msgstr "ניהול דיווחי תקלות לכל הבניינים במערכת"
+
+#: templates/OM_pages/OM_faults.html:290
+msgid "Filter Faults"
+msgstr "סינון תקלות"
+
+#: templates/OM_pages/OM_faults.html:294 templates/OM_pages/OM_faults.html:418
+msgid "Building:"
+msgstr "בניין:"
+
+#: templates/OM_pages/OM_faults.html:296 templates/OM_pages/OM_faults.html:420
+msgid "All Buildings"
+msgstr "כל הבניינים"
+
+#: templates/OM_pages/OM_faults.html:305
+#: templates/Student_pages/faults.html:139
+msgid "Urgency:"
+msgstr "דחיפות:"
+
+#: templates/OM_pages/OM_faults.html:307
+msgid "All Urgencies"
+msgstr "כל הדחיפויות"
+
+#: templates/OM_pages/OM_faults.html:308
+#: templates/Student_pages/faults.html:143
+msgid "High"
+msgstr "גבוהה"
+
+#: templates/OM_pages/OM_faults.html:309
+#: templates/Student_pages/faults.html:142
+msgid "Medium"
+msgstr "בינונית"
+
+#: templates/OM_pages/OM_faults.html:310
+#: templates/Student_pages/faults.html:141
+msgid "Low"
+msgstr "נמוכה"
+
+#: templates/OM_pages/OM_faults.html:314
+msgid "From Date:"
+msgstr "מתאריך:"
+
+#: templates/OM_pages/OM_faults.html:318 templates/OM_pages/OM_faults.html:438
+msgid "Apply Filter"
+msgstr "החל סינון"
+
+#: templates/OM_pages/OM_faults.html:319 templates/OM_pages/OM_faults.html:439
+msgid "Reset"
+msgstr "אפס"
+
+#: templates/OM_pages/OM_faults.html:357 templates/OM_pages/OM_faults.html:483
+msgid "Add a note to the student (optional)"
+msgstr "הוסף הערה לסטודנט (לא חובה)"
+
+#: templates/OM_pages/OM_faults.html:414
+msgid "Filter Faults in Progress"
+msgstr "סינון תקלות בטיפול"
+
+#: templates/OM_pages/OM_faults.html:429
+msgid "Days in Progress:"
+msgstr "ימים בטיפול:"
+
+#: templates/OM_pages/OM_faults.html:431
+msgid "All"
+msgstr "הכל"
+
+#: templates/OM_pages/OM_faults.html:432
+msgid "Over 7 days"
+msgstr "מעל 7 ימים"
+
+#: templates/OM_pages/OM_faults.html:433
+msgid "Over 14 days"
+msgstr "מעל 14 ימים"
+
+#: templates/OM_pages/OM_faults.html:434
+msgid "Over 30 days"
+msgstr "מעל 30 ימים"
 
 #: templates/OM_pages/OM_homepage.html:5
 msgid "Homepage - System Manager"
 msgstr "דף הבית - מנהל מערכת"
 
-#: templates/OM_pages/OM_homepage.html:125
+#: templates/OM_pages/OM_homepage.html:176
 msgid "Welcome to the Dormitory Management System"
 msgstr "ברוך הבא למערכת ניהול המעונות"
 
-#: templates/OM_pages/OM_homepage.html:126
+#: templates/OM_pages/OM_homepage.html:177
 msgid "Central management of all dormitories"
 msgstr "ניהול מרכזי של כל המעונות"
 
-#: templates/OM_pages/OM_homepage.html:135
+#: templates/OM_pages/OM_homepage.html:191
 msgid "System Statistics"
 msgstr "סטטיסטיקות מערכת"
 
-#: templates/OM_pages/OM_homepage.html:138
+#: templates/OM_pages/OM_homepage.html:194
+#: templates/OM_pages/OM_homepage.html:204
+#: templates/OM_pages/OM_homepage.html:209
 msgid "Currently there are"
 msgstr "כרגע נמצאים"
 
-#: templates/OM_pages/OM_homepage.html:140
+#: templates/OM_pages/OM_homepage.html:196
 msgid "students in dormitories"
 msgstr "סטודנטים במעונות"
 
-#: templates/OM_pages/OM_homepage.html:143
+#: templates/OM_pages/OM_homepage.html:199
+#: templates/OM_pages/OM_manage_students.html:277
 msgid "Room occupancy is"
 msgstr "תפוסת חדרים היא"
 
-#: templates/OM_pages/OM_homepage.html:145
+#: templates/OM_pages/OM_homepage.html:201
+#: templates/OM_pages/OM_manage_students.html:279
 msgid "of full capacity"
 msgstr "מהקיבולת המלאה"
 
-#: templates/OM_pages/OM_homepage.html:148
+#: templates/OM_pages/OM_homepage.html:206
 msgid "overdue items"
 msgstr "פריטים באיחור"
 
-#: templates/OM_pages/OM_homepage.html:151
+#: templates/OM_pages/OM_homepage.html:211
 msgid "open faults for treatment"
 msgstr "תקלות פתוחות לטיפול"
 
-#: templates/OM_pages/OM_homepage.html:157
+#: templates/OM_pages/OM_homepage.html:218
 msgid "Action Menu"
 msgstr "תפריט פעולות"
 
-#: templates/OM_pages/OM_homepage.html:166
+#: templates/OM_pages/OM_homepage.html:226
 msgid "Loan Requests"
 msgstr "בקשות השאלה"
 
-#: templates/OM_pages/OM_homepage.html:181
+#: templates/OM_pages/OM_homepage.html:230
+#: templates/Student_pages/faults.html:5 templates/Student_pages/faults.html:92
+#: templates/index.html:26
+msgid "Fault Reports"
+msgstr "דיווחי תקלות"
+
+#: templates/OM_pages/OM_homepage.html:238
+#: templates/OM_pages/OM_manage_BM.html:199
+#: templates/OM_pages/OM_manage_BM.html:212
 msgid "Building Manager Management"
 msgstr "ניהול מנהלי בניינים"
 
-#: templates/OM_pages/OM_homepage.html:189
+#: templates/OM_pages/OM_homepage.html:246
 msgid "AI Summary (English & Hebrew)"
 msgstr "סיכום AI (אנגלית ועברית)"
 
-#: templates/OM_pages/OM_homepage.html:193
+#: templates/OM_pages/OM_homepage.html:250
 msgid "Generate AI Summary"
 msgstr "יצירת סיכום AI"
 
-#: templates/OM_pages/OM_homepage.html:197
+#: templates/OM_pages/OM_homepage.html:255
 msgid "Generating summary, please wait..."
 msgstr "מייצר סיכום, אנא המתן..."
 
@@ -790,184 +835,652 @@ msgstr "מייצר סיכום, אנא המתן..."
 msgid "Building Manager Management - System Manager"
 msgstr "ניהול אחראי בניין - מנהל מערכת"
 
-
-
-#: templates/OM_pages/OM_manage_BM.html:126
+#: templates/OM_pages/OM_manage_BM.html:200
 msgid "Add, update and remove building managers"
 msgstr "הוספה, עדכון והסרה של אחראי בניין"
 
-#: templates/OM_pages/OM_manage_BM.html:135
+#: templates/OM_pages/OM_manage_BM.html:213
+#: templates/OM_pages/OM_manage_BM.html:280
 msgid "Add New Building Manager"
 msgstr "הוספת אחראי בניין חדש"
 
-#: templates/OM_pages/OM_manage_BM.html:140
+#: templates/OM_pages/OM_manage_BM.html:218
 msgid "List of Buildings and Managers"
 msgstr "רשימת בניינים ואחראים"
 
-#: templates/OM_pages/OM_manage_BM.html:143
+#: templates/OM_pages/OM_manage_BM.html:223
 msgid "Building No."
 msgstr "מס' בניין"
 
-#: templates/OM_pages/OM_manage_BM.html:144
+#: templates/OM_pages/OM_manage_BM.html:224
 msgid "Building Name"
 msgstr "שם בניין"
 
-#: templates/OM_pages/OM_manage_BM.html:185
+#: templates/OM_pages/OM_manage_BM.html:241
+msgid "Not defined"
+msgstr "לא מוגדר"
+
+#: templates/OM_pages/OM_manage_BM.html:257
+#, fuzzy
+#| msgid "Are you sure you want to remove the student from the system?"
+msgid "Are you sure you want to remove the building manager?"
+msgstr "האם אתה בטוח שברצונך להסיר את הסטודנט מהמערכת?"
+
+#: templates/OM_pages/OM_manage_BM.html:258
+#, fuzzy
+#| msgid "Remove Student"
+msgid "Remove"
+msgstr "הסרת סטודנט"
+
+#: templates/OM_pages/OM_manage_BM.html:263
+#: templates/OM_pages/OM_manage_BM.html:357
+#, fuzzy
+#| msgid "Assign Building Manager"
+msgid "Assign Manager"
+msgstr "שיוך אחראי בניין"
+
+#: templates/OM_pages/OM_manage_BM.html:270
+#, fuzzy
+#| msgid "No buildings defined in the system."
+msgid "No buildings defined in the system"
+msgstr "אין בניינים מוגדרים במערכת."
+
+#: templates/OM_pages/OM_manage_BM.html:302
 msgid "Initial Password"
 msgstr "סיסמה ראשונית"
 
-#: templates/OM_pages/OM_manage_BM.html:192
+#: templates/OM_pages/OM_manage_BM.html:310
 msgid "Default password: 123456789"
 msgstr "סיסמה ברירת מחדל: 123456789"
 
-#: templates/OM_pages/OM_manage_BM.html:195
+#: templates/OM_pages/OM_manage_BM.html:314
 msgid "Assign to Building (Optional)"
 msgstr "שייך לבניין (אופציונלי)"
 
-#: templates/OM_pages/OM_manage_BM.html:197
+#: templates/OM_pages/OM_manage_BM.html:316
 msgid "-- Select Building --"
 msgstr "-- בחר בניין --"
 
-#: templates/OM_pages/OM_manage_BM.html:202
+#: templates/OM_pages/OM_manage_BM.html:327
 msgid "Add Building Manager"
 msgstr "הוסף אחראי בניין"
 
-#: templates/OM_pages/OM_manage_BM.html:210
+#: templates/OM_pages/OM_manage_BM.html:337
 msgid "Assign Building Manager"
 msgstr "שיוך אחראי בניין"
 
-#: templates/OM_pages/OM_manage_BM.html:215
+#: templates/OM_pages/OM_manage_BM.html:346
 msgid "Select Building Manager"
 msgstr "בחר אחראי בניין"
 
-#: templates/OM_pages/OM_manage_BM.html:217
+#: templates/OM_pages/OM_manage_BM.html:348
 msgid "-- Select Building Manager --"
 msgstr "-- בחר אחראי בניין --"
 
-#: templates/OM_pages/OM_manage_BM.html:235
+#: templates/OM_pages/OM_manage_BM.html:389
 msgid "Assign Building Manager to Building"
 msgstr "שיוך אחראי בניין לבניין"
 
-#: templates/OM_pages/OM_manage_students.html:5
+#: templates/OM_pages/OM_manage_students.html:6
 msgid "Student Management - System Manager"
 msgstr "ניהול סטודנטים - מנהל מערכת"
 
-#: templates/OM_pages/OM_manage_students.html:8
+#: templates/OM_pages/OM_manage_students.html:256
 msgid "Student Management - Office Manager"
 msgstr "ניהול סטודנטים - מנהל משרד"
 
-#: templates/OM_pages/OM_manage_students.html:9
+#: templates/OM_pages/OM_manage_students.html:257
 msgid "Access to student management for all buildings in the system"
 msgstr "גישה לניהול סטודנטים עבור כל הבניינים במערכת"
 
-#: templates/OM_pages/OM_manage_students.html:25
+#: templates/OM_pages/OM_manage_students.html:269
 msgid "Data Summary"
 msgstr "סיכום נתונים"
 
-#: templates/OM_pages/OM_manage_students.html:28
+#: templates/OM_pages/OM_manage_students.html:272
 msgid "Total students in dormitories"
 msgstr "סה\"כ סטודנטים במעונות"
 
-#: templates/OM_pages/OM_manage_students.html:29
+#: templates/OM_pages/OM_manage_students.html:274
 msgid "students"
 msgstr "סטודנטים"
 
+#: templates/OM_pages/OM_manage_students.html:282
+#, fuzzy
+#| msgid "available spots"
+msgid "Available spots"
+msgstr "מקומות פנויים"
 
-
-
-
-#: templates/OM_pages/OM_manage_students.html:37
+#: templates/OM_pages/OM_manage_students.html:284
 msgid "in all rooms"
 msgstr "בכל החדרים"
 
-
-
-
-
-
-
-
-
-#: templates/OM_pages/OM_manage_students.html:72
+#: templates/OM_pages/OM_manage_students.html:325
 msgid "First Name:"
 msgstr "שם פרטי:"
 
-#: templates/OM_pages/OM_manage_students.html:75
+#: templates/OM_pages/OM_manage_students.html:330
 msgid "Last Name:"
 msgstr "שם משפחה:"
 
-#: templates/OM_pages/OM_manage_students.html:78
+#: templates/OM_pages/OM_manage_students.html:335
 msgid "Email:"
 msgstr "אימייל:"
 
-#: templates/OM_pages/OM_manage_students.html:81
+#: templates/OM_pages/OM_manage_students.html:340
 msgid "Password:"
 msgstr "סיסמה:"
 
-#: templates/OM_pages/OM_manage_students.html:87
+#: templates/OM_pages/OM_manage_students.html:352
 msgid "ID Number (Optional):"
 msgstr "מספר זהות (אופציונלי):"
 
-#: templates/OM_pages/OM_manage_students.html:90
+#: templates/OM_pages/OM_manage_students.html:357
 msgid "Room:"
 msgstr "חדר:"
 
-#: templates/OM_pages/OM_manage_students.html:91
+#: templates/OM_pages/OM_manage_students.html:359
 msgid "Select room"
 msgstr "בחר חדר"
 
-
-
-#: templates/OM_pages/OM_manage_students.html:96
+#: templates/OM_pages/OM_manage_students.html:369
 msgid "Residence End Date:"
 msgstr "תאריך סיום מגורים:"
 
-
-
-
-
-
-
-
-
-
-
-#: templates/OM_pages/OM_manage_students.html:119
-msgid "Email"
-msgstr "אימייל"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#: templates/OM_pages/OM_manage_students.html:160
+#: templates/OM_pages/OM_manage_students.html:471
 msgid "No buildings defined in the system."
 msgstr "אין בניינים מוגדרים במערכת."
 
+#: templates/Student_pages/Students_homepage.html:5
+msgid "דף בית"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:82
+msgid "שלום"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:86
+msgid "השאלת ציוד"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:87
+msgid "דיווח תקלות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:88
+msgid "צור קשר"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:93
+msgid "בקשות השאלת ציוד"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:94
+msgid "בקשות מאושרות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:99
+msgid "בקשות השאלת ציוד ממתינות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:104
+#: templates/Student_pages/Students_homepage.html:182
+msgid "פריט"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:105
+#: templates/Student_pages/Students_homepage.html:183
+msgid "תאריך בקשה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:106
+#: templates/Student_pages/Students_homepage.html:186
+#: templates/Student_pages/Students_homepage.html:265
+#: templates/Student_pages/Students_homepage.html:324
+msgid "חדר"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:107
+#: templates/Student_pages/Students_homepage.html:187
+msgid "הערות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:108
+msgid "סטטוס"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:109
+msgid "פעולות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:122
+msgid "הערת מנהל"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:127
+msgid "ממתין לאישור"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:128
+msgid "נדחה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:135
+msgid "מחק"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:150
+#: templates/Student_pages/Students_homepage.html:153
+#: templates/Student_pages/Students_homepage.html:223
+#: templates/Student_pages/Students_homepage.html:226
+#: templates/Student_pages/Students_homepage.html:288
+#: templates/Student_pages/Students_homepage.html:291
+#: templates/Student_pages/Students_homepage.html:348
+#: templates/Student_pages/Students_homepage.html:351
+msgid "&laquo; ראשון"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:151
+#: templates/Student_pages/Students_homepage.html:154
+#: templates/Student_pages/Students_homepage.html:224
+#: templates/Student_pages/Students_homepage.html:227
+#: templates/Student_pages/Students_homepage.html:289
+#: templates/Student_pages/Students_homepage.html:292
+#: templates/Student_pages/Students_homepage.html:349
+#: templates/Student_pages/Students_homepage.html:352
+msgid "הקודם"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:158
+#: templates/Student_pages/Students_homepage.html:231
+#: templates/Student_pages/Students_homepage.html:296
+#: templates/Student_pages/Students_homepage.html:356
+msgid "עמוד"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:158
+#: templates/Student_pages/Students_homepage.html:231
+#: templates/Student_pages/Students_homepage.html:296
+#: templates/Student_pages/Students_homepage.html:356
+msgid "מתוך"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:162
+#: templates/Student_pages/Students_homepage.html:165
+#: templates/Student_pages/Students_homepage.html:235
+#: templates/Student_pages/Students_homepage.html:238
+#: templates/Student_pages/Students_homepage.html:300
+#: templates/Student_pages/Students_homepage.html:303
+#: templates/Student_pages/Students_homepage.html:360
+#: templates/Student_pages/Students_homepage.html:363
+msgid "הבא"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:163
+#: templates/Student_pages/Students_homepage.html:166
+#: templates/Student_pages/Students_homepage.html:236
+#: templates/Student_pages/Students_homepage.html:239
+#: templates/Student_pages/Students_homepage.html:301
+#: templates/Student_pages/Students_homepage.html:304
+#: templates/Student_pages/Students_homepage.html:361
+#: templates/Student_pages/Students_homepage.html:364
+msgid "אחרון &raquo;"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:171
+msgid "אין בקשות השאלה ממתינות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:177
+msgid "בקשות השאלת ציוד מאושרות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:184
+msgid "תאריך אישור"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:185
+msgid "תאריך החזרה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:188
+#: templates/Student_pages/Students_homepage.html:267
+#: templates/Student_pages/Students_homepage.html:326
+msgid "הערות מנהל"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:201
+msgid "(נותרו פחות מ-7 ימים)"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:203
+msgid "(באיחור)"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:208
+msgid "לא צוין"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:244
+msgid "אין בקשות השאלה מאושרות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:251
+#: templates/Student_pages/Students_homepage.html:257
+msgid "תקלות פתוחות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:252
+#: templates/Student_pages/Students_homepage.html:315
+msgid "תקלות בטיפול"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:262
+#: templates/Student_pages/Students_homepage.html:320
+msgid "סוג התקלה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:263
+#: templates/Student_pages/Students_homepage.html:321
+msgid "תיאור התקלה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:264
+#: templates/Student_pages/Students_homepage.html:322
+msgid "תאריך דיווח"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:266
+#: templates/Student_pages/Students_homepage.html:325
+msgid "דחיפות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:309
+msgid "אין תקלות פתוחות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:323
+msgid "עדכון אחרון"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:369
+msgid "אין תקלות בטיפול"
+msgstr ""
+
+#: templates/Student_pages/application.html:5
+#: templates/Student_pages/application.html:94 templates/index.html:25
+msgid "Equipment Rental"
+msgstr "השכרת ציוד"
+
+#: templates/Student_pages/application.html:98
+#: templates/Student_pages/faults.html:104
+msgid "Your Details:"
+msgstr "פרטיך:"
+
+#: templates/Student_pages/application.html:99
+#: templates/Student_pages/connect_us.html:94
+#: templates/Student_pages/faults.html:105
+msgid "Name"
+msgstr "שם"
+
+#: templates/Student_pages/application.html:105
+#: templates/Student_pages/faults.html:110
+msgid ""
+"You don't have a room assignment in the system. Please contact the dormitory "
+"manager."
+msgstr "אין לך הקצאת חדר במערכת. אנא פנה למנהל המעונות."
+
+#: templates/Student_pages/application.html:110
+msgid "Item Rental Request"
+msgstr "בקשת השכרת פריט"
+
+#: templates/Student_pages/application.html:115
+msgid "Select item to rent:"
+msgstr "בחר פריט להשכרה:"
+
+#: templates/Student_pages/application.html:117
+msgid "Select item"
+msgstr "בחר פריט"
+
+#: templates/Student_pages/application.html:125
+msgid "Return date:"
+msgstr "תאריך החזרה:"
+
+#: templates/Student_pages/application.html:130
+msgid "Additional notes (optional):"
+msgstr "הערות נוספות (אופציונלי):"
+
+#: templates/Student_pages/application.html:131
+msgid "If you have special requests or additional notes, write them here"
+msgstr "אם יש לך בקשות מיוחדות או הערות נוספות, כתוב אותן כאן"
+
+#: templates/Student_pages/application.html:135
+msgid "Submit Request"
+msgstr "שלח בקשה"
+
+#: templates/Student_pages/application.html:137
+msgid ""
+"Cannot submit request without room assignment. Please contact the dormitory "
+"manager."
+msgstr "לא ניתן לשלוח בקשה ללא הקצאת חדר. אנא פנה למנהל המעונות."
+
+#: templates/Student_pages/connect_us.html:5 templates/index.html:27
+msgid "Contact Us"
+msgstr "צור קשר"
+
+#: templates/Student_pages/connect_us.html:58
+msgid "Couldn't find what you were looking for? Contact us!"
+msgstr "לא מצאת מה שחיפשת? צור איתנו קשר!"
+
+#: templates/Student_pages/connect_us.html:62
+msgid "Select a building to get contact details:"
+msgstr "בחר בניין לקבלת פרטי קשר:"
+
+#: templates/Student_pages/connect_us.html:64
+msgid "Select building"
+msgstr "בחר בניין"
+
+#: templates/Student_pages/connect_us.html:65
+msgid "Building 1"
+msgstr "בניין 1"
+
+#: templates/Student_pages/connect_us.html:66
+msgid "Building 2"
+msgstr "בניין 2"
+
+#: templates/Student_pages/connect_us.html:67
+msgid "Building 3"
+msgstr "בניין 3"
+
+#: templates/Student_pages/connect_us.html:68
+msgid "Building 4"
+msgstr "בניין 4"
+
+#: templates/Student_pages/connect_us.html:81
+msgid "Yossi Cohen"
+msgstr "יוסי כהן"
+
+#: templates/Student_pages/connect_us.html:82
+msgid "Dana Levy"
+msgstr "דנה לוי"
+
+#: templates/Student_pages/connect_us.html:83
+msgid "Avi Israeli"
+msgstr "אבי ישראלי"
+
+#: templates/Student_pages/connect_us.html:84
+msgid "Michal Barak"
+msgstr "מיכל ברק"
+
+#: templates/Student_pages/connect_us.html:95
+msgid "Phone"
+msgstr "טלפון"
+
+#: templates/Student_pages/connect_us.html:97
+msgid "Please select a building from the list."
+msgstr "אנא בחר בניין מהרשימה."
+
+#: templates/Student_pages/faults.html:115
+msgid "Fault Details"
+msgstr "פרטי התקלה"
+
+#: templates/Student_pages/faults.html:120
+msgid "Fault Type:"
+msgstr "סוג התקלה:"
+
+#: templates/Student_pages/faults.html:122
+msgid "Select fault type"
+msgstr "בחר סוג תקלה"
+
+#: templates/Student_pages/faults.html:123
+msgid "Plumbing"
+msgstr "אינסטלציה"
+
+#: templates/Student_pages/faults.html:124
+msgid "Electrical"
+msgstr "חשמל"
+
+#: templates/Student_pages/faults.html:125
+msgid "Air Conditioning"
+msgstr "מיזוג אוויר"
+
+#: templates/Student_pages/faults.html:126
+msgid "Furniture"
+msgstr "רהיטים"
+
+#: templates/Student_pages/faults.html:127
+msgid "Doors/Windows"
+msgstr "דלתות/חלונות"
+
+#: templates/Student_pages/faults.html:128
+msgid "Internet"
+msgstr "אינטרנט"
+
+#: templates/Student_pages/faults.html:129
+msgid "Other"
+msgstr "אחר"
+
+#: templates/Student_pages/faults.html:134
+msgid "Fault Description:"
+msgstr "תיאור התקלה:"
+
+#: templates/Student_pages/faults.html:135
+msgid "Describe the fault in as much detail as possible"
+msgstr "תאר את התקלה בפירוט רב ככל האפשר"
+
+#: templates/Student_pages/faults.html:148
+msgid "Submit Report"
+msgstr "שלח דיווח"
+
+#: templates/Student_pages/faults.html:150
+msgid ""
+"Cannot report a fault without room assignment. Please contact the dormitory "
+"manager."
+msgstr "לא ניתן לדווח על תקלה ללא הקצאת חדר. אנא פנה למנהל המעונות."
+
+#: templates/base.html:182
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:185
+#, fuzzy
+#| msgid "Edit Inventory Item"
+msgid "Inventory"
+msgstr "ערוך פריט מלאי"
+
+#: templates/base.html:188
+#, fuzzy
+#| msgid "Open Faults"
+msgid "Faults"
+msgstr "תקלות פתוחות"
+
+#: templates/base.html:214
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:220
+msgid "Login"
+msgstr ""
+
+#: templates/base.html:250
+msgid "All rights reserved."
+msgstr ""
+
+#: templates/index.html:8
+msgid "DormitoriesPlus - Home Page"
+msgstr ""
+
+#: templates/index.html:15
+#, fuzzy
+#| msgid "Welcome to the Dormitory Management System"
+msgid "Welcome to Rikfin Dormitories website!"
+msgstr "ברוך הבא למערכת ניהול המעונות"
+
+#: templates/index.html:20
+msgid "Hello, on this website you can perform dormitory-related operations."
+msgstr ""
+
+#: templates/index.html:21
+msgid "Use the links below to access the relevant service for you."
+msgstr ""
+
+#: templates/login_page.html:5
+msgid "התחברות"
+msgstr ""
+
+#: templates/login_page.html:69
+msgid "התחברות ל-DormitoriesPlus"
+msgstr ""
+
+#: templates/login_page.html:73
+msgid "אימייל:"
+msgstr ""
+
+#: templates/login_page.html:77
+msgid "סיסמה:"
+msgstr ""
+
+#: templates/login_page.html:80
+msgid "התחבר"
+msgstr ""
+
+#, fuzzy
+#~| msgid "Internet"
+#~ msgid "Integer"
+#~ msgstr "אינטרנט"
+
+#, fuzzy
+#~| msgid "Currently there are"
+#~ msgid "Currently"
+#~ msgstr "כרגע נמצאים"
+
+#, fuzzy
+#~| msgid "Not specified"
+#~ msgid "No year specified"
+#~ msgstr "לא צוין"
+
+#, fuzzy
+#~| msgid "Not specified"
+#~ msgid "No month specified"
+#~ msgstr "לא צוין"
+
+#, fuzzy
+#~| msgid "Not specified"
+#~ msgid "No day specified"
+#~ msgstr "לא צוין"
+
+#, fuzzy
+#~| msgid "Not specified"
+#~ msgid "No week specified"
+#~ msgstr "לא צוין"
+
+#~ msgid "Item Name:"
+#~ msgstr "שם פריט:"
+
+#~ msgid "No data"
+#~ msgstr "אין נתונים"
+
+#~ msgid "Loading indicator"
+#~ msgstr "מחוון טעינה"
 
 
-
-
-
-
-#: templates/OM_pages/OM_manage_students.html:187
-msgid "No data"
-msgstr "אין נתונים"
-
-#: templates/OM_pages/OM_manage_students.html:193
-msgid "Loading indicator"
-msgstr "מחוון טעינה"

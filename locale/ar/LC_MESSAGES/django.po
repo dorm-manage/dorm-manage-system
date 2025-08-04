@@ -2484,4 +2484,128 @@ msgstr ""
 msgid "available spots"
 msgstr ""
 
+# OM_faults.html missing keys
+msgid "Fault Management - Office Manager"
+msgstr ""
+
+msgid "Dormitory Fault Management - Office Manager"
+msgstr ""
+
+msgid "Management of fault reports for all buildings in the system"
+msgstr ""
+
+msgid "Open Faults"
+msgstr ""
+
+msgid "Faults in Progress"
+msgstr ""
+
+msgid "Filter Faults"
+msgstr ""
+
+msgid "Building:"
+msgstr ""
+
+msgid "All Buildings"
+msgstr ""
+
+msgid "Urgency:"
+msgstr ""
+
+msgid "All Urgencies"
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Low"
+msgstr ""
+
+msgid "From Date:"
+msgstr ""
+
+msgid "Apply Filter"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Student"
+msgstr ""
+
+msgid "Building"
+msgstr ""
+
+msgid "Room"
+msgstr ""
+
+msgid "Fault Type"
+msgstr ""
+
+msgid "Fault Description"
+msgstr ""
+
+msgid "Urgency"
+msgstr ""
+
+msgid "Report Date"
+msgstr ""
+
+msgid "Admin Notes"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Add a note to the student (optional)"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Mark in Progress"
+msgstr ""
+
+msgid "Close Report"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "No open faults"
+msgstr ""
+
+msgid "Filter Faults in Progress"
+msgstr ""
+
+msgid "Days in Progress:"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Over 7 days"
+msgstr ""
+
+msgid "Over 14 days"
+msgstr ""
+
+msgid "Over 30 days"
+msgstr ""
+
+msgid "Last Update"
+msgstr ""
+
+msgid "in progress"
+msgstr ""
+
+msgid "Back to Homepage"
+msgstr ""
+
 
