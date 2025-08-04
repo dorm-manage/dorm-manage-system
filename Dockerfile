@@ -26,6 +26,7 @@ RUN apt-get update \
         libfribidi-dev \
         libxcb1-dev \
         pkg-config \
+        gettext \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -40,6 +41,9 @@ RUN mkdir -p /app/media/inventory_photos
 
 # Create staticfiles directory
 RUN mkdir -p /app/staticfiles
+
+# Compile translations for all languages
+RUN python manage.py compilemessages --locale=he --locale=en --locale=ar --locale=zh
 
 # Create a non-root user
 RUN adduser --disabled-password --gecos '' appuser
