@@ -721,3 +721,67 @@ msgstr "לחץ על הכרטיסייה לטעינת הנתונים..."
 #: templates/BM_pages/BM_manage_students.html:137
 msgid "No buildings under your management."
 msgstr "אין בניינים תחת ניהולך."
+
+#: templates/OM_pages/OM_homepage.html:5
+msgid "Homepage - System Manager"
+msgstr "דף הבית - מנהל מערכת"
+
+#: templates/OM_pages/OM_homepage.html:125
+msgid "Welcome to the Dormitory Management System"
+msgstr "ברוך הבא למערכת ניהול המעונות"
+
+#: templates/OM_pages/OM_homepage.html:126
+msgid "Central management of all dormitories"
+msgstr "ניהול מרכזי של כל המעונות"
+
+#: templates/OM_pages/OM_homepage.html:135
+msgid "System Statistics"
+msgstr "סטטיסטיקות מערכת"
+
+#: templates/OM_pages/OM_homepage.html:138
+msgid "Currently there are"
+msgstr "כרגע נמצאים"
+
+#: templates/OM_pages/OM_homepage.html:140
+msgid "students in dormitories"
+msgstr "סטודנטים במעונות"
+
+#: templates/OM_pages/OM_homepage.html:143
+msgid "Room occupancy is"
+msgstr "תפוסת חדרים היא"
+
+#: templates/OM_pages/OM_homepage.html:145
+msgid "of full capacity"
+msgstr "מהקיבולת המלאה"
+
+#: templates/OM_pages/OM_homepage.html:148
+msgid "overdue items"
+msgstr "פריטים באיחור"
+
+#: templates/OM_pages/OM_homepage.html:151
+msgid "open faults for treatment"
+msgstr "תקלות פתוחות לטיפול"
+
+#: templates/OM_pages/OM_homepage.html:157
+msgid "Action Menu"
+msgstr "תפריט פעולות"
+
+#: templates/OM_pages/OM_homepage.html:166
+msgid "Loan Requests"
+msgstr "בקשות השאלה"
+
+#: templates/OM_pages/OM_homepage.html:181
+msgid "Building Manager Management"
+msgstr "ניהול מנהלי בניינים"
+
+#: templates/OM_pages/OM_homepage.html:189
+msgid "AI Summary (English & Hebrew)"
+msgstr "סיכום AI (אנגלית ועברית)"
+
+#: templates/OM_pages/OM_homepage.html:193
+msgid "Generate AI Summary"
+msgstr "יצירת סיכום AI"
+
+#: templates/OM_pages/OM_homepage.html:197
+msgid "Generating summary, please wait..."
+msgstr "מייצר סיכום, אנא המתן..."

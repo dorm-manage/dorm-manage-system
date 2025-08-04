@@ -2290,4 +2290,68 @@ msgstr "انقر على التبويب لتحميل البيانات..."
 msgid "No buildings under your management."
 msgstr "لا توجد مباني تحت إدارتك."
 
+#: templates/OM_pages/OM_homepage.html:5
+msgid "Homepage - System Manager"
+msgstr "الصفحة الرئيسية - مدير النظام"
+
+#: templates/OM_pages/OM_homepage.html:125
+msgid "Welcome to the Dormitory Management System"
+msgstr "مرحباً بك في نظام إدارة المهاجع"
+
+#: templates/OM_pages/OM_homepage.html:126
+msgid "Central management of all dormitories"
+msgstr "الإدارة المركزية لجميع المهاجع"
+
+#: templates/OM_pages/OM_homepage.html:135
+msgid "System Statistics"
+msgstr "إحصائيات النظام"
+
+#: templates/OM_pages/OM_homepage.html:138
+msgid "Currently there are"
+msgstr "حالياً يوجد"
+
+#: templates/OM_pages/OM_homepage.html:140
+msgid "students in dormitories"
+msgstr "طالب في المهاجع"
+
+#: templates/OM_pages/OM_homepage.html:143
+msgid "Room occupancy is"
+msgstr "إشغال الغرف هو"
+
+#: templates/OM_pages/OM_homepage.html:145
+msgid "of full capacity"
+msgstr "من السعة الكاملة"
+
+#: templates/OM_pages/OM_homepage.html:148
+msgid "overdue items"
+msgstr "عنصر متأخر"
+
+#: templates/OM_pages/OM_homepage.html:151
+msgid "open faults for treatment"
+msgstr "عطل مفتوح للعلاج"
+
+#: templates/OM_pages/OM_homepage.html:157
+msgid "Action Menu"
+msgstr "قائمة الإجراءات"
+
+#: templates/OM_pages/OM_homepage.html:166
+msgid "Loan Requests"
+msgstr "طلبات الإعارة"
+
+#: templates/OM_pages/OM_homepage.html:181
+msgid "Building Manager Management"
+msgstr "إدارة مدراء المباني"
+
+#: templates/OM_pages/OM_homepage.html:189
+msgid "AI Summary (English & Hebrew)"
+msgstr "ملخص الذكاء الاصطناعي (الإنجليزية والعبرية)"
+
+#: templates/OM_pages/OM_homepage.html:193
+msgid "Generate AI Summary"
+msgstr "إنشاء ملخص الذكاء الاصطناعي"
+
+#: templates/OM_pages/OM_homepage.html:197
+msgid "Generating summary, please wait..."
+msgstr "جاري إنشاء الملخص، يرجى الانتظار..."
+
 

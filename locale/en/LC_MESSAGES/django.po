@@ -2229,4 +2229,68 @@ msgstr "Click on the tab to load data..."
 msgid "No buildings under your management."
 msgstr "No buildings under your management."
 
+#: templates/OM_pages/OM_homepage.html:5
+msgid "Homepage - System Manager"
+msgstr "Homepage - System Manager"
+
+#: templates/OM_pages/OM_homepage.html:125
+msgid "Welcome to the Dormitory Management System"
+msgstr "Welcome to the Dormitory Management System"
+
+#: templates/OM_pages/OM_homepage.html:126
+msgid "Central management of all dormitories"
+msgstr "Central management of all dormitories"
+
+#: templates/OM_pages/OM_homepage.html:135
+msgid "System Statistics"
+msgstr "System Statistics"
+
+#: templates/OM_pages/OM_homepage.html:138
+msgid "Currently there are"
+msgstr "Currently there are"
+
+#: templates/OM_pages/OM_homepage.html:140
+msgid "students in dormitories"
+msgstr "students in dormitories"
+
+#: templates/OM_pages/OM_homepage.html:143
+msgid "Room occupancy is"
+msgstr "Room occupancy is"
+
+#: templates/OM_pages/OM_homepage.html:145
+msgid "of full capacity"
+msgstr "of full capacity"
+
+#: templates/OM_pages/OM_homepage.html:148
+msgid "overdue items"
+msgstr "overdue items"
+
+#: templates/OM_pages/OM_homepage.html:151
+msgid "open faults for treatment"
+msgstr "open faults for treatment"
+
+#: templates/OM_pages/OM_homepage.html:157
+msgid "Action Menu"
+msgstr "Action Menu"
+
+#: templates/OM_pages/OM_homepage.html:166
+msgid "Loan Requests"
+msgstr "Loan Requests"
+
+#: templates/OM_pages/OM_homepage.html:181
+msgid "Building Manager Management"
+msgstr "Building Manager Management"
+
+#: templates/OM_pages/OM_homepage.html:189
+msgid "AI Summary (English & Hebrew)"
+msgstr "AI Summary (English & Hebrew)"
+
+#: templates/OM_pages/OM_homepage.html:193
+msgid "Generate AI Summary"
+msgstr "Generate AI Summary"
+
+#: templates/OM_pages/OM_homepage.html:197
+msgid "Generating summary, please wait..."
+msgstr "Generating summary, please wait..."
+
 

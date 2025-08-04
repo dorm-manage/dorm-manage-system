@@ -2209,4 +2209,68 @@ msgstr "点击选项卡加载数据..."
 msgid "No buildings under your management."
 msgstr "您管理下没有建筑物。"
 
+#: templates/OM_pages/OM_homepage.html:5
+msgid "Homepage - System Manager"
+msgstr "主页 - 系统管理员"
+
+#: templates/OM_pages/OM_homepage.html:125
+msgid "Welcome to the Dormitory Management System"
+msgstr "欢迎使用宿舍管理系统"
+
+#: templates/OM_pages/OM_homepage.html:126
+msgid "Central management of all dormitories"
+msgstr "所有宿舍的集中管理"
+
+#: templates/OM_pages/OM_homepage.html:135
+msgid "System Statistics"
+msgstr "系统统计"
+
+#: templates/OM_pages/OM_homepage.html:138
+msgid "Currently there are"
+msgstr "目前有"
+
+#: templates/OM_pages/OM_homepage.html:140
+msgid "students in dormitories"
+msgstr "学生在宿舍"
+
+#: templates/OM_pages/OM_homepage.html:143
+msgid "Room occupancy is"
+msgstr "房间入住率是"
+
+#: templates/OM_pages/OM_homepage.html:145
+msgid "of full capacity"
+msgstr "满容量"
+
+#: templates/OM_pages/OM_homepage.html:148
+msgid "overdue items"
+msgstr "逾期物品"
+
+#: templates/OM_pages/OM_homepage.html:151
+msgid "open faults for treatment"
+msgstr "待处理的开放故障"
+
+#: templates/OM_pages/OM_homepage.html:157
+msgid "Action Menu"
+msgstr "操作菜单"
+
+#: templates/OM_pages/OM_homepage.html:166
+msgid "Loan Requests"
+msgstr "借用请求"
+
+#: templates/OM_pages/OM_homepage.html:181
+msgid "Building Manager Management"
+msgstr "建筑管理员管理"
+
+#: templates/OM_pages/OM_homepage.html:189
+msgid "AI Summary (English & Hebrew)"
+msgstr "AI 摘要（英文和希伯来文）"
+
+#: templates/OM_pages/OM_homepage.html:193
+msgid "Generate AI Summary"
+msgstr "生成 AI 摘要"
+
+#: templates/OM_pages/OM_homepage.html:197
+msgid "Generating summary, please wait..."
+msgstr "正在生成摘要，请稍候..."
+
 
