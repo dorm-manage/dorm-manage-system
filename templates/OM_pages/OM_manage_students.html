@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול סטודנטים - מנהל מערכת{% endblock %}
+{% block title %}{% trans "Student Management - System Manager" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -252,8 +253,8 @@
 {% block content %}
 <div class="container">
   <div class="hero">
-    <h2>ניהול סטודנטים - מנהל משרד</h2>
-    <p>גישה לניהול סטודנטים עבור כל הבניינים במערכת</p>
+    <h2>{% trans "Student Management - Office Manager" %}</h2>
+    <p>{% trans "Access to student management for all buildings in the system" %}</p>
   </div>
 
   {% if messages %}
@@ -265,22 +266,22 @@
   {% endif %}
 
   <div class="section">
-    <h3>סיכום נתונים</h3>
+    <h3>{% trans "Data Summary" %}</h3>
     <div class="stats-dashboard">
       <div class="stat-card">
-        <h4>סה"כ סטודנטים במעונות</h4>
+        <h4>{% trans "Total students in dormitories" %}</h4>
         <div class="stat-value">{{ total_students_count }}</div>
-        <div class="stat-unit">סטודנטים</div>
+        <div class="stat-unit">{% trans "students" %}</div>
       </div>
       <div class="stat-card">
-        <h4>תפוסה החדרים היא</h4>
+        <h4>{% trans "Room occupancy is" %}</h4>
         <div class="stat-value">{{ occupancy_rate }}%</div>
-        <div class="stat-unit">מהקיבולת המלאה</div>
+        <div class="stat-unit">{% trans "of full capacity" %}</div>
       </div>
       <div class="stat-card">
-        <h4>מקומות פנויים</h4>
+        <h4>{% trans "Available spots" %}</h4>
         <div class="stat-value">{{ total_empty_slots }}</div>
-        <div class="stat-unit">בכל החדרים</div>
+        <div class="stat-unit">{% trans "in all rooms" %}</div>
       </div>
 
     </div>
@@ -291,7 +292,7 @@
       {% for building_data in buildings_data %}
         <div class="tab {% if building_data.building.id == active_building_id %}active{% endif %}"
              onclick="openBuildingTab('{{ building_data.building.id }}')">
-          בניין {{ building_data.building.building_name }}
+          {% trans "Building" %} {{ building_data.building.building_name }}
         </div>
       {% endfor %}
     </div>
@@ -302,17 +303,17 @@
           <div class="sub-tabs">
             <button class="sub-tab-button active"
                     onclick="openSubTab('add-{{ building_data.building.id }}', 'remove-{{ building_data.building.id }}')">
-              הוספת סטודנט
+              {% trans "Add Student" %}
             </button>
             <button class="sub-tab-button"
                     onclick="openSubTab('remove-{{ building_data.building.id }}', 'add-{{ building_data.building.id }}')">
-              הסרת סטודנט
+              {% trans "Remove Student" %}
             </button>
           </div>
 
           <div id="add-{{ building_data.building.id }}" class="tab-content active-content">
             <div class="form-container">
-              <h3>הוספת סטודנט חדש לבניין {{ building_data.building.building_name }}</h3>
+              <h3>{% trans "Add New Student to Building" %} {{ building_data.building.building_name }}</h3>
 
               {% if building_data.available_rooms %}
                 <form method="POST" action="{% url 'OM_manage_students' %}">
@@ -321,22 +322,22 @@
                   <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
 
                   <div class="form-group">
-                    <label for="first_name">שם פרטי:</label>
+                    <label for="first_name">{% trans "First Name:" %}</label>
                     <input type="text" id="first_name" name="first_name" required>
                   </div>
 
                   <div class="form-group">
-                    <label for="last_name">שם משפחה:</label>
+                    <label for="last_name">{% trans "Last Name:" %}</label>
                     <input type="text" id="last_name" name="last_name" required>
                   </div>
 
                   <div class="form-group">
-                    <label for="email">אימייל:</label>
+                    <label for="email">{% trans "Email:" %}</label>
                     <input type="email" id="email" name="email" required>
                   </div>
 
                   <div class="form-group">
-                    <label for="password">סיסמה:</label>
+                    <label for="password">{% trans "Password:" %}</label>
                     <div style="display: flex; position: relative;">
                       <input type="password" id="password" name="password" value="123456789" required>
                       <button type="button" onclick="togglePasswordVisibility()"
@@ -348,58 +349,58 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="id_number">מספר זהות (אופציונלי):</label>
+                    <label for="id_number">{% trans "ID Number (Optional):" %}</label>
                     <input type="text" id="id_number" name="id_number">
                   </div>
 
                   <div class="form-group">
-                    <label for="room_id">חדר:</label>
+                    <label for="room_id">{% trans "Room:" %}</label>
                     <select id="room_id" name="room_id" required>
-                      <option value="" disabled selected>בחר חדר</option>
+                      <option value="" disabled selected>{% trans "Select room" %}</option>
                       {% for room_data in building_data.available_rooms %}
                         <option value="{{ room_data.room.id }}">
-                          חדר {{ room_data.room.room_number }} ({{ room_data.available_spots }} מקומות פנויים)
+                          {% trans "Room" %} {{ room_data.room.room_number }} ({{ room_data.available_spots }} {% trans "available spots" %})
                         </option>
                       {% endfor %}
                     </select>
                   </div>
 
                   <div class="form-group">
-                    <label for="end_date">תאריך סיום מגורים:</label>
+                    <label for="end_date">{% trans "Residence End Date:" %}</label>
                     <input type="date" id="end_date" name="end_date" required>
                   </div>
 
                   <div class="form-actions">
-                    <button type="submit" class="add-button">הוסף סטודנט</button>
+                    <button type="submit" class="add-button">{% trans "Add Student" %}</button>
                   </div>
                 </form>
               {% else %}
                 <div class="no-data">
-                  <p>אין חדרים פנויים בבניין זה.</p>
+                  <p>{% trans "No available rooms in this building." %}</p>
                 </div>
               {% endif %}
             </div>
           </div>
 
           <div id="remove-{{ building_data.building.id }}" class="tab-content">
-            <h3>סטודנטים בבניין {{ building_data.building.building_name }}</h3>
+            <h3>{% trans "Students in Building" %} {{ building_data.building.building_name }}</h3>
 
             <div class="search-container">
               <input type="text" id="search-{{ building_data.building.id }}"
                      onkeyup="searchStudents('{{ building_data.building.id }}')"
-                     placeholder="חיפוש לפי שם או אימייל...">
+                     placeholder="{% trans 'Search by name or email...' %}">
             </div>
 
             {% if building_data.students_page %}
               <table id="students-table-{{ building_data.building.id }}">
                 <thead>
                   <tr>
-                    <th>שם מלא</th>
-                    <th>אימייל</th>
-                    <th>חדר</th>
-                    <th>תאריך שיבוץ</th>
-                    <th>תאריך סיום</th>
-                    <th>פעולות</th>
+                    <th>{% trans "Full Name" %}</th>
+                    <th>{% trans "Email" %}</th>
+                    <th>{% trans "Room" %}</th>
+                    <th>{% trans "Assignment Date" %}</th>
+                    <th>{% trans "End Date" %}</th>
+                    <th>{% trans "Actions" %}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -409,7 +410,7 @@
                       <td>{{ assignment.user.email }}</td>
                       <td>{{ assignment.room.room_number }}</td>
                       <td>{{ assignment.start_date|date:"d/m/Y" }}</td>
-                      <td>{{ assignment.end_date|date:"d/m/Y"|default:"לא מוגדר" }}</td>
+                      <td>{{ assignment.end_date|date:"d/m/Y"|default:"{% trans 'Not defined' %}" }}</td>
                       <td>
                           <form method="POST" action="{% url 'OM_manage_students' %}" style="display:inline-block; margin-right: 5px;">
                             {% csrf_token %}
@@ -418,8 +419,8 @@
                             <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
                             <input type="hidden" name="delete_user" value="yes">
                                                     <button type="submit" class="remove-button"
-                                    onclick="return confirm('האם אתה בטוח שברצונך להסיר את הסטודנט מהמערכת?')">
-                              הסר מהמערכת
+                                    onclick="return confirm('{% trans 'Are you sure you want to remove the student from the system?' %}')">
+                              {% trans "Remove from System" %}
                             </button>
                           </form>
                       </td>
@@ -431,9 +432,9 @@
               {% if building_data.students_page.has_other_pages %}
                 <div class="pagination">
                   {% if building_data.students_page.has_previous %}
-                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.previous_page_number }}">&laquo; הקודם</a>
+                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.previous_page_number }}">&laquo; {% trans "Previous" %}</a>
                   {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
+                    <span class="disabled">&laquo; {% trans "Previous" %}</span>
                   {% endif %}
 
                   {% for i in building_data.students_page.paginator.page_range %}
@@ -445,21 +446,21 @@
                   {% endfor %}
 
                   {% if building_data.students_page.has_next %}
-                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.next_page_number }}">הבא &raquo;</a>
+                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.next_page_number }}">{% trans "Next" %} &raquo;</a>
                   {% else %}
-                    <span class="disabled">הבא &raquo;</span>
+                    <span class="disabled">{% trans "Next" %} &raquo;</span>
                   {% endif %}
                 </div>
               {% endif %}
             {% else %}
               <div class="no-data">
-                <p>אין סטודנטים משובצים בבניין זה.</p>
+                <p>{% trans "No students assigned to this building." %}</p>
               </div>
             {% endif %}
           </div>
         {% else %}
           <div class="loading-indicator">
-            <p>לחץ על הכרטיסייה לטעינת הנתונים...</p>
+            <p>{% trans "Click on the tab to load data..." %}</p>
           </div>
         {% endif %}
       </div>
@@ -467,13 +468,13 @@
 
     {% if not buildings_data %}
       <div class="no-data">
-        <p>אין בניינים מוגדרים במערכת.</p>
+        <p>{% trans "No buildings defined in the system." %}</p>
       </div>
     {% endif %}
   </div>
 
   <div class="links">
-    <a href="{% url 'OM_Homepage' %}">חזרה לעמוד הראשי</a>
+    <a href="{% url 'OM_Homepage' %}">{% trans "Back to Homepage" %}</a>
   </div>
 </div>
 

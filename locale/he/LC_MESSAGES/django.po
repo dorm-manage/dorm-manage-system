@@ -847,3 +847,127 @@ msgstr "-- בחר אחראי בניין --"
 #: templates/OM_pages/OM_manage_BM.html:235
 msgid "Assign Building Manager to Building"
 msgstr "שיוך אחראי בניין לבניין"
+
+#: templates/OM_pages/OM_manage_students.html:5
+msgid "Student Management - System Manager"
+msgstr "ניהול סטודנטים - מנהל מערכת"
+
+#: templates/OM_pages/OM_manage_students.html:8
+msgid "Student Management - Office Manager"
+msgstr "ניהול סטודנטים - מנהל משרד"
+
+#: templates/OM_pages/OM_manage_students.html:9
+msgid "Access to student management for all buildings in the system"
+msgstr "גישה לניהול סטודנטים עבור כל הבניינים במערכת"
+
+#: templates/OM_pages/OM_manage_students.html:25
+msgid "Data Summary"
+msgstr "סיכום נתונים"
+
+#: templates/OM_pages/OM_manage_students.html:28
+msgid "Total students in dormitories"
+msgstr "סה\"כ סטודנטים במעונות"
+
+#: templates/OM_pages/OM_manage_students.html:29
+msgid "students"
+msgstr "סטודנטים"
+
+
+
+
+
+#: templates/OM_pages/OM_manage_students.html:37
+msgid "in all rooms"
+msgstr "בכל החדרים"
+
+
+
+
+
+
+
+
+
+#: templates/OM_pages/OM_manage_students.html:72
+msgid "First Name:"
+msgstr "שם פרטי:"
+
+#: templates/OM_pages/OM_manage_students.html:75
+msgid "Last Name:"
+msgstr "שם משפחה:"
+
+#: templates/OM_pages/OM_manage_students.html:78
+msgid "Email:"
+msgstr "אימייל:"
+
+#: templates/OM_pages/OM_manage_students.html:81
+msgid "Password:"
+msgstr "סיסמה:"
+
+#: templates/OM_pages/OM_manage_students.html:87
+msgid "ID Number (Optional):"
+msgstr "מספר זהות (אופציונלי):"
+
+#: templates/OM_pages/OM_manage_students.html:90
+msgid "Room:"
+msgstr "חדר:"
+
+#: templates/OM_pages/OM_manage_students.html:91
+msgid "Select room"
+msgstr "בחר חדר"
+
+
+
+#: templates/OM_pages/OM_manage_students.html:96
+msgid "Residence End Date:"
+msgstr "תאריך סיום מגורים:"
+
+
+
+
+
+
+
+
+
+
+
+#: templates/OM_pages/OM_manage_students.html:119
+msgid "Email"
+msgstr "אימייל"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#: templates/OM_pages/OM_manage_students.html:160
+msgid "No buildings defined in the system."
+msgstr "אין בניינים מוגדרים במערכת."
+
+
+
+
+
+
+
+#: templates/OM_pages/OM_manage_students.html:187
+msgid "No data"
+msgstr "אין נתונים"
+
+#: templates/OM_pages/OM_manage_students.html:193
+msgid "Loading indicator"
+msgstr "מחוון טעינה"
