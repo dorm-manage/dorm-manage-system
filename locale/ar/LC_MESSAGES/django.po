@@ -2608,4 +2608,110 @@ msgstr ""
 msgid "Back to Homepage"
 msgstr ""
 
+# OM_loan_requests.html missing keys
+msgid "Loan Request Management - Office Manager"
+msgstr ""
+
+msgid "Management of requests for all buildings in the system"
+msgstr ""
+
+msgid "Pending Requests"
+msgstr ""
+
+msgid "Borrowed Items"
+msgstr ""
+
+msgid "Pending Loan Requests"
+msgstr ""
+
+msgid "Filter Requests"
+msgstr ""
+
+msgid "To Date:"
+msgstr ""
+
+msgid "Filter Borrowed Items"
+msgstr ""
+
+msgid "Status:"
+msgstr ""
+
+msgid "Overdue only"
+msgstr ""
+
+msgid "Return date approaching"
+msgstr ""
+
+msgid "(Less than 7 days)"
+msgstr ""
+
+msgid "(Overdue)"
+msgstr ""
+
+msgid "Was the item returned damaged or not returned at all? This action will remove the item from inventory completely."
+msgstr ""
+
+msgid "Student Name"
+msgstr ""
+
+msgid "Requested Item"
+msgstr ""
+
+msgid "Request Date"
+msgstr ""
+
+msgid "Loan Period"
+msgstr ""
+
+msgid "Student Notes"
+msgstr ""
+
+msgid "Available Stock"
+msgstr ""
+
+msgid "until"
+msgstr ""
+
+msgid "items"
+msgstr ""
+
+msgid "Out of stock"
+msgstr ""
+
+msgid "Add a note to the student (optional)"
+msgstr ""
+
+msgid "Approve"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "No pending loan requests at the moment"
+msgstr ""
+
+msgid "Borrowed Item"
+msgstr ""
+
+msgid "Approval Date"
+msgstr ""
+
+msgid "Return Date"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Mark as Returned"
+msgstr ""
+
+msgid "Remove from Inventory"
+msgstr ""
+
+msgid "No borrowed items at the moment"
+msgstr ""
+
+msgid "Back to Homepage"
+msgstr ""
+
 
