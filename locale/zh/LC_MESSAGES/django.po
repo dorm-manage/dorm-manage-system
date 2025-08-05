@@ -2633,4 +2633,31 @@ msgstr ""
 msgid "Back to Homepage"
 msgstr ""
 
+#: templates/OM_pages/OM_inventory.html:5
+#: templates/OM_pages/OM_inventory.html:216
+msgid "Inventory Management - Office Manager"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:217
+msgid "Here you can manage inventory items for all buildings, add new items and update the status of existing items"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:229
+msgid "Inventory Items List"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:233
+msgid "Image"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:286
+#: templates/OM_pages/OM_inventory.html:289
+msgid "Previous"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:295
+#: templates/OM_pages/OM_inventory.html:298
+msgid "Next"
+msgstr ""
+
 
