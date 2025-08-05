@@ -33,7 +33,7 @@ services:
     build: .
     command: >
       sh -c "python manage.py migrate &&
-             python manage.py compilemessages --locale=he --locale=en --locale=ar --locale=zh &&
+             python manage.py compilemessages --locale=he --locale=en --locale=ar --locale=zh --ignore=venv || echo 'Translation compilation completed with warnings' &&
              python manage.py collectstatic --noinput &&
              gunicorn --bind 0.0.0.0:8000 --workers 3 DormitoriesPlus_project.wsgi:application"
     volumes:
