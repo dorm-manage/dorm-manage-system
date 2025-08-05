@@ -40,3 +40,4 @@
                     * [vendor](venv/lib/python3.8/site-packages/django/contrib/admin/static/admin/js/vendor/README.md)
                       * [select2](venv/lib/python3.8/site-packages/django/contrib/admin/static/admin/js/vendor/select2/README.md)
                         * [LICENSE](venv/lib/python3.8/site-packages/django/contrib/admin/static/admin/js/vendor/select2/LICENSE.md)
+* [Page 2](page-2.md)
