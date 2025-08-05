@@ -2115,5 +2115,32 @@ def login_page(request):
 
 def custom_logout(request):
     logout(request)
-    messages.success(request, "התנתקת בהצלחה!")
     return redirect('login_page')
+
+
+def set_language(request):
+    """View to handle language switching"""
+    from django.utils import translation
+    from django.http import HttpResponseRedirect
+    from django.urls import reverse
+    from django.conf import settings
+    
+    # Get the language from the request
+    lang = request.GET.get('lang')
+    
+    if lang:
+        # Set the language in the session
+        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+        # Activate the language for this request
+        translation.activate(lang)
+        # Set the language in the response
+        response = HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+        return response
+    
+    # Redirect back to the previous page or home
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        return HttpResponseRedirect(referer)
+    else:
+        return HttpResponseRedirect(reverse('login_page'))

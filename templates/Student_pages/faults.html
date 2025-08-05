@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}דיווח תקלות - DormitoriesPlus{% endblock %}
+{% block title %}{% translate "Fault Reports" %} - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -88,7 +89,7 @@
 
 {% block content %}
 <div class="hero">
-    <h2>דיווח תקלות</h2>
+    <h2>{% translate "Fault Reports" %}</h2>
 </div>
 
 {% if messages %}
@@ -100,59 +101,59 @@
 {% endif %}
 
 <div class="info-box">
-    <p><strong>הפרטים שלך:</strong></p>
-    <p>שם: {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>{% translate "Your Details:" %}</strong></p>
+    <p>{% translate "Name" %}: {{ user.first_name }} {{ user.last_name }}</p>
     {% if user_room and user_building %}
-        <p>בניין: {{ user_building }}</p>
-        <p>חדר: {{ user_room }}</p>
+        <p>{% translate "Building" %}: {{ user_building }}</p>
+        <p>{% translate "Room" %}: {{ user_room }}</p>
     {% else %}
-        <p>אין לך שיבוץ חדר במערכת. אנא פנה למנהל המעונות.</p>
+        <p>{% translate "You don't have a room assignment in the system. Please contact the dormitory manager." %}</p>
     {% endif %}
 </div>
 
 <div class="form-container">
-    <h2>פרטי התקלה</h2>
+    <h2>{% translate "Fault Details" %}</h2>
     <form method="POST" action="{% url 'faults' %}">
         {% csrf_token %}
 
         <div class="form-group">
-            <label for="fault_type">סוג התקלה:</label>
+            <label for="fault_type">{% translate "Fault Type:" %}</label>
             <select id="fault_type" name="fault_type" required>
-                <option value="">בחר סוג תקלה</option>
-                <option value="אינסטלציה">אינסטלציה</option>
-                <option value="חשמל">חשמל</option>
-                <option value="מיזוג אוויר">מיזוג אוויר</option>
-                <option value="ריהוט">ריהוט</option>
-                <option value="דלתות/חלונות">דלתות/חלונות</option>
-                <option value="אינטרנט">אינטרנט</option>
-                <option value="אחר">אחר</option>
+                <option value="">{% translate "Select fault type" %}</option>
+                <option value="{% translate 'Plumbing' %}">{% translate "Plumbing" %}</option>
+                <option value="{% translate 'Electrical' %}">{% translate "Electrical" %}</option>
+                <option value="{% translate 'Air Conditioning' %}">{% translate "Air Conditioning" %}</option>
+                <option value="{% translate 'Furniture' %}">{% translate "Furniture" %}</option>
+                <option value="{% translate 'Doors/Windows' %}">{% translate "Doors/Windows" %}</option>
+                <option value="{% translate 'Internet' %}">{% translate "Internet" %}</option>
+                <option value="{% translate 'Other' %}">{% translate "Other" %}</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label for="fault_description">תיאור התקלה:</label>
-            <textarea id="fault_description" name="fault_description" rows="5" required placeholder="תאר את התקלה בצורה מפורטת ככל האפשר"></textarea>
+            <label for="fault_description">{% translate "Fault Description:" %}</label>
+            <textarea id="fault_description" name="fault_description" rows="5" required placeholder="{% translate 'Describe the fault in as much detail as possible' %}"></textarea>
         </div>
 
         <div class="form-group">
-            <label for="urgency">דחיפות:</label>
+            <label for="urgency">{% translate "Urgency:" %}</label>
             <select id="urgency" name="urgency">
-                <option value="נמוכה">נמוכה</option>
-                <option value="בינונית" selected>בינונית</option>
-                <option value="גבוהה">גבוהה</option>
+                <option value="{% translate 'Low' %}">{% translate "Low" %}</option>
+                <option value="{% translate 'Medium' %}" selected>{% translate "Medium" %}</option>
+                <option value="{% translate 'High' %}">{% translate "High" %}</option>
             </select>
         </div>
 
         <div class="form-group">
-            <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>שלח דיווח</button>
+            <button type="submit" class="submit-btn{% if not user_room %} disabled-btn{% endif %}" {% if not user_room %}disabled{% endif %}>{% translate "Submit Report" %}</button>
             {% if not user_room %}
-                <p style="color: #dc3545; margin-top: 10px;">לא ניתן לדווח על תקלה ללא שיבוץ חדר. אנא פנה למנהל המעונות.</p>
+                <p style="color: #dc3545; margin-top: 10px;">{% translate "Cannot report a fault without room assignment. Please contact the dormitory manager." %}</p>
             {% endif %}
         </div>
     </form>
 </div>
 
 <div class="links">
-    <a href="{% url 'Students_homepage' %}" class="back-button">חזרה לדף הבית</a>
+    <a href="{% url 'Students_homepage' %}" class="back-button">{% translate "Back to Homepage" %}</a>
 </div>
 {% endblock %}

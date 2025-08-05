@@ -1,0 +1,52 @@
+{
+  "title": "DormitoriesPlus Documentation",
+  "description": "Comprehensive documentation for DormitoriesPlus - a modern dormitory management system with multi-language support",
+  "author": "DormitoriesPlus Team",
+  "language": "en",
+  "structure": {
+    "readme": "README.md",
+    "summary": "SUMMARY.md"
+  },
+  "plugins": [
+    "expandable-chapters",
+    "copy-code-button",
+    "search-plus",
+    "theme-default",
+    "highlight",
+    "sharing",
+    "fontsettings",
+    "livereload"
+  ],
+  "pluginsConfig": {
+    "expandable-chapters": {},
+    "copy-code-button": {
+      "copyText": "Copy",
+      "format": "html"
+    },
+    "search-plus": {
+      "maxIndexSize": 1000000,
+      "searchOptions": {
+        "fields": ["title", "content"]
+      }
+    },
+    "sharing": {
+      "facebook": true,
+      "twitter": true,
+      "google": false,
+      "weibo": false,
+      "instapaper": false,
+      "vk": false,
+      "all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+    },
+    "fontsettings": {
+      "theme": "white",
+      "family": "sans",
+      "size": 2
+    }
+  },
+  "variables": {
+    "version": "1.0.0",
+    "github_url": "https://github.com/your-username/dorm-manage-system",
+    "docs_url": "https://docs.dormitoriesplus.com"
+  }
+} 

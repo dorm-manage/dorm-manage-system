@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול אחראי בניין - מנהל מערכת{% endblock %}
+{% block title %}{% translate "Building Manager Management - System Manager" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -195,8 +196,8 @@
 {% block content %}
 <div class="container">
     <div class="hero">
-        <h2>ניהול אחראי בניין</h2>
-        <p>הוספה, עדכון והסרה של אחראי בניין</p>
+        <h2>{% translate "Building Manager Management" %}</h2>
+        <p>{% translate "Add, update and remove building managers" %}</p>
     </div>
 
     {% if messages %}
@@ -208,22 +209,22 @@
     {% endif %}
 
     <div class="tabs">
-        <button class="tab-button active" data-tab="managers-tab">ניהול אחראי בניין</button>
-        <button class="tab-button" data-tab="add-manager-tab">הוספת אחראי בניין חדש</button>
+        <button class="tab-button active" data-tab="managers-tab">{% translate "Building Manager Management" %}</button>
+        <button class="tab-button" data-tab="add-manager-tab">{% translate "Add New Building Manager" %}</button>
     </div>
 
     <div id="managers-tab" class="tab-content active">
         <div class="section">
-            <h3>רשימת בניינים ואחראים</h3>
+            <h3>{% translate "List of Buildings and Managers" %}</h3>
 
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 10%;">מס' בניין</th>
-                        <th style="width: 20%;">שם בניין</th>
-                        <th style="width: 25%;">אחראי בניין</th>
-                        <th style="width: 25%;">אימייל</th>
-                        <th style="width: 20%;">פעולות</th>
+                        <th style="width: 10%;">{% translate "Building No." %}</th>
+                        <th style="width: 20%;">{% translate "Building Name" %}</th>
+                        <th style="width: 25%;">{% translate "Building Manager" %}</th>
+                        <th style="width: 25%;">{% translate "Email" %}</th>
+                        <th style="width: 20%;">{% translate "Actions" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -237,7 +238,7 @@
                                         {{ building.building_staff_member.first_name }} {{ building.building_staff_member.last_name }}
                                     </span>
                                 {% else %}
-                                    <span class="manager-label manager-empty">לא מוגדר</span>
+                                    <span class="manager-label manager-empty">{% translate "Not defined" %}</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -253,20 +254,20 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="action" value="remove_manager">
                                         <input type="hidden" name="building_id" value="{{ building.id }}">
-                                        <button type="submit" class="button button-danger" onclick="return confirm('האם אתה בטוח שברצונך להסיר את אחראי הבניין?')">
-                                            <i class="fas fa-user-minus"></i> הסר
+                                        <button type="submit" class="button button-danger" onclick="return confirm('{% translate "Are you sure you want to remove the building manager?" %}')">
+                                            <i class="fas fa-user-minus"></i> {% translate "Remove" %}
                                         </button>
                                     </form>
                                 {% else %}
-                                    <button class="button button-success" onclick="openAssignModal('{{ building.id }}', '{{ building.building_name }}')">
-                                        <i class="fas fa-user-plus"></i> שיוך אחראי
+                                    <button class="button button-success" onclick="openAssignModal('{{ building.id }}', '{{ building.building_name|escapejs }}')">
+                                        <i class="fas fa-user-plus"></i> {% translate "Assign Manager" %}
                                     </button>
                                 {% endif %}
                             </td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="5" style="text-align: center;">אין בניינים מוגדרים במערכת</td>
+                            <td colspan="5" style="text-align: center;">{% translate "No buildings defined in the system" %}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -276,29 +277,29 @@
 
     <div id="add-manager-tab" class="tab-content">
         <div class="section">
-            <h3>הוספת אחראי בניין חדש</h3>
+            <h3>{% translate "Add New Building Manager" %}</h3>
 
             <form method="post">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="add_manager">
 
                 <div class="form-group">
-                    <label for="first_name">שם פרטי:</label>
+                    <label for="first_name">{% translate "First Name" %}:</label>
                     <input type="text" id="first_name" name="first_name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="last_name">שם משפחה:</label>
+                    <label for="last_name">{% translate "Last Name" %}:</label>
                     <input type="text" id="last_name" name="last_name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">אימייל:</label>
+                    <label for="email">{% translate "Email" %}:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">סיסמה ראשונית:</label>
+                    <label for="password">{% translate "Initial Password" %}:</label>
                     <div style="display: flex; position: relative;">
                         <input type="password" id="password" name="password" value="123456789" required>
                         <button type="button" onclick="togglePasswordVisibility()"
@@ -306,13 +307,13 @@
                             <span id="password-toggle-icon">👁️</span>
                         </button>
                     </div>
-                    <small style="color: #666;">סיסמה ברירת מחדל: 123456789</small>
+                    <small style="color: #666;">{% translate "Default password: 123456789" %}</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="assign_building_id">שייך לבניין (אופציונלי):</label>
+                    <label for="assign_building_id">{% translate "Assign to Building (Optional)" %}:</label>
                     <select id="assign_building_id" name="assign_building_id">
-                        <option value="">-- בחר בניין --</option>
+                        <option value="">{% translate "-- Select Building --" %}</option>
                         {% for building in buildings %}
                             {% if not building.building_staff_member %}
                                 <option value="{{ building.id }}">{{ building.building_name }}</option>
@@ -323,7 +324,7 @@
 
                 <div style="text-align: left; margin-top: 20px;">
                     <button type="submit" class="button button-success">
-                        <i class="fas fa-user-plus"></i> הוסף אחראי בניין
+                        <i class="fas fa-user-plus"></i> {% translate "Add Building Manager" %}
                     </button>
                 </div>
             </form>
@@ -333,7 +334,7 @@
     <div id="assignModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAssignModal()">&times;</span>
-            <h3>שיוך אחראי בניין</h3>
+            <h3>{% translate "Assign Building Manager" %}</h3>
             <p id="assignModalText"></p>
 
             <form method="post">
@@ -342,9 +343,9 @@
                 <input type="hidden" id="modal_building_id" name="building_id">
 
                 <div class="form-group">
-                    <label for="staff_user_id">בחר אחראי בניין:</label>
+                    <label for="staff_user_id">{% translate "Select Building Manager" %}:</label>
                     <select id="staff_user_id" name="staff_user_id" required>
-                        <option value="" disabled selected>-- בחר אחראי בניין --</option>
+                        <option value="" disabled selected>{% translate "-- Select Building Manager --" %}</option>
                         {% for staff in building_staff_users %}
                             <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }} ({{ staff.email }})</option>
                         {% endfor %}
@@ -353,7 +354,7 @@
 
                 <div style="text-align: left; margin-top: 20px;">
                     <button type="submit" class="button button-success">
-                        <i class="fas fa-user-plus"></i> שייך אחראי
+                        <i class="fas fa-user-plus"></i> {% translate "Assign Manager" %}
                     </button>
                 </div>
             </form>
@@ -361,7 +362,7 @@
     </div>
 
     <a href="{% url 'OM_Homepage' %}" class="back-button">
-        <i class="fas fa-arrow-right"></i> חזרה לעמוד הראשי
+        <i class="fas fa-arrow-right"></i> {% translate "Back to Homepage" %}
     </a>
 </div>
 
@@ -385,7 +386,7 @@
 
     function openAssignModal(buildingId, buildingName) {
         document.getElementById("modal_building_id").value = buildingId;
-        document.getElementById("assignModalText").innerText = "שיוך אחראי בניין לבניין " + buildingName;
+        document.getElementById("assignModalText").innerText = "{% translate 'Assign Building Manager to Building' %} " + buildingName;
         document.getElementById("assignModal").style.display = "block";
     }
 

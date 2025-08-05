@@ -1,36 +1,37 @@
+{% load i18n %}
 <!DOCTYPE html>
 {% load static %}
-<html lang="he">
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DormitoriesPlus - דף בית</title>
+    <title>{% translate "DormitoriesPlus - Home Page" %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
   </head>
   <body>
 
     <header>
       <h1>DormitoriesPlus</h1>
-      <p>ברוכים הבאים לאתר מעונות ריפקין!</p>
+      <p>{% translate "Welcome to Rikfin Dormitories website!" %}</p>
     </header>
 
     <div class="container">
       <div class="hero">
-        <h2>שלום, באתר זה תוכל לבצע פעולות הקשורות למעונות.</h2>
-        <p>השתמש בקישורים למטה כדי לגשת לשירות הרלוונטי עבורך.</p>
+        <h2>{% translate "Hello, on this website you can perform dormitory-related operations." %}</h2>
+        <p>{% translate "Use the links below to access the relevant service for you." %}</p>
       </div>
 
     <div class="links">
-      <a href="{% url 'application' %}">השאלות</a>
-      <a href="{% url 'faults' %}">דיווח תקלות</a>
-      <a href="{% url 'connect_us' %}">צור קשר</a>
+      <a href="{% url 'application' %}">{% translate "Equipment Rental" %}</a>
+      <a href="{% url 'faults' %}">{% translate "Fault Reports" %}</a>
+      <a href="{% url 'connect_us' %}">{% translate "Contact Us" %}</a>
     </div>
 
 
     </div>
 
     <footer>
-      <p>&copy; 2025 DormitoriesPlus - כל הזכויות שמורות</p>
+      <p>{% translate "© 2025 DormitoriesPlus - All rights reserved" %}</p>
     </footer>
 
   </body>

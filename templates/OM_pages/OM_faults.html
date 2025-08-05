@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול תקלות - מנהל משרד{% endblock %}
+{% block title %}{% trans "Fault Management - Office Manager" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -260,8 +261,8 @@
 <div class="container">
     <!-- כותרת העמוד -->
     <div class="hero">
-        <h2>ניהול תקלות במעונות - מנהל משרד</h2>
-        <p>ניהול דיווחי תקלות לכל הבניינים במערכת</p>
+        <h2>{% trans "Dormitory Fault Management - Office Manager" %}</h2>
+        <p>{% trans "Management of fault reports for all buildings in the system" %}</p>
     </div>
 
     <!-- הודעות מערכת -->
@@ -275,47 +276,47 @@
 
     <!-- ניווט בין טאבים -->
     <div class="tab-navigation">
-        <div class="tab active" data-tab="open-faults">תקלות פתוחות</div>
-        <div class="tab" data-tab="pending-faults">תקלות בטיפול</div>
+        <div class="tab active" data-tab="open-faults">{% trans "Open Faults" %}</div>
+        <div class="tab" data-tab="pending-faults">{% trans "Faults in Progress" %}</div>
     </div>
 
     <!-- תקלות פתוחות -->
     <div id="open-faults" class="tab-content active">
         <div class="section">
-            <h3>תקלות פתוחות</h3>
+            <h3>{% trans "Open Faults" %}</h3>
 
             <!-- Filter Section for Office Manager -->
             <div class="filter-section">
-                <h4>סינון תקלות</h4>
+                <h4>{% trans "Filter Faults" %}</h4>
                 <form method="get" action="{% url 'OM_faults' %}">
                     <div class="filter-row">
                         <div class="filter-group">
-                            <label for="building-filter">בניין:</label>
+                            <label for="building-filter">{% trans "Building:" %}</label>
                             <select id="building-filter" name="building">
-                                <option value="">כל הבניינים</option>
+                                <option value="">{% trans "All Buildings" %}</option>
                                 {% for building in all_buildings %}
                                     <option value="{{ building.id }}" {% if request.GET.building == building.id|stringformat:"i" %}selected{% endif %}>
-                                        בניין {{ building.building_name }}
+                                        {% trans "Building" %} {{ building.building_name }}
                                     </option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label for="urgency-filter">דחיפות:</label>
+                            <label for="urgency-filter">{% trans "Urgency:" %}</label>
                             <select id="urgency-filter" name="urgency">
-                                <option value="">כל הדחיפויות</option>
-                                <option value="גבוהה" {% if request.GET.urgency == 'גבוהה' %}selected{% endif %}>גבוהה</option>
-                                <option value="בינונית" {% if request.GET.urgency == 'בינונית' %}selected{% endif %}>בינונית</option>
-                                <option value="נמוכה" {% if request.GET.urgency == 'נמוכה' %}selected{% endif %}>נמוכה</option>
+                                <option value="">{% trans "All Urgencies" %}</option>
+                                <option value="גבוהה" {% if request.GET.urgency == 'גבוהה' %}selected{% endif %}>{% trans "High" %}</option>
+                                <option value="בינונית" {% if request.GET.urgency == 'בינונית' %}selected{% endif %}>{% trans "Medium" %}</option>
+                                <option value="נמוכה" {% if request.GET.urgency == 'נמוכה' %}selected{% endif %}>{% trans "Low" %}</option>
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label for="date-from">מתאריך:</label>
+                            <label for="date-from">{% trans "From Date:" %}</label>
                             <input type="date" id="date-from" name="date_from" value="{{ request.GET.date_from|default:'' }}">
                         </div>
                         <div class="filter-buttons">
-                            <button type="submit" class="filter-button filter-apply">החל סינון</button>
-                            <a href="{% url 'OM_faults' %}" class="filter-button filter-reset">אפס</a>
+                            <button type="submit" class="filter-button filter-apply">{% trans "Apply Filter" %}</button>
+                            <a href="{% url 'OM_faults' %}" class="filter-button filter-reset">{% trans "Reset" %}</a>
                         </div>
                     </div>
                 </form>
@@ -325,15 +326,15 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>סטודנט</th>
-                            <th>בניין</th>
-                            <th>חדר</th>
-                            <th>סוג התקלה</th>
-                            <th>תיאור התקלה</th>
-                            <th>דחיפות</th>
-                            <th>תאריך דיווח</th>
-                            <th>הערות מנהל</th>
-                            <th>פעולות</th>
+                            <th>{% trans "Student" %}</th>
+                            <th>{% trans "Building" %}</th>
+                            <th>{% trans "Room" %}</th>
+                            <th>{% trans "Fault Type" %}</th>
+                            <th>{% trans "Fault Description" %}</th>
+                            <th>{% trans "Urgency" %}</th>
+                            <th>{% trans "Report Date" %}</th>
+                            <th>{% trans "Admin Notes" %}</th>
+                            <th>{% trans "Actions" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -353,17 +354,17 @@
                                         <input type="hidden" name="fault_id" value="{{ fault.id }}">
                                         <input type="hidden" name="action" value="comment">
                                         <div class="comment-container">
-                                            <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                                            <textarea name="admin_comment" class="comment-input" placeholder="{% trans 'Add a note to the student (optional)' %}"></textarea>
                                         </div>
-                                        <button type="submit" class="comment-btn">שמור</button>
+                                        <button type="submit" class="comment-btn">{% trans "Save" %}</button>
                                     </form>
                                 </td>
                                 <td>
                                     <form method="POST" action="{% url 'OM_faults' %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                                        <button type="submit" name="action" value="pending" class="button button-primary">סמן בטיפול</button>
-                                        <button type="submit" name="action" value="resolved" class="button button-success">סגור דיווח</button>
+                                        <button type="submit" name="action" value="pending" class="button button-primary">{% trans "Mark in Progress" %}</button>
+                                        <button type="submit" name="action" value="resolved" class="button button-success">{% trans "Close Report" %}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -375,9 +376,9 @@
                 {% if open_fault_reports.has_other_pages %}
                     <div class="pagination">
                         {% if open_fault_reports.has_previous %}
-                            <a href="?open_page={{ open_fault_reports.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">&laquo; הקודם</a>
+                            <a href="?open_page={{ open_fault_reports.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">&laquo; {% trans "Previous" %}</a>
                         {% else %}
-                            <span class="disabled">&laquo; הקודם</span>
+                            <span class="disabled">&laquo; {% trans "Previous" %}</span>
                         {% endif %}
 
                         {% for i in open_fault_reports.paginator.page_range %}
@@ -389,15 +390,15 @@
                         {% endfor %}
 
                         {% if open_fault_reports.has_next %}
-                            <a href="?open_page={{ open_fault_reports.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">הבא &raquo;</a>
+                            <a href="?open_page={{ open_fault_reports.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.urgency %}&urgency={{ request.GET.urgency }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}">{% trans "Next" %} &raquo;</a>
                         {% else %}
-                            <span class="disabled">הבא &raquo;</span>
+                            <span class="disabled">{% trans "Next" %} &raquo;</span>
                         {% endif %}
                     </div>
                 {% endif %}
             {% else %}
                 <div class="no-requests">
-                    <p>אין תקלות פתוחות</p>
+                    <p>{% trans "No open faults" %}</p>
                 </div>
             {% endif %}
         </div>
@@ -406,36 +407,36 @@
     <!-- תקלות בטיפול -->
     <div id="pending-faults" class="tab-content">
         <div class="section">
-            <h3>תקלות בטיפול</h3>
+            <h3>{% trans "Faults in Progress" %}</h3>
 
             <!-- Filter Section for Office Manager -->
             <div class="filter-section">
-                <h4>סינון תקלות בטיפול</h4>
+                <h4>{% trans "Filter Faults in Progress" %}</h4>
                 <form method="get" action="{% url 'OM_faults' %}#pending-faults">
                     <div class="filter-row">
                         <div class="filter-group">
-                            <label for="pending-building-filter">בניין:</label>
+                            <label for="pending-building-filter">{% trans "Building:" %}</label>
                             <select id="pending-building-filter" name="pending_building">
-                                <option value="">כל הבניינים</option>
+                                <option value="">{% trans "All Buildings" %}</option>
                                 {% for building in all_buildings %}
                                     <option value="{{ building.id }}" {% if request.GET.pending_building == building.id|stringformat:"i" %}selected{% endif %}>
-                                        בניין {{ building.building_name }}
+                                        {% trans "Building" %} {{ building.building_name }}
                                     </option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label for="days-filter">ימים בטיפול:</label>
+                            <label for="days-filter">{% trans "Days in Progress:" %}</label>
                             <select id="days-filter" name="days">
-                                <option value="">הכל</option>
-                                <option value="7" {% if request.GET.days == '7' %}selected{% endif %}>מעל 7 ימים</option>
-                                <option value="14" {% if request.GET.days == '14' %}selected{% endif %}>מעל 14 ימים</option>
-                                <option value="30" {% if request.GET.days == '30' %}selected{% endif %}>מעל 30 ימים</option>
+                                <option value="">{% trans "All" %}</option>
+                                <option value="7" {% if request.GET.days == '7' %}selected{% endif %}>{% trans "Over 7 days" %}</option>
+                                <option value="14" {% if request.GET.days == '14' %}selected{% endif %}>{% trans "Over 14 days" %}</option>
+                                <option value="30" {% if request.GET.days == '30' %}selected{% endif %}>{% trans "Over 30 days" %}</option>
                             </select>
                         </div>
                         <div class="filter-buttons">
-                            <button type="submit" class="filter-button filter-apply">החל סינון</button>
-                            <a href="{% url 'OM_faults' %}#pending-faults" class="filter-button filter-reset">אפס</a>
+                            <button type="submit" class="filter-button filter-apply">{% trans "Apply Filter" %}</button>
+                            <a href="{% url 'OM_faults' %}#pending-faults" class="filter-button filter-reset">{% trans "Reset" %}</a>
                         </div>
                     </div>
                 </form>
@@ -445,16 +446,16 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>סטודנט</th>
-                            <th>בניין</th>
-                            <th>חדר</th>
-                            <th>סוג התקלה</th>
-                            <th>תיאור התקלה</th>
-                            <th>דחיפות</th>
-                            <th>תאריך דיווח</th>
-                            <th>עדכון אחרון</th>
-                            <th>הערות מנהל</th>
-                            <th>פעולות</th>
+                            <th>{% trans "Student" %}</th>
+                            <th>{% trans "Building" %}</th>
+                            <th>{% trans "Room" %}</th>
+                            <th>{% trans "Fault Type" %}</th>
+                            <th>{% trans "Fault Description" %}</th>
+                            <th>{% trans "Urgency" %}</th>
+                            <th>{% trans "Report Date" %}</th>
+                            <th>{% trans "Last Update" %}</th>
+                            <th>{% trans "Admin Notes" %}</th>
+                            <th>{% trans "Actions" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -469,7 +470,7 @@
                                 <td>
                                     {{ fault.created_at|date:"d/m/Y H:i" }}
                                     <br>
-                                    <span style="font-size: 0.85em; color: #6c757d;">(בטיפול {{ fault.days_elapsed_text }})</span>
+                                    <span style="font-size: 0.85em; color: #6c757d;">({% trans "in progress" %} {{ fault.days_elapsed_text }})</span>
                                 </td>
                                 <td>{{ fault.updated_at|date:"d/m/Y H:i" }}</td>
                                 <td>
@@ -479,16 +480,16 @@
                                         <input type="hidden" name="fault_id" value="{{ fault.id }}">
                                         <input type="hidden" name="action" value="comment">
                                         <div class="comment-container">
-                                            <textarea name="admin_comment" class="comment-input" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                                            <textarea name="admin_comment" class="comment-input" placeholder="{% trans 'Add a note to the student (optional)' %}"></textarea>
                                         </div>
-                                        <button type="submit" class="comment-btn">שמור</button>
+                                        <button type="submit" class="comment-btn">{% trans "Save" %}</button>
                                     </form>
                                 </td>
                                 <td>
                                     <form method="POST" action="{% url 'OM_faults' %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="fault_id" value="{{ fault.id }}">
-                                        <button type="submit" name="action" value="resolved" class="button button-success">סגור דיווח</button>
+                                        <button type="submit" name="action" value="resolved" class="button button-success">{% trans "Close Report" %}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -500,9 +501,9 @@
                 {% if pending_fault_reports.has_other_pages %}
                     <div class="pagination">
                         {% if pending_fault_reports.has_previous %}
-                            <a href="?pending_page={{ pending_fault_reports.previous_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">&laquo; הקודם</a>
+                            <a href="?pending_page={{ pending_fault_reports.previous_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">&laquo; {% trans "Previous" %}</a>
                         {% else %}
-                            <span class="disabled">&laquo; הקודם</span>
+                            <span class="disabled">&laquo; {% trans "Previous" %}</span>
                         {% endif %}
 
                         {% for i in pending_fault_reports.paginator.page_range %}
@@ -514,21 +515,21 @@
                         {% endfor %}
 
                         {% if pending_fault_reports.has_next %}
-                            <a href="?pending_page={{ pending_fault_reports.next_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">הבא &raquo;</a>
+                            <a href="?pending_page={{ pending_fault_reports.next_page_number }}{% if request.GET.pending_building %}&pending_building={{ request.GET.pending_building }}{% endif %}{% if request.GET.days %}&days={{ request.GET.days }}{% endif %}#pending-faults">{% trans "Next" %} &raquo;</a>
                         {% else %}
-                            <span class="disabled">הבא &raquo;</span>
+                            <span class="disabled">{% trans "Next" %} &raquo;</span>
                         {% endif %}
                     </div>
                 {% endif %}
             {% else %}
                 <div class="no-requests">
-                    <p>אין תקלות בטיפול</p>
+                    <p>{% trans "No faults in progress" %}</p>
                 </div>
             {% endif %}
         </div>
     </div>
 
-    <a href="{% url 'OM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+    <a href="{% url 'OM_Homepage' %}" class="back-button">{% trans "Back to Homepage" %}</a>
 </div>
 
 <script>

@@ -1,5 +1,6 @@
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -178,18 +179,30 @@
                             </li>
                         {% elif user.role == 'office_manager' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'OM_Homepage' %}">דף הבית</a>
+                                <a class="nav-link" href="{% url 'OM_Homepage' %}">{% translate "Home" %}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'OM_inventory' %}">מלאי</a>
+                                <a class="nav-link" href="{% url 'OM_inventory' %}">{% translate "Inventory" %}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'OM_faults' %}">תקלות</a>
+                                <a class="nav-link" href="{% url 'OM_faults' %}">{% translate "Faults" %}</a>
                             </li>
                         {% endif %}
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav">
+                    <!-- Language Switcher -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe"></i> {{ LANGUAGE_CODE|upper }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            <li><a class="dropdown-item" href="{% url 'set_language' %}?lang=he">עברית</a></li>
+                            <li><a class="dropdown-item" href="{% url 'set_language' %}?lang=en">English</a></li>
+                            <li><a class="dropdown-item" href="{% url 'set_language' %}?lang=ar">العربية</a></li>
+                            <li><a class="dropdown-item" href="{% url 'set_language' %}?lang=zh">中文</a></li>
+                        </ul>
+                    </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <span class="nav-link">
@@ -198,13 +211,13 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">
-                                <i class="fas fa-sign-out-alt"></i> התנתק
+                                <i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}
                             </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login_page' %}">
-                                <i class="fas fa-sign-in-alt"></i> התחבר
+                                <i class="fas fa-sign-in-alt"></i> {% translate "Login" %}
                             </a>
                         </li>
                     {% endif %}
@@ -234,7 +247,7 @@
     <!-- Footer -->
     <footer class="footer mt-auto">
         <div class="container text-center">
-            <p class="mb-0">&copy; {% now "Y" %} DormitoriesPlus. כל הזכויות שמורות.</p>
+            <p class="mb-0">&copy; {% now "Y" %} DormitoriesPlus. {% translate "All rights reserved." %}</p>
         </div>
     </footer>
 

@@ -1,0 +1,1903 @@
+# Chinese (Simplified) translations for DormitoriesPlus project.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the DormitoriesPlus project.
+msgid ""
+msgstr ""
+"Project-Id-Version: DormitoriesPlus 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-27 14:58+0300\n"
+"PO-Revision-Date: 2025-01-27 10:00+0200\n"
+"Last-Translator: \n"
+"Language: zh-hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: templates/BM_pages/BM_Homepage.html:6
+#, fuzzy
+#| msgid "Building Manager"
+msgid "Homepage - Building Manager"
+msgstr "建筑管理员"
+
+#: templates/BM_pages/BM_Homepage.html:94
+#, fuzzy
+#| msgid "Building Manager"
+msgid "Homepage for Building Manager"
+msgstr "建筑管理员"
+
+#: templates/BM_pages/BM_Homepage.html:96
+msgid "Hello"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:99
+msgid "Manager of building"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:109
+#, fuzzy
+#| msgid "Inventory"
+msgid "Inventory Management"
+msgstr "库存"
+
+#: templates/BM_pages/BM_Homepage.html:110
+msgid "Loan Management"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:111
+msgid "Fault Management"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:112
+#, fuzzy
+#| msgid "System Manager"
+msgid "Student Management"
+msgstr "系统管理员"
+
+#: templates/BM_pages/BM_Homepage.html:116
+#, fuzzy
+#| msgid "Equipment Rental"
+msgid "Loan Equipment Management"
+msgstr "设备租赁"
+
+#: templates/BM_pages/BM_Homepage.html:120
+#: templates/BM_pages/BM_Homepage.html:147
+msgid "You have"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:120
+msgid "loan requests pending approval!"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:122
+msgid "View requests"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:129
+#: templates/BM_pages/BM_Homepage.html:156
+msgid "There are"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:129
+msgid "items borrowed that have not been returned."
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:131
+msgid "View borrowed items"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:137
+msgid "No new requests or borrowed items pending."
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:143
+#, fuzzy
+#| msgid "Fault Reports"
+msgid "Fault Reporting Management"
+msgstr "故障报告"
+
+#: templates/BM_pages/BM_Homepage.html:147
+msgid "new fault reports for you to handle!"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:149
+msgid "View reports"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:156
+msgid "faults that have not yet been completed."
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:158
+msgid "View faults in progress"
+msgstr ""
+
+#: templates/BM_pages/BM_Homepage.html:164
+msgid "No new fault reports or faults in progress pending."
+msgstr ""
+
+#: templates/Homepage.html:8
+#, fuzzy
+#| msgid "DormitoriesPlus - Home Page"
+msgid "DormitoriesPlus - User Selection"
+msgstr "DormitoriesPlus - 主页"
+
+#: templates/Homepage.html:13
+msgid "Welcome to DormitoriesPlus"
+msgstr "欢迎使用 DormitoriesPlus"
+
+#: templates/Homepage.html:14
+msgid "Choose your user type to continue:"
+msgstr "请选择您的用户类型继续："
+
+#: templates/Homepage.html:18
+msgid "System Manager"
+msgstr "系统管理员"
+
+#: templates/Homepage.html:19
+msgid "Building Manager"
+msgstr "建筑管理员"
+
+#: templates/Homepage.html:20
+msgid "Student"
+msgstr "学生"
+
+#: templates/Homepage.html:24 templates/index.html:34
+msgid "© 2025 DormitoriesPlus - All rights reserved"
+msgstr "© 2025 DormitoriesPlus - 版权所有"
+
+#: templates/Student_pages/Students_homepage.html:5
+msgid "דף בית"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:82
+msgid "שלום"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:86
+msgid "השאלת ציוד"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:87
+msgid "דיווח תקלות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:88
+msgid "צור קשר"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:93
+msgid "בקשות השאלת ציוד"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:94
+msgid "בקשות מאושרות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:99
+msgid "בקשות השאלת ציוד ממתינות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:104
+#: templates/Student_pages/Students_homepage.html:182
+msgid "פריט"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:105
+#: templates/Student_pages/Students_homepage.html:183
+msgid "תאריך בקשה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:106
+#: templates/Student_pages/Students_homepage.html:186
+#: templates/Student_pages/Students_homepage.html:265
+#: templates/Student_pages/Students_homepage.html:324
+#, fuzzy
+#| msgid "התחבר"
+msgid "חדר"
+msgstr "登录"
+
+#: templates/Student_pages/Students_homepage.html:107
+#: templates/Student_pages/Students_homepage.html:187
+msgid "הערות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:108
+msgid "סטטוס"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:109
+msgid "פעולות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:122
+msgid "הערת מנהל"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:127
+msgid "ממתין לאישור"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:128
+msgid "נדחה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:135
+msgid "מחק"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:150
+#: templates/Student_pages/Students_homepage.html:153
+#: templates/Student_pages/Students_homepage.html:223
+#: templates/Student_pages/Students_homepage.html:226
+#: templates/Student_pages/Students_homepage.html:288
+#: templates/Student_pages/Students_homepage.html:291
+#: templates/Student_pages/Students_homepage.html:348
+#: templates/Student_pages/Students_homepage.html:351
+msgid "&laquo; ראשון"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:151
+#: templates/Student_pages/Students_homepage.html:154
+#: templates/Student_pages/Students_homepage.html:224
+#: templates/Student_pages/Students_homepage.html:227
+#: templates/Student_pages/Students_homepage.html:289
+#: templates/Student_pages/Students_homepage.html:292
+#: templates/Student_pages/Students_homepage.html:349
+#: templates/Student_pages/Students_homepage.html:352
+msgid "הקודם"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:158
+#: templates/Student_pages/Students_homepage.html:231
+#: templates/Student_pages/Students_homepage.html:296
+#: templates/Student_pages/Students_homepage.html:356
+msgid "עמוד"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:158
+#: templates/Student_pages/Students_homepage.html:231
+#: templates/Student_pages/Students_homepage.html:296
+#: templates/Student_pages/Students_homepage.html:356
+msgid "מתוך"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:162
+#: templates/Student_pages/Students_homepage.html:165
+#: templates/Student_pages/Students_homepage.html:235
+#: templates/Student_pages/Students_homepage.html:238
+#: templates/Student_pages/Students_homepage.html:300
+#: templates/Student_pages/Students_homepage.html:303
+#: templates/Student_pages/Students_homepage.html:360
+#: templates/Student_pages/Students_homepage.html:363
+#, fuzzy
+#| msgid "התחבר"
+msgid "הבא"
+msgstr "登录"
+
+#: templates/Student_pages/Students_homepage.html:163
+#: templates/Student_pages/Students_homepage.html:166
+#: templates/Student_pages/Students_homepage.html:236
+#: templates/Student_pages/Students_homepage.html:239
+#: templates/Student_pages/Students_homepage.html:301
+#: templates/Student_pages/Students_homepage.html:304
+#: templates/Student_pages/Students_homepage.html:361
+#: templates/Student_pages/Students_homepage.html:364
+msgid "אחרון &raquo;"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:171
+msgid "אין בקשות השאלה ממתינות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:177
+msgid "בקשות השאלת ציוד מאושרות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:184
+msgid "תאריך אישור"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:185
+msgid "תאריך החזרה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:188
+#: templates/Student_pages/Students_homepage.html:267
+#: templates/Student_pages/Students_homepage.html:326
+msgid "הערות מנהל"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:201
+msgid "(נותרו פחות מ-7 ימים)"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:203
+msgid "(באיחור)"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:208
+msgid "לא צוין"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:244
+msgid "אין בקשות השאלה מאושרות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:251
+#: templates/Student_pages/Students_homepage.html:257
+msgid "תקלות פתוחות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:252
+#: templates/Student_pages/Students_homepage.html:315
+msgid "תקלות בטיפול"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:262
+#: templates/Student_pages/Students_homepage.html:320
+msgid "סוג התקלה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:263
+#: templates/Student_pages/Students_homepage.html:321
+msgid "תיאור התקלה"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:264
+#: templates/Student_pages/Students_homepage.html:322
+msgid "תאריך דיווח"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:266
+#: templates/Student_pages/Students_homepage.html:325
+msgid "דחיפות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:309
+msgid "אין תקלות פתוחות"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:323
+msgid "עדכון אחרון"
+msgstr ""
+
+#: templates/Student_pages/Students_homepage.html:369
+msgid "אין תקלות בטיפול"
+msgstr ""
+
+#: templates/Student_pages/application.html:5
+#: templates/Student_pages/application.html:94 templates/index.html:25
+msgid "Equipment Rental"
+msgstr "设备租赁"
+
+#: templates/Student_pages/application.html:98
+#: templates/Student_pages/faults.html:104
+msgid "Your Details:"
+msgstr ""
+
+#: templates/Student_pages/application.html:99
+#: templates/Student_pages/connect_us.html:94
+#: templates/Student_pages/faults.html:105
+msgid "Name"
+msgstr ""
+
+#: templates/Student_pages/application.html:101
+#: templates/Student_pages/faults.html:107
+#, fuzzy
+#| msgid "Building Manager"
+msgid "Building"
+msgstr "建筑管理员"
+
+#: templates/Student_pages/application.html:102
+#: templates/Student_pages/faults.html:108
+msgid "Room"
+msgstr ""
+
+#: templates/Student_pages/application.html:103
+msgid "End Date"
+msgstr ""
+
+#: templates/Student_pages/application.html:105
+#: templates/Student_pages/faults.html:110
+msgid ""
+"You don't have a room assignment in the system. Please contact the dormitory "
+"manager."
+msgstr ""
+
+#: templates/Student_pages/application.html:110
+msgid "Item Rental Request"
+msgstr ""
+
+#: templates/Student_pages/application.html:115
+msgid "Select item to rent:"
+msgstr ""
+
+#: templates/Student_pages/application.html:117
+msgid "Select item"
+msgstr ""
+
+#: templates/Student_pages/application.html:125
+msgid "Return date:"
+msgstr ""
+
+#: templates/Student_pages/application.html:130
+msgid "Additional notes (optional):"
+msgstr ""
+
+#: templates/Student_pages/application.html:131
+msgid "If you have special requests or additional notes, write them here"
+msgstr ""
+
+#: templates/Student_pages/application.html:135
+msgid "Submit Request"
+msgstr ""
+
+#: templates/Student_pages/application.html:137
+msgid ""
+"Cannot submit request without room assignment. Please contact the dormitory "
+"manager."
+msgstr ""
+
+#: templates/Student_pages/application.html:144
+#: templates/Student_pages/connect_us.html:76
+#: templates/Student_pages/faults.html:157
+msgid "Back to Homepage"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:5 templates/index.html:27
+msgid "Contact Us"
+msgstr "联系我们"
+
+#: templates/Student_pages/connect_us.html:58
+msgid "Couldn't find what you were looking for? Contact us!"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:62
+msgid "Select a building to get contact details:"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:64
+msgid "Select building"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:65
+#, fuzzy
+#| msgid "Building Manager"
+msgid "Building 1"
+msgstr "建筑管理员"
+
+#: templates/Student_pages/connect_us.html:66
+#, fuzzy
+#| msgid "Building Manager"
+msgid "Building 2"
+msgstr "建筑管理员"
+
+#: templates/Student_pages/connect_us.html:67
+#, fuzzy
+#| msgid "Building Manager"
+msgid "Building 3"
+msgstr "建筑管理员"
+
+#: templates/Student_pages/connect_us.html:68
+#, fuzzy
+#| msgid "Building Manager"
+msgid "Building 4"
+msgstr "建筑管理员"
+
+#: templates/Student_pages/connect_us.html:81
+msgid "Yossi Cohen"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:82
+msgid "Dana Levy"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:83
+msgid "Avi Israeli"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:84
+msgid "Michal Barak"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:95
+msgid "Phone"
+msgstr ""
+
+#: templates/Student_pages/connect_us.html:97
+msgid "Please select a building from the list."
+msgstr ""
+
+#: templates/Student_pages/faults.html:5 templates/Student_pages/faults.html:92
+#: templates/index.html:26
+msgid "Fault Reports"
+msgstr "故障报告"
+
+#: templates/Student_pages/faults.html:115
+#, fuzzy
+#| msgid "Fault Reports"
+msgid "Fault Details"
+msgstr "故障报告"
+
+#: templates/Student_pages/faults.html:120
+msgid "Fault Type:"
+msgstr ""
+
+#: templates/Student_pages/faults.html:122
+msgid "Select fault type"
+msgstr ""
+
+#: templates/Student_pages/faults.html:123
+msgid "Plumbing"
+msgstr ""
+
+#: templates/Student_pages/faults.html:124
+msgid "Electrical"
+msgstr ""
+
+#: templates/Student_pages/faults.html:125
+msgid "Air Conditioning"
+msgstr ""
+
+#: templates/Student_pages/faults.html:126
+msgid "Furniture"
+msgstr ""
+
+#: templates/Student_pages/faults.html:127
+msgid "Doors/Windows"
+msgstr ""
+
+#: templates/Student_pages/faults.html:128
+msgid "Internet"
+msgstr ""
+
+#: templates/Student_pages/faults.html:129
+msgid "Other"
+msgstr ""
+
+#: templates/Student_pages/faults.html:134
+msgid "Fault Description:"
+msgstr ""
+
+#: templates/Student_pages/faults.html:135
+msgid "Describe the fault in as much detail as possible"
+msgstr ""
+
+#: templates/Student_pages/faults.html:139
+msgid "Urgency:"
+msgstr ""
+
+#: templates/Student_pages/faults.html:141
+msgid "Low"
+msgstr ""
+
+#: templates/Student_pages/faults.html:142
+msgid "Medium"
+msgstr ""
+
+#: templates/Student_pages/faults.html:143
+msgid "High"
+msgstr ""
+
+#: templates/Student_pages/faults.html:148
+#, fuzzy
+#| msgid "Fault Reports"
+msgid "Submit Report"
+msgstr "故障报告"
+
+#: templates/Student_pages/faults.html:150
+msgid ""
+"Cannot report a fault without room assignment. Please contact the dormitory "
+"manager."
+msgstr ""
+
+#: templates/base.html:182
+msgid "Home"
+msgstr "首页"
+
+#: templates/base.html:185
+msgid "Inventory"
+msgstr "库存"
+
+#: templates/base.html:188
+msgid "Faults"
+msgstr "故障"
+
+#: templates/base.html:214
+msgid "Logout"
+msgstr "登出"
+
+#: templates/base.html:220
+msgid "Login"
+msgstr "登录"
+
+#: templates/base.html:250
+msgid "All rights reserved."
+msgstr "版权所有。"
+
+#: templates/index.html:8
+msgid "DormitoriesPlus - Home Page"
+msgstr "DormitoriesPlus - 主页"
+
+#: templates/index.html:15
+msgid "Welcome to Rikfin Dormitories website!"
+msgstr "欢迎访问 Rikfin 宿舍网站！"
+
+#: templates/index.html:20
+msgid "Hello, on this website you can perform dormitory-related operations."
+msgstr "您好，在这个网站上您可以执行与宿舍相关的操作。"
+
+#: templates/index.html:21
+msgid "Use the links below to access the relevant service for you."
+msgstr "请使用下面的链接访问适合您的服务。"
+
+# Hebrew strings that need translation
+#: templates/login_page.html:5
+msgid "התחברות"
+msgstr "登录"
+
+#: templates/login_page.html:69
+msgid "התחברות ל-DormitoriesPlus"
+msgstr "登录 DormitoriesPlus"
+
+#: templates/login_page.html:73
+msgid "אימייל:"
+msgstr "邮箱："
+
+#: templates/login_page.html:77
+msgid "סיסמה:"
+msgstr "密码："
+
+#: templates/login_page.html:80
+msgid "התחבר"
+msgstr "登录"
+
+#: venv/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
+msgid "Messages"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/contrib/sitemaps/apps.py:7
+msgid "Site Maps"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/contrib/staticfiles/apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/contrib/syndication/apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/paginator.py:48
+msgid "That page number is not an integer"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/paginator.py:50
+msgid "That page number is less than 1"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/paginator.py:55
+msgid "That page contains no results"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:20
+msgid "Enter a valid value."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:91
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:671
+msgid "Enter a valid URL."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:148
+msgid "Enter a valid integer."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:159
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: venv/lib/python3.8/site-packages/django/core/validators.py:233
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:240
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:249
+#: venv/lib/python3.8/site-packages/django/core/validators.py:259
+#: venv/lib/python3.8/site-packages/django/core/validators.py:281
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:266
+#: venv/lib/python3.8/site-packages/django/core/validators.py:282
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:276
+#: venv/lib/python3.8/site-packages/django/core/validators.py:280
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:310
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:316
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:349
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:358
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:368
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:383
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:402
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:292
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:327
+msgid "Enter a number."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:404
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:409
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:414
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:476
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/core/validators.py:528
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/base.py:1190
+#: venv/lib/python3.8/site-packages/django/forms/models.py:760
+msgid "and"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/base.py:1192
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:100
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:101
+msgid "This field cannot be null."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:102
+msgid "This field cannot be blank."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:103
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
+#. Eg: "Title must be unique for pub_date year"
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:107
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:126
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:939
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:940
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:942
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:983
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1047
+msgid "Comma-separated integers"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1096
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1098
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1241
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1101
+msgid "Date (without time)"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1239
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1243
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1247
+msgid "Date (with time)"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1395
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1397
+msgid "Decimal number"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1536
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1539
+msgid "Duration"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1589
+msgid "Email address"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1612
+msgid "File path"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1678
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1680
+msgid "Floating point number"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1718
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1720
+msgid "Integer"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1803
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1819
+msgid "IPv4 address"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1850
+msgid "IP address"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1930
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1931
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1933
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1976
+msgid "Positive big integer"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1989
+msgid "Positive integer"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2002
+msgid "Positive small integer"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2016
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2048
+msgid "Small integer"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2055
+msgid "Text"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2083
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2085
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2088
+msgid "Time"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2214
+msgid "URL"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2236
+msgid "Raw binary data"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2301
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py:2303
+msgid "Universally unique identifier"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/files.py:232
+msgid "File"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/files.py:381
+msgid "Image"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/json.py:18
+msgid "A JSON object"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/json.py:20
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:790
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:792
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1045
+msgid "One-to-one relationship"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1099
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1100
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/db/models/fields/related.py:1142
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: venv/lib/python3.8/site-packages/django/forms/boundfield.py:150
+msgid ":?.!"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:54
+msgid "This field is required."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:247
+msgid "Enter a whole number."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:398
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:1139
+msgid "Enter a valid date."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:422
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:1140
+msgid "Enter a valid time."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:450
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:484
+msgid "Enter a valid duration."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:485
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:545
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:546
+msgid "No file was submitted."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:547
+msgid "The submitted file is empty."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:549
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:552
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:613
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:775
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:865
+#: venv/lib/python3.8/site-packages/django/forms/models.py:1296
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:866
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:981
+#: venv/lib/python3.8/site-packages/django/forms/models.py:1295
+msgid "Enter a list of values."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:982
+msgid "Enter a complete value."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:1198
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/fields.py:1228
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: venv/lib/python3.8/site-packages/django/forms/forms.py:78
+msgid ":"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/forms.py:205
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/formsets.py:93
+msgid "ManagementForm data is missing or has been tampered with"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/formsets.py:345
+#, python-format
+msgid "Please submit %d or fewer forms."
+msgid_plural "Please submit %d or fewer forms."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/forms/formsets.py:352
+#, python-format
+msgid "Please submit %d or more forms."
+msgid_plural "Please submit %d or more forms."
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/forms/formsets.py:379
+#: venv/lib/python3.8/site-packages/django/forms/formsets.py:386
+msgid "Order"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/formsets.py:391
+msgid "Delete"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/models.py:755
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/models.py:759
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/models.py:765
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/models.py:774
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/models.py:1096
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/models.py:1180
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/models.py:1298
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/utils.py:167
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:398
+msgid "Clear"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:399
+msgid "Currently"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:400
+msgid "Change"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:709
+msgid "Unknown"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:710
+msgid "Yes"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/forms/widgets.py:711
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:790
+msgid "yes,no,maybe"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:819
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:836
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:838
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:840
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:842
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:844
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/template/defaultfilters.py:846
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:65
+msgid "p.m."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:66
+msgid "a.m."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:71
+msgid "PM"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:72
+msgid "AM"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:149
+msgid "midnight"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dateformat.py:151
+msgid "noon"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
+msgid "Monday"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
+msgid "Tuesday"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
+msgid "Wednesday"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
+msgid "Thursday"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:6
+msgid "Friday"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:7
+msgid "Saturday"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:7
+msgid "Sunday"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
+msgid "Mon"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
+msgid "Tue"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
+msgid "Wed"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
+msgid "Thu"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:10
+msgid "Fri"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:11
+msgid "Sat"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:11
+#, fuzzy
+#| msgid "Student"
+msgid "Sun"
+msgstr "学生"
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
+msgid "January"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
+msgid "February"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
+msgid "March"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
+msgid "April"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
+msgid "May"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:14
+msgid "June"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
+msgid "July"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
+msgid "August"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
+msgid "September"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
+msgid "October"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:15
+msgid "November"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:16
+msgid "December"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
+msgid "jan"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
+msgid "feb"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
+msgid "mar"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
+msgid "apr"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
+msgid "may"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:19
+msgid "jun"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
+msgid "jul"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
+msgid "aug"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
+msgid "sep"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
+msgid "oct"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
+msgid "nov"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:20
+msgid "dec"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:23
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:24
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:25
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:26
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:27
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:28
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:29
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:30
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:31
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:32
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:33
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:34
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:37
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:38
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:39
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:40
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:41
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:42
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:43
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:44
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:45
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:46
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:47
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/dates.py:48
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/text.py:71
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/text.py:240
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: venv/lib/python3.8/site-packages/django/utils/text.py:259
+#: venv/lib/python3.8/site-packages/django/utils/timesince.py:83
+msgid ", "
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/utils/timesince.py:9
+#, python-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/utils/timesince.py:10
+#, python-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/utils/timesince.py:11
+#, python-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/utils/timesince.py:12
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/utils/timesince.py:13
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/utils/timesince.py:14
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:110
+msgid "Forbidden"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:111
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:115
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:120
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:124
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:132
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:137
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/csrf.py:142
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:41
+msgid "No year specified"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:61
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:111
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:208
+msgid "Date out of range"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:90
+msgid "No month specified"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:142
+msgid "No day specified"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:188
+msgid "No week specified"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:338
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:367
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:589
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/dates.py:623
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/detail.py:54
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/list.py:67
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/list.py:72
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/generic/list.py:154
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/static.py:40
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/static.py:42
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/static.py:80
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:7
+msgid "Django: the Web framework for perfectionists with deadlines."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:346
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:368
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:369
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:384
+msgid "Django Documentation"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:385
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:396
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:397
+msgid "Get started with Django"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:408
+msgid "Django Community"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/django/views/templates/default_urlconf.html:409
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: venv/lib/python3.8/site-packages/djongo/models/fields.py:630
+msgid "ObjectId"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:5
+#: templates/OM_pages/OM_inventory.html:216
+msgid "Inventory Management - Office Manager"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:217
+msgid "Here you can manage inventory items for all buildings, add new items and update the status of existing items"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:229
+msgid "Inventory Items List"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:233
+msgid "Image"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:286
+#: templates/OM_pages/OM_inventory.html:289
+msgid "Previous"
+msgstr ""
+
+#: templates/OM_pages/OM_inventory.html:295
+#: templates/OM_pages/OM_inventory.html:298
+msgid "Next"
+msgstr ""
+
+#~ msgid "DormitoriesPlus"
+#~ msgstr "DormitoriesPlus"
+
+#~ msgid "Increase Text"
+#~ msgstr "增大文字"
+
+#~ msgid "Normal Text Size"
+#~ msgstr "正常文字大小"
+
+#~ msgid "Decrease Text"
+#~ msgstr "减小文字"
+
+#~ msgid "High Contrast"
+#~ msgstr "高对比度"
+
+#~ msgid "Negative Colors"
+#~ msgstr "负片颜色"
+
+#~ msgid "Reset Settings"
+#~ msgstr "重置设置"
+
+#~ msgid "Login - DormitoriesPlus"
+#~ msgstr "登录 - DormitoriesPlus"
+
+#~ msgid "Login to DormitoriesPlus"
+#~ msgstr "登录 DormitoriesPlus"
+
+#~ msgid "Email:"
+#~ msgstr "邮箱："
+
+#~ msgid "Password:"
+#~ msgstr "密码："
+
+#~ msgid "User Selection"
+#~ msgstr "用户选择"
+
+#~ msgid "Home Page"
+#~ msgstr "主页"
+
+
+
+
+
+

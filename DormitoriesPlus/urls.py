@@ -40,4 +40,7 @@ urlpatterns = [
     path('api/om-summary/', OMSummaryAPIView.as_view(), name='om_summary_api'),
     path('api/om-ai-summary/', OMAISummaryAPIView.as_view(), name='om_ai_summary_api'),
     path('api/gemini-models/', GeminiModelsAPIView.as_view(), name='gemini_models_api'),
+
+    # Language switcher
+    path('set-language/', views.set_language, name='set_language'),
 ]

@@ -17,14 +17,15 @@ This document provides instructions for running the DormitoriesPlus application 
    cd dorm-manage-system
    ```
 
-2. **Run the setup script**:
+2. **Run the translation setup script**:
    ```bash
-   ./scripts/docker-setup.sh development
+   ./scripts/docker-translation-setup.sh dev
    ```
 
 3. **Access the application**:
    - Main application: http://localhost:8080
    - pgAdmin (database management): http://localhost:5050
+   - Production: http://localhost:80
 
 ## 📁 Docker Files Overview
 
@@ -300,11 +301,46 @@ docker inspect <container_name>
 - Use environment variables for secrets
 - Regular dependency updates
 
+## 🌐 Internationalization Support
+
+### Supported Languages
+The Docker setup includes full internationalization support for:
+- **Hebrew (עברית)** - Default language
+- **English** - Secondary language
+- **Arabic (العربية)** - RTL support
+- **Chinese (中文)** - Simplified Chinese
+
+### Translation Features
+- **Automatic compilation** of `.po` files during Docker build
+- **Runtime language switching** via URL parameters or cookies
+- **RTL layout support** for Hebrew and Arabic
+- **Unicode support** for all languages
+- **Fallback handling** for missing translations
+
+### Translation Management
+```bash
+# Compile translations manually (if needed)
+docker-compose exec web python manage.py compilemessages --locale=he --locale=en --locale=ar --locale=zh
+
+# Create new translation files
+docker-compose exec web python manage.py makemessages -l he -l en -l ar -l zh
+
+# Update existing translations
+docker-compose exec web python manage.py makemessages -a
+```
+
+### Language Switching
+Users can switch languages by:
+1. **URL parameter**: `?lang=en`
+2. **Cookie setting**: `django_language=en`
+3. **Browser language detection** (automatic)
+
 ## 📚 Additional Resources
 
 - [Docker Documentation](https://docs.docker.com/)
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 - [Django Deployment](https://docs.djangoproject.com/en/3.1/howto/deployment/)
+- [Django Internationalization](https://docs.djangoproject.com/en/3.1/topics/i18n/)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [Redis Documentation](https://redis.io/documentation)
 - [Nginx Documentation](https://nginx.org/en/docs/) 

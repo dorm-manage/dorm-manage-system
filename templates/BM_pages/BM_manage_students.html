@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול סטודנטים - מנהל בניין{% endblock %}
+{% block title %}{% translate "Student Management - Building Manager" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
@@ -15,9 +16,9 @@
 {% block content %}
 <div class="container">
   <div class="hero">
-    <h2>ניהול סטודנטים</h2>
+    <h2>{% translate "Student Management" %}</h2>
     <div style="margin-top: 10px; font-size: 16px;">
-      <p>אחראי על בניין-
+      <p>{% translate "Responsible for building" %}-
         {% for building in managed_buildings %}
           {{ building.building_name }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
@@ -38,7 +39,7 @@
       {% for building_data in buildings_data %}
         <div class="tab {% if building_data.building.id == active_building_id %}active{% endif %}"
              onclick="openBuildingTab('{{ building_data.building.id }}')">
-          בניין {{ building_data.building.building_name }}
+          {% translate "Building" %} {{ building_data.building.building_name }}
         </div>
       {% endfor %}
     </div>
@@ -49,35 +50,35 @@
           <div class="sub-tabs">
             <button class="sub-tab-button active"
                     onclick="openSubTab('add-{{ building_data.building.id }}', 'remove-{{ building_data.building.id }}')">
-              הוספת סטודנט
+              {% translate "Add Student" %}
             </button>
             <button class="sub-tab-button"
                     onclick="openSubTab('remove-{{ building_data.building.id }}', 'add-{{ building_data.building.id }}')">
-              הסרת סטודנט
+              {% translate "Remove Student" %}
             </button>
           </div>
           <div id="add-{{ building_data.building.id }}" class="tab-content active-content">
             <div class="form-container">
-              <h3>הוספת סטודנט חדש לבניין {{ building_data.building.building_name }}</h3>
+              <h3>{% translate "Add New Student to Building" %} {{ building_data.building.building_name }}</h3>
               {% if building_data.available_rooms %}
                 <form method="POST" action="{% url 'BM_manage_students' %}">
                   {% csrf_token %}
                   <input type="hidden" name="action" value="add_student">
                   <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
                   <div class="form-group">
-                    <label for="first_name">שם פרטי:</label>
+                    <label for="first_name">{% translate "First Name" %}:</label>
                     <input type="text" id="first_name" name="first_name" required>
                   </div>
                   <div class="form-group">
-                    <label for="last_name">שם משפחה:</label>
+                    <label for="last_name">{% translate "Last Name" %}:</label>
                     <input type="text" id="last_name" name="last_name" required>
                   </div>
                   <div class="form-group">
-                    <label for="email">אימייל:</label>
+                    <label for="email">{% translate "Email" %}:</label>
                     <input type="email" id="email" name="email" required>
                   </div>
                   <div class="form-group">
-                    <label for="password">סיסמה:</label>
+                    <label for="password">{% translate "Password" %}:</label>
                     <div style="display: flex; position: relative;">
                       <input type="password" id="password" name="password" value="123456789" required>
                       <button type="button" onclick="togglePasswordVisibility()"
@@ -87,52 +88,52 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="id_number">מספר זהות (אופציונלי):</label>
+                    <label for="id_number">{% translate "ID Number (Optional)" %}:</label>
                     <input type="text" id="id_number" name="id_number">
                   </div>
                   <div class="form-group">
-                    <label for="room_id">חדר:</label>
+                    <label for="room_id">{% translate "Room" %}:</label>
                     <select id="room_id" name="room_id" required>
-                      <option value="" disabled selected>בחר חדר</option>
+                      <option value="" disabled selected>{% translate "Select Room" %}</option>
                       {% for room_data in building_data.available_rooms %}
                         <option value="{{ room_data.room.id }}">
-                          חדר {{ room_data.room.room_number }} ({{ room_data.available_spots }} מקומות פנויים)
+                          {% translate "Room" %} {{ room_data.room.room_number }} ({{ room_data.available_spots }} {% translate "available spots" %})
                         </option>
                       {% endfor %}
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="end_date">תאריך סיום מגורים:</label>
+                    <label for="end_date">{% translate "Residence End Date" %}:</label>
                     <input type="date" id="end_date" name="end_date" required>
                   </div>
                   <div class="form-actions">
-                    <button type="submit" class="add-button">הוסף סטודנט</button>
+                    <button type="submit" class="add-button">{% translate "Add Student" %}</button>
                   </div>
                 </form>
               {% else %}
                 <div class="no-data">
-                  <p>אין חדרים פנויים בבניין זה.</p>
+                  <p>{% translate "No available rooms in this building." %}</p>
                 </div>
               {% endif %}
             </div>
           </div>
           <div id="remove-{{ building_data.building.id }}" class="tab-content">
-            <h3>סטודנטים בבניין {{ building_data.building.building_name }}</h3>
+            <h3>{% translate "Students in Building" %} {{ building_data.building.building_name }}</h3>
             <div class="search-container">
               <input type="text" id="search-{{ building_data.building.id }}"
                      onkeyup="searchStudents('{{ building_data.building.id }}')"
-                     placeholder="חיפוש לפי שם או אימייל...">
+                     placeholder="{% translate 'Search by name or email...' %}">
             </div>
             {% if building_data.students_page %}
               <table id="students-table-{{ building_data.building.id }}">
                 <thead>
                   <tr>
-                    <th>שם מלא</th>
-                    <th>אימייל</th>
-                    <th>חדר</th>
-                    <th>תאריך שיבוץ</th>
-                    <th>תאריך סיום</th>
-                    <th>פעולות</th>
+                    <th>{% translate "Full Name" %}</th>
+                    <th>{% translate "Email" %}</th>
+                    <th>{% translate "Room" %}</th>
+                    <th>{% translate "Assignment Date" %}</th>
+                    <th>{% translate "End Date" %}</th>
+                    <th>{% translate "Actions" %}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -142,7 +143,7 @@
                       <td>{{ assignment.user.email }}</td>
                       <td>{{ assignment.room.room_number }}</td>
                       <td>{{ assignment.start_date|date:"d/m/Y" }}</td>
-                      <td>{{ assignment.end_date|date:"d/m/Y"|default:"לא מוגדר" }}</td>
+                      <td>{{ assignment.end_date|date:"d/m/Y"|default:"{% translate 'Not defined' %}" }}</td>
                       <td>
                           <form method="POST" action="{% url 'BM_manage_students' %}" style="display:inline-block; margin-right: 5px;">
                             {% csrf_token %}
@@ -151,8 +152,8 @@
                             <input type="hidden" name="building_id" value="{{ building_data.building.id }}">
                             <input type="hidden" name="delete_user" value="yes">
                             <button type="submit" class="remove-button" style="background-color: #dc3545;"
-                                    onclick="return confirm('האם אתה בטוח שברצונך להסיר את הסטודנט מהמערכת?')">
-                              הסר מהמערכת
+                                    onclick="return confirm('{% translate "Are you sure you want to remove the student from the system?" %}')">
+                              {% translate "Remove from System" %}
                             </button>
                           </form>
                     </td>
@@ -163,9 +164,9 @@
               {% if building_data.students_page.has_other_pages %}
                 <div class="pagination">
                   {% if building_data.students_page.has_previous %}
-                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.previous_page_number }}">&laquo; הקודם</a>
+                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.previous_page_number }}">&laquo; {% translate "Previous" %}</a>
                   {% else %}
-                    <span class="disabled">&laquo; הקודם</span>
+                    <span class="disabled">&laquo; {% translate "Previous" %}</span>
                   {% endif %}
                   {% for i in building_data.students_page.paginator.page_range %}
                     {% if building_data.students_page.number == i %}
@@ -175,33 +176,33 @@
                     {% endif %}
                   {% endfor %}
                   {% if building_data.students_page.has_next %}
-                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.next_page_number }}">הבא &raquo;</a>
+                    <a href="?building_id={{ building_data.building.id }}&students_page_{{ building_data.building.id }}={{ building_data.students_page.next_page_number }}">{% translate "Next" %} &raquo;</a>
                   {% else %}
-                    <span class="disabled">הבא &raquo;</span>
+                    <span class="disabled">{% translate "Next" %} &raquo;</span>
                   {% endif %}
                 </div>
               {% endif %}
             {% else %}
               <div class="no-data">
-                <p>אין סטודנטים משובצים בבניין זה.</p>
+                <p>{% translate "No students assigned to this building." %}</p>
               </div>
             {% endif %}
           </div>
         {% else %}
           <div class="loading-indicator">
-            <p>לחץ על הכרטיסייה לטעינת הנתונים...</p>
+            <p>{% translate "Click on the tab to load data..." %}</p>
           </div>
         {% endif %}
       </div>
     {% endfor %}
-    {% if not buildings_data %}
-      <div class="no-data">
-        <p>אין בניינים תחת ניהולך.</p>
-      </div>
-    {% endif %}
+          {% if not buildings_data %}
+        <div class="no-data">
+          <p>{% translate "No buildings under your management." %}</p>
+        </div>
+      {% endif %}
   </div>
   <div class="links">
-    <a href="{% url 'BM_Homepage' %}">חזרה לעמוד הראשי</a>
+    <a href="{% url 'BM_Homepage' %}">{% translate "Back to Homepage" %}</a>
   </div>
 </div>
 {% endblock %}

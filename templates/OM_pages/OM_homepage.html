@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}דף הבית - מנהל מערכת{% endblock %}
+{% block title %}{% translate "Homepage - System Manager" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -172,8 +173,8 @@
 {% block content %}
 <div class="container py-4">
     <div class="hero">
-        <h2>ברוך הבא למערכת ניהול המעונות</h2>
-        <p>ניהול מרכזי של כל המעונות</p>
+        <h2>{% translate "Welcome to the Dormitory Management System" %}</h2>
+        <p>{% translate "Central management of all dormitories" %}</p>
     </div>
 
     <!-- הודעות מערכת -->
@@ -187,54 +188,54 @@
 
     <!-- סטטיסטיקות מערכת -->
     <div class="section">
-        <h3>סטטיסטיקות מערכת</h3>
+        <h3>{% translate "System Statistics" %}</h3>
         <div class="stats-container">
             <div class="stat-card">
-                <div>כרגע נמצאים</div>
+                <div>{% translate "Currently there are" %}</div>
                 <div class="stat-value">{{ total_students }}</div>
-                <div>סטודנטים במעונות</div>
+                <div>{% translate "students in dormitories" %}</div>
             </div>
             <div class="stat-card">
-                <div>תפוסת חדרים היא</div>
+                <div>{% translate "Room occupancy is" %}</div>
                 <div class="stat-value">{{ occupancy_rate }}%</div>
-                <div>מהקיבולת המלאה</div>
+                <div>{% translate "of full capacity" %}</div>
             </div>
             <div class="stat-card">
-                <div>ישנם כרגע</div>
+                <div>{% translate "Currently there are" %}</div>
                 <div class="stat-value">{{ late_items }}</div>
-                <div>פריטים באיחור</div>
+                <div>{% translate "overdue items" %}</div>
             </div>
             <div class="stat-card">
-                <div>ישנם כרגע</div>
+                <div>{% translate "Currently there are" %}</div>
                 <div class="stat-value">{{ open_faults }}</div>
-                <div>תקלות פתוחות לטיפול</div>
+                <div>{% translate "open faults for treatment" %}</div>
             </div>
         </div>
     </div>
 
     <!-- תפריט פעולות -->
     <div class="action-menu">
-        <h3>תפריט פעולות</h3>
+        <h3>{% translate "Action Menu" %}</h3>
         <div class="menu-grid">
             <a href="{% url 'OM_inventory' %}" class="menu-item">
                 <i class="fas fa-boxes"></i>
-                <span>ניהול מלאי</span>
+                <span>{% translate "Inventory Management" %}</span>
             </a>
             <a href="{% url 'OM_loan_requests' %}" class="menu-item">
                 <i class="fas fa-hand-holding"></i>
-                <span>בקשות השאלה</span>
+                <span>{% translate "Loan Requests" %}</span>
             </a>
             <a href="{% url 'OM_faults' %}" class="menu-item">
                 <i class="fas fa-tools"></i>
-                <span>דיווחי תקלות</span>
+                <span>{% translate "Fault Reports" %}</span>
             </a>
             <a href="{% url 'OM_manage_students' %}" class="menu-item">
                 <i class="fas fa-user-graduate"></i>
-                <span>ניהול סטודנטים</span>
+                <span>{% translate "Student Management" %}</span>
             </a>
             <a href="{% url 'OM_manage_BM' %}" class="menu-item">
                 <i class="fas fa-user-tie"></i>
-                <span>ניהול מנהלי בניינים</span>
+                <span>{% translate "Building Manager Management" %}</span>
             </a>
         </div>
     </div>
@@ -242,16 +243,16 @@
 
     <!-- AI Summary Section -->
     <div class="section">
-        <h3>AI Summary (English & Hebrew)</h3>
+        <h3>{% translate "AI Summary (English & Hebrew)" %}</h3>
         <div style="text-align: center; margin-bottom: 1.5rem;">
             <button id="generate-ai-summary" class="ai-button">
                 <i class="fas fa-robot"></i>
-                Generate AI Summary
+                {% translate "Generate AI Summary" %}
             </button>
         </div>
         <div id="ai-summary-loading" class="ai-loading">
             <i class="fas fa-spinner fa-spin"></i>
-            Generating summary, please wait...
+            {% translate "Generating summary, please wait..." %}
         </div>
         <div id="ai-summary-result" class="ai-result"></div>
     </div>
@@ -295,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadingDiv.style.display = 'none';
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-robot"></i>Generate AI Summary';
-                resultDiv.textContent = 'Conction error: ' + error;
+                resultDiv.textContent = 'Connection error: ' + error;
                 resultDiv.style.display = 'block';
             });
     });

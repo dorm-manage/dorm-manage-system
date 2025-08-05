@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}דף בית - DormitoriesPlus{% endblock %}
+{% block title %}{% translate "דף בית" %} - DormitoriesPlus{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
@@ -78,34 +79,34 @@
 
 {% block content %}
 <div class="hero">
-    <h2>שלום, {{ user.first_name }}!</h2>
+    <h2>{% translate "שלום" %}, {{ user.first_name }}!</h2>
 </div>
 
 <div class="links">
-    <a href="{% url 'application' %}">השאלת ציוד</a>
-    <a href="{% url 'faults' %}">דיווח תקלות</a>
-    <a href="{% url 'connect_us' %}">צור קשר</a>
+    <a href="{% url 'application' %}">{% translate "השאלת ציוד" %}</a>
+    <a href="{% url 'faults' %}">{% translate "דיווח תקלות" %}</a>
+    <a href="{% url 'connect_us' %}">{% translate "צור קשר" %}</a>
 </div>
 
 <div class="tab-container">
     <div class="tabs">
-        <div class="tab active" onclick="openTab(event, 'loan-requests')">בקשות השאלת ציוד</div>
-        <div class="tab" onclick="openTab(event, 'approved-requests')">בקשות מאושרות</div>
+        <div class="tab active" onclick="openTab(event, 'loan-requests')">{% translate "בקשות השאלת ציוד" %}</div>
+        <div class="tab" onclick="openTab(event, 'approved-requests')">{% translate "בקשות מאושרות" %}</div>
     </div>
 
     <!-- בקשות השאלת ציוד ממתינות -->
     <div id="loan-requests" class="tab-content active card">
-        <h3>בקשות השאלת ציוד ממתינות</h3>
+        <h3>{% translate "בקשות השאלת ציוד ממתינות" %}</h3>
         {% if pending_loan_requests %}
             <table>
                 <thead>
                     <tr>
-                        <th>פריט</th>
-                        <th>תאריך בקשה</th>
-                        <th>חדר</th>
-                        <th>הערות</th>
-                        <th>סטטוס</th>
-                        <th>פעולות</th>
+                        <th>{% translate "פריט" %}</th>
+                        <th>{% translate "תאריך בקשה" %}</th>
+                        <th>{% translate "חדר" %}</th>
+                        <th>{% translate "הערות" %}</th>
+                        <th>{% translate "סטטוס" %}</th>
+                        <th>{% translate "פעולות" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -118,20 +119,20 @@
                             {{ request.note|default:""}}
                             {% if request.admin_note %}
                                 <div class="comment-box">
-                                    <strong>הערת מנהל:</strong> {{ request.admin_note }}
+                                    <strong>{% translate "הערת מנהל" %}:</strong> {{ request.admin_note }}
                                 </div>
                             {% endif %}
                         </td>
                         <td class="status-{{ request.status }}">
-                            {% if request.status == 'pending' %}ממתין לאישור{% endif %}
-                            {% if request.status == 'rejected' %}נדחה{% endif %}
+                            {% if request.status == 'pending' %}{% translate "ממתין לאישור" %}{% endif %}
+                            {% if request.status == 'rejected' %}{% translate "נדחה" %}{% endif %}
                         </td>
                         <td>
                             {% if request.status == 'rejected' %}
                                 <form method="post" style="display: inline;">
                                     {% csrf_token %}
                                     <input type="hidden" name="request_id" value="{{ request.id }}">
-                                    <button type="submit" name="delete_request" class="action-btn delete-btn">מחק</button>
+                                    <button type="submit" name="delete_request" class="action-btn delete-btn">{% translate "מחק" %}</button>
                                 </form>
                             {% else %}
                                 &nbsp;
@@ -146,45 +147,45 @@
             {% if pending_loan_requests.has_other_pages %}
                 <div class="pagination">
                     {% if pending_loan_requests.has_previous %}
-                        <a href="?pending_page=1">&laquo; ראשון</a>
-                        <a href="?pending_page={{ pending_loan_requests.previous_page_number }}">הקודם</a>
+                        <a href="?pending_page=1">{% translate "&laquo; ראשון" %}</a>
+                        <a href="?pending_page={{ pending_loan_requests.previous_page_number }}">{% translate "הקודם" %}</a>
                     {% else %}
-                        <span class="disabled">&laquo; ראשון</span>
-                        <span class="disabled">הקודם</span>
+                        <span class="disabled">{% translate "&laquo; ראשון" %}</span>
+                        <span class="disabled">{% translate "הקודם" %}</span>
                     {% endif %}
 
                     <span class="current">
-                        עמוד {{ pending_loan_requests.number }} מתוך {{ pending_loan_requests.paginator.num_pages }}
+                        {% translate "עמוד" %} {{ pending_loan_requests.number }} {% translate "מתוך" %} {{ pending_loan_requests.paginator.num_pages }}
                     </span>
 
                     {% if pending_loan_requests.has_next %}
-                        <a href="?pending_page={{ pending_loan_requests.next_page_number }}">הבא</a>
-                        <a href="?pending_page={{ pending_loan_requests.paginator.num_pages }}">אחרון &raquo;</a>
+                        <a href="?pending_page={{ pending_loan_requests.next_page_number }}">{% translate "הבא" %}</a>
+                        <a href="?pending_page={{ pending_loan_requests.paginator.num_pages }}">{% translate "אחרון &raquo;" %}</a>
                     {% else %}
-                        <span class="disabled">הבא</span>
-                        <span class="disabled">אחרון &raquo;</span>
+                        <span class="disabled">{% translate "הבא" %}</span>
+                        <span class="disabled">{% translate "אחרון &raquo;" %}</span>
                     {% endif %}
                 </div>
             {% endif %}
         {% else %}
-            <div class="empty-table">אין בקשות השאלה ממתינות</div>
+            <div class="empty-table">{% translate "אין בקשות השאלה ממתינות" %}</div>
         {% endif %}
     </div>
 
     <!-- בקשות השאלה מאושרות -->
     <div id="approved-requests" class="tab-content card">
-        <h3>בקשות השאלת ציוד מאושרות</h3>
+        <h3>{% translate "בקשות השאלת ציוד מאושרות" %}</h3>
         {% if approved_requests %}
             <table>
                 <thead>
                     <tr>
-                        <th>פריט</th>
-                        <th>תאריך בקשה</th>
-                        <th>תאריך אישור</th>
-                        <th>תאריך החזרה</th>
-                        <th>חדר</th>
-                        <th>הערות</th>
-                        <th>הערות מנהל</th>
+                        <th>{% translate "פריט" %}</th>
+                        <th>{% translate "תאריך בקשה" %}</th>
+                        <th>{% translate "תאריך אישור" %}</th>
+                        <th>{% translate "תאריך החזרה" %}</th>
+                        <th>{% translate "חדר" %}</th>
+                        <th>{% translate "הערות" %}</th>
+                        <th>{% translate "הערות מנהל" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -197,14 +198,14 @@
                                 {% if request.return_date %}
                                     {{ request.return_date|date:"d/m/Y" }}
                                     {% if request.is_due_soon %}
-                                        <br><span style="color: #856404; font-weight: bold;">(נותרו פחות מ-7 ימים)</span>
+                                        <br><span style="color: #856404; font-weight: bold;">{% translate "(נותרו פחות מ-7 ימים)" %}</span>
                                     {% elif request.is_overdue %}
-                                        <br><span style="color: #721c24; font-weight: bold;">(באיחור)</span>
+                                        <br><span style="color: #721c24; font-weight: bold;">{% translate "(באיחור)" %}</span>
                                     {% else %}
                                         <br><span>({{ request.days_remaining_text }})</span>
                                     {% endif %}
                                 {% else %}
-                                    לא צוין
+                                    {% translate "לא צוין" %}
                                 {% endif %}
                             </td>
                             <td>{{ request.room.room_number }}</td>
@@ -219,51 +220,51 @@
             {% if approved_requests.has_other_pages %}
                 <div class="pagination">
                     {% if approved_requests.has_previous %}
-                        <a href="?approved_page=1">&laquo; ראשון</a>
-                        <a href="?approved_page={{ approved_requests.previous_page_number }}">הקודם</a>
+                        <a href="?approved_page=1">{% translate "&laquo; ראשון" %}</a>
+                        <a href="?approved_page={{ approved_requests.previous_page_number }}">{% translate "הקודם" %}</a>
                     {% else %}
-                        <span class="disabled">&laquo; ראשון</span>
-                        <span class="disabled">הקודם</span>
+                        <span class="disabled">{% translate "&laquo; ראשון" %}</span>
+                        <span class="disabled">{% translate "הקודם" %}</span>
                     {% endif %}
 
                     <span class="current">
-                        עמוד {{ approved_requests.number }} מתוך {{ approved_requests.paginator.num_pages }}
+                        {% translate "עמוד" %} {{ approved_requests.number }} {% translate "מתוך" %} {{ approved_requests.paginator.num_pages }}
                     </span>
 
                     {% if approved_requests.has_next %}
-                        <a href="?approved_page={{ approved_requests.next_page_number }}">הבא</a>
-                        <a href="?approved_page={{ approved_requests.paginator.num_pages }}">אחרון &raquo;</a>
+                        <a href="?approved_page={{ approved_requests.next_page_number }}">{% translate "הבא" %}</a>
+                        <a href="?approved_page={{ approved_requests.paginator.num_pages }}">{% translate "אחרון &raquo;" %}</a>
                     {% else %}
-                        <span class="disabled">הבא</span>
-                        <span class="disabled">אחרון &raquo;</span>
+                        <span class="disabled">{% translate "הבא" %}</span>
+                        <span class="disabled">{% translate "אחרון &raquo;" %}</span>
                     {% endif %}
                 </div>
             {% endif %}
         {% else %}
-            <div class="empty-table">אין בקשות השאלה מאושרות</div>
+            <div class="empty-table">{% translate "אין בקשות השאלה מאושרות" %}</div>
         {% endif %}
     </div>
 </div>
 
 <div class="tab-container">
     <div class="tabs">
-        <div class="tab" onclick="openTab(event, 'open-faults')">תקלות פתוחות</div>
-        <div class="tab" onclick="openTab(event, 'pending-faults')">תקלות בטיפול</div>
+        <div class="tab" onclick="openTab(event, 'open-faults')">{% translate "תקלות פתוחות" %}</div>
+        <div class="tab" onclick="openTab(event, 'pending-faults')">{% translate "תקלות בטיפול" %}</div>
     </div>
 
     <!-- תקלות פתוחות -->
     <div id="open-faults" class="tab-content card">
-        <h3>תקלות פתוחות</h3>
+        <h3>{% translate "תקלות פתוחות" %}</h3>
         {% if open_fault_reports %}
             <table>
                 <thead>
                     <tr>
-                        <th>סוג התקלה</th>
-                        <th>תיאור התקלה</th>
-                        <th>תאריך דיווח</th>
-                        <th>חדר</th>
-                        <th>דחיפות</th>
-                        <th>הערות מנהל</th>
+                        <th>{% translate "סוג התקלה" %}</th>
+                        <th>{% translate "תיאור התקלה" %}</th>
+                        <th>{% translate "תאריך דיווח" %}</th>
+                        <th>{% translate "חדר" %}</th>
+                        <th>{% translate "דחיפות" %}</th>
+                        <th>{% translate "הערות מנהל" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -284,45 +285,45 @@
             {% if open_fault_reports.has_other_pages %}
                 <div class="pagination">
                     {% if open_fault_reports.has_previous %}
-                        <a href="?open_fault_page=1">&laquo; ראשון</a>
-                        <a href="?open_fault_page={{ open_fault_reports.previous_page_number }}">הקודם</a>
+                        <a href="?open_fault_page=1">{% translate "&laquo; ראשון" %}</a>
+                        <a href="?open_fault_page={{ open_fault_reports.previous_page_number }}">{% translate "הקודם" %}</a>
                     {% else %}
-                        <span class="disabled">&laquo; ראשון</span>
-                        <span class="disabled">הקודם</span>
+                        <span class="disabled">{% translate "&laquo; ראשון" %}</span>
+                        <span class="disabled">{% translate "הקודם" %}</span>
                     {% endif %}
 
                     <span class="current">
-                        עמוד {{ open_fault_reports.number }} מתוך {{ open_fault_reports.paginator.num_pages }}
+                        {% translate "עמוד" %} {{ open_fault_reports.number }} {% translate "מתוך" %} {{ open_fault_reports.paginator.num_pages }}
                     </span>
 
                     {% if open_fault_reports.has_next %}
-                        <a href="?open_fault_page={{ open_fault_reports.next_page_number }}">הבא</a>
-                        <a href="?open_fault_page={{ open_fault_reports.paginator.num_pages }}">אחרון &raquo;</a>
+                        <a href="?open_fault_page={{ open_fault_reports.next_page_number }}">{% translate "הבא" %}</a>
+                        <a href="?open_fault_page={{ open_fault_reports.paginator.num_pages }}">{% translate "אחרון &raquo;" %}</a>
                     {% else %}
-                        <span class="disabled">הבא</span>
-                        <span class="disabled">אחרון &raquo;</span>
+                        <span class="disabled">{% translate "הבא" %}</span>
+                        <span class="disabled">{% translate "אחרון &raquo;" %}</span>
                     {% endif %}
                 </div>
             {% endif %}
         {% else %}
-            <div class="empty-table">אין תקלות פתוחות</div>
+            <div class="empty-table">{% translate "אין תקלות פתוחות" %}</div>
         {% endif %}
     </div>
 
     <!-- תקלות בטיפול -->
     <div id="pending-faults" class="tab-content card">
-        <h3>תקלות בטיפול</h3>
+        <h3>{% translate "תקלות בטיפול" %}</h3>
         {% if pending_fault_reports %}
             <table>
                 <thead>
                     <tr>
-                        <th>סוג התקלה</th>
-                        <th>תיאור התקלה</th>
-                        <th>תאריך דיווח</th>
-                        <th>עדכון אחרון</th>
-                        <th>חדר</th>
-                        <th>דחיפות</th>
-                        <th>הערות מנהל</th>
+                        <th>{% translate "סוג התקלה" %}</th>
+                        <th>{% translate "תיאור התקלה" %}</th>
+                        <th>{% translate "תאריך דיווח" %}</th>
+                        <th>{% translate "עדכון אחרון" %}</th>
+                        <th>{% translate "חדר" %}</th>
+                        <th>{% translate "דחיפות" %}</th>
+                        <th>{% translate "הערות מנהל" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -344,28 +345,28 @@
             {% if pending_fault_reports.has_other_pages %}
                 <div class="pagination">
                     {% if pending_fault_reports.has_previous %}
-                        <a href="?pending_fault_page=1">&laquo; ראשון</a>
-                        <a href="?pending_fault_page={{ pending_fault_reports.previous_page_number }}">הקודם</a>
+                        <a href="?pending_fault_page=1">{% translate "&laquo; ראשון" %}</a>
+                        <a href="?pending_fault_page={{ pending_fault_reports.previous_page_number }}">{% translate "הקודם" %}</a>
                     {% else %}
-                        <span class="disabled">&laquo; ראשון</span>
-                        <span class="disabled">הקודם</span>
+                        <span class="disabled">{% translate "&laquo; ראשון" %}</span>
+                        <span class="disabled">{% translate "הקודם" %}</span>
                     {% endif %}
 
                     <span class="current">
-                        עמוד {{ pending_fault_reports.number }} מתוך {{ pending_fault_reports.paginator.num_pages }}
+                        {% translate "עמוד" %} {{ pending_fault_reports.number }} {% translate "מתוך" %} {{ pending_fault_reports.paginator.num_pages }}
                     </span>
 
                     {% if pending_fault_reports.has_next %}
-                        <a href="?pending_fault_page={{ pending_fault_reports.next_page_number }}">הבא</a>
-                        <a href="?pending_fault_page={{ pending_fault_reports.paginator.num_pages }}">אחרון &raquo;</a>
+                        <a href="?pending_fault_page={{ pending_fault_reports.next_page_number }}">{% translate "הבא" %}</a>
+                        <a href="?pending_fault_page={{ pending_fault_reports.paginator.num_pages }}">{% translate "אחרון &raquo;" %}</a>
                     {% else %}
-                        <span class="disabled">הבא</span>
-                        <span class="disabled">אחרון &raquo;</span>
+                        <span class="disabled">{% translate "הבא" %}</span>
+                        <span class="disabled">{% translate "אחרון &raquo;" %}</span>
                     {% endif %}
                 </div>
             {% endif %}
         {% else %}
-            <div class="empty-table">אין תקלות בטיפול</div>
+            <div class="empty-table">{% translate "אין תקלות בטיפול" %}</div>
         {% endif %}
     </div>
 </div>

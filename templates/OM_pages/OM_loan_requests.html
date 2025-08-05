@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load inventory_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}ניהול בקשות השאלה - מנהל משרד{% endblock %}
+{% block title %}{% trans "Loan Request Management - Office Manager" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -254,8 +255,8 @@
 <div class="container">
   <!-- כותרת העמוד -->
   <div class="hero">
-    <h2>ניהול בקשות השאלה - מנהל משרד</h2>
-    <p>ניהול בקשות לכל הבניינים במערכת</p>
+    <h2>{% trans "Loan Request Management - Office Manager" %}</h2>
+    <p>{% trans "Management of requests for all buildings in the system" %}</p>
   </div>
 
     <!-- הודעות מערכת -->
@@ -269,42 +270,42 @@
 
   <!-- ניווט בין טאבים -->
   <div class="tab-navigation">
-    <div class="tab active" data-tab="pending-requests">בקשות ממתינות</div>
-    <div class="tab" data-tab="borrowed-items">פריטים מושאלים</div>
+    <div class="tab active" data-tab="pending-requests">{% trans "Pending Requests" %}</div>
+    <div class="tab" data-tab="borrowed-items">{% trans "Borrowed Items" %}</div>
   </div>
 
   <!-- טאב בקשות ממתינות -->
   <div id="pending-requests" class="tab-content active">
     <div class="section">
-      <h3>בקשות השאלה ממתינות</h3>
+      <h3>{% trans "Pending Loan Requests" %}</h3>
 
       <!-- Filter Section for Office Manager -->
       <div class="filter-section">
-        <h4>סינון בקשות</h4>
+        <h4>{% trans "Filter Requests" %}</h4>
         <form method="get" action="{% url 'OM_loan_requests' %}">
           <div class="filter-row">
             <div class="filter-group">
-              <label for="building-filter">בניין:</label>
+              <label for="building-filter">{% trans "Building:" %}</label>
               <select id="building-filter" name="building">
-                <option value="">כל הבניינים</option>
+                <option value="">{% trans "All Buildings" %}</option>
                 {% for building in all_buildings %}
                   <option value="{{ building.id }}" {% if request.GET.building == building.id|stringformat:"i" %}selected{% endif %}>
-                    בניין {{ building.building_name }}
+                    {% trans "Building" %} {{ building.building_name }}
                   </option>
                 {% endfor %}
               </select>
             </div>
             <div class="filter-group">
-              <label for="date-from">מתאריך:</label>
+              <label for="date-from">{% trans "From Date:" %}</label>
               <input type="date" id="date-from" name="date_from" value="{{ request.GET.date_from|default:'' }}">
             </div>
             <div class="filter-group">
-              <label for="date-to">עד תאריך:</label>
+              <label for="date-to">{% trans "To Date:" %}</label>
               <input type="date" id="date-to" name="date_to" value="{{ request.GET.date_to|default:'' }}">
             </div>
             <div class="filter-buttons">
-              <button type="submit" class="filter-button filter-apply">החל סינון</button>
-              <a href="{% url 'OM_loan_requests' %}" class="filter-button filter-reset">אפס</a>
+              <button type="submit" class="filter-button filter-apply">{% trans "Apply Filter" %}</button>
+              <a href="{% url 'OM_loan_requests' %}" class="filter-button filter-reset">{% trans "Reset" %}</a>
             </div>
           </div>
         </form>
@@ -315,15 +316,15 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>שם הסטודנט</th>
-              <th>בניין</th>
-              <th>חדר</th>
-              <th>פריט מבוקש</th>
-              <th>תאריך הבקשה</th>
-              <th>תקופת השאלה</th>
-              <th>הערות הסטודנט</th>
-              <th>מלאי זמין</th>
-              <th>פעולות</th>
+              <th>{% trans "Student Name" %}</th>
+              <th>{% trans "Building" %}</th>
+              <th>{% trans "Room" %}</th>
+              <th>{% trans "Requested Item" %}</th>
+              <th>{% trans "Request Date" %}</th>
+              <th>{% trans "Loan Period" %}</th>
+              <th>{% trans "Student Notes" %}</th>
+              <th>{% trans "Available Stock" %}</th>
+              <th>{% trans "Actions" %}</th>
             </tr>
           </thead>
           <tbody>
@@ -338,9 +339,9 @@
                 <td>
                   {% if request.return_date %}
                     {{ request.return_date|timeuntil:request.created_at.date }}
-                    (עד {{ request.return_date|date:"d/m/Y" }})
+                    ({% trans "until" %} {{ request.return_date|date:"d/m/Y" }})
                   {% else %}
-                    לא צוין
+                    {% trans "Not specified" %}
                   {% endif %}
                 </td>
                 <td>
@@ -353,11 +354,11 @@
                 <td>
                   {% with available_count=available_counts|get_item:request.item.inventory.id %}
                     {% if available_count > 3 %}
-                      <span class="badge badge-success">{{ available_count }} פריטים</span>
+                      <span class="badge badge-success">{{ available_count }} {% trans "items" %}</span>
                     {% elif available_count > 0 %}
-                      <span class="badge badge-warning">{{ available_count }} פריטים</span>
+                      <span class="badge badge-warning">{{ available_count }} {% trans "items" %}</span>
                     {% else %}
-                      <span class="badge badge-danger">אזל במלאי</span>
+                      <span class="badge badge-danger">{% trans "Out of stock" %}</span>
                     {% endif %}
                   {% endwith %}
                 </td>
@@ -367,15 +368,15 @@
                     <input type="hidden" name="request_id" value="{{ request.id }}">
 
                     <div class="comment-container">
-                      <textarea name="comment" class="comment-field" placeholder="הוסף הערה לסטודנט (לא חובה)"></textarea>
+                      <textarea name="comment" class="comment-field" placeholder="{% trans 'Add a note to the student (optional)' %}"></textarea>
                     </div>
 
                     <div style="margin-top: 10px;">
                       {% with available_count=available_counts|get_item:request.item.inventory.id %}
                         {% if available_count > 0 %}
-                          <button type="submit" name="action" value="approve" class="button approve">אישור</button>
+                          <button type="submit" name="action" value="approve" class="button approve">{% trans "Approve" %}</button>
                         {% endif %}
-                        <button type="submit" name="action" value="reject" class="button deny">דחייה</button>
+                        <button type="submit" name="action" value="reject" class="button deny">{% trans "Reject" %}</button>
                       {% endwith %}
                     </div>
                   </form>
@@ -388,9 +389,9 @@
         {% if pending_requests.has_other_pages %}
           <div class="pagination">
             {% if pending_requests.has_previous %}
-              <a href="?pending_page={{ pending_requests.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">&laquo; הקודם</a>
+              <a href="?pending_page={{ pending_requests.previous_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">&laquo; {% trans "Previous" %}</a>
             {% else %}
-              <span class="disabled">&laquo; הקודם</span>
+              <span class="disabled">&laquo; {% trans "Previous" %}</span>
             {% endif %}
 
             {% for i in pending_requests.paginator.page_range %}
@@ -402,16 +403,16 @@
             {% endfor %}
 
             {% if pending_requests.has_next %}
-              <a href="?pending_page={{ pending_requests.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">הבא &raquo;</a>
+              <a href="?pending_page={{ pending_requests.next_page_number }}{% if request.GET.building %}&building={{ request.GET.building }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">{% trans "Next" %} &raquo;</a>
             {% else %}
-              <span class="disabled">הבא &raquo;</span>
+              <span class="disabled">{% trans "Next" %} &raquo;</span>
             {% endif %}
           </div>
         {% endif %}
 
       {% else %}
         <div class="no-requests">
-          <p>אין בקשות השאלה ממתינות כרגע</p>
+          <p>{% trans "No pending loan requests at the moment" %}</p>
         </div>
       {% endif %}
     </div>
@@ -420,35 +421,35 @@
   <!-- טאב פריטים מושאלים -->
   <div id="borrowed-items" class="tab-content">
     <div class="section">
-      <h3>פריטים מושאלים</h3>
+      <h3>{% trans "Borrowed Items" %}</h3>
 
       <!-- Filter Section for Office Manager -->
       <div class="filter-section">
-        <h4>סינון פריטים מושאלים</h4>
+        <h4>{% trans "Filter Borrowed Items" %}</h4>
         <form method="get" action="{% url 'OM_loan_requests' %}#borrowed-items">
           <div class="filter-row">
             <div class="filter-group">
-              <label for="borrowed-building-filter">בניין:</label>
+              <label for="borrowed-building-filter">{% trans "Building:" %}</label>
               <select id="borrowed-building-filter" name="borrowed_building">
-                <option value="">כל הבניינים</option>
+                <option value="">{% trans "All Buildings" %}</option>
                 {% for building in all_buildings %}
                   <option value="{{ building.id }}" {% if request.GET.borrowed_building == building.id|stringformat:"i" %}selected{% endif %}>
-                    בניין {{ building.building_name }}
+                    {% trans "Building" %} {{ building.building_name }}
                   </option>
                 {% endfor %}
               </select>
             </div>
             <div class="filter-group">
-              <label for="overdue">סטטוס:</label>
+              <label for="overdue">{% trans "Status:" %}</label>
               <select id="overdue" name="overdue">
-                <option value="">הכל</option>
-                <option value="yes" {% if request.GET.overdue == 'yes' %}selected{% endif %}>באיחור בלבד</option>
-                <option value="soon" {% if request.GET.overdue == 'soon' %}selected{% endif %}>מועד החזרה קרוב</option>
+                <option value="">{% trans "All" %}</option>
+                <option value="yes" {% if request.GET.overdue == 'yes' %}selected{% endif %}>{% trans "Overdue only" %}</option>
+                <option value="soon" {% if request.GET.overdue == 'soon' %}selected{% endif %}>{% trans "Return date approaching" %}</option>
               </select>
             </div>
             <div class="filter-buttons">
-              <button type="submit" class="filter-button filter-apply">החל סינון</button>
-              <a href="{% url 'OM_loan_requests' %}#borrowed-items" class="filter-button filter-reset">אפס</a>
+              <button type="submit" class="filter-button filter-apply">{% trans "Apply Filter" %}</button>
+              <a href="{% url 'OM_loan_requests' %}#borrowed-items" class="filter-button filter-reset">{% trans "Reset" %}</a>
             </div>
           </div>
         </form>
@@ -459,14 +460,14 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>שם הסטודנט</th>
-              <th>בניין</th>
-              <th>חדר</th>
-              <th>פריט מושאל</th>
-              <th>תאריך אישור</th>
-              <th>תאריך החזרה</th>
-              <th>הערות</th>
-              <th>פעולות</th>
+              <th>{% trans "Student Name" %}</th>
+              <th>{% trans "Building" %}</th>
+              <th>{% trans "Room" %}</th>
+              <th>{% trans "Borrowed Item" %}</th>
+              <th>{% trans "Approval Date" %}</th>
+              <th>{% trans "Return Date" %}</th>
+              <th>{% trans "Notes" %}</th>
+              <th>{% trans "Actions" %}</th>
             </tr>
           </thead>
           <tbody>
@@ -482,12 +483,12 @@
                   {% if request.return_date %}
                     {{ request.return_date|date:"d/m/Y" }}
                     {% if request.is_due_soon %}
-                      <br><span style="color: #856404;">(פחות מ-7 ימים)</span>
+                      <br><span style="color: #856404;">{% trans "(Less than 7 days)" %}</span>
                     {% elif request.is_overdue %}
-                      <br><span style="color: #721c24;">(באיחור)</span>
+                      <br><span style="color: #721c24;">{% trans "(Overdue)" %}</span>
                     {% endif %}
                   {% else %}
-                    לא צוין
+                    {% trans "Not specified" %}
                   {% endif %}
                 </td>
                 <td>
@@ -502,10 +503,10 @@
                   {% csrf_token %}
                   <input type="hidden" name="request_id" value="{{ request.id }}">
                   <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
-                    <button type="submit" name="action" value="return" class="button return">סמן כהוחזר</button>
+                    <button type="submit" name="action" value="return" class="button return">{% trans "Mark as Returned" %}</button>
                                             <button type="submit" name="action" value="damaged" class="button deny"
-                          onclick="return confirm('האם הפריט הוחזר פגום או לא הוחזר כלל? פעולה זו תסיר את הפריט מהמלאי לחלוטין.')">
-                      הסר מהמלאי
+                          onclick="return confirm('{% trans "Was the item returned damaged or not returned at all? This action will remove the item from inventory completely." %}')">
+                      {% trans "Remove from Inventory" %}
                     </button>
                   </div>
                 </form>
@@ -518,9 +519,9 @@
           {% if borrowed_items.has_other_pages %}
               <div class="pagination">
                 {% if borrowed_items.has_previous %}
-                  <a href="?borrowed_page={{ borrowed_items.previous_page_number }}{% if request.GET.borrowed_building %}&borrowed_building={{ request.GET.borrowed_building }}{% endif %}{% if request.GET.overdue %}&overdue={{ request.GET.overdue }}{% endif %}#borrowed-items">&laquo; הקודם</a>
+                  <a href="?borrowed_page={{ borrowed_items.previous_page_number }}{% if request.GET.borrowed_building %}&borrowed_building={{ request.GET.borrowed_building }}{% endif %}{% if request.GET.overdue %}&overdue={{ request.GET.overdue }}{% endif %}#borrowed-items">&laquo; {% trans "Previous" %}</a>
                 {% else %}
-                  <span class="disabled">&laquo; הקודם</span>
+                  <span class="disabled">&laquo; {% trans "Previous" %}</span>
                 {% endif %}
 
                 {% for i in borrowed_items.paginator.page_range %}
@@ -532,22 +533,22 @@
                 {% endfor %}
 
                 {% if borrowed_items.has_next %}
-                  <a href="?borrowed_page={{ borrowed_items.next_page_number }}{% if request.GET.borrowed_building %}&borrowed_building={{ request.GET.borrowed_building }}{% endif %}{% if request.GET.overdue %}&overdue={{ request.GET.overdue }}{% endif %}#borrowed-items">הבא &raquo;</a>
+                  <a href="?borrowed_page={{ borrowed_items.next_page_number }}{% if request.GET.borrowed_building %}&borrowed_building={{ request.GET.borrowed_building }}{% endif %}{% if request.GET.overdue %}&overdue={{ request.GET.overdue }}{% endif %}#borrowed-items">{% trans "Next" %} &raquo;</a>
                 {% else %}
-                  <span class="disabled">הבא &raquo;</span>
+                  <span class="disabled">{% trans "Next" %} &raquo;</span>
                 {% endif %}
               </div>
             {% endif %}
 
       {% else %}
         <div class="no-requests">
-          <p>אין פריטים מושאלים כרגע</p>
+          <p>{% trans "No borrowed items at the moment" %}</p>
         </div>
       {% endif %}
     </div>
   </div>
 
-  <a href="{% url 'OM_Homepage' %}" class="back-button">חזרה לעמוד הראשי</a>
+  <a href="{% url 'OM_Homepage' %}" class="back-button">{% trans "Back to Homepage" %}</a>
 </div>
 
 <script>
