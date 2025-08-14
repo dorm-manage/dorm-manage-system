@@ -1,6 +1,6 @@
 # DormitoriesPlus Documentation
 
-Welcome to the comprehensive documentation for DormitoriesPlus - a modern dormitory management system with multi-language support.
+Welcome to Dormi+, a modular, AI-powered dormitory management system that streamlines university housing for both students and administrators.
 
 ## 📚 Documentation Overview
 
