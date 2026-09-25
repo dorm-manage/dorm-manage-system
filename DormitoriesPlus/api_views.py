@@ -176,7 +176,7 @@ class OMAISummaryAPIView(APIView):
 class GeminiModelsAPIView(APIView):
     def get(self, request):
         try:
-            genai.configure(api_key="AIzaSyDbQYOF_JD7zSJRmZWNmLyKKbr3b-G_wvE")
+            genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
             models = genai.list_models()
             model_names = [m.name if hasattr(m, 'name') else str(m) for m in models]
             return Response({'models': model_names})
