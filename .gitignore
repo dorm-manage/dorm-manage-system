@@ -67,3 +67,9 @@ Thumbs.db
 
 # Docker
 .dockerignore
+
+# Secrets and local artifacts
+.env.*
+!.env.example
+cookies*.txt
+.coverage
